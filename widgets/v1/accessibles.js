@@ -3790,8 +3790,11 @@
       '.r *,.r *::before,.r *::after{box-sizing:border-box;margin:0;padding:0;border:0;font:inherit;color:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-shadow:none;max-width:none;float:none;animation:none!important;transition:none!important;scroll-behavior:auto!important}',
       '[hidden]{display:none!important}',
       // Fixed stacking order inside the widget: mask, reader, panel, help, page aids and bars, pickers, then the button
-      '.mask-t,.mask-b{z-index:1}.reader{z-index:2}.panel{z-index:3}.help{z-index:4}',
-      '.guide,.hl,.lens,.tip,.nums,.signp,.dict,.vkb,.bar-bottom,.pill,.ask,.toast{z-index:5}.cs-pop,.cp-pop{z-index:6}.lcard{z-index:7}.launch{z-index:8}',
+      // Bottom to top: reader view (replaces the page), reading mask (darkens content, never the panel), panel,
+      // page aids and popups, help window, control bars (always reachable to stop or answer), pickers, messages, tooltips, button
+      '.reader{z-index:1}.mask-t,.mask-b{z-index:2}.panel{z-index:3}',
+      '.guide,.hl,.lens,.nums,.dict,.signp{z-index:4}.help{z-index:5}.vkb,.bar-bottom,.pill,.ask{z-index:6}',
+      '.cs-pop,.cp-pop{z-index:7}.toast{z-index:8}.tip{z-index:9}.lcard{z-index:10}.launch{z-index:11}',
       '.ib,.hb,.clr,.pick,.swb,.grip,.brandmark,.pi,.help-ico,.st,.ck,.prev{flex:none!important;aspect-ratio:1/1;border-radius:50%!important}',
       '.cp-grid button{aspect-ratio:1/1;border-radius:50%!important}',
       '.r ::selection{background:var(--accent);color:var(--accent-ink)}',
