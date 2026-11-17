@@ -3163,4 +3163,25 @@
         this.saved = null; this.cur = '';
       }
     },
+    fix: function (root) {
+      if (!this.cur || !root || root.nodeType !== 1) return;
+      var self = this, from = this.cur === 'rtl' ? 'left' : 'right', to = this.cur === 'rtl' ? 'right' : 'left';
+      var all = [root].concat(Array.prototype.slice.call(root.querySelectorAll('*')));
+      var todo = [];
+      all.forEach(function (el) {
+        if (el.__accDir || isOurs(el) || SKIP_TAGS[el.tagName] || el.namespaceURI === 'http://www.w3.org/2000/svg') return;
+        var cs = getComputedStyle(el), sets = [];
+        if (cs.float === from) sets.push(['float', to]); else if (cs.float === to) sets.push(['float', from]);
+        if (cs.textAlign === from) sets.push(['text-align', to]); else if (cs.textAlign === to) sets.push(['text-align', from]);
+        if (sets.length) todo.push([el, sets]);
+      });
+      todo.forEach(function (t) {
+        var el = t[0];
+        el.__accDir = true;
+        t[1].forEach(function (pv) {
+          self.list.push([el, pv[0], el.style.getPropertyValue(pv[0]), el.style.getPropertyPriority(pv[0]), el.hasAttribute('style')]);
+          el.style.setProperty(pv[0], pv[1], 'important');
+        });
+      });
+    },
 })(window, document);
