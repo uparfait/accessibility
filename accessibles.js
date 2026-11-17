@@ -965,4 +965,18 @@
       deuteranopia: [[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.011820, 0.042940, 0.968881]],
       tritanopia: [[1.255528, -0.076749, -0.178779], [-0.078411, 0.930809, 0.147602], [0.004733, 0.691367, 0.303900]]
     };
+    var SHIFT_RG = [[0, 0, 0], [0.7, 1, 0], [0.7, 0, 1]];
+    var SHIFT_B = [[1, 0, 0.7], [0, 1, 0.7], [0, 0, 0]];
+    function mul(a, b) {
+      return a.map(function (row) { return [0, 1, 2].map(function (j) { return row[0] * b[0][j] + row[1] * b[1][j] + row[2] * b[2][j]; }); });
+    }
+    var out = '';
+    Object.keys(SIM).forEach(function (k) {
+      var s = SIM[k];
+      var err = [0, 1, 2].map(function (i) { return [0, 1, 2].map(function (j) { return (i === j ? 1 : 0) - s[i][j]; }); });
+      var corr = mul(k === 'tritanopia' ? SHIFT_B : SHIFT_RG, err);
+      var m = [0, 1, 2].map(function (i) { return [0, 1, 2].map(function (j) { return (i === j ? 1 : 0) + corr[i][j]; }); });
+      var vals = m.map(function (r) { return r.map(function (v) { return v.toFixed(4); }).join(' ') + ' 0 0'; }).join(' ') + ' 0 0 0 1 0';
+      out += '<filter id="acc-cb-' + k + '"><feColorMatrix type="matrix" values="' + vals + '"/></filter>';
+    });
 })(window, document);
