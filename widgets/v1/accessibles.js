@@ -3786,6 +3786,9 @@
       '.r{' + vars(pal.vars) + ';--font:"Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;--r:.85em;position:absolute;inset:0;pointer-events:none;font-family:var(--font);font-size:15px;line-height:1.45;font-weight:400;color:var(--text);text-align:left;letter-spacing:normal;word-spacing:normal;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;text-size-adjust:100%;cursor:auto}',
       '.r *,.r *::before,.r *::after{box-sizing:border-box;margin:0;padding:0;border:0;font:inherit;color:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-shadow:none;max-width:none;float:none;animation:none!important;transition:none!important;scroll-behavior:auto!important}',
       '[hidden]{display:none!important}',
+      // Fixed stacking order inside the widget: mask, reader, panel, help, page aids and bars, pickers, then the button
+      '.mask-t,.mask-b{z-index:1}.reader{z-index:2}.panel{z-index:3}.help{z-index:4}',
+      '.guide,.hl,.lens,.tip,.nums,.signp,.dict,.vkb,.bar-bottom,.pill,.ask,.toast{z-index:5}.cs-pop,.cp-pop{z-index:6}.lcard{z-index:7}.launch{z-index:8}',
       '.ib,.hb,.clr,.pick,.swb,.grip,.brandmark,.pi,.help-ico,.st,.ck,.prev{flex:none!important;aspect-ratio:1/1;border-radius:50%!important}',
       '.cp-grid button{aspect-ratio:1/1;border-radius:50%!important}',
       '.r ::selection{background:var(--accent);color:var(--accent-ink)}',
