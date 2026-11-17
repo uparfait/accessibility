@@ -854,4 +854,11 @@
     return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '") ' + (kind === 'hand' ? '17 5' : '6 4');
   }
 
+  function filterValue() {
+    var f = [];
+    if (S.invert) f.push('invert(1) hue-rotate(180deg)');
+    if (S.contrast === 'high') f.push('contrast(1.35)');
+    if (S.saturation === 'mono') f.push('grayscale(1)');
+    else if (S.saturation === 'low') f.push('saturate(0.45)');
+    else if (S.saturation === 'high') f.push('saturate(1.8)');
 })(window, document);
