@@ -2343,4 +2343,11 @@
       if (f.querySelector('[type="submit"],button:not([type]),button[type="submit"]') || single) { if (f.requestSubmit) f.requestSubmit(); else f.submit(); }
     }
   }
+  function focusNextField(el) {
+    var all = Array.prototype.filter.call(document.querySelectorAll('input:not([type="hidden"]),select,textarea,button,a[href],[tabindex]:not([tabindex="-1"]),[contenteditable="true"]'), function (n) { return !isOurs(n) && visible(n) && !n.disabled; });
+    var i = all.indexOf(el);
+    var n = all[(i + 1) % all.length];
+    if (n) { n.focus(); if (isEditable(n)) lastEditable = n; }
+  }
+
 })(window, document);
