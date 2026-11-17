@@ -2370,4 +2370,22 @@
         });
         html += '</div>';
       });
+      $('.vkb-keys').innerHTML = html;
+    },
+    press: function (k) {
+      var el = lastEditable;
+      if (k === 'SHIFT') { if (this.shift && !this.caps) { this.caps = true; } else if (this.caps) { this.caps = false; this.shift = false; } else this.shift = true; this.render(); return; }
+      if (k === '123') { this.sym = true; this.render(); return; }
+      if (k === 'ABC') { this.sym = false; this.render(); return; }
+      if (!el || !el.isConnected) { toast('Select a text field on the page first'); return; }
+      if (k === 'BKSP') backspace(el);
+      else if (k === 'ENTER') pressEnter(el);
+      else if (k === 'LEFT') moveCaret(el, -1);
+      else if (k === 'RIGHT') moveCaret(el, 1);
+      else if (k === 'TAB') focusNextField(el);
+      else {
+        var ch = k === 'SPACE' ? ' ' : ((this.shift || this.caps) ? k.toUpperCase() : k);
+        insertText(el, ch);
+        if (this.shift && !this.caps) { this.shift = false; this.render(); }
+      }
 })(window, document);
