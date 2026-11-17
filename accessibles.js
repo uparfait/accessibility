@@ -3415,4 +3415,12 @@
     if (fontReady[id]) return fontReady[id];
     var f = fontInfo(id);
     if (id === 'readable' && CFG.readableFontUrl) addCSSLink(CFG.readableFontUrl);
+    else if (id === 'dyslexic' && CFG.dyslexicFontUrl) addCSSLink(CFG.dyslexicFontUrl);
+    // Not every family ships a bold cut; fall back to the regular weight if the request is refused
+    else if (f.g) addCSSLink(gfURL(f.g, ':wght@400;700'), function () { addCSSLink(gfURL(f.g)); });
+    fontReady[id] = new Promise(function (resolve) {
+      if (!f.fam || !document.fonts || !document.fonts.load) { resolve(); return; }
+      var t = later(resolve, 4000);
+      later(function () { document.fonts.load('16px "' + f.fam + '"').then(function () { cancel(t); resolve(); }, function () { cancel(t); resolve(); }); }, 60);
+    });
 })(window, document);
