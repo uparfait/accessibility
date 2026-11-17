@@ -1132,4 +1132,14 @@
     [/mail|envelope|email/, 'Email'], [/phone|call/, 'Phone'], [/plus|add/, 'Add'], [/minus|remove/, 'Remove'], [/edit|pencil|pen/, 'Edit'],
     [/trash|delete|bin/, 'Delete'], [/settings|gear|cog/, 'Settings'], [/bell|notif/, 'Notifications'], [/globe|language|lang/, 'Language'],
     [/filter/, 'Filter'], [/sort/, 'Sort'], [/info/, 'Information'], [/help|question/, 'Help'], [/calendar|date/, 'Calendar'],
+    [/location|map|marker|pin/, 'Location'], [/print/, 'Print'], [/login|sign[-_ ]?in/, 'Sign in'], [/logout|sign[-_ ]?out/, 'Sign out']
+  ];
+  function guessName(el) {
+    var bits = [el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className, el.id, el.getAttribute('data-icon'), el.getAttribute('name')];
+    var kids = el.querySelectorAll('i,span,svg,use,img');
+    for (var i = 0; i < kids.length && i < 6; i++) {
+      var k = kids[i];
+      bits.push(typeof k.className === 'string' ? k.className : (k.className && k.className.baseVal));
+      bits.push(k.getAttribute('href') || k.getAttribute('xlink:href') || k.getAttribute('src') || '');
+    }
 })(window, document);
