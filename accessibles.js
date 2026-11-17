@@ -583,4 +583,22 @@
       ['What can I say', 'reads this list out loud'],
       ['Stop listening', 'turns voice commands off']
     ] },
+    dict: { title: 'Talk & type', need: 'Say these while Talk & type is on', items: [
+      ['Period', 'adds a full stop. You can also say "full stop"'],
+      ['Comma', 'adds a comma'],
+      ['Question mark', 'adds ?'],
+      ['Exclamation mark', 'adds !'],
+      ['Colon', 'adds :'],
+      ['Semicolon', 'adds ;'],
+      ['Dash', 'adds -'],
+      ['Open quote', 'adds " before a quote. Say "close quote" after it'],
+      ['Open bracket', 'adds ( . Say "close bracket" after it'],
+      ['New line', 'starts a new line'],
+      ['New paragraph', 'leaves an empty line'],
+      ['Delete that', 'removes what you said last'],
+      ['Delete last word', 'removes one word'],
+      ['Clear all', 'empties the box'],
+      ['Next field', 'moves to the next box'],
+      ['Previous field', 'moves to the box before'],
+      ['Send', 'sends the form. You can also say "submit"'],
 })(window, document);
