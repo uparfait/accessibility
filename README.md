@@ -118,3 +118,32 @@ When `report` is a URL, the form sends JSON like this:
 <button onclick="Accessibles.set('fontSize', 1.3)">Bigger text</button>
 <button onclick="Accessibles.open()">Accessibility options</button>
 ```
+
+### Glossary, image descriptions and summaries
+
+Functions can only be passed through `window.AccessiblesConfig`:
+
+```html
+<script>
+  window.AccessiblesConfig = {
+    // Checked first when a visitor looks up a word
+    glossary: { ISBN: 'International Standard Book Number' },
+
+    // Real image descriptions, for example from a vision service
+    altText: async (img) => {
+      const res = await fetch('/api/describe?src=' + encodeURIComponent(img.src));
+      return res.text();
+    },
+
+    // Your own summarizer: return a string or an array of points
+    summarize: async (text) => {
+      const res = await fetch('/api/summary', { method: 'POST', body: text });
+      return res.json();
+    },
+
+    // ASL videos for parts of the page
+    signVideos: { '#intro': '/media/intro-asl.mp4' }
+  };
+</script>
+<script src="https://uparfait.github.io/accessibility/accessibles.js" defer></script>
+```
