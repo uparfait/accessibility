@@ -147,3 +147,5 @@ Functions can only be passed through `window.AccessiblesConfig`:
 </script>
 <script src="https://uparfait.github.io/accessibility/accessibles.js" defer></script>
 ```
+
+You can also mark any element with `data-acc-sign="video.mp4"` to give it a sign language video.
