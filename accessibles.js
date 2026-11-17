@@ -1408,4 +1408,21 @@
       document.body.insertBefore(this.rec.add(a), document.body.firstChild);
       this.skip = a;
     },
+    onKey: function (e) {
+      var t = e.target;
+      if (isOurs(t)) return;
+      // Activate injected buttons with Enter / Space
+      if ((e.key === 'Enter' || e.key === ' ') && t && t.getAttribute && t.getAttribute('data-acc-kb') === '1' && !isEditable(t)) {
+        e.preventDefault();
+        t.click();
+        return;
+      }
+      if (!e.altKey || e.ctrlKey || e.metaKey) return;
+      var map = { KeyH: HEADINGS, KeyL: 'a[href],[role="link"]', KeyF: 'input:not([type="hidden"]),select,textarea,[contenteditable="true"]', KeyB: 'button,[role="button"],input[type="submit"],input[type="button"]', KeyM: 'main,[role="main"],nav,[role="navigation"],header,[role="banner"],footer,[role="contentinfo"],aside,[role="complementary"],[role="search"],form[aria-label]', KeyG: 'img[alt]:not([alt=""]),figure,[role="img"]' };
+      var sel = map[e.code];
+      if (!sel) return;
+      e.preventDefault();
+      moveTo(sel, e.shiftKey ? -1 : 1);
+    }
+  };
 })(window, document);
