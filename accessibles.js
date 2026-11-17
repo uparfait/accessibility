@@ -2945,4 +2945,43 @@
       Promise.resolve(CFG.signProvider(sel, S.sign || 'asl')).then(function (url) { if (url) UI.signPlayer(url, sel.slice(0, 80)); else throw 0; })
         .catch(function () { UI.signPlayer(null); toast(T('No sign language video is available for this text')); });
     },
+    // The website may already include the Libras plugin itself
+    nativeLibras: function () { return document.querySelector('[vw]:not([data-acc-libras])'); },
+    loadLibras: function () {
+      var self = this;
+      if (this.nativeLibras()) { this.report('libras', 'on', 'On. This website already has Libras. Use its blue hand button at the side of the page.', true); return; }
+      this.report('libras', 'loading', 'Loading the Libras service…');
+      var wrap = this.wrap = document.createElement('div');
+      wrap.setAttribute('vw', ''); wrap.setAttribute('data-acc-libras', ''); wrap.className = 'enabled';
+      wrap.innerHTML = '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
+      document.body.appendChild(wrap);
+      return new Promise(function (resolve) {
+        var fail = function (msg) {
+          if (self.wrap !== wrap) { resolve(); return; }
+          self.removeLibras(true);
+          self.report('libras', 'error', msg, true);
+          if (S.sign === 'libras') { self.mode = ''; setState('sign', '', true); }
+          resolve();
+        };
+        var init = function () {
+          if (self.wrap !== wrap) { resolve(); return; }
+          try {
+            var prev = window.onload;
+            new window.VLibras.Widget('https://vlibras.gov.br/app');
+            if (document.readyState === 'complete' && window.onload && window.onload !== prev) { var fn = window.onload; window.onload = prev; fn(); }
+          } catch (e) { fail('The Libras service could not start on this page. Please try again later.'); return; }
+          // Ready when the plugin has drawn its button
+          var t0 = Date.now();
+          var check = function () {
+            if (self.wrap !== wrap) { resolve(); return; }
+            if (wrap.querySelector('[vw-access-button] *, img')) {
+              self.report('libras', 'on', 'On. Libras is ready. Press the blue hand button at the side of the page, then select any text.', true);
+              resolve(); return;
+            }
+            UI.progress(Math.min(0.95, 0.5 + (Date.now() - t0) / 24000));
+            if (Date.now() - t0 > 12000) { fail('The Libras service did not answer. Check your internet connection and try again.'); return; }
+            self.waitT = later(check, 300);
+          };
+          check();
+        };
 })(window, document);
