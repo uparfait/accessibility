@@ -2596,4 +2596,10 @@
         if (!defs.length) throw 0;
         return { word: e.word || word, phonetic: e.phonetic || '', defs: defs };
       }).catch(wiki) : wiki();
+      p.then(function (res) { self.cache[key] = res; if (self.on) UI.dict(res, rect); })
+        .catch(function () { if (self.on) UI.dict({ word: word, defs: [], none: true }, rect); });
+    }
+  };
+  Dict.onDbl = Dict.onDbl.bind(Dict); Dict.onUp = Dict.onUp.bind(Dict); Dict.onKeyUp = Dict.onKeyUp.bind(Dict);
+
 })(window, document);
