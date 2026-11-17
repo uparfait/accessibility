@@ -778,4 +778,12 @@
   var voiceWas = S.voiceNav ? 'voiceNav' : S.dictation ? 'dictation' : '';
   S.voiceNav = false; S.dictation = false;
 
+  function save() {
+    var data = { s: S, pos: dragPos, u: usage, v: VERSION };
+    if (!S.remember) data.s = { remember: false };
+    Store.write(data, S.remember);
+    if (!S.remember) {
+      try { window.sessionStorage.setItem(KEY + '.session', JSON.stringify({ s: S })); } catch (e) { /* ignore */ }
+    }
+  }
 })(window, document);
