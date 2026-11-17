@@ -4914,4 +4914,33 @@
           if (Translate.busy && act) { this.setBusy(act, 'translate'); this.progress(Math.max(0.01, Translate.progress), 'translate'); }
         }
       },
+      fonts: {
+        title: 'Font',
+        render: function (box) {
+          loadFontPreviews();
+          box.innerHTML = '<div class="qbox">' + ic('search') + '<input type="text" class="inp" data-filter="font" placeholder="Search fonts" aria-label="Search fonts" autocomplete="off" spellcheck="false"></div>' +
+            '<div class="opts biglist fontlist" data-list="font" role="listbox" aria-label="Fonts">' + this.optsHTML(this.fontOptions(), S.font) + '</div>';
+          this.afterList($('.biglist', box));
+        }
+      },
+      sign: {
+        title: 'Sign language',
+        render: function (box) {
+          box.innerHTML = '<div class="plist">' + this.signRow('asl', 'ASL (American)') + this.signRow('libras', 'Libras (Brazilian)') + '</div>' +
+            (CFG.signProvider ? '<div class="btns"><button type="button" class="btn" data-act="sign-provide">' + ic('play') + 'Show the selected text in sign language</button></div>' : '');
+          this.signStatus('asl'); this.signStatus('libras');
+        }
+      },
+      position: {
+        title: 'Feature position',
+        render: function (box) {
+          var cur = dragPos ? '' : (S.position ? normPosition(S.position).key : CFG.position.key);
+          var cells = [['top-left', 'top left'], ['top-center', 'top center'], ['top-right', 'top right'], ['left-center', 'middle left'], ['', ''], ['right-center', 'middle right'], ['bottom-left', 'bottom left'], ['bottom-center', 'bottom center'], ['bottom-right', 'bottom right']];
+          box.innerHTML = '<div class="posgrid" role="group" aria-label="Position">' + cells.map(function (c) {
+            if (!c[0]) return '<button type="button" class="mid" tabindex="-1" aria-hidden="true"></button>';
+            return '<button type="button" data-pos="' + c[0] + '" class="' + (cur === c[0] ? 'on' : '') + '" aria-pressed="' + (cur === c[0]) + '" aria-label="Place ' + c[1] + '"><i class="pd"></i></button>';
+          }).join('') + '</div>' +
+            '<div class="btns"><button type="button" class="btn ghost" data-act="pos-reset">' + ic('reset') + 'Move the button back to its default place</button></div>';
+        }
+      },
 })(window, document);
