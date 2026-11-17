@@ -4052,4 +4052,22 @@
         img.onerror = function () { cancel(t); next(); };   // 404 or any other error: try the next one
         img.src = u;
       };
+      next();
+    },
+    showCard: function () {
+      var c = $('.lcard'), l = $('.launch');
+      if (!c || this.open || l.classList.contains('dragging') || l.classList.contains('under')) return;
+      cancel(this.cardT);
+      $('.lc-n', c).textContent = CFG.siteName || location.hostname.replace(/^www\./, '') || T('This website');
+      I18N.apply(c);
+      this.cardIcon();
+      // Opens towards the middle of the screen, sharing the button's edge
+      var r = l.getBoundingClientRect(), W = vw();
+      var toLeft = r.left + r.width / 2 > W / 2;
+      if (!c.classList.contains('show')) { c.classList.toggle('tl', toLeft); c.classList.toggle('tr', !toLeft); }
+      toLeft = c.classList.contains('tl');
+      var w = c.offsetWidth;
+      c.style.left = Math.round(toLeft ? r.right - w : r.left) + 'px';
+      c.style.top = Math.round(r.top) + 'px';
+      l.classList.add('carded');
 })(window, document);
