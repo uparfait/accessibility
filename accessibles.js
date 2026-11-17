@@ -5520,4 +5520,11 @@
     if (!document.querySelector('link[data-accessibles-font]')) { var fl = addCSSLink('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap'); fl.setAttribute('data-accessibles-font', ''); }
     I18N.load();
     if (S.translateTo) I18N.lang = /^en(-|$)/i.test(S.translateTo) ? '' : S.translateTo;
+    cbSvg = buildColorBlindSVG();
+    document.documentElement.appendChild(cbSvg);
+    UI.build();
+    applyAll();
+    observe();
+    if (S.translateTo) Translate.run(S.translateTo, true);
+    // Voice input stays on across pages, but only when the microphone is already allowed (no surprise prompts)
 })(window, document);
