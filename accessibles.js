@@ -1125,4 +1125,11 @@
     [/close|times|dismiss|(^|[-_ ])x($|[-_ ])/, 'Close'], [/hamburger|menu|bars|navicon/, 'Menu'], [/search|magnif|loupe/, 'Search'],
     [/cart|basket|bag|shop/, 'Shopping cart'], [/user|account|profile|person|avatar/, 'Account'], [/home|house/, 'Home'],
     [/facebook/, 'Facebook'], [/twitter/, 'Twitter'], [/instagram/, 'Instagram'], [/linkedin/, 'LinkedIn'], [/youtube/, 'YouTube'],
+    [/whatsapp/, 'WhatsApp'], [/tiktok/, 'TikTok'], [/github/, 'GitHub'], [/telegram/, 'Telegram'],
+    [/arrow[-_ ]?left|prev|chevron[-_ ]?left|angle[-_ ]?left|back/, 'Previous'], [/arrow[-_ ]?right|next|chevron[-_ ]?right|angle[-_ ]?right|forward/, 'Next'],
+    [/arrow[-_ ]?up|to[-_ ]?top|chevron[-_ ]?up/, 'Back to top'], [/caret|chevron[-_ ]?down|angle[-_ ]?down|dropdown|expand/, 'Expand'],
+    [/play/, 'Play'], [/pause/, 'Pause'], [/download/, 'Download'], [/upload/, 'Upload'], [/share/, 'Share'], [/heart|like|favou?rite|star/, 'Favorite'],
+    [/mail|envelope|email/, 'Email'], [/phone|call/, 'Phone'], [/plus|add/, 'Add'], [/minus|remove/, 'Remove'], [/edit|pencil|pen/, 'Edit'],
+    [/trash|delete|bin/, 'Delete'], [/settings|gear|cog/, 'Settings'], [/bell|notif/, 'Notifications'], [/globe|language|lang/, 'Language'],
+    [/filter/, 'Filter'], [/sort/, 'Sort'], [/info/, 'Information'], [/help|question/, 'Help'], [/calendar|date/, 'Calendar'],
 })(window, document);
