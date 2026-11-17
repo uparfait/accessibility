@@ -4290,6 +4290,8 @@
       '.r .body,.r .help-main,.r .opts,.r .dict,.r .reader,.r .cs-pop,.r .signp{overflow-x:hidden!important}',
       // Long words, addresses and links wrap onto the next line instead of widening their box
       '.r p,.r li,.r dd,.r dt,.r .empty,.r .hint,.r .prose,.r .help-text,.r .dict .dd,.r .dict strong,.r .lens,.r .tip,.r .toast,.r .status,.r .cmd-need,.r .kl.cmd .cd,.r .kl.cmd .cx,.r .chk .cb,.r .tr-note span,.r .field,.r .wait span,.r .sgs span,.r .help h2,.r .rbody{overflow-wrap:anywhere;word-break:break-word}',
+      // Tables and code in the reader view fit its width
+      '.r .rbody table{display:table;table-layout:fixed;width:100%;overflow:visible}.r .rbody td,.r .rbody th{overflow-wrap:anywhere}.r .rbody pre,.r .rbody code{white-space:pre-wrap;overflow-wrap:anywhere}',
       '@media (forced-colors:active){.tile.on,.prow.on{outline:2px solid Highlight}.launch{border:2px solid ButtonText}}'
     ].join('\n');
   }
