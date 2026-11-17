@@ -4566,6 +4566,7 @@
       $('.vkb').addEventListener('mousedown', function (e) { if (e.target.closest('.key')) e.preventDefault(); });
 
       R.addEventListener('click', function (e) { self.onClick(e); });
+      $('.body').addEventListener('scroll', function () { self.syncHead(); }, { passive: true });
       R.addEventListener('input', function (e) { self.onInput(e); });
       // Text boxes are handled as you type. Their "change" fires again on blur, and re-drawing the list then
       // would swallow the click that caused the blur, so it is ignored.
