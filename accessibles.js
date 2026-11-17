@@ -1501,4 +1501,13 @@
       if (buf.trim()) out.push(buf);
       return out.filter(function (s) { return /\S/.test(s); });
     },
+    say: function (text, el) { this.play([{ text: text, el: el }]); },
+    // Spoken instructions from the panel, always in the visitor's language
+    guide: function (lines) {
+      if (!this.ok) return;
+      var self = this, list = [].concat(lines), tl = userLang();
+      var go = function (out, lang) { self.play(out.map(function (t) { return { text: t, el: null, lang: lang, raw: true }; })); };
+      if (/^en(-|$)/i.test(tl)) { go(list, 'en'); return; }
+      googleText(list, tl).then(function (out) { go(list.map(function (t, i) { return out[i] || t; }), tl); }, function () { go(list, 'en'); });
+    },
 })(window, document);
