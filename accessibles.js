@@ -4288,4 +4288,22 @@
           return;
         }
       }
+      if (e.key === 'Escape') {
+        if (!$('.cs-pop').hidden) { this.closeSelect(true); e.stopPropagation(); return; }
+        if (!$('.cp-pop').hidden) { this.closeColor(true); e.stopPropagation(); return; }
+        if (!$('.help').hidden) { this.help(null); e.stopPropagation(); return; }
+        if (!$('.reader').hidden) { this.reader(false); e.stopPropagation(); return; }
+        if (this.view) { this.closeView(); e.stopPropagation(); return; }
+        if (this.open) { this.close(); e.stopPropagation(); }
+        return;
+      }
+      if (t.classList && t.classList.contains('tab') && /^(ArrowLeft|ArrowRight|Home|End)$/.test(e.key)) {
+        e.preventDefault();
+        var tabs = $$('.tab'), i = tabs.indexOf(t);
+        var k = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[k].focus();
+        this.renderTab(tabs[k].getAttribute('data-tab'));
+        return;
+      }
+      if (t.classList && t.classList.contains('sl')) { this.sliderKey(t, e); return; }
 })(window, document);
