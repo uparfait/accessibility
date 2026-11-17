@@ -4369,9 +4369,9 @@
         case 'tts-off': setState('tts', false); break;
         case 'tts-test': TTS.say(T('This is how the reading voice sounds.'), null); break;
         case 'voice-off': setState('voiceNav', false); setState('dictation', false); break;
-        case 'voice-help': this.commands(S.dictation ? 'dict' : 'nav'); break;
-        case 'say-cmds': TTS.guide(cmdSpeech(t.getAttribute('data-cg'))); break;
-        case 'help-cmds': TTS.guide(cmdSpeech(t.getAttribute('data-cg'))); break;
+        case 'voice-hush': TTS.stop(); break;
+        case 'voice-help': if (TTS.active) TTS.stop(); else this.commands(S.dictation ? 'dict' : 'nav'); break;
+        case 'say-cmds': case 'help-cmds': this.sayCmds(t.getAttribute('data-cg')); break;
         case 'ask-yes': Voice.reply(true); break;
         case 'ask-no': Voice.reply(false); break;
         case 'tts-prev': TTS.skip(-1); break;
@@ -4477,7 +4477,12 @@
       this.openView('shortcuts');
       var sec = $('[data-g="' + g + '"]');
       if (sec) try { sec.scrollIntoView({ block: 'start' }); } catch (e) { /* ignore */ }
-      TTS.guide(cmdSpeech(g));
+      TTS.guide(cmdSpeech(g), 'cmds:' + g);
+    },
+    // Reads a list of commands, or stops it when that list is already being read
+    sayCmds: function (g) {
+      if (TTS.active && TTS.tag === 'cmds:' + g) { TTS.stop(); return; }
+      TTS.guide(cmdSpeech(g), 'cmds:' + g);
     },
     show: function () {
       var p = $('.panel');
