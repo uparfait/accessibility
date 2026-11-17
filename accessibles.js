@@ -2322,4 +2322,11 @@
     else if (s > 0) { set.call(el, v.slice(0, s - 1) + v.slice(s)); el.setSelectionRange(s - 1, s - 1); }
     el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'deleteContentBackward' }));
   }
+  function deleteWord(el) {
+    if (!el) return;
+    if (el.isContentEditable) { el.textContent = (el.textContent || '').replace(/\s*\S+\s*$/, ''); return; }
+    setValue(el, (el.value || '').replace(/\s*\S+\s*$/, ''));
+  }
+  function moveCaret(el, d) {
+    if (!el || el.isContentEditable) return;
 })(window, document);
