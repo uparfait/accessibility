@@ -139,12 +139,13 @@
   .examples { margin-top: 48px; counter-reset: ex; }
   .example { border-top: 1px solid var(--line); }
   .example:last-child { border-bottom: 1px solid var(--line); }
-  .example summary { display: grid; grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1fr) 20px; align-items: baseline; gap: 24px; padding: 30px 0; cursor: pointer; list-style: none; }
+  .example summary { display: grid; grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 1.2fr) 16px; align-items: baseline; gap: 20px; padding: 20px 0; cursor: pointer; list-style: none; }
+  .example summary:focus:not(:focus-visible) { outline: none; }
   .example summary .t { display: contents; }
   .example summary::-webkit-details-marker { display: none; }
   .example summary::before { counter-increment: ex; content: counter(ex, decimal-leading-zero); font: 400 13px/1 var(--font-m); color: var(--muted); transition: color .25s ease; }
-  .example summary h3 { font-size: clamp(21px, 2.4vw, 27px); font-weight: 500; letter-spacing: -.02em; line-height: 1.15; transition: color .25s ease; }
-  .example summary .d { display: block; color: var(--muted); font-size: 16px; line-height: 1.55; }
+  .example summary h3 { font-size: 17px; font-weight: 500; line-height: 1.35; transition: color .25s ease; }
+  .example summary .d { display: block; color: var(--muted); font-size: 15px; line-height: 1.5; }
   .example summary:hover h3, .example[open] summary h3, .example[open] summary::before { color: var(--brand); }
   .example .plus { position: relative; width: 14px; height: 14px; align-self: center; justify-self: end; color: var(--muted); transition: color .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); }
   .example .plus::before, .example .plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.5px; border-radius: var(--radius); background: currentColor; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
@@ -153,7 +154,7 @@
   .example[open] .plus { color: var(--brand); transform: rotate(180deg); }
   .example[open] .plus::after { transform: rotate(0deg); }
   .example .body { overflow: hidden; }
-  .example .inner { padding: 0 44px 36px calc(4rem + 24px); }
+  .example .inner { padding: 0 36px 28px calc(3rem + 20px); }
   .example .editor { margin-top: 0; }
   .example .try { margin-top: 16px; height: 40px; padding: 0 18px; font-size: 15px; }
   .example output { display: block; margin-top: 14px; min-height: 1.6em; font: 400 14px/1.6 var(--font-m); color: var(--brand); }
