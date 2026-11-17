@@ -4643,4 +4643,18 @@
         pick: function (v) { UI.helpLang = v; UI.helpTranslate(); }
       }
     },
+    selectHTML: function (id) {
+      var d = this.selects[id], val = d.value(), cur = d.options().filter(function (o) { return o.v === val; })[0];
+      var label = cur ? cur.l : '';
+      return '<button type="button" class="cs-btn" data-sel="' + id + '" aria-haspopup="listbox" aria-expanded="false" aria-label="' + esc(d.title) + ': ' + esc(label) + '"><span class="cv">' + esc(label) + '</span>' + ic('chevron') + '</button>';
+    },
+    optsHTML: function (opts, value, q) {
+      q = String(q || '').trim().toLowerCase();
+      var list = q ? opts.filter(function (o) { return (o.l + ' ' + (o.s || '') + ' ' + (o.k || '')).toLowerCase().indexOf(q) > -1; }) : opts;
+      if (!list.length) return '<p class="empty">No matches</p>';
+      return list.map(function (o) {
+        return '<button type="button" class="opt" role="option" data-ov="' + esc(o.v) + '" aria-selected="' + (o.v === value) + '"' + (o.font ? ' data-font="' + esc(o.font) + '"' : '') + '>' + ic('check', 'oc') +
+          '<span class="ol"' + (o.native ? ' translate="no"' : '') + '>' + esc(o.l) + '</span>' + (o.s ? '<span class="os">' + esc(o.s) + '</span>' : '') + '</button>';
+      }).join('');
+    },
 })(window, document);
