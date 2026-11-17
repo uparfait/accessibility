@@ -2146,4 +2146,11 @@
           });
         });
       });
+      // A link or button name said on its own
+      if (!guess || guess.score < this.SURE) {
+        var c = this.guessClick(t, 1);
+        if (c && c.score >= 0.9 && (!guess || c.score > guess.score)) guess = c;
+      }
+      return guess;
+    },
 })(window, document);
