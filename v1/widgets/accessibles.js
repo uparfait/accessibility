@@ -5458,8 +5458,9 @@
           box.innerHTML = '<div class="field"><span>What kind of problem?</span>' + this.selectHTML('reptype') + '</div>' +
             '<label class="field"><span>Describe the problem</span><textarea class="rep-msg inp" placeholder="What were you trying to do, and what happened?"></textarea></label>' +
             '<label class="field"><span>Email, so we can reply</span><input type="email" class="rep-mail inp" autocomplete="email" required aria-required="true" placeholder="Enter your valid mail address"></label>' +
-            '<div class="btns rep-btns"><button type="button" class="btn" data-act="report-send">' + ic('report') + 'Send the report</button><button type="button" class="btn ghost" data-act="report-copy">' + ic('copy') + 'Copy the report</button></div>' +
+            // Messages (thanks, problems, what to do next) sit above the buttons
             '<p class="status rep-status" role="status"></p>' +
+            '<div class="btns rep-btns"><button type="button" class="btn" data-act="report-send">' + ic('report') + 'Send the report</button><button type="button" class="btn ghost" data-act="report-copy">' + ic('copy') + 'Copy the report</button></div>' +
             // Shown while the visitor's email app opens: did the email go?
             '<div class="btns rep-confirm" hidden><button type="button" class="btn" data-act="report-sent">' + ic('check') + 'Email sent</button><button type="button" class="btn ghost" data-act="report-failed">' + ic('close') + 'Failed</button></div>';
         }
