@@ -1203,4 +1203,22 @@
         try { host2 = new URL(src, location.href).hostname.replace(/^www\./, ''); } catch (e) { host2 = ''; }
         rec.set(fr, 'title', host2 ? 'Embedded content from ' + host2 : 'Embedded content'); markFixed(rec, fr, 'aria');
       });
+      // Table headers
+      q('table th:not([scope])').forEach(function (th) {
+        var row = th.parentElement;
+        var scope = (th.closest('thead') || (row && row === th.closest('table').querySelector('tr'))) ? 'col' : (row && row.firstElementChild === th ? 'row' : 'col');
+        rec.set(th, 'scope', scope);
+      });
+      // Links that open a new window
+      var nt = q('a[target="_blank"]:not([aria-describedby])');
+      if (nt.length) {
+        if (!self.descNewTab || !self.descNewTab.isConnected) {
+          var d = document.createElement('span');
+          d.id = 'acc-desc-newtab'; d.className = 'acc-sr-only'; d.textContent = 'Opens in a new tab';
+          document.body.appendChild(rec.add(d));
+          self.descNewTab = d;
+        }
+        nt.forEach(function (a) { rec.set(a, 'aria-describedby', 'acc-desc-newtab'); });
+      }
+      // Live regions for status/alert style containers
 })(window, document);
