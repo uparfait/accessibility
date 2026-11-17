@@ -3289,4 +3289,14 @@
       Tips.cur = el;
       Tip.show(el, txt, e.type === 'focusin' ? 0 : 350);
     },
+    onOut: function (e) { if (!Tips.cur || !e || e.type === 'scroll' || !Tips.cur.contains(e.relatedTarget)) Tips.hide(); },
+    hide: function () { this.cur = null; Tip.hide(); }
+  };
+
+  var Hover = {
+    on: false, raf: 0, target: null,
+    sync: function () {
+      if (S.hoverHighlight && !this.on) { this.on = true; document.addEventListener('pointermove', this.onMove, { passive: true }); window.addEventListener('scroll', this.onScroll, true); }
+      else if (!S.hoverHighlight && this.on) { this.on = false; document.removeEventListener('pointermove', this.onMove); window.removeEventListener('scroll', this.onScroll, true); $('.hl').hidden = true; }
+    },
 })(window, document);
