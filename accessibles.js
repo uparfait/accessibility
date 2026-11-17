@@ -1088,4 +1088,11 @@
       if (r[2] === null) r[0].removeAttribute(r[1]); else r[0].setAttribute(r[1], r[2]);
     }
     this.nodes.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+    this.recs = []; this.nodes = [];
+  };
+  function markFixed(rec, el, kind) {
+    var cur = el.getAttribute('data-acc-fixed') || '';
+    if ((' ' + cur + ' ').indexOf(' ' + kind + ' ') < 0) rec.set(el, 'data-acc-fixed', (cur + ' ' + kind).trim());
+  }
+
 })(window, document);
