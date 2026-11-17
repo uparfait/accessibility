@@ -2733,4 +2733,11 @@
       });
     }
   };
+  function T(s) { return I18N.tr(s); }
+
+  // Page translation: always Google's website translator, with no Google interface shown
+  var Translate = {
+    engine: '', busy: false, target: '', progress: 0, uiProgress: 1, scriptAdded: false, seq: 0, error: '', ready: null,
+    pageLang: function () { var l = (document.documentElement.getAttribute('lang') || '').split('-')[0].toLowerCase(); return l || 'auto'; },
+    isTranslated: function () { var h = document.documentElement; return h.classList.contains('translated-ltr') || h.classList.contains('translated-rtl'); },
 })(window, document);
