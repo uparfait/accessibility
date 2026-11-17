@@ -2072,4 +2072,41 @@
       if (yes) p.yes(); else if (p.no) p.no();
     },
 
+    // Spoken commands for moving around and reading. "reading" ones still work while the page is speaking.
+    navCmds: function () {
+      if (this._nav) return this._nav;
+      var sc = function (d) { return function () { window.scrollBy({ top: d * vh() * 0.8, behavior: S.stopAnimations ? 'auto' : 'smooth' }); }; };
+      var list = [
+        ['Scroll down', ['scroll down', 'page down', 'go down', 'down'], sc(1)],
+        ['Scroll up', ['scroll up', 'page up', 'go up', 'up'], sc(-1)],
+        ['Go to top', ['go to top', 'scroll to top', 'top of the page', 'top'], function () { window.scrollTo({ top: 0, behavior: 'smooth' }); }],
+        ['Go to bottom', ['go to bottom', 'scroll to bottom', 'end of the page', 'bottom'], function () { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }); }],
+        ['Go back', ['go back', 'back', 'previous page'], function () { history.back(); }],
+        ['Go forward', ['go forward', 'forward'], function () { history.forward(); }],
+        ['Reload', ['reload', 'refresh', 'reload page', 'refresh page'], function () { location.reload(); }],
+        ['Next heading', ['next heading', 'next title'], function () { moveTo(HEADINGS, 1); }],
+        ['Previous heading', ['previous heading', 'heading before'], function () { moveTo(HEADINGS, -1); }],
+        ['Next link', ['next link'], function () { moveTo('a[href]', 1); }],
+        ['Next field', ['next field', 'next box', 'next input'], function () { moveTo(FIELDS, 1); }],
+        ['Previous field', ['previous field', 'previous box'], function () { moveTo(FIELDS, -1); }],
+        ['Show numbers', ['show numbers', 'show labels', 'numbers'], function () { Voice.showNumbers(); }],
+        ['Hide numbers', ['hide numbers', 'hide labels'], function () { Voice.hideNumbers(); }],
+        ['Zoom in', ['zoom in', 'bigger', 'make it bigger'], function () { stepCycle('contentScale', 1); }],
+        ['Zoom out', ['zoom out', 'smaller', 'make it smaller'], function () { stepCycle('contentScale', -1); }],
+        ['Open menu', ['open menu', 'open accessibility', 'show menu', 'open options'], function () { UI.show(); }],
+        ['Close menu', ['close menu', 'close accessibility', 'hide menu', 'close'], function () { UI.close(); }],
+        ['What can I say', ['what can i say', 'help', 'show commands', 'list commands', 'commands'], function () { UI.commands('nav'); }],
+        ['Stop listening', ['stop listening', 'turn off voice', 'stop voice commands'], function () { setState('voiceNav', false); TTS.guide('Voice commands are off'); }],
+        ['Read page', ['read page', 'read the page', 'read all', 'read everything'], function () { if (!S.tts) setState('tts', true); TTS.readPage(); }],
+        ['Read this', ['read this', 'read selection', 'read that'], function () { if (!S.tts) setState('tts', true); TTS.readThis(); }],
+        ['Read headings', ['read headings', 'read the headings', 'read titles'], function () { if (!S.tts) setState('tts', true); TTS.readHeadings(); }],
+        ['Pause', ['pause', 'pause reading', 'wait'], function () { if (TTS.active && !TTS.paused) TTS.pause(); }, 1],
+        ['Continue', ['continue', 'resume', 'continue reading', 'go on'], function () { if (TTS.paused) TTS.pause(); }, 1],
+        ['Next', ['next', 'skip', 'next paragraph'], function () { if (!TTS.skip(1)) moveTo(HEADINGS, 1); }, 1],
+        ['Previous', ['previous', 'previous paragraph', 'go back one'], function () { if (!TTS.skip(-1)) moveTo(HEADINGS, -1); }, 1],
+        ['Repeat', ['repeat', 'say again', 'again'], function () { TTS.skip(0); }, 1],
+        ['Faster', ['faster', 'read faster', 'speed up'], function () { TTS.speed(0.2); }, 1],
+        ['Slower', ['slower', 'read slower', 'slow down'], function () { TTS.speed(-0.2); }, 1],
+        ['Stop reading', ['stop reading', 'stop', 'be quiet', 'silence', 'quiet'], function () { TTS.stop(); }, 1]
+      ];
 })(window, document);
