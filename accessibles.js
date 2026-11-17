@@ -4738,4 +4738,11 @@
       I18N.apply(pop);
       var first = $('.cp-grid .on', pop) || $('.cp-grid button', pop); first.focus();
     },
+    closeColor: function (refocus) {
+      var pop = $('.cp-pop');
+      if (!pop || pop.hidden) return;
+      pop.hidden = true; pop.innerHTML = '';
+      var b = this.cpOpen; this.cpOpen = null;
+      if (refocus && b && b.isConnected) b.focus();
+    },
 })(window, document);
