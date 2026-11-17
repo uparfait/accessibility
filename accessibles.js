@@ -5400,4 +5400,22 @@
         box.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
       }
     },
+    signRow: function (kind, label) {
+      return '<div class="prow-w sg" data-sg="' + kind + '"><button type="button" class="prow" data-act="sign-' + kind + '" aria-pressed="false" aria-describedby="acc-sg-' + kind + '"><span class="pi">' + ic('sign') + '</span>' +
+        '<span class="pt"><span class="pn">' + label + '</span><span class="pd sgs" id="acc-sg-' + kind + '" aria-live="polite"></span></span><span class="sw" aria-hidden="true"></span></button></div>';
+    },
+    // Shows what the sign language service is doing, with a tick when it works and a cross when it does not
+    signStatus: function (kind) {
+      var row = $('[data-sg="' + kind + '"]');
+      if (!row) return;
+      var st = Sign.st[kind], on = S.sign === kind && st.s !== 'error';
+      row.classList.toggle('on', on);
+      $('.prow', row).setAttribute('aria-pressed', String(on));
+      var line = $('.sgs', row);
+      line.className = 'pd sgs ' + st.s;
+      var icon = { on: ic('check'), error: ic('close'), warn: ic('alert'), loading: ic('spinner', 'spin') }[st.s] || '';
+      line.innerHTML = icon + '<span></span>';
+      line.lastChild.textContent = st.msg;
+      I18N.apply(row);
+    },
 })(window, document);
