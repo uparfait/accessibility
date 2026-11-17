@@ -3077,4 +3077,11 @@
         check('contrast', 'Text has enough contrast', 3, low, 0, 'Text needs 4.5:1 contrast, or 3:1 for large text.');
       }
     ];
+    var finish = function () {
+      var total = 0, got = 0;
+      out.forEach(function (c) { total += c.weight; if (!c.open.length) got += c.weight; });
+      return { checks: out, score: Math.round(got / total * 100), adjusted: !!(filterValue() || S.contrast || S.textColor || S.bgColor) };
+    };
+    return { steps: steps, finish: finish };
+  }
 })(window, document);
