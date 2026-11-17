@@ -419,3 +419,13 @@ To work on it locally, serve the folder with any static server and open `demo.ht
 ```bash
 npx serve .
 ```
+
+### Things to check after a change
+
+- Open the panel at 300, 360, 768, 1280 and 1440 pixels wide.
+- Turn every feature on and off. The panel must stay readable, and every spinner must stop.
+- Turn every profile on and off. `Accessibles.get()` should return the original settings afterwards.
+- With invert, dark contrast and 125% scaling on, the panel should look unchanged.
+- Translate the page, reload, then choose "Original language".
+- Try voice commands in Chrome with a slightly wrong command, such as "scrol down".
+- Test on a page with a strict Content Security Policy, a page without the mount `div`, and with the script injected asynchronously.
