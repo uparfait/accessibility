@@ -2165,4 +2165,11 @@
       var label = (accName(best) || '').trim().slice(0, 60), el = best;
       return { score: sc * Math.min(1, headScore + 0.1), label: 'Click ' + label, run: function () { if (isOurs(el)) { try { el.focus(); } catch (e) { /* ignore */ } } else focusEl(el); el.click(); } };
     },
+    clickables: function () {
+      // Includes the accessibility panel itself, so it can be used fully by voice
+      var own = $$('.panel:not([hidden]) button, .help:not([hidden]) button, .cs-pop:not([hidden]) .opt, .vkb:not([hidden]) button, .tts-bar:not([hidden]) button, .ask:not([hidden]) button').filter(function (b) { var r = b.getBoundingClientRect(); return r.width && r.height && r.bottom > 0 && r.top < vh(); });
+      return own.concat(Array.prototype.filter.call(document.querySelectorAll('a[href],button,[role="button"],[role="link"],[role="tab"],[role="menuitem"],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"],summary,select,[onclick],[data-acc-kb]'), function (el) { return !isOurs(el) && visible(el) && inViewport(el); }));
+    },
+
+    /* --- Talk & type --- */
 })(window, document);
