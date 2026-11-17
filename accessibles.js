@@ -3005,4 +3005,6 @@
       if (!quiet) this.report('libras', 'off', 'Off. The Libras button was removed from the page.', !S.sign);
     }
   };
+  Sign.onClick = Sign.onClick.bind(Sign);
+
 })(window, document);
