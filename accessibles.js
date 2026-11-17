@@ -900,4 +900,11 @@
     }
     if (S.lineHeight) c.push(B + ',' + B + ' *:not(svg *){line-height:' + S.lineHeight + '!important}');
     if (S.letterSpacing) c.push(B + ',' + B + ' *:not(svg *){letter-spacing:' + S.letterSpacing + 'em!important}');
+    if (S.wordSpacing) c.push(B + ',' + B + ' *:not(svg *){word-spacing:' + S.wordSpacing + 'em!important}');
+    var pd = pageDir();
+    if (pd) {
+      c.push(B + ',' + B + ' *:not(svg):not(svg *):not(code):not(pre):not(kbd):not(samp):not(input[type="email"]):not(input[type="url"]):not(input[type="tel"]){direction:' + pd + '!important}');
+      c.push(B + ' :is(code,pre,kbd,samp){direction:ltr!important;text-align:left!important}');
+    }
+    if (S.textAlign) c.push(B + ',' + B + ' *:not(svg *){text-align:' + S.textAlign + '!important}');
 })(window, document);
