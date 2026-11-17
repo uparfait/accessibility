@@ -1982,4 +1982,14 @@
       UI.ask(null);
       UI.pill('');
     },
+    // The microphone can hear the page reading out loud. Words that match what was just spoken are ignored.
+    hearingSelf: function (txt) {
+      if (!((TTS.active && !TTS.paused) || Date.now() < this.quietUntil)) return false;
+      var heard = normWords(txt).split(' ').filter(Boolean);
+      if (heard.length < 2) return false;
+      var spoken = normWords(TTS.said.map(function (x) { return x.t; }).join(' ')).split(' ');
+      var hit = 0;
+      heard.forEach(function (w) { for (var i = 0; i < spoken.length; i++) { if (editRatio(w, spoken[i]) >= 0.8) { hit++; return; } } });
+      return hit / heard.length >= 0.6;
+    },
 })(window, document);
