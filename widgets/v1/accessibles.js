@@ -102,6 +102,7 @@
     return {
       color: raw.color || raw.primary || raw.colour || '#2F6B5A',
       bg: raw.bg || raw.background || raw.backgroundcolor || '#000000',
+      iconColor: raw.iconcolor || raw.ink || '',
       siteName: String(raw.sitename || raw.site || '').trim(),
       siteIcon: String(raw.siteiconurl || raw.siteicon || raw.icon || '').trim(),
       position: normPosition(raw.position || raw.pos || 'bottom-right'),
