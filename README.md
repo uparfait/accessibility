@@ -279,3 +279,26 @@ Accessibles.reset();                  // back to the defaults
 Accessibles.readPage();               // read the main content aloud
 Accessibles.audit();                  // { score, checks: [{ id, label, open, fixed, help }] }
 ```
+
+The settings you can pass to `set()`:
+
+| Setting | Values |
+|---|---|
+| `contentScale` | `1`, `1.1`, `1.25`, `1.4`, `1.6` |
+| `fontSize` | `1`, `1.15`, `1.3`, `1.5`, `1.75` |
+| `font` | `''`, `'readable'`, `'dyslexic'` or a font name such as `'Lora'` |
+| `lineHeight` | `0`, `1.5`, `1.8`, `2.1` |
+| `letterSpacing` | `0`, `0.05`, `0.1`, `0.16` |
+| `wordSpacing` | `0`, `0.16`, `0.3`, `0.45` |
+| `fontWeight` | `0`, `600`, `700` |
+| `textAlign` | `''`, `'left'`, `'center'`, `'right'`, `'justify'` |
+| `textDir` | `''`, `'ltr'`, `'rtl'` |
+| `contrast` | `''`, `'dark'`, `'light'`, `'high'` |
+| `saturation` | `''`, `'mono'`, `'low'`, `'high'` |
+| `colorBlind` | `''`, `'protanopia'`, `'deuteranopia'`, `'tritanopia'` |
+| `textColor`, `titleColor`, `bgColor` | Any CSS color, or `''` |
+| `brightness` | `50` to `150` |
+| `cursor` | `''`, `'black'`, `'white'` |
+| `ttsRate`, `ttsPitch` | `0.5` to `2` and `0.5` to `1.5` |
+| `translateTo` | A language code such as `'fr'`, or `''` |
+| On/off settings | `highlightTitles`, `highlightLinks`, `magnifier`, `smartContrast`, `invert`, `keyboardNav`, `focusRing`, `hoverHighlight`, `vkeyboard`, `bigTargets`, `extendedTime`, `tts`, `readingGuide`, `readingMask`, `stopAnimations`, `hideImages`, `mute`, `tooltips`, `dictionary`, `spokenTips`, `ariaFix`, `altText`, `formFix`, `oversized`, `remember` |
