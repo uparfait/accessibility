@@ -384,3 +384,18 @@ The panel's colors all come from two inputs, `color` and `bg`. Text, borders and
 ### New content
 
 A `MutationObserver` watches the page. New elements are collected, and after a short pause every active module fixes just those parts. Single-page apps and infinite scrolling work without extra setup.
+
+## External services
+
+Nothing external loads until a visitor turns on the feature that needs it.
+
+| Feature | Uses | If it's unavailable |
+|---|---|---|
+| Panel font | Figtree from Google Fonts | System font |
+| Translate | Google's website translator and translation endpoint | A message explains why |
+| Voice commands, Talk & Type | Web Speech API | A message. Firefox has no speech recognition. |
+| Read aloud | `speechSynthesis` | A message. Voices depend on the device. |
+| Dictionary | Your glossary, `<abbr>` on the page, dictionaryapi.dev, Wikipedia | "No definition found" |
+| Page summary | Your hook, the browser's Summarizer, or an on-device summary | Always works offline |
+| Sign language | VLibras for Libras, your videos for ASL | The status line explains what failed |
+| Fonts | Google Fonts | Similar system fonts |
