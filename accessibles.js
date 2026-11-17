@@ -3022,4 +3022,11 @@
       }
       n = n.parentElement;
     }
+    return [255, 255, 255];
+  }
+
+  function auditSteps() {
+    var out = [];
+    var all = function (sel) { return Array.prototype.filter.call(document.querySelectorAll(sel), function (el) { return !isOurs(el); }); };
+    var fixed = function (el, k) { return (' ' + (el.getAttribute('data-acc-fixed') || '') + ' ').indexOf(' ' + k + ' ') > -1; };
 })(window, document);
