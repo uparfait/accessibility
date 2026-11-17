@@ -1749,4 +1749,18 @@
         if (!css && a.playState === 'running') { try { a.pause(); self.anims.push(a); } catch (e) { /* ignore */ } }
       });
     },
+    restore: function () {
+      this.videos.forEach(function (v) { if (v.autoplay) { var p = v.play(); if (p && p.catch) p.catch(function () { }); } }); this.videos = [];
+      this.marquees.forEach(function (m) { if (m.start) m.start(); }); this.marquees = [];
+      this.svgs.forEach(function (s) { s.unpauseAnimations(); }); this.svgs = [];
+      this.anims.forEach(function (a) { try { a.play(); } catch (e) { /* ignore */ } }); this.anims = [];
+      this.gifs.forEach(function (g) {
+        g[0].__accFrozen = false;
+        if (g[1] !== null) g[0].setAttribute('src', g[1]);
+        if (g[2] !== null) g[0].setAttribute('srcset', g[2]);
+      });
+      this.gifs = [];
+    }
+  };
+
 })(window, document);
