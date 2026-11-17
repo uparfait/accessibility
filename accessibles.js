@@ -882,4 +882,15 @@
 
     // Filters (invert / saturation / brightness / color blindness / high contrast)
     var fv = filterValue();
+    if (fv) {
+      c.push((useTopLayer ? 'html' : B) + '{filter:' + fv + '!important;-webkit-filter:' + fv + '!important}');
+      if (S.invert) c.push(B + ' :is(img,video,picture,canvas,iframe,embed,object){filter:invert(1) hue-rotate(180deg)!important}');
+    }
+
+    // Content scaling (zoom keeps layout proportional; widget lives outside <body>)
+    if (S.contentScale !== 1) {
+      if ('zoom' in document.documentElement.style) c.push(B + '{zoom:' + S.contentScale + '!important}');
+      else c.push(B + '{transform:scale(' + S.contentScale + ')!important;transform-origin:0 0!important;width:' + (100 / S.contentScale) + '%!important}');
+    }
+
 })(window, document);
