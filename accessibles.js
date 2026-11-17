@@ -2918,4 +2918,16 @@
       if (S.sign === 'asl') return this.asl();
       if (S.sign === 'libras') return this.loadLibras();
     },
+    asl: function () {
+      var rec = this.rec;
+      if (CFG.signVideos) Object.keys(CFG.signVideos).forEach(function (sel) {
+        try { Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) { if (!el.hasAttribute('data-acc-sign')) rec.set(el, 'data-acc-sign', CFG.signVideos[sel]); }); } catch (e) { /* bad selector */ }
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-acc-sign],[data-sign-video]'), function (el) { rec.set(el, 'data-acc-signable', ''); if (!el.hasAttribute('tabindex') && !el.matches('a,button')) rec.set(el, 'tabindex', '0'); });
+      document.addEventListener('click', this.onClick, true);
+      var n = this.count();
+      if (n) this.report('asl', 'on', 'On. ' + n + (n === 1 ? ' part' : ' parts') + ' of this page have a sign language video. Click a marked part to watch it.', true);
+      else if (CFG.signProvider) this.report('asl', 'on', 'On. Select some text, then press the button below to see it signed.', true);
+      else this.report('asl', 'warn', 'On, but this page has no sign language videos yet.', true);
+    },
 })(window, document);
