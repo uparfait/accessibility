@@ -1544,4 +1544,28 @@
       if (this.curEl) { this.say(textOf(this.curEl), this.curEl); return; }
       this.readPage();
     },
+    readHeadings: function () {
+      var hs = Array.prototype.filter.call(document.querySelectorAll(HEADINGS), function (el) { return !isOurs(el) && visible(el) && textOf(el); });
+      if (!hs.length) { this.guide('This page has no headings'); return; }
+      this.play(hs.map(function (el) { return { text: textOf(el), el: el }; }));
+    },
+    next: function (sid) {
+      if (sid !== this.sid || !this.active) return;
+      this.idx++;
+      var item = this.items[this.idx];
+      this.mark(null);
+      if (!item) { this.active = false; this.curLang = ''; UI.ttsState(); Voice.heardTTS(); return; }
+      this.curLang = item.lang || '';
+      this.mark(item.el);
+      var self = this, chunks = this.chunks(item.text);
+      var go = function (list) {
+        var i = 0;
+        var step = function () {
+          if (sid !== self.sid || !self.active) return;
+          if (i >= list.length) { self.next(sid); return; }
+          self.utter(list[i++], sid, step, true);
+        };
+        // Some browsers silently drop speech queued straight after a cancel, so wait a moment
+        later(step, 90);
+      };
 })(window, document);
