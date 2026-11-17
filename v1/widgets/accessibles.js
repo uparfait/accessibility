@@ -5519,6 +5519,22 @@
       var on = Object.keys(DEFAULTS).filter(function (k) { return JSON.stringify(S[k]) !== JSON.stringify(DEFAULTS[k]); }).map(function (k) { return k + '=' + JSON.stringify(S[k]); }).join(', ');
       return 'Accessibility issue' + (CFG.siteName ? ' on ' + CFG.siteName : '') + ': ' + type + '\n\n' + msg + '\n\nPage: ' + location.href + '\nBrowser: ' + navigator.userAgent + '\nScreen: ' + vw() + 'x' + vh() + '\nSettings: ' + (on || 'default');
     },
+    // What the report form shows after Send: the email app is opening, it failed, or it was sent
+    reportState: function (state) {
+      var st = $('.rep-status'), btns = $('.rep-btns'), conf = $('.rep-confirm');
+      if (!st || !btns || !conf) return;
+      btns.hidden = state === 'opening';
+      conf.hidden = state !== 'opening';
+      var focus = null;
+      if (state === 'opening') { st.textContent = T('We are opening your email app. Click Send there if it opened.'); focus = $('[data-act="report-sent"]', conf); }
+      else if (state === 'failed') { st.textContent = T('The email did not send. Copy the report and send it yourself, or click Send the report again.'); focus = $('[data-act="report-send"]', btns); }
+      else if (state === 'sent') {
+        $('.rep-msg').value = ''; $('.rep-mail').value = ''; $('.rep-mail').removeAttribute('aria-invalid');
+        st.textContent = T('Thanks for your feedback.');
+        focus = $('.rep-msg');
+      }
+      if (focus) { try { focus.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+    },
     sendReport: function () {
       var st = $('.rep-status'), msg = $('.rep-msg').value.trim(), mail = $('.rep-mail').value.trim();
       if (msg.length < 5) { st.textContent = 'Please describe the problem first.'; $('.rep-msg').focus(); return; }
