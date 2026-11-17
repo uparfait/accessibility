@@ -5477,4 +5477,12 @@
       }
       if (pendingRoots.length) processRoots();
     }).observe(document.body, { childList: true, subtree: true });
+    // If a framework re-renders <html> children, put the widget back
+    new MutationObserver(function () {
+      if (!host.isConnected) { document.documentElement.appendChild(host); if (useTopLayer) { try { host.showPopover(); } catch (e) { /* ignore */ } } }
+      if (cbSvg && !cbSvg.isConnected) document.documentElement.appendChild(cbSvg);
+      if (!canAdopt && pageStyleEl && !pageStyleEl.isConnected) (document.head || document.documentElement).appendChild(pageStyleEl);
+    }).observe(document.documentElement, { childList: true });
+  }
+
 })(window, document);
