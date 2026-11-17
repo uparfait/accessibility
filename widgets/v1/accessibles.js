@@ -2389,11 +2389,20 @@
       return this._dict;
     },
     type: function (raw, alts) {
-      var self = this, t = raw.trim(), words = normWords(t).split(' ').length;
+      var self = this, t = raw.trim(), nw = normWords(t), words = nw.split(' ').length;
       // A short phrase may be a command; long phrases are always text
       if (words <= 5) {
         var b = this.best(t, this.dictCmds());
         if (b.cmd && b.score >= this.SURE) { b.cmd.run(); return; }
+        // "delete the last 3 words", "clear first two words"
+        var m = nw.match(/^(?:delete|clear|remove|erase) (?:the )?(first|last) (\w+) words?$/);
+        if (m && this.num(m[2])) { deleteWords(lastEditable, this.num(m[2]), m[1] === 'first'); return; }
+        // "delete Tuesday": find the word in the box and ask which one
+        var d = nw.match(/^(?:delete|remove|erase) (?:the word )?(.+)$/);
+        if (d && !/^(that|this|all|everything|word|last word|first word|the last word|the first word)$/.test(d[1])) {
+          this.deleteAsk(t.replace(/^\s*\S+\s+(?:the word\s+)?/i, ''));
+          return;
+        }
         if (b.cmd && b.score >= 0.7 && words <= 3) { var c = b.cmd; this.confirm(c.label, c.run, function () { self.write(t); }); return; }
       }
       this.write(t);
