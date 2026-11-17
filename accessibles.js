@@ -1676,4 +1676,19 @@
     onMove: function (e) { Pointer.x = e.clientX; Pointer.y = e.clientY; Pointer.lastTarget = e.target; Pointer.schedule(); },
     onTouch: function (e) { var t = e.touches && e.touches[0]; if (!t) return; Pointer.x = t.clientX; Pointer.y = t.clientY; Pointer.lastTarget = document.elementFromPoint(t.clientX, t.clientY); Pointer.schedule(); },
     schedule: function () { if (!this.raf) this.raf = requestAnimationFrame(function () { Pointer.raf = 0; Pointer.draw(); }); },
+    draw: function () {
+      var y = this.y;
+      if (S.readingGuide) {
+        var g = $('.guide'), gw = g.offsetWidth || 400, px = this.x < 0 ? vw() / 2 : this.x;
+        var gx = clamp(px - gw / 2, 12, Math.max(12, vw() - gw - 12));
+        g.style.setProperty('--gx', Math.round(clamp(px - gx, 14, gw - 14)) + 'px');
+        g.style.transform = 'translate(' + Math.round(gx) + 'px,' + Math.round(y + 14) + 'px)';
+      }
+      if (S.readingMask) {
+        var band = Math.max(60, Math.round(vh() * 0.14));
+        $('.mask-t').style.height = Math.max(0, y - band / 2) + 'px';
+        $('.mask-b').style.top = Math.max(0, y + band / 2) + 'px';
+      }
+      if (S.magnifier) this.lens();
+    },
 })(window, document);
