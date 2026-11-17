@@ -4440,4 +4440,16 @@
       }
     },
 
+    // Short spoken instructions, in the visitor's language
+    sayTip: function (key) {
+      if (!TTS.ok) return;
+      var el = lastEditable && lastEditable.isConnected ? lastEditable : null;
+      var tips = {
+        tts: ['Read aloud is on.', 'Click any text to hear it, or press Alt and R to read the whole page.', 'Press Escape to stop.'],
+        voiceNav: ['Voice commands are on.', 'Say a command, for example: scroll down, or: click, and the name of a link.', 'Say: what can I say, to hear every command.'],
+        dictation: ['Talk and type is on.', el ? 'Speak, and your words are typed into ' + (accName(el) || 'the text box') + '.' : 'Click into a text box, then speak.', 'Say: what can I say, to hear punctuation and editing commands.'],
+        spokenTips: ['Spoken tips are on.']
+      }[key];
+      if (tips) later(function () { TTS.guide(tips); }, 120);
+    },
 })(window, document);
