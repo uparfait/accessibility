@@ -210,3 +210,15 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 - **On-screen keyboard**, which you can drag anywhere
 - **Voice commands** and **Talk & Type** (see below)
 - **Bigger targets** and **more time**
+
+### Reading
+
+- **Read aloud**: click text, select text, or play the whole page. You can skip or go back a paragraph and pick the language, voice, speed and pitch.
+- **Reading guide** and **reading mask**
+- **Stop animations**, **hide images** and **mute sounds**. Each hidden picture is replaced by a small label with its description.
+- **Tooltips** show the hidden names of buttons, links and pictures.
+- **Reader view** shows the main text alone, in light, sepia or dark.
+- **Dictionary**: select a word to see its meaning.
+- **Page summary**: the main points, word count and reading time
+- **Sign language**: Libras through the free VLibras service, and ASL videos that your site provides
+- **Translate** the page and the panel into about 130 languages
