@@ -2457,4 +2457,11 @@
       var t = textOf(el);
       if (t.length > 1) parts.push(t);
     });
+    return parts.length ? parts.join('\n') : textOf(main);
+  }
+
+  var STOP = ('a an the and or but if then so of to in on at by for with from as is are was were be been being it its this that these those there here we you he she they them our your their his her not no yes do does did have has had will would can could should may might must also than more most such into over under about after before between while which who whom what when where why how all any each few other some only own same just very i me my mine us').split(' ');
+  var STOPSET = {};
+  STOP.forEach(function (w) { STOPSET[w] = 1; });
+
 })(window, document);
