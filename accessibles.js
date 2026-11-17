@@ -2883,4 +2883,12 @@
         }
       }
       ['', ';domain=' + location.hostname, ';domain=.' + location.hostname.replace(/^www\./, '')].forEach(function (d) { document.cookie = 'googtrans=;path=/;max-age=0' + d; });
+      later(function () {
+        var html = document.documentElement;
+        if (html.classList.contains('translated-ltr') || html.classList.contains('translated-rtl')) location.reload();
+      }, 900);
+      return Promise.resolve();
+    }
+  };
+
 })(window, document);
