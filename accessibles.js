@@ -771,4 +771,11 @@
         if (d.s[k] !== undefined && typeof d.s[k] === typeof DEFAULTS[k]) S[k] = d.s[k];
       });
     }
+    if (d.pos && isFinite(d.pos.x) && isFinite(d.pos.y)) dragPos = { x: clamp(d.pos.x, 0, 1), y: clamp(d.pos.y, 0, 1) };
+    if (d.u && typeof d.u === 'object') usage = d.u;
+  })();
+  // Voice input only comes back on a new page when the microphone is already allowed (checked at start-up)
+  var voiceWas = S.voiceNav ? 'voiceNav' : S.dictation ? 'dictation' : '';
+  S.voiceNav = false; S.dictation = false;
+
 })(window, document);
