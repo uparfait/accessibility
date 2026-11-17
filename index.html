@@ -232,3 +232,20 @@
 </section>
 
 </main>
+
+<script>
+  // Copy buttons for every code block
+  document.querySelectorAll('.code').forEach(function (box) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(box.querySelector('code').textContent).then(function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+      });
+    });
+    box.appendChild(btn);
+  });
+</script>
