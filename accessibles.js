@@ -5059,4 +5059,26 @@
           .catch(function () { st.textContent = 'The report could not be sent. Use Copy and send it to the site owner.'; });
         return;
       }
+      self.copy(this.reportText());
+      st.textContent = 'This site has no report address set up. The report was copied so you can send it yourself.';
+    },
+    copy: function (text, btn) {
+      var self = this;
+      var done = function (ok) {
+        if (!btn) { announce(T(ok ? 'Copied' : 'Copy is not available')); return; }
+        if (!btn.__acc) btn.__acc = btn.innerHTML;
+        btn.innerHTML = ic(ok ? 'check' : 'close') + '<span class="bl">' + esc(T(ok ? 'Copied' : 'Copy is not available')) + '</span>';
+        btn.classList.add('done');
+        announce(T(ok ? 'Copied' : 'Copy is not available'));
+        cancel(btn.__accT);
+        btn.__accT = later(function () { if (btn.__acc) { btn.innerHTML = btn.__acc; btn.__acc = null; btn.classList.remove('done'); self.wrapButtons(btn.parentNode || btn); } }, 1800);
+      };
+      var fallback = function () {
+        var t = document.createElement('textarea'); t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+        shadow.appendChild(t); t.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        shadow.removeChild(t);
+        done(ok);
+      };
 })(window, document);
