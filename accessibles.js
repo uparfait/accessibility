@@ -4184,4 +4184,22 @@
           if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atEnd)) e.preventDefault();
         }
       };
+      helpBox.addEventListener('wheel', holdScroll, { passive: false });
+      helpBox.addEventListener('touchmove', function (e) { if (!(e.target.closest && e.target.closest('.help-main'))) e.preventDefault(); }, { passive: false });
+      R.addEventListener('pointerdown', function () { Tip.hide(); }, true);
+
+      // Custom sliders: drag with any pointer
+      R.addEventListener('pointerdown', function (e) {
+        self.kbd = false;
+        var sl = e.target.closest('.sl');
+        if (sl) {
+          e.preventDefault();
+          try { sl.focus({ preventScroll: true }); } catch (x) { sl.focus(); }
+          self.slDrag = { el: sl, id: e.pointerId };
+          try { sl.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
+          self.sliderFromPointer(sl, e.clientX, true);
+        }
+        if (!e.target.closest('.cs-pop,[data-sel]')) self.closeSelect();
+        if (!e.target.closest('.cp-pop,[data-cpick]')) self.closeColor();
+      });
 })(window, document);
