@@ -1865,4 +1865,11 @@
   var lastEditable = null;
   document.addEventListener('focusin', function (e) { if (!isOurs(e.target) && isEditable(e.target)) lastEditable = e.target; }, true);
 
+  /* Word matching for spoken input. Cheap on purpose: short strings, simple edit distance, no libraries. */
+  function normWords(s) {
+    s = String(s || '').toLowerCase();
+    try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) { /* old browser */ }
+    return s.replace(/[.,!?;:"“”'’«»()\[\]¿¡。、，！？،؟]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function editRatio(a, b) {
 })(window, document);
