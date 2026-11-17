@@ -2266,4 +2266,11 @@
   var FIELDS = 'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),select,textarea,[contenteditable="true"],[contenteditable=""]';
   // Spoken punctuation: [what you say, what is typed, keep the space before]
   var PUNCT = [
+    ['new paragraph', '\n\n'], ['new line', '\n'], ['next line', '\n'],
+    ['full stop', '.'], ['period', '.'], ['question mark', '?'], ['exclamation mark', '!'], ['exclamation point', '!'],
+    ['semicolon', ';'], ['colon', ':'], ['comma', ','], ['dash', ' -', 1], ['hyphen', '-'],
+    ['open quote', '“', 1], ['close quote', '”'], ['open bracket', '(', 1], ['close bracket', ')']
+  ];
+  function searchPage(words) {
+    var box = document.querySelector('input[type="search"],input[name="q"],input[name="s"],input[name*="search" i],input[placeholder*="search" i]');
 })(window, document);
