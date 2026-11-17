@@ -4504,4 +4504,24 @@
       body.scrollTop = 0;
       this.afterRender();
     },
+    profileHTML: function (p, suffix) {
+      return '<div class="prow-w" data-pw="' + p.id + '"><button type="button" class="prow" data-p="' + p.id + '" aria-pressed="false"><span class="pi">' + ic(p.icon) + '</span><span class="pt"><span class="pn">' + p.label + (suffix || '') + '</span></span><span class="sw" aria-hidden="true"></span></button>' +
+        '<button type="button" class="hb" data-help="p:' + p.id + '" aria-label="About ' + p.label + '" data-tt="About this profile">' + ic('help') + '</button></div>';
+    },
+    tabHTML: function (id) {
+      var self = this;
+      var tiles = function (tab) { return '<div class="grid">' + F.filter(function (f) { return f.tab === tab; }).map(UI.tileHTML).join('') + '</div>'; };
+      if (id === 'profiles') {
+        return '<div class="plist">' + PROFILES.map(function (p) { return self.profileHTML(p); }).join('') + '</div>';
+      }
+      if (id === 'text') return tiles('text');
+      if (id === 'color') {
+        return tiles('color') +
+          '<div class="sec">' + this.shHTML('Custom colors', 'customColors') + '<div class="card">' +
+          this.colorRow('textColor', 'Text', 'textColor', ['#111111', '#ffffff', '#0b3d91', '#7a1f1f', '#14532d']) +
+          this.colorRow('titleColor', 'Titles', 'titleColor', ['#000000', '#ffffff', '#0b57d0', '#b3261e', '#6b3fa0']) +
+          this.colorRow('bgColor', 'Background', 'bgColor', ['#ffffff', '#fdf6e3', '#eef3f7', '#121212', '#1b2733']) +
+          '</div></div>' +
+          '<div class="sec">' + this.shHTML('Display', 'display') + '<div class="card">' + this.sliderHTML('brightness', 'Brightness', 50, 150, 5) + '</div></div>';
+      }
 })(window, document);
