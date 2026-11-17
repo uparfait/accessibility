@@ -4823,4 +4823,11 @@
       $$('.sl').forEach(function (sl) { self.paintSlider(sl); });
       // Accessibility settings that also apply to this panel
       R.classList.toggle('cur-black', S.cursor === 'black');
+      R.classList.toggle('cur-white', S.cursor === 'white');
+      R.classList.toggle('focus-strong', !!(S.focusRing || S.keyboardNav));
+      this.scale();
+      this.ttsState();
+      I18N.apply(R);
+    },
+
 })(window, document);
