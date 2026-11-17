@@ -30,4 +30,9 @@
 
   var VERSION = '1.0.0';
   var nativeSetTimeout = window.setTimeout;
+  var nativeClearTimeout = window.clearTimeout;
+  var nativeSetInterval = window.setInterval;
+  function later(fn, ms) { return nativeSetTimeout.call(window, fn, ms || 0); }
+  function cancel(id) { nativeClearTimeout.call(window, id); }
+
 })(window, document);
