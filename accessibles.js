@@ -3493,4 +3493,22 @@
       '.lc-ico{width:2.15em;height:2.15em;border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;background:none;color:var(--p-ink)}',
       '.lc-ico .i{width:1.75em;height:1.75em}',
       '.lc-ico.sk{background:var(--p-ink);opacity:.35;animation:accPulse 1.1s ease-in-out infinite alternate}',
+      '@keyframes accPulse{from{opacity:.3}to{opacity:.6}}',
+      '@media (prefers-reduced-motion:reduce){.lc-ico.sk{animation:none}}',
+      '.lc-t{display:flex;flex-direction:column;min-width:0;line-height:1.2}',
+      '.lc-n{font-size:.86em;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+      '.lc-s{font-size:.72em;font-weight:500;opacity:.88;white-space:nowrap}',
+      '.launch:hover{filter:brightness(1.08)}',
+      '.launch.under{visibility:hidden}',
+      '.launch:focus-visible{outline:3px solid var(--accent);outline-offset:3px}',
+      '.launch.dragging{cursor:grabbing!important;box-shadow:0 .6em 1.6em var(--p-shadow)}',
+      '.launch .dot{position:absolute;top:.22em;right:.22em;width:.72em;height:.72em;border-radius:50%;background:var(--p-ink);box-shadow:0 0 0 .18em var(--p)}',
+      // panel
+      '.panel{position:absolute;left:0;top:0;width:min(27em,calc(100vw - 16px));display:flex;flex-direction:column;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:1.1em;box-shadow:var(--shadow);pointer-events:auto;overflow:hidden}',
+      '.head,.search,.tabs,.foot{flex:0 0 auto}',
+      '.head{display:flex;align-items:center;gap:.4em;padding:.8em .8em .55em 1.1em;user-select:none;-webkit-user-select:none}',
+      '.head.grab{cursor:grab}',
+      '.brandmark{width:2.2em;height:2.2em;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;flex:none;overflow:hidden}',
+      '.brandmark .i{width:1.4em;height:1.4em}',
+      // A site icon is shown as it is: no background behind it, scaled to fit its round space so no part is cut off
 })(window, document);
