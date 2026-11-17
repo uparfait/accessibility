@@ -5884,6 +5884,32 @@
     });
   }, 250);
 
+  // The widget lives in the browser's top layer, above any z-index. Things the page or an extension
+  // opens there later (popovers, modal dialogs, full screen) would cover it, so it moves back on top.
+  var raising = false;
+  function raise() {
+    if (!useTopLayer || !host || raising) return;
+    raising = true;
+    var had = shadow && shadow.activeElement;
+    try { host.hidePopover(); host.showPopover(); } catch (e) { /* not shown as a popover */ }
+    if (had && had.isConnected) { try { had.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+    later(function () { raising = false; }, 0);
+  }
+  function watchTopLayer() {
+    if (!useTopLayer) return;
+    var other = function (el) { return el && el !== host && el.nodeType === 1 && !isOurs(el); };
+    document.addEventListener('toggle', function (e) {
+      var t = e.target;
+      if (e.newState === 'open' && other(t) && (t.matches(':popover-open') || t.matches('dialog:modal'))) later(raise, 0);
+    }, true);
+    document.addEventListener('fullscreenchange', function () { if (document.fullscreenElement) later(raise, 0); });
+    if (window.MutationObserver) new MutationObserver(function (list) {
+      for (var i = 0; i < list.length; i++) {
+        var t = list[i].target;
+        if (other(t) && t.tagName === 'DIALOG' && t.open && t.matches(':modal')) { later(raise, 0); return; }
+      }
+    }).observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ['open'] });
+  }
   function observe() {
     if (!window.MutationObserver || !document.body) return;
     new MutationObserver(function (list) {
