@@ -2054,4 +2054,14 @@
       if (S.spokenTips && TTS.ok) TTS.guide('Did you mean: ' + label + '?');
       later(function () { if (self.pending && Date.now() > self.pending.until) { self.pending = null; UI.ask(null); } }, 15100);
     },
+    answer: function (txt) {
+      var p = this.pending;
+      if (!p) return false;
+      var y = this.score(txt, this.YES), n = this.score(txt, this.NO);
+      if (y < 0.8 && n < 0.8) { this.pending = null; UI.ask(null); return false; }
+      this.pending = null; UI.ask(null);
+      UI.pill(txt);
+      if (y >= n) p.yes(); else if (p.no) p.no();
+      return true;
+    },
 })(window, document);
