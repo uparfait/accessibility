@@ -945,4 +945,13 @@
       c.push(B + ' input:is([type="checkbox"],[type="radio"]){width:22px!important;height:22px!important;margin:6px!important}');
       c.push(B + ' a[href]{padding-top:.25em!important;padding-bottom:.25em!important}');
     }
+    // Motion
+    if (S.stopAnimations) {
+      c.push('html,' + B + ',' + B + ' *,' + B + ' *::before,' + B + ' *::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important;scroll-behavior:auto!important}');
+    }
+    if (S.hideImages) {
+      c.push(B + ' :is(img,picture,video,[role="img"]:not(svg),input[type="image"],object,embed){display:none!important}');
+      c.push('.acc-imgalt{display:inline-flex!important;align-items:center!important;gap:.4em!important;max-width:100%!important;padding:.3em .65em!important;margin:.15em 0!important;border:1px dashed currentColor!important;border-radius:999px!important;font:500 .85em/1.35 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;opacity:.85!important;vertical-align:middle!important}');
+      c.push(B + ' *:not(svg *){background-image:none!important}');
+    }
 })(window, document);
