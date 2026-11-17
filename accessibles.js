@@ -5215,4 +5215,15 @@
       var w = this.helpWords(h);
       var cg = !h.isP && !h.isInfo && !h.isAudit ? { tts: 'read', voiceNav: 'nav', dictation: 'dict' }[h.key] : (h.isInfo && h.key === 'shortcuts' ? 'nav' : '');
       this.openShell(this.helpShell(it.icon, kind, it.label, true));
+      $('.help-main', box).innerHTML =
+        '<div class="wait help-wait" hidden translate="no">' + ic('spinner', 'spin') + '<span></span></div>' +
+        '<div class="help-text gd" translate="no">' + guideHTML(this.helpSource(h)) + '</div>' +
+        (w.state ? '<div class="help-state' + (w.on ? ' on' : '') + '"><i class="d"></i><span>' + esc(w.state) + '</span></div>' : '') +
+        (w.action || cg ? '<div class="btns">' + (w.action ? '<button type="button" class="btn" data-act="help-toggle">' + esc(w.action) + '</button>' : '') +
+          (cg && TTS.ok ? '<button type="button" class="btn ghost" data-act="help-cmds" data-cg="' + cg + '">' + ic('speak') + 'Hear the commands</button>' : '') + '</div>' : '');
+      this.wrapButtons(box);
+      I18N.apply(box);
+      this.helpTranslate();
+      try { $('.help-title', box).focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+    },
 })(window, document);
