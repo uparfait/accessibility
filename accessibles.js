@@ -147,4 +147,11 @@
     var cs = getComputedStyle(el);
     return cs.visibility !== 'hidden' && cs.display !== 'none' && parseFloat(cs.opacity) > 0.02;
   }
+  function inViewport(el) {
+    var r = el.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && r.bottom > 0 && r.right > 0 && r.top < vh() && r.left < vw();
+  }
+  function debounce(fn, ms) { var t; return function () { cancel(t); t = later(fn, ms); }; }
+  function pageLang() { return (CFG && CFG.lang) || document.documentElement.getAttribute('lang') || navigator.language || 'en'; }
+  // The language the visitor uses: the language they chose to translate into, else the panel language, else the page language
 })(window, document);
