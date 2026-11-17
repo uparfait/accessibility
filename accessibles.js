@@ -4657,4 +4657,22 @@
           '<span class="ol"' + (o.native ? ' translate="no"' : '') + '>' + esc(o.l) + '</span>' + (o.s ? '<span class="os">' + esc(o.s) + '</span>' : '') + '</button>';
       }).join('');
     },
+    afterList: function (box) {
+      $$('.opt[data-font]', box).forEach(function (o) { $('.ol', o).style.fontFamily = o.getAttribute('data-font'); });
+      var sel = $('.opt[aria-selected="true"]', box) || $('.opt', box);
+      if (sel) sel.classList.add('act');
+      I18N.apply(box);
+    },
+    openSelect: function (btn) {
+      if (this.selOpen === btn) { this.closeSelect(true); return; }
+      this.closeSelect(); this.closeColor();
+      var id = btn.getAttribute('data-sel'), d = this.selects[id], pop = $('.cs-pop');
+      this.selOpen = btn;
+      btn.setAttribute('aria-expanded', 'true');
+      pop.setAttribute('aria-label', d.title);
+      pop.innerHTML = '<div class="q">' + ic('search') + '<input type="text" placeholder="Search" aria-label="Search ' + esc(d.title.toLowerCase()) + '" autocomplete="off" spellcheck="false"></div><div class="opts" role="listbox" aria-label="' + esc(d.title) + '">' + this.optsHTML(d.options(), d.value()) + '</div>';
+      pop.hidden = false;
+      var r = btn.getBoundingClientRect(), W = vw(), H = vh(), fs = parseFloat(R.style.fontSize) || 15;
+      var w = Math.min(Math.max(r.width, 16 * fs), W - 16);
+      pop.style.width = w + 'px';
 })(window, document);
