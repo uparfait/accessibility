@@ -4848,4 +4848,42 @@
       var fine = !window.matchMedia || window.matchMedia('(pointer: fine)').matches;
       if (this.open) { var target = $('.vbody .qbox .inp') && (this.kbd || fine) ? $('.vbody .qbox .inp') : this.kbd ? $('.vh .ib') : $('.vh h2'); if (target) target.focus({ preventScroll: true }); }
     },
+    closeView: function () {
+      var q = $('.search input').value;
+      this.view = null;
+      if (q) { $('.search').hidden = false; this.search(q); } else this.renderTab(this.tab);
+      if (this.kbd) { var t = $('.tab[aria-selected="true"]'); if (t) t.focus(); }
+    },
+    views: {
+      structure: {
+        title: 'Page structure',
+        render: function (box) {
+          var mode = this.structMode, items = [];
+          if (mode === 'headings') {
+            items = Array.prototype.filter.call(document.querySelectorAll(HEADINGS), function (h) { return !isOurs(h) && visible(h) && textOf(h); })
+              .map(function (h) { var lv = h.getAttribute('aria-level') || (h.tagName.match(/\d/) || ['2'])[0]; return { el: h, tag: 'H' + lv, text: textOf(h), lv: +lv }; });
+          } else if (mode === 'landmarks') {
+            var names = { HEADER: 'Header', NAV: 'Navigation', MAIN: 'Main', ASIDE: 'Aside', FOOTER: 'Footer', FORM: 'Form', SECTION: 'Section' };
+            var roles = { banner: 'Header', navigation: 'Navigation', main: 'Main', complementary: 'Aside', contentinfo: 'Footer', search: 'Search', form: 'Form', region: 'Region' };
+            items = Array.prototype.filter.call(document.querySelectorAll('header,nav,main,aside,footer,form[aria-label],form[aria-labelledby],section[aria-label],section[aria-labelledby],[role="banner"],[role="navigation"],[role="main"],[role="complementary"],[role="contentinfo"],[role="search"],[role="region"]'), function (el) { return !isOurs(el) && visible(el); })
+              .map(function (el) { var r = el.getAttribute('role'); var kind = (r && roles[r]) || names[el.tagName] || 'Region'; var n = accNameAttr(el) ? accName(el) : ''; var h = el.querySelector('h1,h2,h3'); return { el: el, tag: kind, text: n || (h ? textOf(h) : kind) }; });
+          } else {
+            items = Array.prototype.filter.call(document.querySelectorAll('a[href]'), function (a) { return !isOurs(a) && visible(a) && accName(a); })
+              .slice(0, 200).map(function (a) { return { el: a, tag: 'Link', text: accName(a) }; });
+          }
+          this.structItems = items;
+          var counts = {
+            headings: Array.prototype.filter.call(document.querySelectorAll(HEADINGS), function (h) { return !isOurs(h) && visible(h) && textOf(h); }).length,
+            landmarks: Array.prototype.filter.call(document.querySelectorAll('header,nav,main,aside,footer,[role="banner"],[role="navigation"],[role="main"],[role="complementary"],[role="contentinfo"],[role="search"],[role="region"],section[aria-label],form[aria-label]'), function (el) { return !isOurs(el) && visible(el); }).length,
+            links: Math.min(200, Array.prototype.filter.call(document.querySelectorAll('a[href]'), function (a) { return !isOurs(a) && visible(a) && accName(a); }).length)
+          };
+          var seg = '<div class="seg" role="group" aria-label="Show">' + [['headings', 'Headings'], ['landmarks', 'Regions'], ['links', 'Links']].map(function (s) { return '<button type="button" data-seg="' + s[0] + '" aria-pressed="' + (mode === s[0]) + '"><span>' + s[1] + '</span><span class="n">' + counts[s[0]] + '</span></button>'; }).join('') + '</div>';
+          var list = items.length ? '<div class="list">' + items.map(function (it, i) {
+            var pad = it.lv ? ' style-pad="' + (it.lv - 1) + '"' : '';
+            return '<button type="button" class="li" data-go="' + i + '"' + pad + '><span class="lv">' + esc(it.tag) + '</span><span class="lt">' + esc(it.text.slice(0, 140)) + '</span></button>';
+          }).join('') + '</div>' : '<p class="empty">Nothing found on this page.</p>';
+          box.innerHTML = seg + list;
+          $$('[style-pad]', box).forEach(function (b) { b.style.paddingLeft = (0.6 + 0.9 * +b.getAttribute('style-pad')) + 'em'; b.removeAttribute('style-pad'); });
+        }
+      },
 })(window, document);
