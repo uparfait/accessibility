@@ -229,20 +229,22 @@
   }
 
   // Two inputs drive every color: the primary (accents, button) and the panel background.
-  function buildPalette(input, bgInput) {
+  function buildPalette(input, bgInput, inkInput) {
     var p = parseColor(input) || [47, 107, 90];
     var bg = parseColor(bgInput) || [0, 0, 0];
     var W = [255, 255, 255], K = [14, 16, 19];
     var dark = lum(bg) < 0.3;
     function inkOn(c) { return contrast(c, W) >= contrast(c, K) ? W : K; }
+    // The button icon: the site's own choice, else white or near-black for the best contrast
+    var ink = parseColor(inkInput) || inkOn(p);
     var fg = ensureContrast(dark ? [242, 244, 245] : [21, 24, 28], dark ? W : K, bg, 12);
     var accent = ensureContrast(p, dark ? W : K, bg, 4.6);
     var muted = ensureContrast(mix(fg, bg, 0.38), fg, bg, 4.6);
     var shadowC = dark ? 'rgba(0,0,0,.55)' : rgba(mix(p, K, 0.7), 0.18);
     return {
-      primary: p, ink: inkOn(p), accentLight: ensureContrast(p, K, W, 4.6), dark: dark,
+      primary: p, ink: ink, accentLight: ensureContrast(p, K, W, 4.6), dark: dark,
       vars: {
-        '--p': hex(p), '--p-ink': hex(inkOn(p)),
+        '--p': hex(p), '--p-ink': hex(ink),
         '--p-edge': contrast(p, W) < 1.5 || contrast(p, K) < 1.5 ? hex(mix(p, contrast(p, W) < 1.5 ? K : W, 0.4)) : 'transparent',
         '--p-shadow': rgba(mix(p, K, 0.5), 0.3),
         '--bg': hex(bg), '--text': hex(fg), '--muted': hex(muted),
