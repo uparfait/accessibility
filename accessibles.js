@@ -2472,4 +2472,14 @@
     sentences.forEach(function (s) {
       words(s.toLowerCase()).forEach(function (w) { if (w.length > 2 && !STOPSET[w]) freq[w] = (freq[w] || 0) + 1; });
     });
+    var max = 1;
+    Object.keys(freq).forEach(function (k) { if (freq[k] > max) max = freq[k]; });
+    var scored = sentences.map(function (s, i) {
+      var ws = words(s.toLowerCase());
+      var sc = 0;
+      ws.forEach(function (w) { if (freq[w]) sc += freq[w] / max; });
+      sc = sc / Math.sqrt(ws.length || 1);
+      if (i < 3) sc *= 1.25;
+      return { s: s, i: i, sc: sc };
+    });
 })(window, document);
