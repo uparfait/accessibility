@@ -3853,4 +3853,22 @@
       '.help-frame{display:block;width:100%;max-width:none;height:calc(100% - 4em);min-height:20em;border:1px solid var(--line);border-radius:.8em;background:#fff}',
       '.help-main:has(.help-frame){max-width:none}',
       // loading states (static: no motion inside the panel)
+      '.busy{cursor:progress}',
+      '.busy .ck,.busy .go,.prow-w.busy .sw{visibility:hidden}',
+      '.bz{position:absolute;right:.55em;bottom:.5em;display:flex;align-items:center;gap:.25em;color:var(--accent);font-size:.74em;font-weight:650;font-variant-numeric:tabular-nums;pointer-events:none}',
+      '.bz .i{width:1.6em;height:1.6em}',
+      '.prow-w .bz{font-size:.9em}',
+      // The one moving element in the panel: a loading spinner (still for reduced motion and when animations are stopped)
+      // While reading: sound waves pulse out of the speaker, one after another
+      '.i .w3{opacity:0}',
+      '.r.speaking .talk{color:var(--accent)}',
+      '.r.speaking .talk .w1,.r.speaking .talk .w2,.r.speaking .talk .w3{animation:accWave 1.2s ease-out infinite!important;opacity:.15}',
+      '.r.speaking .talk .w2{animation-delay:.2s!important}.r.speaking .talk .w3{animation-delay:.4s!important}',
+      '@keyframes accWave{0%{opacity:.15}25%{opacity:1}60%,100%{opacity:.15}}',
+      '@media (prefers-reduced-motion:reduce){.r.speaking .talk .w1,.r.speaking .talk .w2,.r.speaking .talk .w3{animation:none!important;opacity:1}}',
+      '.r.still.speaking .talk .w1,.r.still.speaking .talk .w2,.r.still.speaking .talk .w3{animation:none!important;opacity:1}',
+      '.tts-bar>.talk{width:1.2em;height:1.2em;color:var(--muted)}',
+      '.r .spin{stroke-width:2.8;color:var(--accent);transform-origin:50% 50%;animation:accSpin .8s linear infinite!important}',
+      '@keyframes accSpin{to{transform:rotate(360deg)}}',
+      '@media (prefers-reduced-motion:reduce){.r .spin{animation:none!important}}',
 })(window, document);
