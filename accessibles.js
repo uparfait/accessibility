@@ -1491,4 +1491,14 @@
         UI.ttsBar(false);
       }
     },
+    chunks: function (text) {
+      var parts = String(text).replace(/\s+/g, ' ').match(/[^.!?;:。！？]+[.!?;:。！？]*\s*/g) || [text];
+      var out = [], buf = '';
+      parts.forEach(function (p) {
+        while (p.length > 220) { var cut = p.lastIndexOf(' ', 200); if (cut < 60) cut = 200; out.push(p.slice(0, cut)); p = p.slice(cut); }
+        if ((buf + p).length > 220) { if (buf.trim()) out.push(buf); buf = p; } else buf += p;
+      });
+      if (buf.trim()) out.push(buf);
+      return out.filter(function (s) { return /\S/.test(s); });
+    },
 })(window, document);
