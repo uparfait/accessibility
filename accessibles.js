@@ -5444,4 +5444,8 @@
   function announce(msg) {
     var l = $('.srl');
     if (!l) return;
+    l.textContent = '';
+    later(function () { l.textContent = msg; }, 40);
+  }
+
 })(window, document);
