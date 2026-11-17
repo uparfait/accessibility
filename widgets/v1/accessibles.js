@@ -4517,8 +4517,11 @@
         case 'voice-hush': TTS.stop(); break;
         case 'voice-help': if (TTS.active) TTS.stop(); else this.commands(S.dictation ? 'dict' : 'nav'); break;
         case 'say-cmds': case 'help-cmds': this.sayCmds(t.getAttribute('data-cg')); break;
-        case 'ask-yes': Voice.reply(true); break;
-        case 'ask-no': Voice.reply(false); break;
+        case 'ask-yes': if (Voice.pick) Voice.endPick(true); else Voice.reply(true); break;
+        case 'ask-no': if (Voice.pick) Voice.endPick(false); else Voice.reply(false); break;
+        case 'ask-prev': Voice.movePick(-1); break;
+        case 'ask-next': Voice.movePick(1); break;
+        case 'ask-all': Voice.endPick(false, true); break;
         case 'tts-prev': TTS.skip(-1); break;
         case 'tts-next': TTS.skip(1); break;
         case 'vkb-close': setState('vkeyboard', false); break;
