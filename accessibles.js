@@ -2574,4 +2574,26 @@
       if (abbr) return { word: textOf(abbr), defs: [{ pos: 'On this page', text: abbr.getAttribute('title') }] };
       return null;
     },
+    lookup: function (word, rect) {
+      UI.dict({ word: word, loading: true }, rect);
+      var local = this.glossary(word);
+      if (local) { UI.dict(local, rect); return; }
+      var key = word.toLowerCase();
+      if (this.cache[key]) { UI.dict(this.cache[key], rect); return; }
+      var lang = pageLang().split('-')[0].toLowerCase();
+      var url = CFG.dictionaryUrl ? CFG.dictionaryUrl.replace('{word}', encodeURIComponent(word)).replace('{lang}', lang)
+        : lang === 'en' ? 'https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(key) : '';
+      var self = this;
+      var wiki = function () {
+        return fetch('https://' + lang + '.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(word)).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+          .then(function (j) { if (!j.extract || j.type === 'disambiguation') throw 0; return { word: j.title || word, defs: [{ pos: 'Encyclopedia', text: j.extract.slice(0, 420) }] }; });
+      };
+      var p = url ? fetch(url).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) {
+        var e = Array.isArray(j) ? j[0] : j;
+        if (!e || !e.meanings) throw 0;
+        var defs = [];
+        e.meanings.forEach(function (m) { (m.definitions || []).slice(0, 2).forEach(function (d) { if (defs.length < 4) defs.push({ pos: m.partOfSpeech || '', text: d.definition, ex: d.example || '' }); }); });
+        if (!defs.length) throw 0;
+        return { word: e.word || word, phonetic: e.phonetic || '', defs: defs };
+      }).catch(wiki) : wiki();
 })(window, document);
