@@ -8,6 +8,7 @@
  * Query options (all optional):
  *   color          primary color, any CSS color (default #2F6B5A; encode # as %23, a raw # also works)
  *   bg             panel background color (default #000000); text and surfaces adapt to it
+ *   icon-color     color of the icon on the button (default: white or black, whichever reads best)
  *   site-name      your site's name, shown as the panel title and in the statement and reports
  *   site-icon-url  your site's icon, shown in the panel header and in the button's hover card
  *   position       bottom-right (default) | bottom-left | bottom-center | top-right | top-left |
