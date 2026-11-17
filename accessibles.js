@@ -3332,4 +3332,12 @@
     scheduleApply();
   }
   function emit(key, value) {
+    try { window.dispatchEvent(new CustomEvent('accessibles:change', { detail: { key: key, value: value, state: JSON.parse(JSON.stringify(S)) } })); } catch (e) { /* old browser */ }
+  }
+  function scheduleApply() {
+    if (applyQueued) return;
+    applyQueued = true;
+    // Wait one frame so a loading state can paint before heavier work runs
+    (window.requestAnimationFrame || later)(function () { later(function () { applyQueued = false; applyAll(); }, 0); });
+  }
 })(window, document);
