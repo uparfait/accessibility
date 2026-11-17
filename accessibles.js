@@ -734,4 +734,18 @@
     return ['profiles', 'ariaFix', 'altText', 'formFix', 'remember', 'position', 'ttsRate', 'ttsPitch', 'ttsVoice', 'oversized', 'spokenTips'].indexOf(k) < 0;
   });
 
+  /* ------------------------------------------------------------------ *
+   * 6. Storage (localStorage → cookie → memory), session when "remember" is off
+   * ------------------------------------------------------------------ */
+  var KEY = 'accessibles.v1';
+  var Store = {
+    read: function () {
+      var raw = null;
+      try { raw = window.localStorage.getItem(KEY); } catch (e) { /* blocked */ }
+      if (!raw) { try { raw = window.sessionStorage.getItem(KEY); } catch (e) { /* blocked */ } }
+      if (!raw) {
+        try { var m = document.cookie.match(/(?:^|;\s*)accessibles=([^;]*)/); if (m) raw = decodeURIComponent(m[1]); } catch (e) { /* blocked */ }
+      }
+      try { return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+    },
 })(window, document);
