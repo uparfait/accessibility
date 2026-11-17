@@ -2305,6 +2305,55 @@
       }
       return { score: top.s * k, label: (top.opt ? 'Choose ' : 'Click ') + top.n.slice(0, 60), run: function () { press(top); } };
     },
+    // "turn on dark contrast", "check remember me", "toggle notifications"
+    guessToggle: function (name, hs, mode) {
+      var want = mode === 'on' ? true : mode === 'off' ? false : null;
+      var verb = want === true ? 'Turn on ' : want === false ? 'Turn off ' : 'Toggle ';
+      var k = Math.min(1, hs + 0.1);
+      var isOn = function (el) { return el.tagName === 'INPUT' ? !!el.checked : (el.getAttribute('aria-checked') || el.getAttribute('aria-pressed')) === 'true'; };
+      var already = function (name2, on) { UI.pill('', false, name2 + ' ' + T(on ? 'is already on' : 'is already off')); };
+      var sel = 'input[type="checkbox"],input[type="radio"],[role="checkbox"],[role="switch"],[role="radio"],[aria-pressed],[aria-checked]';
+      var list = $$('.panel:not([hidden]) [aria-pressed]').concat(Array.prototype.filter.call(document.querySelectorAll(sel), function (el) {
+        return !isOurs(el) && (visible(el) || (el.labels && el.labels[0] && visible(el.labels[0])));
+      }));
+      var best = null, sc = 0;
+      list.forEach(function (el) { var n = (accName(el) || '').trim(); if (!n) return; var s = wordMatch(name, n); if (s > sc) { sc = s; best = el; } });
+      // This menu's own features and profiles work by name, even with the menu closed
+      var feat = null, fs = 0;
+      F.concat(PROFILES.map(function (p) { return { id: p.id, label: p.label, profile: true }; })).forEach(function (f) {
+        if (!(f.profile || f.t === 'toggle' || f.t === 'radio')) return;
+        var s = Math.max(wordMatch(name, f.label), wordMatch(name, T(f.label)));
+        if (s > fs) { fs = s; feat = f; }
+      });
+      if (feat && fs >= 0.75 && fs >= sc) {
+        return { score: fs * k, label: verb + feat.label, run: function () {
+          var on = feat.profile ? S.profiles.indexOf(feat.id) > -1 : feat.t === 'toggle' ? !!S[feat.key] : S[feat.key] === feat.val;
+          if ((want === null ? !on : want) === on) { already(T(feat.label), on); return; }
+          if (feat.profile) toggleProfile(feat.id); else UI.feature(feat.id);
+        } };
+      }
+      if (!best) return null;
+      var el = best, label = (accName(el) || '').trim().slice(0, 60);
+      return { score: sc * k, label: verb + label, run: function () {
+        var on = isOn(el);
+        if ((want === null ? !on : want) === on) { already(label, on); return; }
+        if (isOurs(el)) { try { el.focus(); } catch (e) { /* ignore */ } } else focusEl(el);
+        el.click();
+      } };
+    },
+    // Presses Enter on the selected box or button, or sends its form
+    enter: function () {
+      var a = document.activeElement, el = a && a !== document.body && !isOurs(a) ? a : lastEditable;
+      if (!el || !el.isConnected) { UI.pill('', false, T('Select a box or a button first')); return; }
+      if (/^(BUTTON|A|SUMMARY)$/.test(el.tagName) || el.getAttribute('role') === 'button') { el.click(); return; }
+      if (el.form && el.tagName !== 'TEXTAREA') { if (el.form.requestSubmit) el.form.requestSubmit(); else el.form.submit(); return; }
+      pressEnter(el);
+    },
+    clearField: function () {
+      var el = lastEditable;
+      if (!el || !el.isConnected) { UI.pill('', false, T('Click into a text box first')); return; }
+      if (el.isContentEditable) el.textContent = ''; else setValue(el, '');
+    },
     clickables: function () {
       // Includes the accessibility panel itself, so it can be used fully by voice
       var own = $$('.panel:not([hidden]) button, .help:not([hidden]) button, .cs-pop:not([hidden]) .opt, .vkb:not([hidden]) button, .tts-bar:not([hidden]) button, .ask:not([hidden]) button').filter(function (b) { var r = b.getBoundingClientRect(); return r.width && r.height && r.bottom > 0 && r.top < vh(); });
