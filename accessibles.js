@@ -1691,4 +1691,19 @@
       }
       if (S.magnifier) this.lens();
     },
+    lens: function () {
+      var L = $('.lens'), t = this.lastTarget;
+      if (!t || isOurs(t) || t.nodeType !== 1) { L.hidden = true; return; }
+      var block = t.closest('h1,h2,h3,h4,h5,h6,p,li,td,th,dt,dd,a,button,label,span,blockquote,figcaption,caption,summary,legend,div');
+      var text = block ? textOf(block) : '';
+      if (!text || (block.tagName === 'DIV' && text.length > 400)) { L.hidden = true; return; }
+      if (L.__t !== text) { L.textContent = text.length > 280 ? text.slice(0, 280) + '…' : text; L.__t = text; }
+      L.hidden = false;
+      var w = L.offsetWidth, h = L.offsetHeight, x = this.x + 18, y = this.y + 22;
+      if (x + w > vw() - 8) x = Math.max(8, this.x - w - 18);
+      if (y + h > vh() - 8) y = Math.max(8, this.y - h - 18);
+      L.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+    }
+  };
+
 })(window, document);
