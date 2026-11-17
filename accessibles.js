@@ -5029,4 +5029,16 @@
       announce(c.open.length + ' marked on the page');
       if (vw() < 700) this.close();
     },
+    goStruct: function (i) {
+      var it = this.structItems[i];
+      if (!it) return;
+      if (vw() < 700) this.close();
+      focusEl(it.el);
+    },
+    reportText: function () {
+      var type = this.repType || 'Something is hard to read';
+      var msg = $('.rep-msg') ? $('.rep-msg').value.trim() : '';
+      var on = Object.keys(DEFAULTS).filter(function (k) { return JSON.stringify(S[k]) !== JSON.stringify(DEFAULTS[k]); }).map(function (k) { return k + '=' + JSON.stringify(S[k]); }).join(', ');
+      return 'Accessibility issue' + (CFG.siteName ? ' on ' + CFG.siteName : '') + ': ' + type + '\n\n' + msg + '\n\nPage: ' + location.href + '\nBrowser: ' + navigator.userAgent + '\nScreen: ' + vw() + 'x' + vh() + '\nSettings: ' + (on || 'default');
+    },
 })(window, document);
