@@ -227,4 +227,11 @@
     return r;
   }
 
+  // Two inputs drive every color: the primary (accents, button) and the panel background.
+  function buildPalette(input, bgInput) {
+    var p = parseColor(input) || [47, 107, 90];
+    var bg = parseColor(bgInput) || [0, 0, 0];
+    var W = [255, 255, 255], K = [14, 16, 19];
+    var dark = lum(bg) < 0.3;
+    function inkOn(c) { return contrast(c, W) >= contrast(c, K) ? W : K; }
 })(window, document);
