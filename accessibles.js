@@ -3475,4 +3475,22 @@
       '.r.cur-white :is(button,a,label,[role="option"],[role="slider"],.swb,.pick,.key,.cs-btn,.launch){cursor:' + svgCursor('#fff', '#000', 'hand') + ',pointer!important}',
       '.r.focus-strong :focus-visible:not([tabindex="-1"]):not(.panel){outline:3px solid var(--accent)!important;outline-offset:2px!important}',
       '.r.focus-strong :is(.tab,.opt,.tm,.prow,.seg button):focus-visible{outline-offset:-3px!important}',
+      '.panel:focus,.vh h2:focus,.body:focus,.help:focus,.help h2:focus{outline:none}',
+      'button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}',
+      '.i{display:block;width:1.3em;height:1.3em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}',
+      // launcher
+      '.launch{position:absolute;left:0;top:0;width:2.9em;height:2.9em;border-radius:.8em;background:var(--p);color:var(--p-ink);display:grid;place-items:center;pointer-events:auto;box-shadow:0 .35em 1.1em var(--p-shadow),0 0 0 1px var(--p-edge);touch-action:none;user-select:none;-webkit-user-select:none}',
+      '.launch .i{width:1.75em;height:1.75em;stroke-width:1.6}',
+      // Hover card: opens beside the small button and names the site
+      // It grows out from under the button: it starts clipped to the button's square and opens to full width
+      '.lcard{position:absolute;left:0;top:0;display:flex;align-items:center;gap:.6em;height:2.9em;max-width:min(20em,calc(100vw - 16px));border-radius:.8em;background:var(--p);color:var(--p-ink);box-shadow:0 .35em 1.1em var(--p-shadow),0 0 0 1px var(--p-edge);text-align:start;visibility:hidden;opacity:0;pointer-events:none;transition:clip-path .32s cubic-bezier(.2,.8,.2,1),opacity .2s ease,visibility 0s linear .32s}',
+      '.lcard.tl{padding:0 3.6em 0 .4em;clip-path:inset(0 0 0 calc(100% - 2.9em) round .8em)}',
+      '.lcard.tr{padding:0 1em 0 3.35em;clip-path:inset(0 calc(100% - 2.9em) 0 0 round .8em)}',
+      '.lcard.show{visibility:visible;opacity:1;pointer-events:auto;clip-path:inset(0 0 0 0 round .8em);transition:clip-path .32s cubic-bezier(.2,.8,.2,1),opacity .14s ease,visibility 0s}',
+      '.launch.carded,.launch.carded:hover{filter:none;box-shadow:none}',
+      '@media (prefers-reduced-motion:reduce){.lcard,.lcard.show{transition:none}}',
+      '.r.still .lcard,.r.still .lcard.show{transition:none}',
+      '.lc-ico{width:2.15em;height:2.15em;border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;background:none;color:var(--p-ink)}',
+      '.lc-ico .i{width:1.75em;height:1.75em}',
+      '.lc-ico.sk{background:var(--p-ink);opacity:.35;animation:accPulse 1.1s ease-in-out infinite alternate}',
 })(window, document);
