@@ -1883,4 +1883,11 @@
       for (j = 1; j <= lb; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1));
       prev = cur;
     }
+    return 1 - prev[lb] / Math.max(la, lb);
+  }
+  // 1 = same words. Compares the whole phrase and word by word, and takes the better of the two.
+  function wordMatch(said, phrase) {
+    var a = normWords(said), b = normWords(phrase);
+    if (!a || !b) return 0;
+    if (a === b) return 1;
 })(window, document);
