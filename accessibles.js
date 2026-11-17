@@ -5418,4 +5418,16 @@
       line.lastChild.textContent = st.msg;
       I18N.apply(row);
     },
+    signPlayer: function (src, label) {
+      var box = $('.signp');
+      if (!src) { box.hidden = true; box.innerHTML = ''; return; }
+      if (src === 'loading') { box.innerHTML = '<div class="sh2"><span>Loading sign language…</span></div>'; box.hidden = false; return; }
+      var safe = /^(https?:|blob:|data:video\/|\/|\.\/|\.\.\/)/i.test(src) || !/^[a-z]+:/i.test(src);
+      if (!safe) return;
+      box.innerHTML = '<div class="sh2"><span>' + esc(label || 'Sign language') + '</span><button type="button" class="ib" data-act="sign-close" aria-label="Close video">' + ic('close') + '</button></div><video controls autoplay playsinline muted></video>';
+      $('video', box).src = src;
+      box.hidden = false;
+    }
+  };
+
 })(window, document);
