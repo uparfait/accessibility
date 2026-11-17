@@ -5465,4 +5465,16 @@
     });
   }, 250);
 
+  function observe() {
+    if (!window.MutationObserver || !document.body) return;
+    new MutationObserver(function (list) {
+      for (var i = 0; i < list.length; i++) {
+        var added = list[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          var n = added[j];
+          if (n.nodeType === 1 && !isOurs(n) && !(n.classList && (n.classList.contains('acc-skip') || n.classList.contains('acc-sr-only') || n.classList.contains('acc-imgalt')))) pendingRoots.push(n);
+        }
+      }
+      if (pendingRoots.length) processRoots();
+    }).observe(document.body, { childList: true, subtree: true });
 })(window, document);
