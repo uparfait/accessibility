@@ -1600,4 +1600,13 @@
       window.speechSynthesis.speak(u);
       if (withVoice && v) later(function () { if (!started && !finished && sid === self.sid && !window.speechSynthesis.speaking) retry(); }, 2500);
     },
+    mark: function (el) {
+      if (this.curEl) this.curEl.classList.remove('acc-reading');
+      this.curEl = el && el.classList ? el : null;
+      if (this.curEl) {
+        this.curEl.classList.add('acc-reading');
+        var r = this.curEl.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > vh()) { try { this.curEl.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { this.curEl.scrollIntoView(); } }
+      }
+    },
 })(window, document);
