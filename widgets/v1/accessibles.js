@@ -3937,6 +3937,7 @@
         '<button type="button" class="ib" data-act="tts-stop" aria-label="Stop reading">' + ic('stop') + '</button>' +
         '<button type="button" class="ib" data-act="tts-off" aria-label="Turn off read aloud">' + ic('close') + '</button></div>' +
         '<div class="pill" hidden translate="no"><i class="live"></i><span class="vt"></span><span class="vr"></span><span class="vn"></span>' +
+        '<button type="button" class="ib" data-act="voice-hush" aria-label="Stop reading" data-tt="Stop reading" hidden>' + ic('stop') + '</button>' +
         '<button type="button" class="ib" data-act="voice-help" aria-label="What can I say" data-tt="What can I say">' + ic('help') + '</button><button type="button" class="ib" data-act="voice-off" aria-label="Stop listening" data-tt="Stop listening">' + ic('close') + '</button></div>' +
         '<div class="ask" hidden role="alertdialog" aria-live="assertive" aria-label="Did you mean"><span class="aq"><span>Did you mean</span> <b translate="no"></b></span><span class="ab"><button type="button" class="btn sm" data-act="ask-yes">Yes</button><button type="button" class="btn sm ghost" data-act="ask-no">No</button></span></div>' +
         '<div class="toast" hidden></div>' +
