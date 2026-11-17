@@ -792,4 +792,12 @@
     S.voiceNav = false; S.dictation = false;
   }
 
+  /* ------------------------------------------------------------------ *
+   * 7. Page stylesheet — every visual adjustment is one generated sheet
+   * ------------------------------------------------------------------ */
+  var PAL;
+  var useTopLayer = typeof HTMLElement !== 'undefined' && typeof HTMLElement.prototype.showPopover === 'function';
+  var canAdopt = 'adoptedStyleSheets' in Document.prototype && typeof CSSStyleSheet === 'function' && 'replaceSync' in CSSStyleSheet.prototype;
+  var pageSheet = null, pageStyleEl = null;
+
 })(window, document);
