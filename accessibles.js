@@ -4472,4 +4472,11 @@
       this.refresh();
       this.placePanel();
     },
+    toggle: function (byKeyboard) {
+      if (this.open) { this.close(); return; }
+      this.show();
+      // Keyboard users land on the active tab; pointer users get no focus ring
+      if (byKeyboard) { var sel = this.view ? $('.vh .ib') : $('.tab[aria-selected="true"]'); if (sel) sel.focus(); }
+      else { try { $('.panel').focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+    },
 })(window, document);
