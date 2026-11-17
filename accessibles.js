@@ -4225,4 +4225,31 @@
         try { vh2.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
         e.preventDefault();
       });
+      vh2.addEventListener('pointermove', function (e) {
+        if (!vdrag || e.pointerId !== vdrag.id) return;
+        var box = $('.vkb'), w = box.offsetWidth, h = box.offsetHeight;
+        self.vkbPos = { x: clamp(vdrag.ox + e.clientX - vdrag.sx, 8, vw() - w - 8), y: clamp(vdrag.oy + e.clientY - vdrag.sy, 8, vh() - h - 8) };
+        box.style.left = self.vkbPos.x + 'px'; box.style.top = self.vkbPos.y + 'px';
+      });
+      var vend = function () { vdrag = null; vh2.classList.remove('dragging'); };
+      vh2.addEventListener('pointerup', vend); vh2.addEventListener('pointercancel', vend);
+      document.addEventListener('pointerdown', function (e) { if (!isOurs(e.target)) { self.closeSelect(); self.closeColor(); } }, true);
+
+      // Global shortcut: Alt+A opens and closes the widget
+      document.addEventListener('keydown', function (e) {
+        if (e.altKey && !e.ctrlKey && !e.metaKey && (e.code === 'KeyA' || e.key === 'a' || e.key === 'A') && !e.shiftKey) {
+          e.preventDefault(); self.toggle(true);
+        } else if (S.tts && e.altKey && !e.ctrlKey && !e.metaKey && (e.code === 'KeyR' || e.code === 'KeyN')) {
+          // Reading keys: Alt+R read or pause, Alt+N next paragraph, Alt+Shift+N previous
+          e.preventDefault();
+          if (e.code === 'KeyR') { if (TTS.active) TTS.pause(); else TTS.readPage(); }
+          else TTS.skip(e.shiftKey ? -1 : 1);
+        } else if (e.key === 'Escape' && TTS.active && $('.help').hidden) {
+          TTS.stop();
+        } else if (e.key === 'Escape' && !isOurs(e.target)) {
+          if (!$('.help').hidden) self.help(null);
+          else if (!$('.reader').hidden) self.reader(false);
+          else if (!$('.dict').hidden) self.dict(null);
+        }
+      }, true);
 })(window, document);
