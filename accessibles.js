@@ -1949,4 +1949,23 @@
           self.heard(txt, alts, mode);
         }
       };
+      r.onerror = function (ev) {
+        var e = ev.error;
+        if (e === 'not-allowed' || e === 'service-not-allowed') {
+          self.halt(T('Microphone access was blocked. Allow the microphone for this site to use voice.'));
+        } else if (e === 'audio-capture') {
+          self.halt(T('No microphone was found. Connect one and turn this on again.'));
+        } else if (e === 'language-not-supported' && self.lang !== 'en-US') {
+          self.lang = 'en-US';
+        } else if (e !== 'no-speech' && e !== 'aborted') self.fails++;
+      };
+      r.onend = function () {
+        self.running = false;
+        if (self.rec !== r || !self.want) return;
+        // Wait a little longer after each failure (network problems), but never give up while it is on
+        later(function () { if (self.want && self.rec === r && !self.running && !document.hidden) self.listen(); }, Math.min(5000, 250 * Math.pow(2, Math.min(self.fails, 5))));
+      };
+      this.rec = r;
+      try { r.start(); } catch (e) { /* already started */ }
+    },
 })(window, document);
