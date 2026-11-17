@@ -838,4 +838,12 @@
     Object.keys(G).forEach(function (cat) {
       G[cat].split(',').forEach(function (n) { if (seen[n]) return; seen[n] = 1; out.push({ id: n, name: n, note: cat === 'sans' ? 'Sans serif' : cat === 'serif' ? 'Serif' : 'Monospace', fam: n, g: n, stack: '"' + n + '", ' + (cat === 'sans' ? 'sans-serif' : cat) }); });
     });
+    [['Arial', 'sans-serif'], ['Verdana', 'sans-serif'], ['Tahoma', 'sans-serif'], ['Trebuchet MS', 'sans-serif'], ['Segoe UI', 'sans-serif'], ['Helvetica', 'sans-serif'], ['Georgia', 'serif'], ['Times New Roman', 'serif'], ['Palatino Linotype', 'serif'], ['Courier New', 'monospace'], ['Comic Sans MS', 'cursive']].forEach(function (f) {
+      out.push({ id: f[0], name: f[0], note: 'System font', fam: f[0], stack: '"' + f[0] + '", ' + f[1] });
+    });
+    return out;
+  })();
+  function fontInfo(id) { for (var i = 0; i < FONT_LIST.length; i++) if (FONT_LIST[i].id === id) return FONT_LIST[i]; return id ? { id: id, name: id, fam: id, stack: '"' + id + '", sans-serif' } : FONT_LIST[0]; }
+  function fontName(id) { var f = fontInfo(id); return id ? f.name : 'Original'; }
+
 })(window, document);
