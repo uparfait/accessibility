@@ -2205,8 +2205,24 @@
     // Commands that take words after them: "click Contact", "search for opening hours"
     SLOTS: [
       { id: 'click', say: ['click', 'press', 'open', 'select', 'tap', 'go to', 'follow', 'choose'] },
-      { id: 'search', say: ['search for', 'search', 'find', 'look for'] }
+      { id: 'search', say: ['search for', 'search', 'find', 'look for'] },
+      { id: 'on', say: ['check', 'tick', 'turn on', 'switch on', 'enable', 'activate'] },
+      { id: 'off', say: ['uncheck', 'untick', 'turn off', 'switch off', 'disable', 'deactivate'] },
+      { id: 'toggle', say: ['toggle', 'flip'] },
+      { id: 'type', say: ['type', 'write', 'fill in', 'enter'] }
     ],
+    // "google dot com", "wikipedia.org" → an address to open
+    TLDS: /^(com|org|net|io|gov|edu|co|uk|rw|de|fr|es|it|nl|info|app|dev|ai|me|tv|us|ca|au|in|jp|ke|ug|tz|za|ng|be|ch|se|no|pl|pt|br|mx|ru|cn)$/,
+    siteFrom: function (rest) {
+      var w = rest.replace(/\s+dot\s+/g, '.').replace(/\s+slash\s+/g, '/').trim();
+      if (!/\./.test(w)) {
+        var parts = w.split(' ');
+        if (parts.length < 2 || parts.length > 4 || !this.TLDS.test(parts[parts.length - 1])) return '';
+        w = parts.join('.');
+      }
+      w = w.replace(/\s+/g, '');
+      return /^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/.test(w) ? w : '';
+    },
     guessNav: function (said) {
       var t = normWords(said);
       if (!t) return null;
