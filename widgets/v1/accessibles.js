@@ -2203,9 +2203,17 @@
       }
       this.write(t);
     },
+    // A text box to type into when none was chosen: the first one on the page, else the menu's search box
+    pickField: function () {
+      var f = Array.prototype.filter.call(document.querySelectorAll(FIELDS), function (x) { return !isOurs(x) && visible(x) && isEditable(x); })[0];
+      if (f) { try { f.scrollIntoView({ block: 'center' }); } catch (e) { /* ignore */ } return f; }
+      if (UI.open && !$('.search').hidden) return $('.search input');
+      return null;
+    },
     write: function (t) {
       var el = lastEditable;
-      if (!el || !el.isConnected) { UI.pill(t, false, T('Click into a text box first')); return; }
+      if (!el || !el.isConnected) { el = lastEditable = this.pickField(); }
+      if (!el) { UI.pill(t, false, T('This page has no text box. Open the menu to type in its search box.')); return; }
       t = this.punctuate(t);
       var isInput = el.tagName === 'INPUT';
       if (isInput) t = t.replace(/\n+/g, ' ');
