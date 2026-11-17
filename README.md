@@ -15,3 +15,11 @@ Paste these two lines before the closing `</body>` tag:
 <div class="accessibles-widget"></div>
 <script src="https://uparfait.github.io/accessibility/accessibles.js" defer></script>
 ```
+
+Reload the page and a small button appears in the bottom-right corner. Click it, or press `Alt + A`, to open the panel.
+
+A few things to know:
+
+- The `div` is optional. If the script can't find one, it creates it.
+- `defer` is optional. The script waits for the page to load either way, so it also works when a tag manager injects it.
+- To host it yourself, download `accessibles.js` and change the `src`. It's a single file with no dependencies.
