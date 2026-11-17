@@ -4452,4 +4452,12 @@
       }[key];
       if (tips) later(function () { TTS.guide(tips); }, 120);
     },
+    // Reads a list of commands out loud and shows it
+    commands: function (g) {
+      this.show();
+      this.openView('shortcuts');
+      var sec = $('[data-g="' + g + '"]');
+      if (sec) try { sec.scrollIntoView({ block: 'start' }); } catch (e) { /* ignore */ }
+      TTS.guide(cmdSpeech(g));
+    },
 })(window, document);
