@@ -3227,4 +3227,14 @@
         el.style.setProperty('color', t[1], 'important');
       });
     },
+    restore: function () {
+      this.list.forEach(function (r) {
+        var el = r[0]; el.__accSmart = false;
+        if (r[1]) el.style.setProperty('color', r[1], r[2]); else el.style.removeProperty('color');
+        if (!r[3] && !el.getAttribute('style')) el.removeAttribute('style');
+      });
+      this.list = [];
+    }
+  };
+
 })(window, document);
