@@ -4468,7 +4468,9 @@
       var c = $('.lcard'), l = $('.launch');
       if (!c || this.open || l.classList.contains('dragging') || l.classList.contains('under')) return;
       cancel(this.cardT);
-      $('.lc-n', c).textContent = CFG.siteName || location.hostname.replace(/^www\./, '') || T('This website');
+      var nm = CFG.siteName || location.hostname.replace(/^www\./, '') || T('This website');
+      $('.lc-n', c).textContent = nm;
+      c.title = nm;   // the card cuts long names; hovering shows the whole name
       I18N.apply(c);
       this.cardIcon();
       // Opens towards the middle of the screen, sharing the button's edge
