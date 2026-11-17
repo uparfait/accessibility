@@ -4294,7 +4294,17 @@
       if (CFG.siteIcon && !/^(javascript|vbscript):/i.test(CFG.siteIcon)) {
         var bm = $('.brandmark'), img = document.createElement('img');
         img.alt = ''; img.decoding = 'async';
-        img.onload = function () { if (!img.naturalWidth) return; bm.classList.add('img'); bm.innerHTML = ''; bm.appendChild(img); };
+        img.onload = function () {
+          if (!img.naturalWidth) return;
+          bm.classList.add('img'); bm.innerHTML = '';
+          if (!CFG.iconColor) { bm.appendChild(img); return; }
+          // Same as the hover card: draw the icon's shape in one color
+          var m = document.createElement('span'), mu = 'url("' + img.src.replace(/"/g, '%22') + '") center / contain no-repeat';
+          m.className = 'bm-mask';
+          m.style.setProperty('-webkit-mask', mu);
+          m.style.setProperty('mask', mu);
+          bm.appendChild(m);
+        };
         img.onerror = function () { bm.classList.remove('img'); };
         img.src = CFG.siteIcon;
       }
