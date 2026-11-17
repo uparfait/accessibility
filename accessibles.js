@@ -622,4 +622,11 @@
   // Plain sentences for speaking a group of commands out loud
   function cmdSpeech(g) {
     var c = CMDS[g];
+    return [c.title + '. ' + c.need + '.'].concat(c.items.map(function (it) { return (c.keys ? it[0].replace(/\+/g, 'plus') : it[0]) + ': ' + it[1] + '.'; }));
+  }
+
+  // Human-friendly help for each page check
+  var AUDIT_HELP = {
+    alt: 'Some pictures have no text description, so screen reader users cannot know what they show.\n## How to fix\n- Add an alt text to every picture that carries meaning, for example alt="Team at the 2019 open day"\n- Use alt="" for pictures that are only decoration',
+    labels: 'Some form boxes have no label, so people cannot tell what to type.\n## How to fix\n- Give every box a visible label\n- Connect it with <label for="…">',
 })(window, document);
