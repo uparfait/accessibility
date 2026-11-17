@@ -4281,8 +4281,10 @@
         '<div class="mask-t" hidden></div><div class="mask-b" hidden></div>' +
         '<div class="reader" hidden role="dialog" aria-modal="true" aria-label="Reader view"></div>' +
         '<section class="panel" id="acc-panel" hidden role="dialog" aria-modal="false" aria-label="' + esc(CFG.siteName ? CFG.siteName + ' ' + CFG.title : CFG.title) + '">' +
-        '<div class="head"><span class="brandmark">' + ic('logo') + '</span><div class="htxt"><h2 class="title" id="acc-title"><button type="button" class="tb" data-help="i:panel" aria-label="' + esc(CFG.siteName || CFG.title) + ', more information"><span class="tbl">' + esc(CFG.siteName || CFG.title) + '</span>' + ic('help') + '</button></h2>' +
-        (CFG.siteName ? '<span class="subtitle">' + esc(CFG.title) + '</span>' : '') + '</div>' +
+        '<div class="head"><div class="hslot"><div class="hmain"><span class="brandmark">' + ic('logo') + '</span><div class="htxt"><h2 class="title" id="acc-title"><button type="button" class="tb" data-help="i:panel" data-tt="' + esc(CFG.siteName || CFG.title) + '" data-tt-full aria-label="' + esc(CFG.siteName || CFG.title) + ', more information"><span class="tbl">' + esc(CFG.siteName || CFG.title) + '</span>' + ic('help') + '</button></h2>' +
+        (CFG.siteName ? '<span class="subtitle">' + esc(CFG.title) + '</span>' : '') + '</div></div>' +
+        // A copy of the open view's back button and title, shown here once the view's own header scrolls away
+        '<div class="hview"><button type="button" class="ib" data-act="back" aria-label="Back" data-tt="Back">' + ic('back') + '</button><div class="title hv-t"></div></div></div>' +
         '<button type="button" class="ib" data-act="close" aria-label="Close" data-tt="Close">' + ic('close') + '</button></div>' +
         '<div class="search">' + ic('search') + '<input type="search" placeholder="Search features" aria-label="Search accessibility features" autocomplete="off" spellcheck="false"></div>' +
         '<div class="tabs" role="tablist" aria-label="Categories">' + tabs + '</div>' +
