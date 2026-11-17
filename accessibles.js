@@ -1011,4 +1011,11 @@
         })();
       });
     },
+    hasText: function (el) {
+      if (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(el.tagName)) return true;
+      for (var n = el.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3 && /\S/.test(n.nodeValue)) return true;
+      }
+      return false;
+    },
 })(window, document);
