@@ -83,3 +83,9 @@
   .steps > li::before { content: counter(step); width: 32px; height: 32px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); display: grid; place-items: center; font: 600 15px/1 var(--font-h); }
   .steps p { color: var(--muted); margin-top: 6px; }
   p code, td code { font: 500 .88em/1.4 var(--font-m); color: var(--brand); }
+
+  .code { position: relative; margin-top: 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .code pre { margin: 0; padding: 18px 20px; overflow-x: auto; font: 400 14px/1.7 var(--font-m); color: #3a2a1f; }
+  .code .copy { position: absolute; top: 10px; right: 10px; height: 30px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--muted); font: 500 13px/1 var(--font-b); cursor: pointer; }
+  .code .copy:hover { color: var(--text); }
+  .code .tok { color: var(--brand); }
