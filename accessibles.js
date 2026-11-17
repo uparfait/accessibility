@@ -3325,4 +3325,11 @@
   function setState(key, value, silent) {
     if (S[key] === value) return;
     S[key] = value;
+    if (key === 'voiceNav' && value) S.dictation = false;
+    if (key === 'dictation' && value) S.voiceNav = false;
+    if (key === 'oversized') UI.scale();
+    if (!silent) { track(key, value); emit(key, value); }
+    scheduleApply();
+  }
+  function emit(key, value) {
 })(window, document);
