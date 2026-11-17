@@ -4406,4 +4406,15 @@
       }
     },
 
+    // Announce a toggled feature aloud when read aloud is on (so the panel itself is usable by ear)
+    speakState: function (btn) {
+      if (!S.tts || !TTS.ok) return;
+      later(function () {
+        var on = btn.getAttribute('aria-pressed') === 'true' || (btn.parentNode && btn.parentNode.classList.contains('on'));
+        var name = (btn.querySelector('.tl,.pn') || btn).textContent.trim();
+        var tv = btn.querySelector('.tv');
+        TTS.say(name + ', ' + (tv && tv.textContent ? tv.textContent : T(on ? 'on' : 'off')), null);
+      }, 60);
+    },
+
 })(window, document);
