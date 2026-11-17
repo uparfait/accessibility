@@ -3391,8 +3391,12 @@
   function scheduleApply() {
     if (applyQueued) return;
     applyQueued = true;
-    // Wait one frame so a loading state can paint before heavier work runs
-    (window.requestAnimationFrame || later)(function () { later(function () { applyQueued = false; applyAll(); }, 0); });
+    // Wait one frame so a loading state can paint before heavier work runs.
+    // A timer backs it up, because some pages and tabs draw no frames for a while.
+    var ran = false;
+    var go = function () { if (ran) return; ran = true; later(function () { applyQueued = false; applyAll(); }, 0); };
+    if (window.requestAnimationFrame) requestAnimationFrame(go);
+    later(go, 120);
   }
   function stepCycle(key, dir) {
     var f = F.filter(function (x) { return x.key === key && x.t === 'cycle'; })[0];
