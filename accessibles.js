@@ -2308,4 +2308,11 @@
     var set = valueSetter(el);
     if (s === null || s === undefined) { set.call(el, v + text); }
     else { set.call(el, v.slice(0, s) + text + v.slice(e2)); try { el.setSelectionRange(s + text.length, s + text.length); } catch (x) { /* ignore */ } }
+    el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: text }));
+    return true;
+  }
+  function backspace(el) {
+    if (!el || !el.isConnected) return;
+    if (el.isContentEditable) { el.focus(); document.execCommand('delete'); return; }
+    var v = el.value, s = null, e2 = null;
 })(window, document);
