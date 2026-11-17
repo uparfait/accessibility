@@ -2482,4 +2482,12 @@
       if (i < 3) sc *= 1.25;
       return { s: s, i: i, sc: sc };
     });
+    var n = clamp(Math.round(sentences.length / 6), 3, 7);
+    var picked = scored.slice().sort(function (a, b) { return b.sc - a.sc; }).slice(0, n);
+    // Drop near-duplicates
+    var out = [];
+    picked.sort(function (a, b) { return a.i - b.i; }).forEach(function (p) {
+      var dup = out.some(function (o) { return o.s.slice(0, 50) === p.s.slice(0, 50); });
+      if (!dup) out.push(p);
+    });
 })(window, document);
