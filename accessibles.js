@@ -5308,4 +5308,15 @@
       }).catch(showFrame);
     },
 
+    /* --- floating parts --- */
+    ttsBar: function (on) { $('.tts-bar').hidden = !on; this.ttsState(); },
+    ttsState: function () {
+      var bar = $('.tts-bar');
+      if (!bar) return;
+      var play = $('[data-act="tts-page"]', bar);
+      play.innerHTML = TTS.active && !TTS.paused ? ic('pauseSm') : ic('play');
+      play.setAttribute('aria-label', TTS.active ? (TTS.paused ? 'Resume' : 'Pause') : 'Read the page');
+      $('.bl', bar).textContent = TTS.active ? (TTS.paused ? 'Paused' : 'Reading…') : 'Select or click any text to hear it';
+      R.classList.toggle('speaking', !!(TTS.active && !TTS.paused));
+    },
 })(window, document);
