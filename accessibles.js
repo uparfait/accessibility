@@ -3896,4 +3896,40 @@
   }
 
   var UI = {
+    open: false, tab: 'profiles', view: null, panelPos: null, structMode: 'headings', structItems: [], lastFocus: null,
+    build: function () {
+      var r = document.createElement('div');
+      r.className = 'r';
+      r.setAttribute('dir', S.translateTo && RTL_LANGS.test(S.translateTo) ? 'rtl' : document.documentElement.getAttribute('dir') === 'rtl' ? 'rtl' : 'ltr');
+      var tabs = TABS.map(function (t, i) {
+        return '<button type="button" class="tab" role="tab" id="acc-tab-' + t.id + '" data-tab="' + t.id + '" aria-controls="acc-body" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '">' + t.label + '</button>';
+      }).join('');
+      var statementHref = CFG.statement ? esc(CFG.statement) : '';
+      r.innerHTML =
+        '<div class="mask-t" hidden></div><div class="mask-b" hidden></div>' +
+        '<div class="reader" hidden role="dialog" aria-modal="true" aria-label="Reader view"></div>' +
+        '<section class="panel" id="acc-panel" hidden role="dialog" aria-modal="false" aria-label="' + esc(CFG.siteName ? CFG.siteName + ' ' + CFG.title : CFG.title) + '">' +
+        '<div class="head"><span class="brandmark">' + ic('logo') + '</span><div class="htxt"><h2 class="title" id="acc-title"><button type="button" class="tb" data-help="i:panel" aria-label="' + esc(CFG.siteName || CFG.title) + ', more information"><span class="tbl">' + esc(CFG.siteName || CFG.title) + '</span>' + ic('help') + '</button></h2>' +
+        (CFG.siteName ? '<span class="subtitle">' + esc(CFG.title) + '</span>' : '') + '</div>' +
+        '<button type="button" class="ib" data-act="close" aria-label="Close" data-tt="Close">' + ic('close') + '</button></div>' +
+        '<div class="search">' + ic('search') + '<input type="search" placeholder="Search features" aria-label="Search accessibility features" autocomplete="off" spellcheck="false"></div>' +
+        '<div class="tabs" role="tablist" aria-label="Categories">' + tabs + '</div>' +
+        '<div class="body" id="acc-body" role="tabpanel" tabindex="-1" aria-labelledby="acc-tab-profiles"></div>' +
+        '<div class="foot"><div class="links">' +
+        '<button type="button" data-act="statement">Statement</button>' +
+        '<button type="button" data-view="report">Report an issue</button><button type="button" data-view="shortcuts">Shortcuts</button></div>' +
+        '<button type="button" class="rst" data-act="reset" hidden>' + ic('reset') + 'Reset all settings</button></div>' +
+        '</section>' +
+        '<div class="help" hidden role="dialog" aria-modal="true" aria-labelledby="acc-help-title" tabindex="-1"></div>' +
+        '<div class="vkb" hidden role="group" aria-label="On-screen keyboard"><div class="vkb-head" data-tt="Drag to move"><span class="grip" aria-hidden="true">' + ic('move') + '</span><span class="vkb-target">No field selected</span><button type="button" class="ib" data-act="vkb-close" aria-label="Close keyboard">' + ic('close') + '</button></div><div class="vkb-keys"></div></div>' +
+        '<div class="bar-bottom tts-bar" hidden role="toolbar" aria-label="Read aloud controls">' + ic('speak', 'talk') + '<span class="bl">Select or click any text to hear it</span>' +
+        '<button type="button" class="ib" data-act="tts-prev" aria-label="Previous paragraph" data-tt="Previous paragraph">' + ic('back') + '</button>' +
+        '<button type="button" class="ib pri" data-act="tts-page" aria-label="Read the page">' + ic('play') + '</button>' +
+        '<button type="button" class="ib" data-act="tts-next" aria-label="Next paragraph" data-tt="Next paragraph">' + ic('next') + '</button>' +
+        '<button type="button" class="ib" data-act="tts-pause" aria-label="Pause" hidden>' + ic('pauseSm') + '</button>' +
+        '<button type="button" class="ib" data-act="tts-stop" aria-label="Stop reading">' + ic('stop') + '</button>' +
+        '<button type="button" class="ib" data-act="tts-off" aria-label="Turn off read aloud">' + ic('close') + '</button></div>' +
+        '<div class="pill" hidden translate="no"><i class="live"></i><span class="vt"></span><span class="vr"></span><span class="vn"></span>' +
+        '<button type="button" class="ib" data-act="voice-help" aria-label="What can I say" data-tt="What can I say">' + ic('help') + '</button><button type="button" class="ib" data-act="voice-off" aria-label="Stop listening" data-tt="Stop listening">' + ic('close') + '</button></div>' +
+        '<div class="ask" hidden role="alertdialog" aria-live="assertive" aria-label="Did you mean"><span class="aq"><span>Did you mean</span> <b translate="no"></b></span><span class="ab"><button type="button" class="btn sm" data-act="ask-yes">Yes</button><button type="button" class="btn sm ghost" data-act="ask-no">No</button></span></div>' +
 })(window, document);
