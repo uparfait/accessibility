@@ -182,3 +182,12 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 | Motor impaired | Keyboard navigation, focus highlight, bigger targets, big cursor, more time, stop animations, hover highlight |
 | Blind users | ARIA fixes, image descriptions, form fixes, keyboard navigation, focus highlight |
 | Older adults | Bigger text, easy-to-read font, big cursor, highlighted links, bigger targets, more time, smart contrast |
+
+### Text
+
+- **Content scaling** zooms the whole page, from 110% to 160%.
+- **Bigger text** enlarges only the text, up to 175%. The layout stays as it is.
+- **Font** offers about 80 fonts, including easy-to-read and dyslexia-friendly ones. Each name is previewed in its own typeface.
+- **Line height**, **letter spacing**, **word spacing**, **bolder text** and **text align**
+- **Text direction** switches the page to right-to-left and mirrors the layout, the way Arabic, Hebrew and Persian sites are built.
+- **Highlight titles**, **highlight links** and a **text magnifier** that shows the text under the pointer in large letters
