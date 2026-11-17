@@ -2079,6 +2079,86 @@
       if (yes) p.yes(); else if (p.no) p.no();
     },
 
+    // Several matches: each one is highlighted in turn. Answer with yes, next, previous, a number, all or stop.
+    NEXT: ['next', 'next one', 'skip', 'another', 'forward'],
+    PREV: ['previous', 'previous one', 'back', 'go back', 'before'],
+    STOP: ['stop', 'cancel', 'terminate', 'quit', 'exit', 'never mind', 'no', 'none'],
+    ALL: ['all', 'all of them', 'every one', 'everything', 'yes all'],
+    NUMS: { one: 1, two: 2, to: 2, too: 2, three: 3, four: 4, for: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20 },
+    num: function (w) { return /^\d+$/.test(w) ? parseInt(w, 10) : (this.NUMS[w] || 0); },
+    choose: function (items, verb, run, all) {
+      if (!items.length) return;
+      this.endPick(false);
+      this.pending = null;
+      this.pick = { items: items, i: 0, verb: verb, run: run, all: all || null, until: Date.now() + 60000 };
+      items.forEach(function (it) { if (it.el && !isOurs(it.el)) it.el.classList.add('acc-pick'); });
+      this.showPick(true);
+      var self = this;
+      later(function () { if (self.pick && Date.now() > self.pick.until) self.endPick(false); }, 60100);
+    },
+    showPick: function (first) {
+      var p = this.pick;
+      if (!p) return;
+      p.items.forEach(function (it) { if (it.el) it.el.classList.remove('acc-pick-on'); });
+      var it = p.items[p.i];
+      if (it.el) {
+        it.el.classList.add('acc-pick-on');
+        try { it.el.scrollIntoView({ block: 'center', behavior: 'auto' }); } catch (e) { it.el.scrollIntoView(); }
+      }
+      if (it.show) it.show();
+      UI.ask(p.verb + ' ' + it.label, { pos: (p.i + 1) + ' / ' + p.items.length, many: p.items.length > 1, all: !!p.all && p.items.length > 1 });
+      if (S.spokenTips && TTS.ok) {
+        TTS.guide(first && p.items.length > 1
+          ? p.items.length + ' found. ' + p.verb + ' ' + it.label + '? Say yes, next, previous, all or stop.'
+          : p.verb + ' ' + it.label + '? Say yes or stop.');
+      }
+    },
+    movePick: function (d) {
+      var p = this.pick;
+      if (!p) return;
+      p.i = (p.i + d + p.items.length) % p.items.length;
+      p.until = Date.now() + 60000;
+      this.showPick();
+    },
+    endPick: function (go, every) {
+      var p = this.pick;
+      if (!p) return;
+      this.pick = null;
+      UI.ask(null);
+      p.items.forEach(function (it) { if (it.el) it.el.classList.remove('acc-pick', 'acc-pick-on'); });
+      if (TTS.active && TTS.items.length && TTS.items[0].raw) TTS.stop();
+      if (every && p.all) p.all(p.items);
+      else if (go) p.run(p.items[p.i]);
+    },
+    pickAnswer: function (txt) {
+      var p = this.pick;
+      if (!p) return false;
+      var t = normWords(txt), m = t.match(/^(?:number |choose |select |pick )?(\d+|[a-z]+)$/), n = m ? this.num(m[1]) : 0;
+      if (n && p.items[n - 1]) { p.i = n - 1; UI.pill(txt); this.endPick(true); return true; }
+      var self = this, best = '', sc = 0;
+      [['yes', this.YES], ['next', this.NEXT], ['prev', this.PREV], ['stop', this.STOP], ['all', this.ALL]].forEach(function (g) {
+        var s = self.score(t, g[1]);
+        if (s > sc) { sc = s; best = g[0]; }
+      });
+      // Anything else ends the choice and is handled as a new command
+      if (sc < 0.8) { this.endPick(false); return false; }
+      UI.pill(txt);
+      if (best === 'yes') this.endPick(true);
+      else if (best === 'next') this.movePick(1);
+      else if (best === 'prev') this.movePick(-1);
+      else if (best === 'all') { if (p.all) this.endPick(false, true); else this.showPick(); }
+      else this.endPick(false);
+      return true;
+    },
+    // Stops whatever is going on: reading, numbers, a question or a choice
+    stopAll: function () {
+      TTS.stop();
+      this.hideNumbers();
+      this.endPick(false);
+      this.pending = null;
+      UI.ask(null);
+    },
+
     // Spoken commands for moving around and reading. "reading" ones still work while the page is speaking.
     navCmds: function () {
       if (this._nav) return this._nav;
