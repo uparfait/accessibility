@@ -5541,4 +5541,11 @@
       audit: function () { return runAudit(); },
       readPage: function () { if (!S.tts) setState('tts', true); TTS.readPage(); }
     };
+    try { window.dispatchEvent(new CustomEvent('accessibles:ready', { detail: { version: VERSION } })); } catch (e) { /* ignore */ }
+  }
+
+  // Apply saved visual settings as early as possible to avoid a flash of the unadjusted page
+  if (document.head && document.readyState === 'loading') {
+    try { CFG = readConfig(null); PAL = buildPalette(CFG.color, CFG.bg); setPageCSS(buildPageCSS()); } catch (e) { /* will apply at start */ }
+  }
 })(window, document);
