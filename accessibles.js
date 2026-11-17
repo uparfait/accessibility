@@ -86,4 +86,16 @@
     return { v: vert, h: hor, key: vert === 'center' ? hor + '-center' : hor === 'center' ? vert + '-center' : vert + '-' + hor };
   }
 
+  function readConfig(mount) {
+    var g = window.AccessiblesConfig || window.accessiblesConfig || {};
+    var raw = {};
+    Object.keys(g).forEach(function (k) { if (typeof g[k] !== 'function' && typeof g[k] !== 'object') raw[normKey(k)] = g[k]; });
+    var q = parseQuery(SCRIPT_SRC);
+    Object.keys(q).forEach(function (k) { raw[k] = q[k]; });
+    if (mount && mount.attributes) {
+      for (var i = 0; i < mount.attributes.length; i++) {
+        var a = mount.attributes[i];
+        if (a.name.indexOf('data-') === 0) raw[normKey(a.name.slice(5))] = a.value;
+      }
+    }
 })(window, document);
