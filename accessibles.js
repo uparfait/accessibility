@@ -1910,4 +1910,23 @@
       this.stop();
       if (want) this.start(want, first);
     },
+    start: function (mode, first) {
+      var key = mode === 'nav' ? 'voiceNav' : 'dictation';
+      if (!SR) {
+        toast(T('Voice input is not supported in this browser. Try Chrome, Edge or Safari.'));
+        setState(key, false, true);
+        return;
+      }
+      this.mode = mode; this.want = true; this.fails = 0; this.pending = null;
+      this.lang = userLang();
+      this.prepare(this.lang);
+      UI.heard = [];
+      this.listen();
+      UI.pill('');
+      // Keep listening until the visitor turns it off: restart after silence, errors or a hidden tab
+      var self = this;
+      cancel(this.dog);
+      this.dog = nativeSetInterval.call(window, function () { if (self.want && !self.running && !document.hidden) self.listen(); }, 4000);
+      if (first && mode === 'dict' && !lastEditable) toast(T('Click into a text box, then start speaking'));
+    },
 })(window, document);
