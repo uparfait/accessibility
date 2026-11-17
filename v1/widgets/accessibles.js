@@ -5550,13 +5550,13 @@
       var addr = dest.replace(/^mailto:/i, '');
       if (/^[^\s@/]+@[^\s@/]+\.[^\s@/]+$/.test(addr)) {
         location.href = 'mailto:' + addr + '?subject=' + encodeURIComponent('Accessibility issue: ' + data.type) + '&body=' + encodeURIComponent(this.reportText() + (mail ? '\nReply to: ' + mail : ''));
-        st.textContent = 'Your email app should open with the report.';
+        this.reportState('opening');
         return;
       }
       if (/^https?:/i.test(dest) || /^\//.test(dest)) {
         st.textContent = 'Sending…';
         fetch(dest, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-          .then(function (r) { if (!r.ok) throw new Error(r.status); st.textContent = 'Thank you. Your report was sent.'; $('.rep-msg').value = ''; })
+          .then(function (r) { if (!r.ok) throw new Error(r.status); self.reportState('sent'); })
           .catch(function () { st.textContent = 'The report could not be sent. Use Copy and send it to the site owner.'; });
         return;
       }
