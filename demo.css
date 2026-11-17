@@ -1,0 +1,3 @@
+/* Demo site styles — intentionally "legacy": px sizes, floats, tables, fixed header. */
+body { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 15px; color: #333; background: #f4f1ea; }
+#topbar { position: fixed; top: 0; left: 0; right: 0; height: 48px; background: #23413a; color: #dfe9e4; z-index: 50; }
