@@ -5970,6 +5970,7 @@
     UI.build();
     applyAll();
     observe();
+    watchTopLayer();
     if (S.translateTo) Translate.run(S.translateTo, true);
     // Voice input stays on across pages, but only when the microphone is already allowed (no surprise prompts)
     if (voiceWas && SR && navigator.permissions && navigator.permissions.query) {
