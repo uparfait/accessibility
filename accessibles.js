@@ -5455,4 +5455,14 @@
   var processRoots = debounce(function () {
     var roots = pendingRoots; pendingRoots = [];
     roots = roots.filter(function (n, i) { return n.isConnected && !isOurs(n) && roots.indexOf(n) === i && !roots.some(function (o) { return o !== n && o.contains(n); }); });
+    if (!roots.length) return;
+    roots.forEach(function (root) {
+      try {
+        if (FontScale.factor !== 1) FontScale.apply(root);
+        Aria.fix(root); Alt.fix(root); Forms.fix(root); Keyboard.fix(root);
+        Motion.fix(root); Mute.fix(root); Smart.fix(root); Dir.fix(root); HideImg.fix(root);
+      } catch (e) { /* keep watching */ }
+    });
+  }, 250);
+
 })(window, document);
