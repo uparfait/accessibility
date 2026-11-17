@@ -821,4 +821,14 @@
     pageStyleEl.textContent = css;
   }
 
+  var NOT_ICON = ':not(i):not([class*="icon"]):not([class*="Icon"]):not([class^="fa"]):not([class*=" fa"]):not([class*="material-"]):not([class*="glyph"]):not([class*="symbol"]):not(code):not(pre):not(kbd):not(samp):not(svg):not(svg *)';
+  var NOT_MEDIA = ':not(img):not(video):not(picture):not(canvas):not(iframe):not(svg):not(svg *):not(object):not(embed)';
+  var HEADINGS = 'h1,h2,h3,h4,h5,h6,[role="heading"]';
+  // Fonts the visitor can apply to the website. g = Google Fonts, s = installed on most systems.
+  var FONT_LIST = (function () {
+    var out = [
+      { id: '', name: 'Original font', note: 'As designed' },
+      { id: 'readable', name: 'Easy to read', note: 'Atkinson Hyperlegible', fam: 'Atkinson Hyperlegible', g: 'Atkinson Hyperlegible', stack: '"Atkinson Hyperlegible", Verdana, Tahoma, "Segoe UI", Arial, sans-serif' },
+      { id: 'dyslexic', name: 'Dyslexia friendly', note: 'OpenDyslexic or Lexend', fam: 'Lexend', g: 'Lexend', stack: '"OpenDyslexic", "Lexend", Verdana, Tahoma, "Trebuchet MS", sans-serif' }
+    ];
 })(window, document);
