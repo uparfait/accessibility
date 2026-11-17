@@ -5284,7 +5284,7 @@
       // Keep keyboard focus on a visible back button when the two swap
       var a = shadow.activeElement, from = on ? vhd : $('.hview'), to = on ? $('.hview') : vhd;
       head.classList.toggle('compact', on);
-      if (a && from && from.contains(a) && to) { var b = $('[data-act="back"]', to); if (b) { try { b.focus({ preventScroll: true }); } catch (e) { /* ignore */ } } }
+      if (a && from && to && a.matches('[data-act="back"]') && from.contains(a)) { var b = $('[data-act="back"]', to); if (b) { try { b.focus({ preventScroll: true }); } catch (e) { /* ignore */ } } }
     },
     // Names marked data-tt-full only get a tooltip when they are cut off with an ellipsis
     ttWanted: function (a) {
