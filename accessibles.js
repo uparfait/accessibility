@@ -1394,4 +1394,18 @@
         rec.set(el, 'data-acc-kb', '1');
       });
     },
+    addSkip: function () {
+      if (document.querySelector('a.acc-skip')) return;
+      var existing = Array.prototype.some.call(document.querySelectorAll('a[href^="#"]'), function (a) { return /skip/i.test(textOf(a)); });
+      if (existing) return;
+      var main = findMain();
+      if (!main) return;
+      if (!main.id) this.rec.set(main, 'id', 'acc-main');
+      if (!main.hasAttribute('tabindex')) this.rec.set(main, 'tabindex', '-1');
+      var a = document.createElement('a');
+      a.className = 'acc-skip'; a.href = '#' + main.id; a.textContent = 'Skip to main content';
+      a.addEventListener('click', function (e) { e.preventDefault(); focusEl(main); });
+      document.body.insertBefore(this.rec.add(a), document.body.firstChild);
+      this.skip = a;
+    },
 })(window, document);
