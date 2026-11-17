@@ -96,3 +96,17 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
      data-report="access@example.org"></div>
 <script src="https://uparfait.github.io/accessibility/accessibles.js" defer></script>
 ```
+
+When `report` is a URL, the form sends JSON like this:
+
+```json
+{
+  "site": "Green Valley Library",
+  "type": "A form does not work for me",
+  "message": "The search button does nothing with the keyboard.",
+  "email": "reader@example.org",
+  "page": "https://example.org/catalog",
+  "settings": { "fontSize": 1.3, "focusRing": true },
+  "time": "2026-11-17T09:30:00.000Z"
+}
+```
