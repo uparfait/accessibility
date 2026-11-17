@@ -4694,4 +4694,23 @@
       var b = this.selOpen; this.selOpen = null;
       if (b) { b.setAttribute('aria-expanded', 'false'); if (refocus && b.isConnected) b.focus(); }
     },
+    pickOption: function (o) {
+      var v = o.getAttribute('data-ov');
+      var big = o.closest('.biglist');
+      if (big) {
+        var kind = big.getAttribute('data-list');
+        if (kind === 'font') { this.setBusy(o); setState('font', v); this.markList(big, v); }
+        else if (kind === 'lang') { this.markList(big, v); this.doneBusy('translate'); this.setBusy(o, 'translate'); Translate.run(v); }
+        return;
+      }
+      var b = this.selOpen;
+      if (!b) return;
+      var id = b.getAttribute('data-sel'), d = this.selects[id];
+      this.closeSelect(true);
+      // Choices that take a moment show a spinner and progress on the select itself
+      if (id === 'helplang' && b.classList.contains('cs-btn')) this.setBusy(b, 'help');
+      d.pick(v);
+      var cur = d.options().filter(function (x) { return x.v === v; })[0];
+      if (cur && b.classList.contains('cs-btn')) { $('.cv', b).textContent = cur.l; b.setAttribute('aria-label', d.title + ': ' + cur.l); I18N.apply(b); }
+    },
 })(window, document);
