@@ -3982,4 +3982,11 @@
       l.style.transform = '';
       l.style.left = Math.round(x) + 'px';
       l.style.top = Math.round(y) + 'px';
+      var active = VISUAL_KEYS.some(function (k) { return JSON.stringify(S[k]) !== JSON.stringify(DEFAULTS[k]); });
+      var changed = active || S.profiles.length || ['ariaFix', 'altText', 'formFix', 'oversized', 'ttsRate', 'ttsPitch', 'ttsVoice'].some(function (k) { return S[k] !== DEFAULTS[k]; });
+      var rst = $('.foot .rst'); if (rst) rst.hidden = !changed;
+      $('.dot', l).hidden = !active;
+      var card = $('.lcard'); if (card && card.classList.contains('show')) this.showCard();
+      if (this.open) this.placePanel();
+    },
 })(window, document);
