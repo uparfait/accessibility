@@ -3430,4 +3430,13 @@
     if (previewLoaded) return;
     previewLoaded = true;
     var fams = FONT_LIST.filter(function (f) { return f.g; });
+    var chars = {};
+    FONT_LIST.forEach(function (f) { (f.name + (f.g || '')).split('').forEach(function (c) { chars[c] = 1; }); });
+    var text = encodeURIComponent(Object.keys(chars).join(''));
+    for (var i = 0; i < fams.length; i += 10) {
+      var q = fams.slice(i, i + 10).map(function (f) { return 'family=' + encodeURIComponent(f.g).replace(/%20/g, '+'); }).join('&');
+      addCSSLink('https://fonts.googleapis.com/css2?' + q + '&text=' + text + '&display=swap');
+    }
+  }
+
 })(window, document);
