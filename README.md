@@ -247,3 +247,14 @@ Voice commands and Talk & Type listen in the visitor's own language and keep lis
 | Open menu, Close menu, What can I say, Stop listening | | |
 
 Talk & Type adds capital letters at the start of sentences and spaces punctuation correctly. In email fields, "anna at mail dot com" becomes `anna@mail.com`.
+
+### Keyboard shortcuts
+
+| Keys | Action |
+|---|---|
+| `Alt + A` | Open or close the panel |
+| `Esc` | Close the open window, view or panel |
+| `Alt + R` | Read the page, or pause and continue (read aloud on) |
+| `Alt + N` / `Alt + Shift + N` | Next / previous paragraph (read aloud on) |
+| `Alt + H`, `L`, `F`, `B`, `M`, `G` | Next heading, link, field, button, region or image (keyboard navigation on). Add `Shift` to go back. |
+| `Alt + arrows` | Move the button while it has focus |
