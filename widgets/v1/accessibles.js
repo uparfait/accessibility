@@ -2298,11 +2298,17 @@
     },
     guessClick: function (name, headScore) {
       var scored = [];
-      Voice.clickables().forEach(function (el) {
-        var n = (accName(el) || '').trim();
-        if (!n || n.length > 80) return;
-        scored.push({ el: el, s: wordMatch(name, n), n: n });
-      });
+      var collect = function (all) {
+        scored = [];
+        Voice.clickables(all).forEach(function (el) {
+          var n = (accName(el) || '').trim();
+          if (!n || n.length > 80) return;
+          scored.push({ el: el, s: wordMatch(name, n), n: n });
+        });
+      };
+      // What is on screen first; if nothing there matches well, the whole page (it scrolls there)
+      collect(false);
+      if (!scored.some(function (x) { return x.s >= Voice.SURE; })) collect(true);
       // Options in drop-down lists can be chosen by name too
       Array.prototype.forEach.call(document.querySelectorAll('select'), function (sel) {
         if (isOurs(sel) || sel.disabled || !visible(sel)) return;
@@ -2381,10 +2387,10 @@
       if (!el || !el.isConnected) { UI.pill('', false, T('Click into a text box first')); return; }
       if (el.isContentEditable) el.textContent = ''; else setValue(el, '');
     },
-    clickables: function () {
+    clickables: function (all) {
       // Includes the accessibility panel itself, so it can be used fully by voice
       var own = $$('.panel:not([hidden]) button, .help:not([hidden]) button, .cs-pop:not([hidden]) .opt, .vkb:not([hidden]) button, .tts-bar:not([hidden]) button, .ask:not([hidden]) button').filter(function (b) { var r = b.getBoundingClientRect(); return r.width && r.height && r.bottom > 0 && r.top < vh(); });
-      return own.concat(Array.prototype.filter.call(document.querySelectorAll('a[href],button,[role="button"],[role="link"],[role="tab"],[role="menuitem"],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"],summary,select,[onclick],[data-acc-kb]'), function (el) { return !isOurs(el) && visible(el) && inViewport(el); }));
+      return own.concat(Array.prototype.filter.call(document.querySelectorAll('a[href],button,[role="button"],[role="link"],[role="tab"],[role="menuitem"],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"],summary,select,[onclick],[data-acc-kb]'), function (el) { return !isOurs(el) && visible(el) && (all || inViewport(el)); }));
     },
 
     /* --- Talk & type --- */
