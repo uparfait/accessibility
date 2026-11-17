@@ -4306,4 +4306,22 @@
         return;
       }
       if (t.classList && t.classList.contains('sl')) { this.sliderKey(t, e); return; }
+      if (t.matches && t.matches('.search input') && e.key === 'ArrowDown') { e.preventDefault(); var first = $('.body button'); if (first) first.focus(); }
+    },
+
+    onClick: function (e) {
+      if (e.target.classList && e.target.classList.contains('help')) { this.help(null); return; }
+      var t = e.target.closest('[data-act],[data-f],[data-p],[data-tab],[data-c],[data-pos],[data-go],[data-view],[data-k],[data-seg],[data-theme],[data-check],[data-help],[data-sel],[data-ov],[data-cpick],[data-cpv]');
+      if (!t) return;
+      var a = t.getAttribute('data-act');
+      if (t.hasAttribute('data-k')) { VKB.press(t.getAttribute('data-k')); return; }
+      if (t.hasAttribute('data-help')) {
+        var hid = t.getAttribute('data-help');
+        if (hid === 'i:panel') hid = this.view ? (VIEW_HELP[this.view] || 'i:panel') : ($('.search input').value.trim() ? 'i:panel' : 'i:tab-' + this.tab);
+        this.help(hid); return;
+      }
+      if (t.hasAttribute('data-sel')) { this.openSelect(t); return; }
+      if (t.hasAttribute('data-ov')) { this.pickOption(t); return; }
+      if (t.hasAttribute('data-cpick')) { this.openColor(t); return; }
+      if (t.hasAttribute('data-cpv')) { this.pickColor(t.getAttribute('data-cpv')); return; }
 })(window, document);
