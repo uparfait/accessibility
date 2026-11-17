@@ -3379,4 +3379,11 @@
     UI.panelPos = null; UI.vkbPos = null; UI.helpLang = undefined; UI.repType = undefined; UI.rfs = undefined; UI.rtheme = undefined; UI.structMode = 'headings';
     var vk = $('.vkb'); if (vk) { vk.classList.remove('moved'); vk.style.left = vk.style.top = vk.style.bottom = ''; }
     UI.scale();
+    UI.placeLauncher();
+    applyAll();
+    if (UI.open) { var q = $('.search input'); if (q) q.value = ''; UI.view = null; UI.renderTab(UI.tab); UI.placePanel(); }
+    announce('All settings reset');
+    emit('reset', true);
+  }
+
 })(window, document);
