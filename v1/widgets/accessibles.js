@@ -4813,6 +4813,8 @@
         case 'sum-copy': this.copy((this.summaryPoints || []).map(function (p) { return '- ' + p; }).join('\n'), t); break;
         case 'report-send': this.sendReport(); break;
         case 'report-copy': this.copy(this.reportText(), t); break;
+        case 'report-sent': this.reportState('sent'); break;
+        case 'report-failed': this.reportState('failed'); break;
         case 'audit-run': this.openView('audit'); break;
         case 'audit-clear': $$('.acc-mark', document).forEach(function (n) { n.classList.remove('acc-mark'); }); break;
         case 'pos-reset': dragPos = null; this.panelPos = null; setState('position', ''); this.placeLauncher(); save(); this.openView('position'); break;
