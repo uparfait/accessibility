@@ -2368,11 +2368,20 @@
       var self = this;
       var list = [
         ['Delete that', ['delete that', 'undo', 'undo that', 'scratch that', 'remove that'], function () { self.undo(); }],
-        ['Delete last word', ['delete last word', 'delete word', 'remove last word', 'delete the last word'], function () { deleteWord(lastEditable); }],
-        ['Clear all', ['clear all', 'delete all', 'clear everything', 'erase all', 'clear the box'], function () { if (lastEditable) { if (lastEditable.isContentEditable) lastEditable.textContent = ''; else setValue(lastEditable, ''); } }],
-        ['Next field', ['next field', 'next box'], function () { self.field(1); }],
-        ['Previous field', ['previous field', 'previous box'], function () { self.field(-1); }],
+        ['Delete last word', ['delete last word', 'delete word', 'remove last word', 'delete the last word', 'clear last word'], function () { deleteWords(lastEditable, 1, false); }],
+        ['Delete first word', ['delete first word', 'remove first word', 'delete the first word', 'clear first word'], function () { deleteWords(lastEditable, 1, true); }],
+        ['Clear from start', ['clear from start', 'delete from start', 'clear from the start', 'delete from the start', 'clear from the beginning', 'clear before'], function () {
+          if (!clearSide(lastEditable, true)) UI.pill('', false, T('Nothing before the cursor'));
+        }],
+        ['Clear to end', ['clear to end', 'clear to the end', 'clear from end', 'delete to end', 'delete from end', 'clear after'], function () {
+          if (!clearSide(lastEditable, false)) UI.pill('', false, T('Nothing after the cursor'));
+        }],
+        ['Clear all', ['clear all', 'delete all', 'clear everything', 'erase all', 'clear the box'], function () { self.clearField(); }],
+        ['Next field', ['next field', 'next box', 'next input', 'go to next input', 'go to next field'], function () { self.field(1); }],
+        ['Previous field', ['previous field', 'previous box', 'previous input', 'go to previous input', 'go to previous field'], function () { self.field(-1); }],
+        ['Press Enter', ['press enter', 'enter'], function () { if (lastEditable) pressEnter(lastEditable); }],
         ['Send', ['send', 'submit', 'send message', 'submit form', 'send form'], function () { self.send(); }],
+        ['Stop', ['stop', 'cancel', 'stop reading', 'be quiet'], function () { self.stopAll(); }],
         ['What can I say', ['what can i say', 'help', 'show commands', 'commands'], function () { UI.commands('dict'); }],
         ['Stop typing', ['stop typing', 'stop listening', 'stop dictation', 'stop talk and type'], function () { setState('dictation', false); TTS.guide('Talk and type is off'); }]
       ];
