@@ -5104,4 +5104,11 @@
       if (done === true && this.view === 'translate') this.translateNote('');
       this.refresh();
     },
+    translateNote: function (msg) {
+      var n = $('.vbody .tr-note');
+      if (!n) return;
+      n.hidden = !msg;
+      $('span', n).textContent = msg ? T(msg) : '';
+    },
+
 })(window, document);
