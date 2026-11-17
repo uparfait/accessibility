@@ -1246,4 +1246,36 @@
       var letters = file.replace(/[^a-z]/gi, '');
       // Hash-like or numeric file names carry no meaning
       if (letters.length < 3 || /^[a-f0-9]{8,}$/i.test(file.replace(/[-_]/g, '')) || /^(img|image|dsc|pxl|photo|pic|screenshot)[-_ ]?\d/i.test(file)) return '';
+      return humanize(file);
+    },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var rec = this.rec, self = this;
+      var imgs = Array.prototype.slice.call(root.querySelectorAll('img:not([alt]),input[type="image"]:not([alt]),[role="img"]:not([aria-label]):not([aria-labelledby])'));
+      if (root.matches && root.matches('img:not([alt])')) imgs.unshift(root);
+      imgs.forEach(function (img) {
+        if (isOurs(img)) return;
+        if (img.getAttribute('role') === 'img' && img.tagName !== 'IMG') {
+          var t = img.getAttribute('title') || (img.querySelector('title') && img.querySelector('title').textContent);
+          if (t) { rec.set(img, 'aria-label', t.trim()); markFixed(rec, img, 'alt'); }
+          return;
+        }
+        var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+        var ctl = img.closest('a,button');
+        if ((w && w <= 3 && h && h <= 3) || (ctl && textOf(ctl).length > 1) || /(spacer|pixel|tracking|blank)\./i.test(img.getAttribute('src') || '')) {
+          rec.set(img, 'alt', ''); markFixed(rec, img, 'alt'); return;
+        }
+        var guess = self.describe(img);
+        if (!guess && ctl) guess = guessName(ctl);
+        rec.set(img, 'alt', guess || 'Image'); markFixed(rec, img, 'alt');
+        if (CFG.altTextProvider) {
+          self.pending++;
+          Promise.resolve().then(function () { return CFG.altTextProvider(img); }).then(function (text) {
+            if (self.on && text && typeof text === 'string') img.setAttribute('alt', text.slice(0, 300));
+          }).catch(function () { /* keep heuristic alt */ }).then(function () { self.pending--; });
+        }
+      });
+    }
+  };
+
 })(window, document);
