@@ -6,3 +6,12 @@ It also repairs common problems in the page itself: images without descriptions,
 
 - Website and docs: https://uparfait.github.io/accessibility/
 - Demo on an older-style page: https://uparfait.github.io/accessibility/demo.html
+
+## Quick start
+
+Paste these two lines before the closing `</body>` tag:
+
+```html
+<div class="accessibles-widget"></div>
+<script src="https://uparfait.github.io/accessibility/accessibles.js" defer></script>
+```
