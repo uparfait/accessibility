@@ -2762,4 +2762,17 @@
           self.busy = false; self.progress = 1; UI.translateWait(true);
         });
       };
+      return go().catch(function (err) {
+        if (seq !== self.seq) return;
+        var why = String(err && err.message || err);
+        self.busy = false;
+        self.error = why === 'language not offered' ? 'This language is not available for this page.' :
+          why === 'blocked' ? 'The translation service could not be reached. It may be blocked on this website, or you may be offline.' :
+          'The translation service did not answer. Please try again.';
+        // Keep the panel and the page in the same language
+        self.target = prev; setState('translateTo', prev, true); I18N.set(prev);
+        UI.translateWait(false);
+        if (!quiet) toast(T(self.error));
+      });
+    },
 })(window, document);
