@@ -1329,4 +1329,20 @@
           }
         }
       });
+      // Native validation messages: announce and mark invalid on submit attempts
+      if (root === document.body && !this.listening) {
+        this.listening = true;
+        document.addEventListener('invalid', function (e) {
+          if (!self.on) return;
+          var t = e.target;
+          if (t && t.setAttribute) { t.setAttribute('aria-invalid', 'true'); if (t.validationMessage) announce(t.validationMessage); }
+        }, true);
+        document.addEventListener('input', function (e) {
+          var t = e.target;
+          if (self.on && t && t.getAttribute && t.getAttribute('aria-invalid') === 'true' && t.checkValidity && t.checkValidity() && !t.getAttribute('aria-describedby')) t.removeAttribute('aria-invalid');
+        }, true);
+      }
+    }
+  };
+
 })(window, document);
