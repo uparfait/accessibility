@@ -5896,20 +5896,41 @@
     if (had && had.isConnected) { try { had.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
     later(function () { raising = false; }, 0);
   }
+  // A modal dialog makes the rest of the page unclickable, so while one is open the widget lives inside it
+  var hostHome = null;
+  function rehome(dlg) {
+    var had = shadow && shadow.activeElement;
+    try { if (host.matches(':popover-open')) host.hidePopover(); } catch (e) { /* ignore */ }
+    (dlg || document.documentElement).appendChild(host);
+    hostHome = dlg || null;
+    try { host.showPopover(); } catch (e) { /* ignore */ }
+    if (had && had.isConnected) { try { had.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+  }
+  function isModal(el) { try { return el.tagName === 'DIALOG' && el.open && el.matches(':modal'); } catch (e) { return false; } }
+  function settleHome() {
+    var open = Array.prototype.filter.call(document.querySelectorAll('dialog[open]'), isModal);
+    var top = open[open.length - 1] || null;
+    if (top !== hostHome) rehome(top); else if (!host.isConnected) rehome(null);
+  }
   function watchTopLayer() {
     if (!useTopLayer) return;
     var other = function (el) { return el && el !== host && el.nodeType === 1 && !isOurs(el); };
     document.addEventListener('toggle', function (e) {
       var t = e.target;
-      if (e.newState === 'open' && other(t) && (t.matches(':popover-open') || t.matches('dialog:modal'))) later(raise, 0);
+      if (!other(t)) return;
+      if (isModal(t) || (t.tagName === 'DIALOG' && e.newState === 'closed')) { later(settleHome, 0); return; }
+      if (e.newState === 'open' && t.matches(':popover-open')) later(raise, 0);
     }, true);
+    document.addEventListener('close', function (e) { if (e.target && e.target.tagName === 'DIALOG') later(settleHome, 0); }, true);
     document.addEventListener('fullscreenchange', function () { if (document.fullscreenElement) later(raise, 0); });
     if (window.MutationObserver) new MutationObserver(function (list) {
       for (var i = 0; i < list.length; i++) {
         var t = list[i].target;
-        if (other(t) && t.tagName === 'DIALOG' && t.open && t.matches(':modal')) { later(raise, 0); return; }
+        if (list[i].type === 'attributes' && other(t) && t.tagName === 'DIALOG') { later(settleHome, 0); return; }
+        // The dialog holding the widget was removed from the page
+        if (list[i].type === 'childList' && hostHome && !host.isConnected) { later(settleHome, 0); return; }
       }
-    }).observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ['open'] });
+    }).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['open'] });
   }
   function observe() {
     if (!window.MutationObserver || !document.body) return;
