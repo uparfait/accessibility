@@ -3207,4 +3207,24 @@
       this.sig = sig;
       if (S.smartContrast && !this.on) { this.on = true; this.fix(document.body); } else if (!S.smartContrast && this.on) { this.on = false; this.restore(); }
     },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1 || S.contrast === 'dark' || S.contrast === 'light' || S.textColor || S.bgColor) return;
+      var self = this, todo = [];
+      FontScale.collect(root).forEach(function (el) {
+        if (el.__accSmart || !visible(el)) return;
+        var cs = getComputedStyle(el), fg = parseColor(cs.color), bg = effectiveBg(el);
+        if (!fg || !bg) return;
+        var size = parseFloat(cs.fontSize), bold = parseInt(cs.fontWeight, 10) >= 700;
+        var need = (size >= 24 || (bold && size >= 18.66)) ? 3 : 4.5;
+        if (contrast(fg, bg) >= need) return;
+        var dark = contrast([0, 0, 0], bg) >= contrast([255, 255, 255], bg);
+        todo.push([el, hex(ensureContrast(fg, dark ? [0, 0, 0] : [255, 255, 255], bg, need + 0.3))]);
+      });
+      todo.forEach(function (t) {
+        var el = t[0];
+        self.list.push([el, el.style.getPropertyValue('color'), el.style.getPropertyPriority('color'), el.hasAttribute('style')]);
+        el.__accSmart = true;
+        el.style.setProperty('color', t[1], 'important');
+      });
+    },
 })(window, document);
