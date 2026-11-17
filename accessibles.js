@@ -2523,4 +2523,23 @@
     });
   }
 
+  var Dict = {
+    on: false, cache: {},
+    sync: function () {
+      if (S.dictionary && !this.on) { this.on = true; document.addEventListener('pointerup', this.onUp, true); document.addEventListener('keyup', this.onKeyUp, true); }
+      else if (!S.dictionary && this.on) { this.on = false; document.removeEventListener('pointerup', this.onUp, true); document.removeEventListener('keyup', this.onKeyUp, true); UI.dict(null); }
+    },
+    word: function () {
+      var sel = window.getSelection && window.getSelection();
+      if (!sel || !sel.rangeCount || sel.isCollapsed) return null;
+      // Grow a partial selection ("The Gr") to whole words ("The Green") before looking it up
+      try {
+        var rg = sel.getRangeAt(0), sc = rg.startContainer, ec = rg.endContainer;
+        if (sc.nodeType === 3 && ec.nodeType === 3) {
+          var so = rg.startOffset, eo = rg.endOffset;
+          while (so > 0 && hasLetters(sc.nodeValue.charAt(so - 1) + 'a')) { if (!/[\s.,;:!?()"“”«»]/.test(sc.nodeValue.charAt(so - 1))) so--; else break; }
+          while (eo < ec.nodeValue.length && !/[\s.,;:!?()"“”«»]/.test(ec.nodeValue.charAt(eo))) eo++;
+          if (so !== rg.startOffset || eo !== rg.endOffset) { rg.setStart(sc, so); rg.setEnd(ec, eo); sel.removeAllRanges(); sel.addRange(rg); }
+        }
+      } catch (e) { /* keep the selection as it is */ }
 })(window, document);
