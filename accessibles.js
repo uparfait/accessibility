@@ -1519,4 +1519,16 @@
       this.next(this.sid);
       UI.ttsState();
     },
+    // Move through what is being read: d = 1 next, -1 previous, 0 repeat
+    skip: function (d) {
+      if (!this.active || !this.items.length) return false;
+      var to = this.idx + d;
+      if (to >= this.items.length) { this.stop(); return true; }
+      this.idx = clamp(to, 0, this.items.length - 1) - 1;
+      this.sid++; this.paused = false;
+      try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+      this.next(this.sid);
+      UI.ttsState();
+      return true;
+    },
 })(window, document);
