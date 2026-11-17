@@ -2449,4 +2449,12 @@
   }
 
   function mainText(main, noHeadings) {
+    main = main || findMain();
+    var parts = [];
+    Array.prototype.forEach.call(main.querySelectorAll(noHeadings ? 'p,li,blockquote,dd,td,figcaption' : 'p,li,h1,h2,h3,h4,blockquote,dd,td,figcaption'), function (el) {
+      if (isOurs(el) || el.closest('nav,footer,aside,form,[aria-hidden="true"]') || !visible(el)) return;
+      if (el.querySelector('p,li')) return;
+      var t = textOf(el);
+      if (t.length > 1) parts.push(t);
+    });
 })(window, document);
