@@ -4417,4 +4417,27 @@
       }, 60);
     },
 
+    feature: function (id, isProfile) {
+      if (isProfile) { toggleProfile(id); return; }
+      var f = FMAP[id];
+      if (!f) return;
+      if (f.t === 'toggle') {
+        setState(f.key, !S[f.key]); announce(T(f.label) + ' ' + T(S[f.key] ? 'on' : 'off'));
+        if (S[f.key] && S.spokenTips) this.sayTip(f.key);
+      }
+      else if (f.t === 'radio') { var on = S[f.key] !== f.val; setState(f.key, on ? f.val : ''); announce(T(f.label) + ' ' + T(on ? 'on' : 'off')); }
+      else if (f.t === 'cycle') {
+        var i = f.opts.indexOf(S[f.key]);
+        var nv = f.opts[(i + 1) % f.opts.length];
+        setState(f.key, nv);
+        announce(T(f.label) + ', ' + T(f.fmt(nv)));
+      }
+      else if (f.t === 'view') { this.help(null); this.openView(f.view); }
+      else if (f.t === 'action') {
+        if (id === 'reader') this.reader(true);
+        else if (id === 'resetAll') resetAll();
+        else if (id === 'statementLink') this.statement();
+      }
+    },
+
 })(window, document);
