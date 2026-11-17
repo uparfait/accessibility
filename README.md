@@ -110,3 +110,11 @@ When `report` is a URL, the form sends JSON like this:
   "time": "2026-11-17T09:30:00.000Z"
 }
 ```
+
+### Turning features on from your own code
+
+```html
+<button onclick="Accessibles.profile('dyslexia')">Dyslexia-friendly view</button>
+<button onclick="Accessibles.set('fontSize', 1.3)">Bigger text</button>
+<button onclick="Accessibles.open()">Accessibility options</button>
+```
