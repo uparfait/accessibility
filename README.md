@@ -13,7 +13,7 @@ Paste these two lines before the closing `</body>` tag:
 
 ```html
 <div class="accessibles-widget"></div>
-<script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js" defer></script>
+<script src="https://uparfait.github.io/accessibility/v1/widgets/accessibles.js" defer></script>
 ```
 
 Reload the page and a small button appears in the bottom-right corner. Click it, or press `Alt + A`, to open the panel.
@@ -22,21 +22,21 @@ A few things to know:
 
 - The `div` is optional. If the script can't find one, it creates it.
 - `defer` is optional. The script waits for the page to load either way, so it also works when a tag manager injects it.
-- To host it yourself, download `widgets/v1/accessibles.js` and change the `src`. It's a single file with no dependencies.
+- To host it yourself, download `v1/widgets/accessibles.js` and change the `src`. It's a single file with no dependencies.
 
 ## Configuration
 
 Every option can be set in three places. If the same option is set twice, the later one wins:
 
 1. A `window.AccessiblesConfig` object, defined before the script loads
-2. The script URL: `widgets/v1/accessibles.js?color=...&position=...`
+2. The script URL: `v1/widgets/accessibles.js?color=...&position=...`
 3. `data-` attributes on the `.accessibles-widget` div
 
 Option names ignore case and dashes, so `site-name`, `siteName` and `sitename` all mean the same thing.
 
 ```html
 <!-- In the script URL -->
-<script src="widgets/v1/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
+<script src="v1/widgets/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
 
 <!-- As data attributes -->
 <div class="accessibles-widget" data-color="#7B3F00" data-position="bottom-left"></div>
@@ -76,7 +76,7 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 
 ```html
 <div class="accessibles-widget"></div>
-<script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
+<script src="https://uparfait.github.io/accessibility/v1/widgets/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
 ```
 
 ### A light panel with your site's name and icon
@@ -86,7 +86,7 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
      data-site-name="Green Valley Library"
      data-site-icon-url="/img/logo.svg"
      data-bg="#FBFAF6"></div>
-<script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js?color=%232F7A3A" defer></script>
+<script src="https://uparfait.github.io/accessibility/v1/widgets/accessibles.js?color=%232F7A3A" defer></script>
 ```
 
 ### Your own statement and issue reports
@@ -95,7 +95,7 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 <div class="accessibles-widget"
      data-statement="/accessibility"
      data-report="access@example.org"></div>
-<script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js" defer></script>
+<script src="https://uparfait.github.io/accessibility/v1/widgets/accessibles.js" defer></script>
 ```
 
 When `report` is a URL, the form sends JSON like this:
@@ -146,7 +146,7 @@ Functions can only be passed through `window.AccessiblesConfig`:
     signVideos: { '#intro': '/media/intro-asl.mp4' }
   };
 </script>
-<script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js" defer></script>
+<script src="https://uparfait.github.io/accessibility/v1/widgets/accessibles.js" defer></script>
 ```
 
 You can also mark any element with `data-acc-sign="video.mp4"` to give it a sign language video.
@@ -335,7 +335,7 @@ The settings you can pass to `set()`:
 
 ### One file
 
-`widgets/v1/accessibles.js` wraps everything in a single function. The only globals it creates are `window.Accessibles` and a flag that stops it from loading twice. The code is split into numbered sections:
+`v1/widgets/accessibles.js` wraps everything in a single function. The only globals it creates are `window.Accessibles` and a flag that stops it from loading twice. The code is split into numbered sections:
 
 | # | Section | What it does |
 |---|---|---|
@@ -439,7 +439,7 @@ A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site 
 
 | File | Purpose |
 |---|---|
-| `widgets/v1/accessibles.js` | The whole widget. This is the only file a site needs. |
+| `v1/widgets/accessibles.js` | The whole widget. This is the only file a site needs. |
 | `index.html`, `favicon.svg`, `assets/`, `site.webmanifest`, `sitemap.xml` | The project website, its icons and share image |
 | `demo.html`, `demo.css` | A demo page with old-style markup and placeholder text, to show the widget needs no changes to the page |
 
