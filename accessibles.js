@@ -1636,4 +1636,17 @@
       if (t.tagName === 'DIV' && text.length > 600) return; // a wrapper, not a text block
       if (text) TTS.say(text.slice(0, 5000), t);
     },
+    onFocus: function (e) {
+      if (isOurs(e.target) || !S.keyboardNav) return;
+      var n = accName(e.target);
+      if (n) TTS.say(n.slice(0, 300), null);
+    },
+    onSelect: function (e) {
+      if (isOurs(e.target)) return;
+      later(function () {
+        var s = window.getSelection && String(window.getSelection());
+        if (s && s.trim().length > 2) TTS.say(s.trim().slice(0, 5000), null);
+      }, 30);
+    }
+  };
 })(window, document);
