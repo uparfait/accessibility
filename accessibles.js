@@ -2397,4 +2397,11 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 17. Reader view, summary, dictionary
+   * ------------------------------------------------------------------ */
+  var KEEP = { H1: 1, H2: 1, H3: 1, H4: 1, H5: 1, H6: 1, P: 1, UL: 1, OL: 1, LI: 1, BLOCKQUOTE: 1, PRE: 1, CODE: 1, EM: 1, STRONG: 1, B: 1, I: 1, U: 1, A: 1, IMG: 1, FIGURE: 1, FIGCAPTION: 1, TABLE: 1, THEAD: 1, TBODY: 1, TFOOT: 1, TR: 1, TD: 1, TH: 1, CAPTION: 1, BR: 1, HR: 1, DL: 1, DT: 1, DD: 1, SUP: 1, SUB: 1, MARK: 1, ABBR: 1, Q: 1, CITE: 1, SMALL: 1, TIME: 1 };
+  var DROP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, IFRAME: 1, FORM: 1, BUTTON: 1, INPUT: 1, SELECT: 1, TEXTAREA: 1, NAV: 1, ASIDE: 1, FOOTER: 1, SVG: 1, svg: 1, CANVAS: 1, VIDEO: 1, AUDIO: 1, OBJECT: 1, EMBED: 1, TEMPLATE: 1, DIALOG: 1, LINK: 1, META: 1 };
+  var CLUTTER = /(^|[\s_-])(share|social|comment|related|advert|ads?|promo|cookie|newsletter|sidebar|breadcrumb|menu|popup|modal|banner|sponsor|subscribe|widget)([\s_-]|$)/i;
+
 })(window, document);
