@@ -2188,4 +2188,14 @@
       this._dict = list.map(function (c) { return { label: c[0], say: c[1], run: c[2] }; });
       return this._dict;
     },
+    type: function (raw, alts) {
+      var self = this, t = raw.trim(), words = normWords(t).split(' ').length;
+      // A short phrase may be a command; long phrases are always text
+      if (words <= 5) {
+        var b = this.best(t, this.dictCmds());
+        if (b.cmd && b.score >= this.SURE) { b.cmd.run(); return; }
+        if (b.cmd && b.score >= 0.7 && words <= 3) { var c = b.cmd; this.confirm(c.label, c.run, function () { self.write(t); }); return; }
+      }
+      this.write(t);
+    },
 })(window, document);
