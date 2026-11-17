@@ -5335,4 +5335,12 @@
       $('.vt', p).textContent = S.dictation ? (el ? (accName(el) || el.getAttribute('placeholder') || el.name || T('Text box')).slice(0, 40) : T('No text box')) : '';
       p.hidden = false;
     },
+    ask: function (label) {
+      var a = $('.ask');
+      if (!a) return;
+      if (!label) { a.hidden = true; return; }
+      $('b', a).textContent = '"' + label + '"?';
+      a.hidden = false;
+      I18N.apply(a);
+    },
 })(window, document);
