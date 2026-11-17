@@ -5343,4 +5343,22 @@
       a.hidden = false;
       I18N.apply(a);
     },
+    vkbTarget: function () {
+      var t = $('.vkb-target');
+      if (!t) return;
+      var el = lastEditable;
+      t.textContent = el && el.isConnected ? 'Typing in: ' + (accName(el) || el.getAttribute('placeholder') || el.name || 'text field').slice(0, 50) : 'Select a text field on the page';
+    },
+    reader: function (on) {
+      var box = $('.reader');
+      if (!on) { box.hidden = true; box.innerHTML = ''; if (TTS.active) TTS.stop(); return; }
+      var main = findMain();
+      var title = (document.querySelector('h1') && textOf(document.querySelector('h1'))) || document.title || 'Reader view';
+      var frag = cleanCopy(main, 0);
+      box.innerHTML = '<div class="rbar"><button type="button" class="ib" data-act="reader-close" aria-label="Close reader view">' + ic('back') + '</button><span class="sp"></span>' +
+        '<button type="button" class="tt" data-theme="light" aria-pressed="true" aria-label="Light theme">Light</button><button type="button" class="tt" data-theme="sepia" aria-pressed="false" aria-label="Sepia theme">Sepia</button><button type="button" class="tt" data-theme="dark" aria-pressed="false" aria-label="Dark theme">Dark</button>' +
+        '<button type="button" class="ib" data-act="reader-smaller" aria-label="Smaller text">' + ic('minus') + '</button><button type="button" class="ib" data-act="reader-bigger" aria-label="Larger text">' + ic('plus') + '</button>' +
+        '<button type="button" class="ib" data-act="reader-font" aria-label="Switch font">' + ic('font') + '</button>' +
+        (TTS.ok ? '<button type="button" class="ib" data-act="reader-read" aria-label="Read aloud">' + ic('speak') + '</button>' : '') + '</div>' +
+        '<article class="rbody"></article>';
 })(window, document);
