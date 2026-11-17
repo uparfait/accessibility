@@ -1706,4 +1706,19 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 14. Motion, media and timing
+   * ------------------------------------------------------------------ */
+  var Motion = {
+    on: false, videos: [], gifs: [], marquees: [], svgs: [], anims: [],
+    sync: function () { if (S.stopAnimations && !this.on) { this.on = true; this.fix(document.body); later(this.pauseWAAPI.bind(this), 60); } else if (!S.stopAnimations && this.on) { this.on = false; this.restore(); } },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var self = this;
+      Array.prototype.forEach.call(root.querySelectorAll('video'), function (v) { if (!v.paused || v.autoplay) { try { v.pause(); } catch (e) { /* ignore */ } self.videos.push(v); } });
+      Array.prototype.forEach.call(root.querySelectorAll('marquee'), function (m) { if (m.stop) { m.stop(); self.marquees.push(m); } });
+      Array.prototype.forEach.call(root.querySelectorAll('svg'), function (s) { if (s.pauseAnimations && s.querySelector('animate,animateTransform,animateMotion,set')) { s.pauseAnimations(); self.svgs.push(s); } });
+      Array.prototype.forEach.call(root.querySelectorAll('img'), function (img) { self.freeze(img); });
+      Array.prototype.forEach.call(root.querySelectorAll('iframe'), function (f) { postToPlayer(f, 'pause'); });
+    },
 })(window, document);
