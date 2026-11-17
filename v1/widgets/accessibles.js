@@ -4923,6 +4923,7 @@
       body.setAttribute('aria-labelledby', 'acc-tab-' + id);
       body.innerHTML = this.tabHTML(id);
       body.scrollTop = 0;
+      this.syncHead();
       this.afterRender();
     },
     profileHTML: function (p, suffix) {
@@ -5263,11 +5264,24 @@
       body.innerHTML = '<div class="vh"><button type="button" class="ib" data-act="back" aria-label="Back" data-tt="Back">' + ic('back') + '</button><h2 tabindex="-1">' +
         (vhelp ? '<button type="button" class="tb" data-help="' + vhelp + '" aria-label="' + V.title + ', more information"><span class="tbl">' + V.title + '</span>' + ic('help') + '</button>' : '<span class="tbl">' + V.title + '</span>') + '</h2></div><div class="vbody"></div>';
       body.scrollTop = 0;
+      this.syncHead();
       V.render.call(this, $('.vbody'));
       this.afterRender();
       // Searchable views focus their search box right away (except on touch screens, where it would pop up the keyboard)
       var fine = !window.matchMedia || window.matchMedia('(pointer: fine)').matches;
       if (this.open) { var target = $('.vbody .qbox .inp') && (this.kbd || fine) ? $('.vbody .qbox .inp') : this.kbd ? $('.vh .ib') : $('.vh h2'); if (target) target.focus({ preventScroll: true }); }
+    },
+    // In a view, once its own header (back and title) scrolls away, the top header shows a copy of it
+    syncHead: function () {
+      var head = $('.head'), vhd = this.view && $('.vh'), body = $('.body');
+      if (!head) return;
+      var on = !!(vhd && body && vhd.getBoundingClientRect().bottom <= body.getBoundingClientRect().top + 2);
+      if (on === head.classList.contains('compact')) return;
+      if (on) { var hv = $('.hv-t'), h2 = $('h2', vhd); hv.innerHTML = h2 ? h2.innerHTML : ''; I18N.apply(hv); }
+      // Keep keyboard focus on a visible back button when the two swap
+      var a = shadow.activeElement, from = on ? vhd : $('.hview'), to = on ? $('.hview') : vhd;
+      head.classList.toggle('compact', on);
+      if (a && from && from.contains(a) && to) { var b = $('[data-act="back"]', to); if (b) { try { b.focus({ preventScroll: true }); } catch (e) { /* ignore */ } } }
     },
     closeView: function () {
       var q = $('.search input').value;
