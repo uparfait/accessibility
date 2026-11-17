@@ -2287,4 +2287,11 @@
     var d = Object.getOwnPropertyDescriptor(proto, 'value');
     return d && d.set;
   }
+  function currentValue(el) { if (!el) return ''; return el.isContentEditable ? (el.textContent || '') : (el.value || ''); }
+  function setValue(el, v) {
+    var set = valueSetter(el);
+    if (set) set.call(el, v); else el.value = v;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  }
 })(window, document);
