@@ -4777,4 +4777,32 @@
       this.refresh();
     },
 
+    refresh: function () {
+      if (!R) return;
+      $$('.tm[data-f]').forEach(function (el) {
+        var f = FMAP[el.getAttribute('data-f')];
+        if (!f) return;
+        var on = false, tile = el.parentNode;
+        if (f.t === 'toggle') { on = !!S[f.key]; el.setAttribute('aria-pressed', on); }
+        else if (f.t === 'radio') { on = S[f.key] === f.val; el.setAttribute('aria-pressed', on); }
+        else if (f.t === 'cycle') {
+          var i = Math.max(0, f.opts.indexOf(S[f.key]));
+          on = i > 0;
+          var tv = $('.tv', el); if (tv) tv.textContent = f.fmt(f.opts[i]);
+          $$('.pip', el).forEach(function (p, k) { p.classList.toggle('f', k < i); });
+          el.setAttribute('aria-label', f.label + ', ' + f.fmt(f.opts[i]));
+        } else if (f.val) {
+          var tv2 = $('.tv', el); if (tv2) tv2.textContent = f.val();
+          on = !!S[f.key];
+        }
+        if (f.id === 'translate') {
+          on = !!S.translateTo;
+          var t3 = $('.tv', el);
+          if (!t3 && (S.translateTo || Translate.busy)) { t3 = document.createElement('span'); t3.className = 'tv'; t3.setAttribute('translate', 'no'); $('.tl', el).after(t3); }
+          if (t3) t3.textContent = Translate.busy ? T('Waiting…') + (Translate.progress > 0 ? ' ' + Math.round(Translate.progress * 100) + '%' : '') : (S.translateTo ? langName(S.translateTo) : '');
+          if (t3 && !S.translateTo && !Translate.busy) t3.remove();
+        }
+        if (f.id === 'sign') on = !!S.sign;
+        tile.classList.toggle('on', on);
+      });
 })(window, document);
