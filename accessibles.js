@@ -2279,4 +2279,12 @@
   }
 
 
+  /* ------------------------------------------------------------------ *
+   * 16. Text insertion (on-screen keyboard and Talk & Type)
+   * ------------------------------------------------------------------ */
+  function valueSetter(el) {
+    var proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+    var d = Object.getOwnPropertyDescriptor(proto, 'value');
+    return d && d.set;
+  }
 })(window, document);
