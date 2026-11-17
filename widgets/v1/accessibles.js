@@ -1582,7 +1582,7 @@
       else this.guide(d > 0 ? 'Faster' : 'Slower');
     },
     readThis: function () {
-      var s = window.getSelection && String(window.getSelection()).trim();
+      var s = String(getSel() || '').trim();
       if (s) { this.say(s.slice(0, 5000), null); return; }
       var a = document.activeElement;
       if (a && a !== document.body && !isOurs(a)) { var t = textOf(a) || accName(a); if (t) { this.say(t.slice(0, 5000), a); return; } }
@@ -1666,17 +1666,18 @@
     readPage: function (root) {
       var main = root || findMain();
       var sel = 'h1,h2,h3,h4,h5,h6,p,li,blockquote,dt,dd,figcaption,td,th,caption,pre';
-      var all = Array.prototype.filter.call(main.querySelectorAll(sel), function (el) { return !isOurs(el) && visible(el) && textOf(el).length > 1; });
+      var all = Array.prototype.filter.call(main.querySelectorAll(sel), function (el) { return pageLike(el) && visible(el) && textOf(el).length > 1; });
       var leaves = all.filter(function (el) { return !el.querySelector(sel); });
       if (!leaves.length && textOf(main)) leaves = [main];
       this.play(leaves.map(function (el) { return { text: textOf(el), el: el }; }));
     },
     onClick: function (e) {
-      if (isOurs(e.target) || !e.isTrusted) return;
-      var sel = window.getSelection && String(window.getSelection());
+      var t0 = realTarget(e);
+      if (!pageLike(t0) || !e.isTrusted) return;
+      var sel = String(getSel() || '');
       if (sel && sel.trim().length > 1) return;
-      var t = e.target.closest && e.target.closest('h1,h2,h3,h4,h5,h6,p,li,td,th,dt,dd,blockquote,figcaption,caption,label,button,a,summary,legend,span,div,img');
-      if (!t || t === document.body) return;
+      var t = t0.closest && t0.closest('h1,h2,h3,h4,h5,h6,p,li,td,th,dt,dd,blockquote,figcaption,caption,label,button,a,summary,legend,span,div,img');
+      if (!t || t === document.body || !pageLike(t)) return;
       var text = t.tagName === 'IMG' ? (t.getAttribute('alt') || '') : (t.matches('a,button,summary') ? accName(t) : textOf(t));
       if (t.tagName === 'DIV' && text.length > 600) return; // a wrapper, not a text block
       if (text) TTS.say(text.slice(0, 5000), t);
@@ -1687,9 +1688,9 @@
       if (n) TTS.say(n.slice(0, 300), null);
     },
     onSelect: function (e) {
-      if (isOurs(e.target)) return;
+      if (!pageLike(realTarget(e))) return;
       later(function () {
-        var s = window.getSelection && String(window.getSelection());
+        var s = String(getSel() || '');
         if (s && s.trim().length > 2) TTS.say(s.trim().slice(0, 5000), null);
       }, 30);
     }
