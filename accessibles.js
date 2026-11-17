@@ -5492,4 +5492,11 @@
   var started = false;
   function start() {
     if (started || !document.body) return;
+    started = true;
+    var mount = document.querySelector('.accessibles-widget');
+    if (!mount) { mount = document.createElement('div'); mount.className = 'accessibles-widget'; }
+    CFG = readConfig(mount);
+    if (CFG.large && !Store.read()) S.oversized = true;
+    PAL = buildPalette(CFG.color, CFG.bg);
+    host = mount;
 })(window, document);
