@@ -5512,6 +5512,13 @@
     sendReport: function () {
       var st = $('.rep-status'), msg = $('.rep-msg').value.trim(), mail = $('.rep-mail').value.trim();
       if (msg.length < 5) { st.textContent = 'Please describe the problem first.'; $('.rep-msg').focus(); return; }
+      // An email is needed so the site can reply
+      var mf = $('.rep-mail');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) {
+        st.textContent = T(mail ? 'Please enter a valid email address, so we can reply.' : 'Please enter your email address, so we can reply.');
+        mf.setAttribute('aria-invalid', 'true'); mf.focus(); return;
+      }
+      mf.removeAttribute('aria-invalid');
       var dest = CFG.report, self = this;
       var data = { site: CFG.siteName || location.hostname, type: this.repType || 'Something is hard to read', message: msg, email: mail, page: location.href, userAgent: navigator.userAgent, viewport: vw() + 'x' + vh(), settings: S, time: new Date().toISOString(), widget: 'accessibles/' + VERSION };
       var addr = dest.replace(/^mailto:/i, '');
