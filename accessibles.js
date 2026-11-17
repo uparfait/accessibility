@@ -4386,4 +4386,24 @@
       }
     },
 
+    onInput: function (e) {
+      var t = e.target;
+      if (t.matches('.search input')) { this.search(t.value); return; }
+      if (t.matches('.cs-pop .q input')) {
+        var d = this.selects[this.selOpen && this.selOpen.getAttribute('data-sel')];
+        if (d) { var box = $('.cs-pop .opts'); box.innerHTML = this.optsHTML(d.options(), d.value(), t.value); this.afterList(box); }
+        return;
+      }
+      if (t.hasAttribute('data-filter')) {
+        var list = $('.biglist'), kind = t.getAttribute('data-filter');
+        list.innerHTML = this.optsHTML(kind === 'font' ? this.fontOptions() : langOptions(), kind === 'font' ? S.font : (Translate.target || S.translateTo), t.value);
+        this.afterList(list);
+        return;
+      }
+      if (t.matches('.cp-hex')) {
+        var c = parseColor(t.value.trim());
+        var pv = $('.cp-pop .prev'); if (pv) pv.style.background = c ? hex(c) : 'transparent';
+      }
+    },
+
 })(window, document);
