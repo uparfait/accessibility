@@ -3029,4 +3029,26 @@
     var out = [];
     var all = function (sel) { return Array.prototype.filter.call(document.querySelectorAll(sel), function (el) { return !isOurs(el); }); };
     var fixed = function (el, k) { return (' ' + (el.getAttribute('data-acc-fixed') || '') + ' ').indexOf(' ' + k + ' ') > -1; };
+    function check(id, label, weight, offenders, fixedCount, help) { out.push({ id: id, label: label, weight: weight, open: offenders, fixed: fixedCount || 0, help: help }); }
+    var hs = [];
+    var steps = [
+      function () { var imgs = all('img'); check('alt', 'Images have text alternatives', 3, imgs.filter(function (i) { return !i.hasAttribute('alt'); }), imgs.filter(function (i) { return fixed(i, 'alt'); }).length, 'Add alt text to every meaningful image, alt="" for decorative ones.'); },
+      function () { var fields = all('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="reset"]),select,textarea'); check('labels', 'Form fields have labels', 3, fields.filter(function (f) { return !accName(f) && !(f.getAttribute('placeholder') || '').trim(); }), fields.filter(function (f) { return fixed(f, 'form'); }).length, 'Connect a label to every input.'); },
+      function () { var ctrls = all('a[href],button,[role="button"]'); check('names', 'Links and buttons have names', 3, ctrls.filter(function (c) { return visible(c) && !accName(c); }), ctrls.filter(function (c) { return fixed(c, 'aria'); }).length, 'Give icon-only links and buttons a text label.'); },
+      function () {
+        hs = all('h1,h2,h3,h4,h5,h6').filter(visible);
+        var skips = [], last = 0;
+        hs.forEach(function (h) { var l = +h.tagName.charAt(1); if (last && l > last + 1) skips.push(h); last = l; });
+        check('headings', 'Heading levels are in order', 1, skips, 0, 'Do not skip heading levels, for example from H2 to H4.');
+        check('emptyHeadings', 'Headings are not empty', 1, hs.filter(function (h) { return !textOf(h); }), 0, 'Remove empty headings or give them text.');
+        var h1 = hs.filter(function (h) { return h.tagName === 'H1'; });
+        check('h1', 'Page has one main heading', 1, h1.length === 1 ? [] : h1.length ? h1.slice(1) : [document.body], 0, 'Use exactly one H1 that describes the page.');
+      },
+      function () {
+        check('lang', 'Page language is set', 2, document.documentElement.getAttribute('lang') ? [] : [document.documentElement], 0, 'Add a lang attribute to the html element.');
+        check('title', 'Page has a title', 1, (document.title || '').trim() ? [] : [document.documentElement], 0, 'Add a descriptive page title.');
+        var frames = all('iframe');
+        check('frames', 'Frames have titles', 1, frames.filter(function (f) { return !f.getAttribute('title') && !f.getAttribute('aria-label'); }), frames.filter(function (f) { return fixed(f, 'aria'); }).length, 'Add a title attribute to every iframe.');
+        check('landmark', 'Page has a main landmark', 1, document.querySelector('main,[role="main"]') ? [] : [document.body], document.querySelector('[role="main"][data-acc-fixed]') ? 1 : 0, 'Wrap the main content in a main element.');
+      },
 })(window, document);
