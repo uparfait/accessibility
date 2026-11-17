@@ -200,3 +200,13 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 - **Color blindness** correction for protanopia, deuteranopia and tritanopia
 - **Custom colors** for text, titles and background, from preset swatches or a color code
 - **Brightness**
+
+### Navigate
+
+- **Keyboard navigation** adds a "Skip to main content" link and `Alt` shortcuts that jump between headings, links, fields, buttons, regions and images.
+- **Focus highlight** and **highlight hover**
+- **Page structure** lists the headings, regions and links on the page. Choose one to jump to it.
+- **Big black** and **big white cursor**
+- **On-screen keyboard**, which you can drag anywhere
+- **Voice commands** and **Talk & Type** (see below)
+- **Bigger targets** and **more time**
