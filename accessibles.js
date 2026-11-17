@@ -1568,4 +1568,23 @@
         // Some browsers silently drop speech queued straight after a cancel, so wait a moment
         later(step, 90);
       };
+      var tl = this.readLang(), src = (S.translateTo || pageLang()).split('-')[0].toLowerCase();
+      if (!item.raw && S.ttsLang && tl.split('-')[0].toLowerCase() !== src) googleText(chunks, tl, null, 'auto').then(go, function () { go(chunks); });
+      else go(chunks);
+    },
+    // Speak one chunk. If the chosen voice does not start, try once more with the system voice.
+    utter: function (text, sid, done, withVoice) {
+      var self = this, started = false, finished = false, retried = false;
+      var u = new SpeechSynthesisUtterance(text);
+      var v = withVoice ? this.voice() : null;
+      if (v) { u.voice = v; u.lang = v.lang; } else u.lang = this.readLang();
+      u.rate = S.ttsRate; u.pitch = S.ttsPitch;
+      var finish = function () { if (finished) return; finished = true; done(); };
+      var retry = function () {
+        if (retried || finished) return;
+        retried = true; finished = true;
+        u.onend = u.onerror = null;
+        try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+        later(function () { if (sid === self.sid && self.active) self.utter(text, sid, done, false); }, 120);
+      };
 })(window, document);
