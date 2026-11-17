@@ -4408,6 +4408,8 @@
           e.preventDefault();
           if (e.code === 'KeyR') { if (TTS.active) TTS.pause(); else TTS.readPage(); }
           else TTS.skip(e.shiftKey ? -1 : 1);
+        } else if (e.key === 'Escape' && (Voice.pick || Voice.pending)) {
+          Voice.stopAll();
         } else if (e.key === 'Escape' && TTS.active && $('.help').hidden) {
           TTS.stop();
         } else if (e.key === 'Escape' && !isOurs(e.target)) {
