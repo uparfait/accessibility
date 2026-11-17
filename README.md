@@ -370,3 +370,5 @@ The automatic repairs never set an attribute directly. They go through a recorde
 rec.set(img, 'alt', 'Team photo 2019');   // remembers that img had no alt
 rec.revert();                             // puts every attribute back
 ```
+
+Turning a repair off returns the page to exactly how it was. Repaired elements are tagged with `data-acc-fixed`, so the page check can report them as "fixed automatically".
