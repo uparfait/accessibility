@@ -68,3 +68,5 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 | `lang` | none | Sets `<html lang>` when the page doesn't have one. |
 | `readable-font-url`, `dyslexic-font-url` | Google Fonts | Load the easy-to-read and dyslexia fonts from your own server instead. |
 | `dictionary` | dictionaryapi.dev | Your own dictionary endpoint, with `{word}` and `{lang}` placeholders. |
+
+## Examples
