@@ -5359,7 +5359,7 @@
         render: function (box) {
           var cur = Translate.target || S.translateTo || '';
           box.innerHTML = '<div class="tr-note" role="alert"' + (Translate.error ? '' : ' hidden') + '>' + ic('alert') + '<span>' + esc(Translate.error) + '</span></div>' +
-            '<div class="qbox">' + ic('search') + '<input type="text" class="inp" data-filter="lang" placeholder="Search language" aria-label="Search language" autocomplete="off" spellcheck="false"></div>' +
+            '<div class="qbox">' + ic('search') + '<input type="text" class="inp" data-filter="lang" placeholder="Search language" aria-label="Search language" autocomplete="off" spellcheck="false">' + clearBtn() + '</div>' +
             '<div class="opts biglist" data-list="lang" role="listbox" aria-label="Languages">' + this.optsHTML(langOptions().map(function (o) { o.native = true; return o; }), cur) + '</div>';
           this.afterList($('.biglist', box));
           var act = $('.biglist .opt[aria-selected="true"]', box);
@@ -5371,7 +5371,7 @@
         title: 'Font',
         render: function (box) {
           loadFontPreviews();
-          box.innerHTML = '<div class="qbox">' + ic('search') + '<input type="text" class="inp" data-filter="font" placeholder="Search fonts" aria-label="Search fonts" autocomplete="off" spellcheck="false"></div>' +
+          box.innerHTML = '<div class="qbox">' + ic('search') + '<input type="text" class="inp" data-filter="font" placeholder="Search fonts" aria-label="Search fonts" autocomplete="off" spellcheck="false">' + clearBtn() + '</div>' +
             '<div class="opts biglist fontlist" data-list="font" role="listbox" aria-label="Fonts">' + this.optsHTML(this.fontOptions(), S.font) + '</div>';
           this.afterList($('.biglist', box));
         }
