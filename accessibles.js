@@ -2273,4 +2273,10 @@
   ];
   function searchPage(words) {
     var box = document.querySelector('input[type="search"],input[name="q"],input[name="s"],input[name*="search" i],input[placeholder*="search" i]');
+    if (!box) { UI.pill(words, false, T('This page has no search box')); return; }
+    focusEl(box); setValue(box, words);
+    if (box.form) { if (box.form.requestSubmit) box.form.requestSubmit(); else box.form.submit(); }
+  }
+
+
 })(window, document);
