@@ -383,6 +383,8 @@
     chevron: '<path d="M9.5 5.5 16 12l-6.5 6.5"/>',
     info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8h0" stroke-width="2.4"/>'
   };
+  // The clear (×) button inside search boxes; shown only while the box has text
+  function clearBtn() { return '<button type="button" class="sclr" data-act="sclear" aria-label="Clear search" data-tt="Clear search" hidden>' + ic('close') + '</button>'; }
   function ic(name, cls) {
     return '<svg class="i' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (I[name] || '') + '</svg>';
   }
