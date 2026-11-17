@@ -1460,4 +1460,18 @@
   }
   var TTS = {
     ok: 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance === 'function',
+    on: false, sid: 0, active: false, paused: false, items: [], idx: -1, cur: null, curEl: null, curLang: '', said: [],
+    voices: function () { try { return window.speechSynthesis.getVoices() || []; } catch (e) { return []; } },
+    // The language text is read in: the visitor's choice, else the translation, else the page language
+    readLang: function () { return this.curLang || S.ttsLang || S.translateTo || pageLang(); },
+    voice: function () {
+      var vs = this.voices();
+      var lang = this.readLang().toLowerCase();
+      var pre = lang.split('-')[0];
+      if (S.ttsVoice) { for (var i = 0; i < vs.length; i++) if ((vs[i].voiceURI === S.ttsVoice || vs[i].name === S.ttsVoice) && ((!S.ttsLang && !this.curLang) || (vs[i].lang || '').toLowerCase().split(/[-_]/)[0] === pre)) return vs[i]; }
+      if (pre === 'en') { var uk = ukMaleVoice(vs); if (uk) return uk; }
+      return vs.filter(function (v) { return v.lang && v.lang.toLowerCase() === lang; })[0] ||
+        vs.filter(function (v) { return v.lang && v.lang.toLowerCase().split(/[-_]/)[0] === pre && v.localService; })[0] ||
+        vs.filter(function (v) { return v.lang && v.lang.toLowerCase().split(/[-_]/)[0] === pre; })[0] || null;
+    },
 })(window, document);
