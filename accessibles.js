@@ -5244,4 +5244,21 @@
       if (this.helpCache[ck]) { put(this.helpCache[ck]); wait.hidden = true; box.setAttribute('lang', lang); box.setAttribute('dir', dir); this.doneBusy('help'); return; }
       wait.hidden = false;
       $('span', wait).textContent = T('Waiting…');
+      var self = this, todo = src.filter(Boolean);
+      var hl = $('.help-lang', box); if (hl) this.setBusy(hl, 'help');
+      googleText(todo, lang, function (f) { $('span', wait).textContent = T('Waiting…') + ' ' + Math.round(f * 100) + '%'; self.progress(f, 'help'); }).then(function (out) {
+        var k = 0, full = src.map(function (x) { return x ? (out[k++] || x) : ''; });
+        self.helpCache[ck] = full;
+        if (self.helpId !== id || self.helpLang !== lang) return;
+        put(full);
+        box.setAttribute('lang', lang); box.setAttribute('dir', dir);
+        wait.hidden = true;
+        self.doneBusy('help');
+      }).catch(function () {
+        self.doneBusy('help');
+        if (self.helpId !== id) return;
+        wait.hidden = true;
+        toast(T('Translation is not available right now'));
+      });
+    },
 })(window, document);
