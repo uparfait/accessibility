@@ -2390,7 +2390,7 @@
     clickables: function (all) {
       // Includes the accessibility panel itself, so it can be used fully by voice
       var own = $$('.panel:not([hidden]) button, .help:not([hidden]) button, .cs-pop:not([hidden]) .opt, .vkb:not([hidden]) button, .tts-bar:not([hidden]) button, .ask:not([hidden]) button').filter(function (b) { var r = b.getBoundingClientRect(); return r.width && r.height && r.bottom > 0 && r.top < vh(); });
-      return own.concat(Array.prototype.filter.call(document.querySelectorAll('a[href],button,[role="button"],[role="link"],[role="tab"],[role="menuitem"],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"],summary,select,[onclick],[data-acc-kb]'), function (el) { return !isOurs(el) && visible(el) && (all || inViewport(el)); }));
+      return own.concat(Array.prototype.filter.call(document.querySelectorAll('a[href],button,[role="button"],[role="link"],[role="tab"],[role="menuitem"],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"],summary,select,[onclick],[data-acc-kb]'), function (el) { return !isOurs(el) && visible(el) && !el.closest('details:not([open]) > :not(summary)') && (all || inViewport(el)); }));
     },
 
     /* --- Talk & type --- */
