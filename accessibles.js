@@ -5361,4 +5361,15 @@
         '<button type="button" class="ib" data-act="reader-font" aria-label="Switch font">' + ic('font') + '</button>' +
         (TTS.ok ? '<button type="button" class="ib" data-act="reader-read" aria-label="Read aloud">' + ic('speak') + '</button>' : '') + '</div>' +
         '<article class="rbody"></article>';
+      var art = $('.rbody', box);
+      var hasH1 = frag.querySelector && frag.querySelector('h1');
+      if (!hasH1) { var h = document.createElement('h1'); h.textContent = title; art.appendChild(h); }
+      art.appendChild(frag);
+      box.style.setProperty('--rfs', (this.rfs || 20) + 'px');
+      box.hidden = false;
+      box.scrollTop = 0;
+      this.close();
+      this.readerTheme(this.rtheme || 'light');
+      try { $('[data-act="reader-close"]', box).focus(); } catch (e) { /* ignore */ }
+    },
 })(window, document);
