@@ -235,7 +235,7 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 
 ### Voice commands
 
-Voice commands and Talk & Type listen in the visitor's own language and keep listening until they are turned off. While anything is being read out, the listening bar shows a stop button, and the button that started a list of commands turns into a stop button too. They don't need exact wording: "scrol down" works, and when a command is unclear the visitor is asked "Did you mean …?" and can answer yes or no.
+Voice commands and Talk & Type listen in the visitor's own language and keep listening until they are turned off. While commands or tips are being read out, a Stop bar appears at the bottom of the screen, the listening bar shows a stop button, and the button that started the list turns into a Stop reading button. `Esc` stops it too. They don't need exact wording: "scrol down" works, and when a command is unclear the visitor is asked "Did you mean …?" and can answer yes or no.
 
 | Moving around | Reading aloud | Talk & Type |
 |---|---|---|
