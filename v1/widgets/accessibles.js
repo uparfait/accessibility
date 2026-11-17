@@ -4024,6 +4024,8 @@
       '.biglist .opt{padding:.65em .7em}',
       '.fontlist .opt .ol{font-size:1.15em}',
       '.qbox{position:relative;margin-bottom:.6em}.qbox .i{position:absolute;left:.8em;top:50%;transform:translateY(-50%);width:1em;height:1em;color:var(--muted);pointer-events:none}',
+      // In views, the search box stays at the top of the scrolling list (same place at rest, so nothing shifts)
+      '.vbody .qbox{position:sticky;top:-.95em;z-index:2;background:var(--bg);margin:-.8em 0 0;padding:.8em 0 .6em}.vbody .qbox .i{top:calc(50% + .1em)}',
       '.wait{display:flex;align-items:center;gap:.6em;padding:.7em .8em;margin-bottom:.6em;border-radius:.65em;background:var(--soft);color:var(--accent);font-size:.86em;font-weight:600}',
       '.wait .i{width:1.15em;height:1.15em}',
       '.cp-pop{position:absolute;left:0;top:0;width:16em;padding:.7em;background:var(--bg);border:1px solid var(--line-2);border-radius:.8em;box-shadow:var(--shadow);pointer-events:auto}',
