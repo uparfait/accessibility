@@ -2117,4 +2117,33 @@
       { id: 'click', say: ['click', 'press', 'open', 'select', 'tap', 'go to', 'follow', 'choose'] },
       { id: 'search', say: ['search for', 'search', 'find', 'look for'] }
     ],
+    guessNav: function (said) {
+      var t = normWords(said);
+      if (!t) return null;
+      var self = this;
+      // Numbers shown on screen
+      if (this.numbers.length) {
+        var W = { one: 1, two: 2, to: 2, too: 2, three: 3, four: 4, for: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20 };
+        var m = t.match(/^(?:click |press |number |select |open )?(\d+|[a-z]+)$/);
+        var n = m ? (/^\d+$/.test(m[1]) ? parseInt(m[1], 10) : W[m[1]]) : 0;
+        if (n && this.numbers[n - 1]) { var el = this.numbers[n - 1]; return { score: 1, label: String(n), run: function () { self.hideNumbers(); try { el.focus(); } catch (e) { /* ignore */ } el.click(); } }; }
+      }
+      var b = this.best(t, this.navCmds());
+      var guess = b.cmd ? { score: b.score, label: b.cmd.label, run: b.cmd.run } : null;
+      if (guess && guess.score === 1) return guess;
+      // "click …", "search for …"
+      var words = t.split(' ');
+      this.SLOTS.forEach(function (sl) {
+        sl.say.forEach(function (p) {
+          self.variants(p).forEach(function (v) {
+            var pw = normWords(v).split(' '), n2 = pw.length;
+            if (words.length <= n2) return;
+            var head = words.slice(0, n2).join(' '), rest = words.slice(n2).join(' ').replace(/^(on|the|on the) /, '');
+            var hs = editRatio(head, pw.join(' '));
+            if (hs < 0.75) return;
+            var g = sl.id === 'click' ? self.guessClick(rest, hs) : { score: hs, label: 'Search for ' + rest, run: function () { searchPage(rest); } };
+            if (g && (!guess || g.score > guess.score)) guess = g;
+          });
+        });
+      });
 })(window, document);
