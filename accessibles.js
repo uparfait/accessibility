@@ -4722,4 +4722,20 @@
       '#7f1d1d', '#b91c1c', '#ea580c', '#b45309', '#a16207', '#4d7c0f', '#15803d', '#0f766e',
       '#0e7490', '#0369a1', '#1d4ed8', '#4338ca', '#6d28d9', '#7e22ce', '#a21caf', '#be185d',
       '#fee2e2', '#ffedd5', '#fef9c3', '#dcfce7', '#cffafe', '#dbeafe', '#ede9fe', '#fce7f3'],
+    openColor: function (btn) {
+      if (this.cpOpen === btn) { this.closeColor(true); return; }
+      this.closeSelect(); this.closeColor();
+      var key = btn.getAttribute('data-cpick'), pop = $('.cp-pop'), cur = (S[key] || '').toLowerCase();
+      this.cpOpen = btn; this.cpKey = key;
+      pop.innerHTML = '<div class="cp-grid" role="group" aria-label="Colors">' + this.PALETTE.map(function (c) { return '<button type="button" data-cpv="' + c + '" data-bg="' + c + '" aria-label="' + c + '"' + (cur === c ? ' class="on"' : '') + '></button>'; }).join('') + '</div>' +
+        '<div class="cp-row"><span class="prev"></span><input type="text" class="inp cp-hex" maxlength="24" aria-label="Color code" placeholder="#1A2B3C" value="' + esc(S[key] || '') + '" spellcheck="false" autocomplete="off"><button type="button" class="btn" data-act="cp-apply">Use this color</button></div>';
+      $$('[data-bg]', pop).forEach(function (b) { b.style.background = b.getAttribute('data-bg'); });
+      $('.prev', pop).style.background = S[key] || 'transparent';
+      pop.hidden = false;
+      var r = btn.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight, H = vh();
+      pop.style.left = Math.round(clamp(r.right - w, 8, vw() - w - 8)) + 'px';
+      pop.style.top = Math.round(H - r.bottom - 8 >= h ? r.bottom + 6 : clamp(r.top - h - 6, 8, H - h - 8)) + 'px';
+      I18N.apply(pop);
+      var first = $('.cp-grid .on', pop) || $('.cp-grid button', pop); first.focus();
+    },
 })(window, document);
