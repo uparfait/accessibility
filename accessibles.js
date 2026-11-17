@@ -2329,4 +2329,11 @@
   }
   function moveCaret(el, d) {
     if (!el || el.isContentEditable) return;
+    try { var p = clamp(el.selectionStart + d, 0, el.value.length); el.setSelectionRange(p, p); el.focus(); } catch (e) { /* ignore */ }
+  }
+  function pressEnter(el) {
+    if (!el) return;
+    if (el.tagName === 'TEXTAREA' || el.isContentEditable) { insertText(el, '\n'); return; }
+    var ev = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true });
+    var ok = el.dispatchEvent(ev);
 })(window, document);
