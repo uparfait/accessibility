@@ -5111,4 +5111,19 @@
       $('span', n).textContent = msg ? T(msg) : '';
     },
 
+    /* --- loading states: shown on the pressed control until the change has been applied --- */
+    busyList: [], busyAt: 0,
+    // owner: a long task (translation, help translation) that ends the loading state itself
+    setBusy: function (el, owner) {
+      if (!el || el.classList.contains('busy')) return;
+      el.accBusy = owner || '';
+      el.classList.add('busy');
+      el.setAttribute('aria-busy', 'true');
+      var b = document.createElement('span');
+      b.className = 'bz'; b.setAttribute('translate', 'no'); b.setAttribute('aria-hidden', 'true');
+      b.innerHTML = ic('spinner', 'spin') + '<span class="pc"></span>';
+      el.appendChild(b);
+      this.busyList.push(el);
+      this.busyAt = Date.now();
+    },
 })(window, document);
