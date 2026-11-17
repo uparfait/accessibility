@@ -1929,4 +1929,24 @@
       this.dog = nativeSetInterval.call(window, function () { if (self.want && !self.running && !document.hidden) self.listen(); }, 4000);
       if (first && mode === 'dict' && !lastEditable) toast(T('Click into a text box, then start speaking'));
     },
+    listen: function () {
+      if (!this.want || this.running) return;
+      var self = this, mode = this.mode, r;
+      try { r = new SR(); } catch (e) { return; }
+      r.lang = this.lang;
+      r.continuous = true;
+      r.interimResults = true;
+      r.maxAlternatives = 3;
+      r.onstart = function () { self.running = true; };
+      r.onresult = function (ev) {
+        self.fails = 0;
+        for (var i = ev.resultIndex; i < ev.results.length; i++) {
+          var res = ev.results[i], txt = String(res[0].transcript || '').trim();
+          if (!txt) continue;
+          if (!res.isFinal) { if (!self.hearingSelf(txt)) UI.pill(txt, true); continue; }
+          var alts = [];
+          for (var k = 0; k < res.length; k++) alts.push(String(res[k].transcript || '').trim());
+          self.heard(txt, alts, mode);
+        }
+      };
 })(window, document);
