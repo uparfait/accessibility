@@ -5226,4 +5226,22 @@
       this.helpTranslate();
       try { $('.help-title', box).focus({ preventScroll: true }); } catch (e) { /* ignore */ }
     },
+    helpCache: {},
+    helpSource: function (h) { return (h.isInfo || h.isAudit) ? h.item.desc : (DESC[h.key] || h.item.desc || ''); },
+    helpTranslate: function () {
+      var box = $('.help'), id = this.helpId;
+      if (!id || box.hidden || id === 'doc') return;
+      var h = this.helpItem(id), it = h.item, lang = this.helpLang || '';
+      var src = [it.label].concat(guideWords(this.helpSource(h)));
+      var title = $('.help-title', box), wait = $('.help-wait', box);
+      var put = function (arr) {
+        title.textContent = arr[0] || src[0];
+        $$('.gd [data-l]', box).forEach(function (el) { var k = +el.getAttribute('data-l') + 1; if (arr[k]) el.textContent = arr[k]; });
+      };
+      if (!lang || /^en(-|$)/.test(lang)) { put(src); wait.hidden = true; box.setAttribute('lang', 'en'); box.setAttribute('dir', 'ltr'); this.doneBusy('help'); return; }
+      var dir = RTL_LANGS.test(lang) ? 'rtl' : 'ltr';
+      var ck = lang + '|' + id + '|' + src.length;
+      if (this.helpCache[ck]) { put(this.helpCache[ck]); wait.hidden = true; box.setAttribute('lang', lang); box.setAttribute('dir', dir); this.doneBusy('help'); return; }
+      wait.hidden = false;
+      $('span', wait).textContent = T('Waiting…');
 })(window, document);
