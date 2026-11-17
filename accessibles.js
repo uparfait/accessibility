@@ -907,4 +907,20 @@
       c.push(B + ' :is(code,pre,kbd,samp){direction:ltr!important;text-align:left!important}');
     }
     if (S.textAlign) c.push(B + ',' + B + ' *:not(svg *){text-align:' + S.textAlign + '!important}');
+    if (S.highlightTitles) c.push(B + ' :is(' + HEADINGS + '){outline:2px solid ' + A + '!important;outline-offset:4px!important;border-radius:2px}');
+    if (S.highlightLinks) c.push(B + ' :is(a[href],[role="link"]){text-decoration:underline!important;text-decoration-thickness:2px!important;text-underline-offset:3px!important;outline:2px dashed ' + A + '!important;outline-offset:2px!important}');
+
+    // Contrast themes
+    if (S.contrast === 'dark') {
+      c.push(B + ',' + B + ' *' + NOT_MEDIA + '{background-color:#121417!important;color:#eef0f2!important;border-color:#3d434a!important;text-shadow:none!important}');
+      c.push(B + ' :is(' + HEADINGS + '),' + B + ' :is(' + HEADINGS + ') *{color:#ffffff!important}');
+      c.push(B + ' :is(a[href],a[href] *){color:#8fc9ff!important}');
+      c.push(B + ' :is(input,textarea,select,button){background-color:#1c2025!important;border-color:#7a838c!important}');
+      c.push(B + ' ::placeholder{color:#a6adb4!important}');
+    } else if (S.contrast === 'light') {
+      c.push(B + ',' + B + ' *' + NOT_MEDIA + '{background-color:#ffffff!important;color:#141414!important;border-color:#6b6b6b!important;text-shadow:none!important}');
+      c.push(B + ' :is(' + HEADINGS + '),' + B + ' :is(' + HEADINGS + ') *{color:#000000!important}');
+      c.push(B + ' :is(a[href],a[href] *){color:#0645ad!important}');
+      c.push(B + ' :is(input,textarea,select,button){background-color:#ffffff!important;border-color:#444!important}');
+    }
 })(window, document);
