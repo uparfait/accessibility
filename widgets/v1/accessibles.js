@@ -5500,7 +5500,7 @@
     if (!mount) { mount = document.createElement('div'); mount.className = 'accessibles-widget'; }
     CFG = readConfig(mount);
     if (CFG.large && !Store.read()) S.oversized = true;
-    PAL = buildPalette(CFG.color, CFG.bg);
+    PAL = buildPalette(CFG.color, CFG.bg, CFG.iconColor);
     host = mount;
     host.setAttribute('data-accessibles', VERSION);
     host.setAttribute('translate', 'no');
@@ -5549,7 +5549,7 @@
 
   // Apply saved visual settings as early as possible to avoid a flash of the unadjusted page
   if (document.head && document.readyState === 'loading') {
-    try { CFG = readConfig(null); PAL = buildPalette(CFG.color, CFG.bg); setPageCSS(buildPageCSS()); } catch (e) { /* will apply at start */ }
+    try { CFG = readConfig(null); PAL = buildPalette(CFG.color, CFG.bg, CFG.iconColor); setPageCSS(buildPageCSS()); } catch (e) { /* will apply at start */ }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
