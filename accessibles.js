@@ -3299,4 +3299,23 @@
       if (S.hoverHighlight && !this.on) { this.on = true; document.addEventListener('pointermove', this.onMove, { passive: true }); window.addEventListener('scroll', this.onScroll, true); }
       else if (!S.hoverHighlight && this.on) { this.on = false; document.removeEventListener('pointermove', this.onMove); window.removeEventListener('scroll', this.onScroll, true); $('.hl').hidden = true; }
     },
+    onMove: function (e) {
+      Hover.target = e.target;
+      if (!Hover.raf) Hover.raf = requestAnimationFrame(function () { Hover.raf = 0; Hover.draw(); });
+    },
+    onScroll: function () { if (Hover.target) Hover.draw(); },
+    draw: function () {
+      var box = $('.hl'), t = this.target;
+      if (!t || t.nodeType !== 1 || isOurs(t)) { box.hidden = true; return; }
+      var el = t.closest('a[href],button,input,select,textarea,label,summary,[role="button"],[role="link"],img,video,h1,h2,h3,h4,h5,h6,p,li,td,th,blockquote,figure') || t;
+      if (el === document.body || el === document.documentElement) { box.hidden = true; return; }
+      var r = el.getBoundingClientRect();
+      if (r.width > vw() * 0.95 && r.height > vh() * 0.8) { box.hidden = true; return; }
+      box.hidden = false;
+      box.style.width = Math.round(r.width + 8) + 'px';
+      box.style.height = Math.round(r.height + 8) + 'px';
+      box.style.transform = 'translate(' + Math.round(r.left - 4) + 'px,' + Math.round(r.top - 4) + 'px)';
+    }
+  };
+
 })(window, document);
