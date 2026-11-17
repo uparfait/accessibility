@@ -57,4 +57,11 @@
     var out = {};
     var qi = src.indexOf('?');
     if (qi < 0) return out;
+    src.slice(qi + 1).split(/[&;]/).forEach(function (pair) {
+      if (!pair) return;
+      var eq = pair.indexOf('=');
+      var k = normKey(dec(eq < 0 ? pair : pair.slice(0, eq)));
+      var v = eq < 0 ? 'true' : dec(pair.slice(eq + 1)).trim();
+      if (k) out[k] = v;
+    });
 })(window, document);
