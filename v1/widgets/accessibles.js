@@ -3,7 +3,7 @@
  * Drop-in accessibility widget. No dependencies, no build step, no changes to your pages.
  *
  *   <div class="accessibles-widget"></div>
- *   <script src="widgets/v1/accessibles.js?color=%232F6B5A&position=bottom-right" defer></script>
+ *   <script src="v1/widgets/accessibles.js?color=%232F6B5A&position=bottom-right" defer></script>
  *
  * Query options (all optional):
  *   color          primary color, any CSS color (default #2F6B5A; encode # as %23, a raw # also works)
