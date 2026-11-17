@@ -4886,4 +4886,32 @@
           $$('[style-pad]', box).forEach(function (b) { b.style.paddingLeft = (0.6 + 0.9 * +b.getAttribute('style-pad')) + 'em'; b.removeAttribute('style-pad'); });
         }
       },
+      summary: {
+        title: 'Page summary',
+        render: function (box) {
+          var self = this;
+          box.innerHTML = '<div class="wait" translate="no">' + ic('spinner', 'spin') + '<span>' + esc(T('Reading the page…')) + '</span></div>';
+          summarize().then(function (res) {
+            if (self.view !== 'summary') return;
+            self.summaryPoints = res.points;
+            var meta = '<div class="meta"><span class="chip">' + res.words.toLocaleString() + ' words</span><span class="chip">' + res.minutes + ' min read</span></div>';
+            var pts = res.points.length ? '<ul class="sum">' + res.points.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' : '<p class="empty">This page does not have enough text to summarize.</p>';
+            var hs = res.headings.length ? '<div class="sec"><h3 class="sh">Sections</h3><div class="list">' + res.headings.map(function (h) { return '<div class="li"><span class="lt">' + esc(h) + '</span></div>'; }).join('') + '</div></div>' : '';
+            box.innerHTML = meta + pts + '<div class="btns">' + (res.points.length ? '<button type="button" class="btn" data-act="sum-read" aria-label="Listen to the summary">' + ic('speak') + 'Listen to summary</button><button type="button" class="btn ghost" data-act="sum-copy" aria-label="Copy the summary">' + ic('copy') + 'Copy summary</button>' : '') + '</div>' + hs;
+          });
+        }
+      },
+      translate: {
+        title: 'Translate',
+        render: function (box) {
+          var cur = Translate.target || S.translateTo || '';
+          box.innerHTML = '<div class="tr-note" role="alert"' + (Translate.error ? '' : ' hidden') + '>' + ic('alert') + '<span>' + esc(Translate.error) + '</span></div>' +
+            '<div class="qbox">' + ic('search') + '<input type="text" class="inp" data-filter="lang" placeholder="Search language" aria-label="Search language" autocomplete="off" spellcheck="false"></div>' +
+            '<div class="opts biglist" data-list="lang" role="listbox" aria-label="Languages">' + this.optsHTML(langOptions().map(function (o) { o.native = true; return o; }), cur) + '</div>';
+          this.afterList($('.biglist', box));
+          var act = $('.biglist .opt[aria-selected="true"]', box);
+          if (act && cur) later(function () { act.scrollIntoView({ block: 'center' }); }, 0);
+          if (Translate.busy && act) { this.setBusy(act, 'translate'); this.progress(Math.max(0.01, Translate.progress), 'translate'); }
+        }
+      },
 })(window, document);
