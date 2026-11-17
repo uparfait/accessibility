@@ -3237,4 +3237,12 @@
     }
   };
 
+  // One tooltip bubble for both the page (Tooltips feature) and this panel's own icon buttons
+  var Tip = {
+    timer: 0, el: null,
+    show: function (anchor, text, delay) {
+      cancel(this.timer);
+      var self = this;
+      this.timer = later(function () { self.place(anchor, text); }, delay == null ? 350 : delay);
+    },
 })(window, document);
