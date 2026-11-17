@@ -5935,7 +5935,8 @@
   }
   function watchTopLayer() {
     if (!useTopLayer) return;
-    var other = function (el) { return el && el !== host && el.nodeType === 1 && !isOurs(el); };
+    // The widget's own layers (and anything inside them) never count as someone else's
+    var other = function (el) { return el && el.nodeType === 1 && el !== host && !isOurs(el) && !(topEl && (el === topEl || topEl.contains(el))); };
     document.addEventListener('toggle', function (e) {
       var t = e.target;
       if (!other(t)) return;
