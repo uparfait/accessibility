@@ -1844,4 +1844,18 @@
       this.pending.forEach(function (p) { p(); });
       this.pending = [];
     },
+    onLeave: function (e) {
+      if (!e.isTrusted || isOurs(e.target) || !(e.target instanceof Element)) return;
+      var el = e.target, type = e.type;
+      // Only hold back leave events for things that look like menus or tooltips
+      if (!el.closest('nav,[role="menu"],[role="menubar"],[role="navigation"],[aria-haspopup],[aria-expanded],[class*="menu"],[class*="dropdown"],[class*="nav"],[class*="tooltip"],[class*="popover"],[title]')) return;
+      e.stopImmediatePropagation();
+      var init = { bubbles: e.bubbles, cancelable: e.cancelable, clientX: e.clientX, clientY: e.clientY, relatedTarget: e.relatedTarget, view: window };
+      var fire = function () { if (!el.matches(':hover')) el.dispatchEvent(new MouseEvent(type, init)); };
+      var id = later(function () { Timing.pending.splice(Timing.pending.indexOf(fire), 1); fire(); }, 1500);
+      Timing.pending.push(fire);
+      return id;
+    }
+  };
+
 })(window, document);
