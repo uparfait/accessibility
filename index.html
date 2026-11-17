@@ -277,3 +277,21 @@
     document.querySelector('.example output').textContent = e.detail.key + ' → ' + JSON.stringify(e.detail.value);
   });
 </script>
+
+<!-- Accessibles -->
+<div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="favicon.svg"></div>
+<script>
+  // Lets the examples above preview other options on this page
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var widget = document.querySelector('.accessibles-widget');
+    var used = false;
+    ['color', 'bg', 'position', 'site-name', 'site-icon-url'].forEach(function (key) {
+      if (params.get(key)) { widget.setAttribute('data-' + key, params.get(key)); used = true; }
+    });
+    document.querySelector('.preview').hidden = !used;
+  })();
+</script>
+<script src="accessibles.js?color=%237B3F00" defer></script>
+</body>
+</html>
