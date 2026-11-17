@@ -2891,4 +2891,14 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 19. Sign language
+   * ------------------------------------------------------------------ */
+  var Sign = {
+    mode: '', rec: new Recorder(), wrap: null, scriptState: '', waitT: 0,
+    // What each service is doing right now, shown under its switch: off, loading, on, warn or error
+    st: {
+      asl: { s: 'off', msg: 'Off. Turn on to watch sign language videos for parts of this page.' },
+      libras: { s: 'off', msg: 'Off. Turn on to add a Libras interpreter to this page.' }
+    },
 })(window, document);
