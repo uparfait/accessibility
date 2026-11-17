@@ -44,7 +44,7 @@
   .nav { display: flex; align-items: center; gap: 28px; }
   .nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
   .nav a:hover { color: var(--text); }
-  .gh { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 0; color: var(--text) !important; }
+  .gh { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: var(--radius); color: var(--text) !important; }
   .gh:hover { background: var(--surface); }
   .gh svg { width: 18px; height: 18px; fill: currentColor; }
   @media (max-width: 600px) { .nav { gap: 18px; } .nav .link { display: none; } }
@@ -77,10 +77,10 @@
   @media (max-width: 760px) { .steps > li { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 14px; padding: 26px 0; } }
   .steps > li::before { content: counter(step, decimal-leading-zero); padding-top: 6px; font: 400 13px/1 var(--font-m); color: var(--muted); }
   .steps p { color: var(--muted); margin-top: 6px; }
-  p code, td code { font: 500 .8em/1.4 var(--font-m); padding: .1em .38em; border-radius: 0; background: #011627; color: #7fdbca; white-space: nowrap; }
+  p code, td code { font: 500 .8em/1.4 var(--font-m); padding: .1em .38em; border-radius: var(--radius); background: #011627; color: #7fdbca; white-space: nowrap; }
 
-  .editor { position: relative; margin-top: 16px; border-radius: 0; overflow: hidden; background: #011627; }
-  .editor .copy { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 12px; border: 1px solid #1d3b53; border-radius: 0; background: #011627; box-shadow: -12px 0 12px #011627; color: #8badc1; font: 500 12px/1 var(--font-b); cursor: pointer; }
+  .editor { position: relative; margin-top: 16px; border-radius: var(--radius); overflow: hidden; background: #011627; }
+  .editor .copy { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 12px; border: 1px solid #1d3b53; border-radius: var(--radius); background: #011627; box-shadow: -12px 0 12px #011627; color: #8badc1; font: 500 12px/1 var(--font-b); cursor: pointer; }
   .editor .copy:hover { background: #1d3b53; color: #d6deeb; }
   .editor pre { margin: 0; padding: 18px 88px 18px 14px; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 14px/1.75 var(--font-m); color: #d6deeb; }
   .editor code { counter-reset: ln; }
@@ -115,7 +115,7 @@
   .example summary .d { display: block; color: var(--muted); font-size: 16px; line-height: 1.55; }
   .example summary:hover h3, .example[open] summary h3, .example[open] summary::before { color: var(--brand); }
   .example .plus { position: relative; width: 14px; height: 14px; align-self: center; justify-self: end; color: var(--muted); transition: color .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); }
-  .example .plus::before, .example .plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.5px; border-radius: 0; background: currentColor; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+  .example .plus::before, .example .plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.5px; border-radius: var(--radius); background: currentColor; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
   .example .plus::after { transform: rotate(90deg); }
   .example summary:hover .plus { color: var(--text); }
   .example[open] .plus { color: var(--brand); transform: rotate(180deg); }
@@ -128,9 +128,9 @@
   @media (max-width: 760px) { .example summary { grid-template-columns: 2.5rem minmax(0, 1fr) 16px; gap: 14px; padding: 24px 0; } .example summary .t { display: block; } .example summary .d { margin-top: 6px; font-size: 15px; } .example .inner { padding: 0 0 28px; } }
   @media (prefers-reduced-motion: reduce) { .example summary::before, .example summary h3, .example .plus, .example .plus::before, .example .plus::after { transition: none; } }
 
-  .preview { display: inline-flex; align-items: center; gap: 12px; margin-top: 20px; padding: 8px 8px 8px 16px; border-radius: 0; background: var(--brand-tint); color: var(--brand); font-size: 15px; }
+  .preview { display: inline-flex; align-items: center; gap: 12px; margin-top: 20px; padding: 8px 8px 8px 16px; border-radius: var(--radius); background: var(--brand-tint); color: var(--brand); font-size: 15px; }
   .preview[hidden] { display: none; }
-  .preview a { padding: 6px 14px; border-radius: 0; background: var(--bg); text-decoration: none; }
+  .preview a { padding: 6px 14px; border-radius: var(--radius); background: var(--bg); text-decoration: none; }
 </style>
 </head>
 <body>
