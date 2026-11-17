@@ -2558,4 +2558,12 @@
       Dict.last = w.word; Dict.lastAt = Date.now();
       Dict.lookup(w.word, w.rect);
     },
+    onUp: function (e) {
+      if (isOurs(e.target) || isEditable(e.target)) return;
+      later(Dict.fromSelection, e.pointerType === 'touch' ? 400 : 20);
+    },
+    onKeyUp: function (e) {
+      if (isOurs(e.target) || isEditable(e.target) || e.key !== 'Shift') return;
+      later(Dict.fromSelection, 20);
+    },
 })(window, document);
