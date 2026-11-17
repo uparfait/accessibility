@@ -4943,4 +4943,30 @@
             '<div class="btns"><button type="button" class="btn ghost" data-act="pos-reset">' + ic('reset') + 'Move the button back to its default place</button></div>';
         }
       },
+      audit: {
+        title: 'Page check',
+        render: function (box) {
+          var self = this;
+          box.innerHTML = '<div class="wait" translate="no">' + ic('spinner', 'spin') + '<span>' + esc(T('Checking the page…')) + '</span></div>';
+          runAuditAsync(function (f) { var sp = $('.wait span', box); if (sp) sp.textContent = T('Checking the page…') + ' ' + Math.round(f * 100) + '%'; })
+            .then(function (res) { if (self.view === 'audit') { self.views.audit.show.call(self, box, res); self.afterRender(); } });
+        },
+        show: function (box, res) {
+          this.auditRes = res;
+          var openCount = res.checks.filter(function (c) { return c.open.length; }).length;
+          var top = Object.keys(usage).sort(function (a, b) { return usage[b] - usage[a]; }).slice(0, 5);
+          box.innerHTML = '<div class="score"><span class="n">' + res.score + '</span><div class="grow"><div class="st-t">' + (openCount ? openCount + ' area' + (openCount === 1 ? '' : 's') + ' to improve' : 'No issues found') + '</div><div class="bar"><i></i></div></div></div>' +
+
+            '<div class="list">' + res.checks.map(function (c) {
+              var ok = !c.open.length;
+              var sub = ok ? (c.fixed ? c.fixed + ' fixed automatically' : 'Passed') : c.open.length + ' found' + (c.fixed ? ' · ' + c.fixed + ' fixed automatically' : '');
+              return '<div class="chk-w"><button type="button" class="chk" data-check="' + c.id + '"' + (ok ? ' disabled' : '') + '><span class="st ' + (ok ? 'ok' : 'bad') + '">' + ic(ok ? 'check' : 'minus') + '</span><span class="cb">' + esc(c.label) + '<span class="cs">' + esc(sub) + '</span></span></button>' +
+                '<button type="button" class="hb" data-help="a:' + c.id + '" aria-label="About ' + esc(c.label) + '" data-tt="How to fix">' + ic('help') + '</button></div>';
+            }).join('') + '</div>' +
+            '<div class="btns"><button type="button" class="btn ghost" data-act="audit-run" aria-label="Check the page again">' + ic('reset') + 'Check page again</button><button type="button" class="btn ghost" data-act="audit-clear" aria-label="Remove the marks from the page">' + ic('close') + 'Clear page marks</button></div>' +
+            '<div class="sec">' + this.shHTML('Usage on this device', 'usage') + (top.length ? '<div class="list">' + top.map(function (k) { return '<div class="kl"><span>' + esc(UI.featureLabel(k)) + '</span><span>' + usage[k] + '×</span></div>'; }).join('') + '</div>' : '<p class="hint m0">No features used yet.</p>') + '</div>' +
+            '';
+          $('.score .bar i', box).style.width = res.score + '%';
+        }
+      },
 })(window, document);
