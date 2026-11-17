@@ -1425,4 +1425,11 @@
       moveTo(sel, e.shiftKey ? -1 : 1);
     }
   };
+  Keyboard.onKey = Keyboard.onKey.bind(Keyboard);
+
+  function moveTo(sel, dir) {
+    var list = Array.prototype.filter.call(document.querySelectorAll(sel), function (el) { return !isOurs(el) && visible(el); });
+    if (!list.length) { announce('None found'); return; }
+    var cur = document.activeElement && document.activeElement !== document.body && !isOurs(document.activeElement) ? document.activeElement : null;
+    var next = -1, i;
 })(window, document);
