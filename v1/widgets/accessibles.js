@@ -4577,13 +4577,13 @@
       R.addEventListener('pointerover', function (e) {
         if (e.pointerType === 'touch') return;
         var a = e.target.closest && e.target.closest('[data-tt]');
-        if (a && a !== Tip.el) Tip.show(a, T(a.getAttribute('data-tt')), 450);
+        if (a && a !== Tip.el && self.ttWanted(a)) Tip.show(a, T(a.getAttribute('data-tt')), 450);
       });
       R.addEventListener('pointerout', function (e) {
         var a = e.target.closest && e.target.closest('[data-tt]');
         if (a && !a.contains(e.relatedTarget)) Tip.hide();
       });
-      R.addEventListener('focusin', function (e) { var a = e.target.closest && e.target.closest('[data-tt]'); if (a && self.kbd) Tip.show(a, T(a.getAttribute('data-tt')), 200); });
+      R.addEventListener('focusin', function (e) { var a = e.target.closest && e.target.closest('[data-tt]'); if (a && self.kbd && self.ttWanted(a)) Tip.show(a, T(a.getAttribute('data-tt')), 200); });
       R.addEventListener('focusout', function () { if (!S.tooltips) Tip.hide(); });
       // The help window stays put: wheel and touch scrolling outside its text never move the page behind it
       var helpBox = $('.help');
@@ -5283,6 +5283,12 @@
       var a = shadow.activeElement, from = on ? vhd : $('.hview'), to = on ? $('.hview') : vhd;
       head.classList.toggle('compact', on);
       if (a && from && from.contains(a) && to) { var b = $('[data-act="back"]', to); if (b) { try { b.focus({ preventScroll: true }); } catch (e) { /* ignore */ } } }
+    },
+    // Names marked data-tt-full only get a tooltip when they are cut off with an ellipsis
+    ttWanted: function (a) {
+      if (!a.hasAttribute('data-tt-full')) return true;
+      var l = $('.tbl', a) || a;
+      return l.scrollWidth > l.clientWidth + 1;
     },
     closeView: function () {
       var q = $('.search input').value;
