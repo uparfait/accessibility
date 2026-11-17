@@ -50,4 +50,11 @@
   try { SCRIPT_BASE = SCRIPT ? new URL('.', SCRIPT.src).href : ''; } catch (e) { SCRIPT_BASE = ''; }
 
   function dec(s) { try { return decodeURIComponent(String(s).replace(/\+/g, ' ')); } catch (e) { return String(s); } }
+  function normKey(k) { return String(k).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+
+  // Parsed by hand (not with URL) so an unencoded "#" in color=#2F6B5A still works.
+  function parseQuery(src) {
+    var out = {};
+    var qi = src.indexOf('?');
+    if (qi < 0) return out;
 })(window, document);
