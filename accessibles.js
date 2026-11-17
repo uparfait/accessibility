@@ -3051,4 +3051,30 @@
         check('frames', 'Frames have titles', 1, frames.filter(function (f) { return !f.getAttribute('title') && !f.getAttribute('aria-label'); }), frames.filter(function (f) { return fixed(f, 'aria'); }).length, 'Add a title attribute to every iframe.');
         check('landmark', 'Page has a main landmark', 1, document.querySelector('main,[role="main"]') ? [] : [document.body], document.querySelector('[role="main"][data-acc-fixed]') ? 1 : 0, 'Wrap the main content in a main element.');
       },
+      function () {
+        var ids = {}, dups = [];
+        all('[id]').forEach(function (el) { if (ids[el.id]) dups.push(el); else ids[el.id] = 1; });
+        check('ids', 'IDs are unique', 1, dups, 0, 'Each id value should appear only once.');
+        check('tabindex', 'No positive tabindex', 1, all('[tabindex]').filter(function (el) { return parseInt(el.getAttribute('tabindex'), 10) > 0; }), 0, 'Use tabindex 0 or -1 only.');
+        var vp = document.querySelector('meta[name="viewport"]'), vpc = vp ? (vp.getAttribute('content') || '') : '';
+        var noZoom = /user-scalable\s*=\s*(no|0)/i.test(vpc) || (/maximum-scale\s*=\s*([\d.]+)/i.test(vpc) && parseFloat(/maximum-scale\s*=\s*([\d.]+)/i.exec(vpc)[1]) < 2);
+        check('zoom', 'Pinch zoom is allowed', 2, noZoom ? [vp] : [], 0, 'Remove user-scalable=no and maximum-scale from the viewport meta tag.');
+      },
+      function () {
+        var low = [], seen = 0, tn, checked = new Set();
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+        while ((tn = walker.nextNode()) && seen < 500) {
+          var p = tn.parentElement;
+          if (!p || checked.has(p) || isOurs(p) || !/\S/.test(tn.nodeValue) || SKIP_TAGS[p.tagName]) continue;
+          checked.add(p);
+          if (!visible(p)) continue;
+          seen++;
+          var cs = getComputedStyle(p), fg = parseColor(cs.color), bg = effectiveBg(p);
+          if (!fg || !bg) continue;
+          var size = parseFloat(cs.fontSize), bold = parseInt(cs.fontWeight, 10) >= 700;
+          if (contrast(fg, bg) < ((size >= 24 || (bold && size >= 18.66)) ? 3 : 4.5)) low.push(p);
+        }
+        check('contrast', 'Text has enough contrast', 3, low, 0, 'Text needs 4.5:1 contrast, or 3:1 for large text.');
+      }
+    ];
 })(window, document);
