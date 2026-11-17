@@ -5188,4 +5188,13 @@
         (langPicker ? '<button type="button" class="cs-btn help-lang" data-sel="helplang" aria-haspopup="listbox" aria-expanded="false" aria-label="Description language: ' + esc(lv ? lv.l : 'English') + '">' + ic('gtranslate') + '<span class="cv" translate="no">' + esc(lv ? lv.l : 'English') + '</span>' + ic('chevron') + '</button>' : '') +
         '<button type="button" class="ib" data-act="help-close" aria-label="Close" data-tt="Close">' + ic('close') + '</button></div><div class="help-main"></div></div>';
     },
+    openShell: function (html) {
+      var box = $('.help');
+      this.closeSelect(); this.closeColor();
+      if (box.hidden) this.helpFrom = shadow.activeElement;
+      box.innerHTML = html;
+      box.hidden = false;
+      $('.launch').classList.add('under');
+      return box;
+    },
 })(window, document);
