@@ -5140,4 +5140,15 @@
       }, Math.max(0, 260 - (Date.now() - this.busyAt)));
     },
 
+    /* --- help explainer: full screen, icon, description, translatable on its own --- */
+    helpItem: function (id) {
+      if (id.indexOf('i:') === 0) { var k = id.slice(2), inf = INFO[k]; return { isInfo: true, key: k, item: inf ? { id: k, label: inf.title, icon: inf.icon, kind: inf.kind, desc: inf.desc, t: 'info' } : null }; }
+      if (id.indexOf('a:') === 0) {
+        var ck = id.slice(2), c = this.auditRes && this.auditRes.checks.filter(function (x) { return x.id === ck; })[0];
+        return { isAudit: true, key: ck, check: c, item: c ? { id: ck, label: c.label, icon: 'audit', kind: 'Page check', desc: AUDIT_HELP[ck] || c.help, t: 'info' } : null };
+      }
+      var isP = id.indexOf('p:') === 0, key = id.replace(/^p:/, '');
+      var item = isP ? PROFILES.filter(function (p) { return p.id === key; })[0] : FMAP[key];
+      return { isP: isP, key: key, item: item };
+    },
 })(window, document);
