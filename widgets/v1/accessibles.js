@@ -2876,7 +2876,7 @@
       else if (!S.dictionary && this.on) { this.on = false; document.removeEventListener('pointerup', this.onUp, true); document.removeEventListener('keyup', this.onKeyUp, true); UI.dict(null); }
     },
     word: function () {
-      var sel = window.getSelection && window.getSelection();
+      var sel = getSel();
       if (!sel || !sel.rangeCount || sel.isCollapsed) return null;
       // Grow a partial selection ("The Gr") to whole words ("The Green") before looking it up
       try {
@@ -2905,11 +2905,13 @@
       Dict.lookup(w.word, w.rect);
     },
     onUp: function (e) {
-      if (isOurs(e.target) || isEditable(e.target)) return;
+      var t = realTarget(e);
+      if (!pageLike(t) || isEditable(t)) return;
       later(Dict.fromSelection, e.pointerType === 'touch' ? 400 : 20);
     },
     onKeyUp: function (e) {
-      if (isOurs(e.target) || isEditable(e.target) || e.key !== 'Shift') return;
+      var t = realTarget(e);
+      if (!pageLike(t) || isEditable(t) || e.key !== 'Shift') return;
       later(Dict.fromSelection, 20);
     },
     glossary: function (w) {
