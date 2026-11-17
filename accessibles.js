@@ -3111,4 +3111,31 @@
     }
   }
 
+  // Hide images: each meaningful picture or video is replaced by a small label with its description
+  var HideImg = {
+    on: false, rec: new Recorder(),
+    sync: function () { if (S.hideImages && !this.on) { this.on = true; this.fix(document.body); } else if (!S.hideImages && this.on) { this.on = false; this.rec.revert(); this.clear(document.body); } },
+    clear: function (root) { Array.prototype.forEach.call(root.querySelectorAll('img,video,[role="img"],input[type="image"]'), function (el) { el.__accAlt = false; }); },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var rec = this.rec;
+      var list = Array.prototype.slice.call(root.querySelectorAll('img,video,[role="img"]:not(svg),input[type="image"]'));
+      if (root.matches && root.matches('img,video')) list.unshift(root);
+      list.forEach(function (el) {
+        if (el.__accAlt || isOurs(el)) return;
+        el.__accAlt = true;
+        var isVideo = el.tagName === 'VIDEO';
+        var text = (isVideo ? (el.getAttribute('aria-label') || el.getAttribute('title') || '') : (el.getAttribute('alt') || el.getAttribute('aria-label') || el.getAttribute('title') || '')).trim();
+        if (!text && !isVideo) return;   // decorative: simply hidden
+        var tag = document.createElement('span');
+        tag.className = 'acc-imgalt';
+        tag.setAttribute('role', 'img');
+        tag.setAttribute('aria-label', (isVideo ? 'Video' : 'Picture') + (text ? ': ' + text : ''));
+        tag.textContent = (isVideo ? 'Video' : 'Picture') + (text ? ': ' + text : '');
+        var host2 = el.parentElement && el.parentElement.tagName === 'PICTURE' ? el.parentElement : el;
+        host2.parentNode.insertBefore(rec.add(tag), host2.nextSibling);
+      });
+    }
+  };
+
 })(window, document);
