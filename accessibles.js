@@ -5499,4 +5499,11 @@
     if (CFG.large && !Store.read()) S.oversized = true;
     PAL = buildPalette(CFG.color, CFG.bg);
     host = mount;
+    host.setAttribute('data-accessibles', VERSION);
+    host.setAttribute('translate', 'no');
+    host.classList.add('notranslate');
+    // The widget lives outside <body> (and in the top layer when supported),
+    // so page-wide filters, zoom and color overrides never touch it.
+    document.documentElement.appendChild(host);
+    host.style.cssText = 'all:initial!important;position:fixed!important;inset:0!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;pointer-events:none!important;z-index:2147483647!important;display:block!important;visibility:visible!important;opacity:1!important;transform:none!important;filter:none!important;contain:none!important;color-scheme:light dark!important';
 })(window, document);
