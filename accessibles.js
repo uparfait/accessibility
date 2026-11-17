@@ -1111,4 +1111,11 @@
     if (el.tagName === 'IMG' || (el.tagName === 'INPUT' && el.type === 'image')) return (el.getAttribute('alt') || '').trim();
     var txt = textOf(el);
     if (txt) return txt;
+    var imgs = el.querySelectorAll ? el.querySelectorAll('img[alt],svg title,[aria-label]') : [];
+    for (var i = 0; i < imgs.length; i++) {
+      var a = imgs[i].tagName === 'title' ? imgs[i].textContent : (imgs[i].getAttribute('alt') || imgs[i].getAttribute('aria-label'));
+      if (a && a.trim()) return a.trim();
+    }
+    if (el.getAttribute('title')) return el.getAttribute('title').trim();
+    if (el.tagName === 'INPUT' && /^(submit|reset|button)$/i.test(el.type)) return el.value || '';
 })(window, document);
