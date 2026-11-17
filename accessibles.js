@@ -4121,4 +4121,26 @@
         launch.classList.remove('dragging');
         drag = null;
       };
+      launch.addEventListener('pointerup', end);
+      launch.addEventListener('pointercancel', end);
+      launch.addEventListener('click', function (e) { if (suppress) { e.preventDefault(); return; } self.toggle(e.detail === 0); });
+      launch.addEventListener('keydown', function (e) {
+        // Arrow keys move the button too (keyboard alternative to dragging)
+        if (!e.altKey || !/^Arrow/.test(e.key)) return;
+        e.preventDefault();
+        var r = launch.getBoundingClientRect(), step = 24;
+        var nx = r.left + r.width / 2 + (e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0);
+        var ny = r.top + r.height / 2 + (e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0);
+        dragPos = { x: clamp(nx / vw(), 0, 1), y: clamp(ny / vh(), 0, 1) };
+        self.placeLauncher(); save();
+      });
+
+      // Drag the panel by its header on larger screens
+      var head = $('.head'), pdrag = null;
+      head.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0 || e.target.closest('button') || vw() < 640) return;
+        var r = $('.panel').getBoundingClientRect();
+        pdrag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top };
+        try { head.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
+      });
 })(window, document);
