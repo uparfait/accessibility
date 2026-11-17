@@ -78,7 +78,7 @@
   @media (max-width: 760px) { .steps > li { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 14px; padding: 26px 0; } }
   .steps > li::before { content: counter(step, decimal-leading-zero); padding-top: 6px; font: 400 13px/1 var(--font-m); color: var(--muted); }
   .steps p { color: var(--muted); margin-top: 6px; }
-  p code, td code { font: 500 .84em/1.4 var(--font-m); padding: .18em .5em; border-radius: 0; background: #011627; color: #7fdbca; white-space: nowrap; }
+  p code, td code { font: 500 .8em/1.4 var(--font-m); padding: .1em .38em; border-radius: 0; background: #011627; color: #7fdbca; white-space: nowrap; }
 
   .editor { position: relative; margin-top: 16px; border-radius: 0; overflow: hidden; background: #011627; }
   .editor .copy { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 12px; border: 1px solid #1d3b53; border-radius: 0; background: #011627; box-shadow: -12px 0 12px #011627; color: #8badc1; font: 500 12px/1 var(--font-b); cursor: pointer; }
@@ -96,10 +96,11 @@
   .t-fn { color: #82aaff; }
   .t-num { color: #f78c6c; }
 
-  .opts { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
-  .opts th, .opts td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .opts th { font-weight: 500; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
-  .opts code { font: 500 13px/1.4 var(--font-m); color: #addb67; }
+  .opts { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
+  .opts th, .opts td { text-align: left; padding: 7px 16px 7px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+  .opts td:first-child { width: 9.5rem; }
+  .opts th { font-weight: 500; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+  .opts code { font: 500 12px/1.4 var(--font-m); color: #addb67; }
   .table { overflow-x: auto; }
   .more { margin-top: 20px; font-size: 15px; color: var(--muted); }
   .more a { color: var(--brand); text-underline-offset: 3px; }
