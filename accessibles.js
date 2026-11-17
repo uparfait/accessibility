@@ -1360,4 +1360,14 @@
       var len = textOf(c).length;
       if (len > bestLen * 1.15) { best = c; bestLen = len; }
     });
+    if (best && bestLen > 200) return best;
+    // Density scoring on paragraphs
+    var scores = new Map();
+    Array.prototype.forEach.call(document.querySelectorAll('p'), function (p) {
+      var l = textOf(p).length;
+      if (l < 40) return;
+      var a = p.parentElement, b = a && a.parentElement;
+      if (a) scores.set(a, (scores.get(a) || 0) + l);
+      if (b) scores.set(b, (scores.get(b) || 0) + l / 2);
+    });
 })(window, document);
