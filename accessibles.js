@@ -1345,4 +1345,12 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 11. Keyboard navigation, skip link and page structure
+   * ------------------------------------------------------------------ */
+  function findMain(heuristicOnly) {
+    if (!heuristicOnly) {
+      var m = document.querySelector('main,[role="main"]');
+      if (m && textOf(m).length > 80) return m;
+    }
 })(window, document);
