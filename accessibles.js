@@ -5081,4 +5081,14 @@
         shadow.removeChild(t);
         done(ok);
       };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { done(true); }, fallback); else fallback();
+    },
+    // Wrap button text so long labels can shorten with an ellipsis instead of wrapping
+    wrapButtons: function (root) {
+      $$('.btn', root || R).forEach(function (b) {
+        Array.prototype.slice.call(b.childNodes).forEach(function (n) {
+          if (n.nodeType === 3 && n.nodeValue.trim()) { var sp = document.createElement('span'); sp.className = 'bl'; n.parentNode.replaceChild(sp, n); sp.appendChild(n); }
+        });
+      });
+    },
 })(window, document);
