@@ -4079,4 +4079,22 @@
       if (now) go(); else this.cardT = later(function () { if (!self.cardHover) go(); }, 160);
     },
 
+    bind: function () {
+      var self = this;
+      var launch = $('.launch'), card = $('.lcard');
+      launch.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch') self.showCard(); });
+      launch.addEventListener('pointerleave', function () { self.hideCard(); });
+      launch.addEventListener('focus', function () { if (self.kbd) self.showCard(); });
+      launch.addEventListener('blur', function () { self.hideCard(true); });
+      card.addEventListener('pointerenter', function () { self.cardHover = true; cancel(self.cardT); });
+      card.addEventListener('pointerleave', function () { self.cardHover = false; self.hideCard(); });
+      card.addEventListener('click', function () { self.hideCard(true); self.cardHover = false; self.toggle(); });
+      // Drag the launcher (mouse, pen and touch); a short press is a click
+      var drag = null, suppress = false;
+      launch.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0 || !CFG.draggable) return;
+        var r = launch.getBoundingClientRect();
+        drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top, moved: false };
+        try { launch.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
+      });
 })(window, document);
