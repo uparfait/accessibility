@@ -2835,4 +2835,26 @@
         (document.head || document.documentElement).appendChild(sc);
         later(function () { reject(new Error('timeout')); }, 20000);
       });
+      // A failed load can be tried again on the next request
+      this.ready.catch(function () { self.ready = null; });
+      return this.ready;
+    },
+    google: function (target) {
+      var self = this;
+      return this.load().then(function () {
+        var combo = document.querySelector('select.goog-te-combo');
+        if (!combo) { self.ready = null; throw new Error('timeout'); }
+        var has = Array.prototype.some.call(combo.options, function (o) { return o.value === target; });
+        if (!has) throw new Error('language not offered');
+        // The cookie makes Google keep the language on the next pages too
+        var cv = '/' + (self.pageLang() === 'auto' ? 'auto' : self.pageLang()) + '/' + target;
+        try { document.cookie = 'googtrans=' + cv + ';path=/'; } catch (e) { /* ignore */ }
+        if (combo.value === target && self.isTranslated()) combo.value = '';
+        combo.value = target;
+        var ev;
+        try { ev = new Event('change', { bubbles: true }); } catch (e) { ev = document.createEvent('HTMLEvents'); ev.initEvent('change', true, true); }
+        combo.dispatchEvent(ev);
+        lastCSS = ''; scheduleApply();
+      });
+    },
 })(window, document);
