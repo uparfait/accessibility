@@ -340,4 +340,11 @@
     statement: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14l2 2 4-4"/>',
     // controls
     play: '<path d="M8 5.6v12.8l10-6.4z"/>',
+    pauseSm: '<path d="M9 5.5v13M15 5.5v13"/>',
+    stop: '<rect x="6.5" y="6.5" width="11" height="11" rx="1.6"/>',
+    backspace: '<path d="M8.5 5H20a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8.5L3 12z"/><path d="m11 9 6 6M17 9l-6 6"/>',
+    shift: '<path d="M12 4 4.5 11.5h4V19h7v-7.5h4z"/>',
+    enter: '<path d="M19 5v7a2 2 0 0 1-2 2H5.5M9.5 10l-4 4 4 4"/>',
+    left: '<path d="M14.5 6 8.5 12l6 6"/>',
+    right: '<path d="M9.5 6l6 6-6 6"/>',
 })(window, document);
