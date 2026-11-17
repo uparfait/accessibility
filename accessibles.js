@@ -1721,4 +1721,22 @@
       Array.prototype.forEach.call(root.querySelectorAll('img'), function (img) { self.freeze(img); });
       Array.prototype.forEach.call(root.querySelectorAll('iframe'), function (f) { postToPlayer(f, 'pause'); });
     },
+    freeze: function (img) {
+      if (img.__accFrozen || isOurs(img)) return;
+      var src = img.currentSrc || img.src || '';
+      if (!/\.gif($|[?#])/i.test(src) && !/^data:image\/gif/i.test(src)) return;
+      var self = this;
+      var go = function () {
+        if (!self.on || img.__accFrozen) return;
+        try {
+          var c = document.createElement('canvas');
+          c.width = img.naturalWidth; c.height = img.naturalHeight;
+          c.getContext('2d').drawImage(img, 0, 0);
+          var url = c.toDataURL('image/png');
+          self.gifs.push([img, img.getAttribute('src'), img.getAttribute('srcset')]);
+          img.__accFrozen = true;
+          img.removeAttribute('srcset');
+          img.setAttribute('src', url);
+        } catch (e) { /* cross-origin GIF without CORS: cannot be frozen */ }
+      };
 })(window, document);
