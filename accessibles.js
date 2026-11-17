@@ -2668,4 +2668,11 @@
       this.queue(s);
       return s;
     },
+    queue: function (s) {
+      if (this.failed && Date.now() - this.failed < 20000) return;
+      this.pending[s] = 1;
+      var self = this;
+      cancel(this.timer);
+      this.timer = later(function () { self.flush(); }, 60);
+    },
 })(window, document);
