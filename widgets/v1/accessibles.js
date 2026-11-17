@@ -5450,11 +5450,18 @@
       $('.vt', p).textContent = S.dictation ? (el ? (accName(el) || el.getAttribute('placeholder') || el.name || T('Text box')).slice(0, 40) : T('No text box')) : '';
       p.hidden = false;
     },
-    ask: function (label) {
+    // A question ("Did you mean …?") or, with pick, a choice between several matches
+    ask: function (label, pick) {
       var a = $('.ask');
       if (!a) return;
       if (!label) { a.hidden = true; return; }
-      $('b', a).textContent = '"' + label + '"?';
+      $('.aw', a).hidden = !!pick;
+      $('b', a).textContent = pick ? label : '"' + label + '"?';
+      $('.ap', a).textContent = pick && pick.many ? pick.pos : '';
+      $('[data-act="ask-prev"]', a).hidden = $('[data-act="ask-next"]', a).hidden = !(pick && pick.many);
+      $('[data-act="ask-all"]', a).hidden = !(pick && pick.all);
+      $('[data-act="ask-no"]', a).textContent = pick ? 'Stop' : 'No';
+      a.setAttribute('aria-label', pick ? 'Choose' : 'Did you mean');
       a.hidden = false;
       I18N.apply(a);
     },
