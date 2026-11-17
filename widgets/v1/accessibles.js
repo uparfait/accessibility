@@ -2283,6 +2283,33 @@
     if (box.form) { if (box.form.requestSubmit) box.form.requestSubmit(); else box.form.submit(); }
   }
 
+  // Finds words in the page text, selects them and scrolls there. Saying the same words again moves to the next match.
+  var lastFind = { words: '', node: null, at: -1 };
+  function findOnPage(words) {
+    var needle = String(words || '').trim().toLowerCase();
+    if (!needle || !document.body) return false;
+    var hits = [], n;
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (t) {
+        var p = t.parentElement;
+        if (!p || isOurs(p) || SKIP_TAGS[p.tagName]) return NodeFilter.FILTER_REJECT;
+        return t.nodeValue.toLowerCase().indexOf(needle) > -1 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      }
+    });
+    while ((n = w.nextNode())) { if (visible(n.parentElement)) hits.push(n); }
+    if (!hits.length) return false;
+    var start = 0;
+    if (lastFind.words === needle) { var k = hits.indexOf(lastFind.node); if (k > -1) start = (k + 1) % hits.length; }
+    var node = hits[start], at = node.nodeValue.toLowerCase().indexOf(needle);
+    lastFind = { words: needle, node: node, at: at };
+    focusEl(node.parentElement);
+    try {
+      var r = document.createRange(); r.setStart(node, at); r.setEnd(node, at + needle.length);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    } catch (e) { /* the outline still shows where it is */ }
+    return { index: start + 1, total: hits.length };
+  }
+
 
   /* ------------------------------------------------------------------ *
    * 16. Text insertion (on-screen keyboard and Talk & Type)
