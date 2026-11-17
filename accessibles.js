@@ -998,4 +998,17 @@
       this.factor = f; this.lhMode = lh;
       if (f !== 1 && document.body) return this.applyAsync(document.body);
     },
+    applyAsync: function (root) {
+      var self = this, all = this.collect(root), total = all.length, i = 0, size = 600, run = ++this.run;
+      if (total <= size * 2) { this.applyList(all); return null; }
+      return new Promise(function (resolve) {
+        (function next() {
+          if (run !== self.run) { resolve(); return; }
+          self.applyList(all.slice(i, i + size));
+          i += size;
+          UI.progress(Math.min(1, i / total));
+          if (i < total) later(next, 0); else resolve();
+        })();
+      });
+    },
 })(window, document);
