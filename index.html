@@ -264,3 +264,16 @@
     win.focus();
   });
 </script>
+
+<script>
+  // Buttons that talk to the widget
+  document.querySelector('[data-open]').addEventListener('click', function () {
+    if (window.Accessibles) Accessibles.open();
+  });
+  document.querySelector('[data-dyslexia]').addEventListener('click', function () {
+    if (window.Accessibles) Accessibles.profile('dyslexia');
+  });
+  window.addEventListener('accessibles:change', function (e) {
+    document.querySelector('.example output').textContent = e.detail.key + ' → ' + JSON.stringify(e.detail.value);
+  });
+</script>
