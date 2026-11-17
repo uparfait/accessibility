@@ -371,6 +371,7 @@ The panel has to recolor, zoom and invert the whole page while staying readable 
 - **Shadow DOM.** The panel renders inside a shadow root, so page styles can't reach in and panel styles can't leak out.
 - **Outside `<body>`.** The mount element is moved to be a direct child of `<html>`. Zoom, fonts and color overrides target `body`, so they never touch the panel.
 - **The top layer.** The mount element becomes a `popover` and is shown with `showPopover()`. Color filters go on `<html>`, and the browser paints the top layer outside that filter. This also keeps `position: fixed` headers on the page working, which a filter on `body` would break.
+- **Always on top.** The mount element has the highest possible `z-index` (larger values set by a site are capped to the same number, and the widget comes last in the page), and the top layer is above any `z-index` anyway. If the page or an extension later puts its own popup or a full-screen element in the top layer, the widget moves back above it. While a page shows a modal dialog, which makes everything outside it unclickable, the widget moves inside the dialog and returns when it closes. Inside the widget, layers have a fixed order, so the panel and help windows always sit above the reader view and the reading mask.
 - **CSP-safe styles.** Both stylesheets are attached with `adoptedStyleSheets`, and dynamic values are set through `element.style`. Strict `style-src` policies allow both.
 
 ### Settings
