@@ -2675,4 +2675,30 @@
       cancel(this.timer);
       this.timer = later(function () { self.flush(); }, 60);
     },
+    flush: function () {
+      if (this.busy) return;
+      var lang = this.lang, list = Object.keys(this.pending);
+      if (!lang || !list.length) return;
+      this.pending = {};
+      this.busy = true;
+      var self = this;
+      // Small batches so one failed request only affects a few strings; failures are retried once
+      var groups = [];
+      for (var g = 0; g < list.length; g += 25) groups.push(list.slice(g, g + 25));
+      var done = 0;
+      var c = self.cache[lang] || (self.cache[lang] = {});
+      var runGroup = function (grp, retry) {
+        return googleText(grp, lang).then(function (out) { grp.forEach(function (s, i) { if (out[i]) c[s] = out[i]; }); })
+          .catch(function () { if (!retry) return runGroup(grp, true); self.failed = Date.now(); });
+      };
+      groups.reduce(function (p, grp) {
+        return p.then(function () { return runGroup(grp).then(function () { done++; Translate.uiProgress = done / groups.length; UI.translateWait(); if (self.lang === lang && R) self.apply(R); }); });
+      }, Promise.resolve()).then(function () { self.persist(); }).then(function () {
+        self.busy = false;
+        Translate.uiProgress = 1;
+        if (self.lang === lang && R) self.apply(R);
+        UI.translateWait();
+        if (Object.keys(self.pending).length) self.flush();
+      });
+    },
 })(window, document);
