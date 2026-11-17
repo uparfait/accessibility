@@ -4591,4 +4591,43 @@
       this.setSlider(sl, v);
     },
 
+    /* --- custom select with search (no native select) --- */
+    selects: {
+      voice: {
+        title: 'Voice',
+        options: function () {
+          if (!TTS.ok) return [{ v: '', l: 'Not supported in this browser' }];
+          var lang = TTS.readLang().split('-')[0].toLowerCase();
+          var vs = TTS.voices().filter(function (v) { return !S.ttsLang || (v.lang || '').toLowerCase().split(/[-_]/)[0] === lang; }).sort(function (a, b) {
+            var la = a.lang.toLowerCase().indexOf(lang) === 0 ? 0 : 1, lb = b.lang.toLowerCase().indexOf(lang) === 0 ? 0 : 1;
+            return la - lb || a.name.localeCompare(b.name);
+          });
+          var auto = lang === 'en' ? 'British English, male (default)' : 'Automatic';
+          return [{ v: '', l: auto }].concat(vs.map(function (v) { return { v: v.voiceURI, l: v.name.replace(/^(Microsoft|Google|Apple)\s+/, ''), s: v.lang, k: v.name }; }));
+        },
+        value: function () { return S.ttsVoice; },
+        pick: function (v) { setState('ttsVoice', v); if (TTS.ok) TTS.say(T('This is how the reading voice sounds.'), null); }
+      },
+      ttslang: {
+        title: 'Reading language',
+        options: function () {
+          var seen = {}, out = [{ v: '', l: 'Same as the page' }];
+          TTS.voices().forEach(function (v) {
+            var base = (v.lang || '').split(/[-_]/)[0].toLowerCase();
+            if (!base || seen[base]) return;
+            seen[base] = 1;
+            var code = base === 'zh' ? 'zh-CN' : base === 'he' ? 'iw' : base;
+            var row = LANGS.filter(function (l) { return l[0] === code; })[0];
+            out.push({ v: base, l: row ? (row[2] || row[1]) : base, s: row && row[2] ? row[1] : '', k: base, native: true });
+          });
+          return out.slice(0, 1).concat(out.slice(1).sort(function (a, b) { return a.l.localeCompare(b.l); }));
+        },
+        value: function () { return S.ttsLang; },
+        pick: function (v) {
+          setState('ttsLang', v);
+          setState('ttsVoice', '');
+          if (UI.tab === 'reading' && !UI.view) UI.renderTab('reading');
+          if (TTS.ok) TTS.say(T('This is how the reading voice sounds.'), null);
+        }
+      },
 })(window, document);
