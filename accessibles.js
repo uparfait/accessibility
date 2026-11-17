@@ -813,4 +813,12 @@
         return;
       } catch (e) { canAdopt = false; }
     }
+    if (!pageStyleEl) {
+      pageStyleEl = document.createElement('style');
+      pageStyleEl.id = 'accessibles-page-style';
+    }
+    if (!pageStyleEl.isConnected) (document.head || document.documentElement).appendChild(pageStyleEl);
+    pageStyleEl.textContent = css;
+  }
+
 })(window, document);
