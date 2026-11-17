@@ -3906,7 +3906,9 @@
       '.search input{width:100%;height:2.5em;border:1px solid var(--line-2);border-radius:.7em;background:var(--field);padding:0 .8em 0 2.3em;font-size:.93em;color:var(--text);outline:none;-webkit-appearance:none;appearance:none}',
       '.search input::placeholder{color:var(--muted);opacity:1}',
       '.sclr{position:absolute;right:.45em;top:50%;transform:translateY(-50%);width:1.75em;height:1.75em;border-radius:50%;display:grid;place-items:center;color:var(--muted);z-index:1}',
-      '.sclr:hover{background:var(--hover);color:var(--text)}.sclr .i{width:.9em;height:.9em;stroke-width:2.2}',
+      '.sclr:hover{background:var(--hover);color:var(--text)}',
+      // The search icon rules place every icon in the box at the left; the × stays centred in its button
+      '.sclr .i{position:static!important;transform:none!important;width:.9em!important;height:.9em!important;margin:0!important;stroke-width:2.2}',
       '.vbody .qbox .sclr{top:calc(50% + .1em)}.cs-pop .q .sclr{right:.95em}',
       '.search input,.qbox .inp,.cs-pop .q input{padding-right:2.5em}',
       '[dir="rtl"] .sclr{right:auto;left:.45em}[dir="rtl"] .cs-pop .q .sclr{left:.95em}[dir="rtl"] .search input,[dir="rtl"] .qbox .inp,[dir="rtl"] .cs-pop .q input{padding-left:2.5em}',
