@@ -1142,4 +1142,13 @@
       bits.push(typeof k.className === 'string' ? k.className : (k.className && k.className.baseVal));
       bits.push(k.getAttribute('href') || k.getAttribute('xlink:href') || k.getAttribute('src') || '');
     }
+    if (el.tagName === 'A' && el.hostname && el.hostname !== location.hostname) bits.push(el.hostname);
+    var s = bits.filter(Boolean).join(' ').toLowerCase();
+    for (var j = 0; j < ICON_WORDS.length; j++) if (ICON_WORDS[j][0].test(s)) return ICON_WORDS[j][1];
+    if (el.tagName === 'A' && el.hostname && el.hostname !== location.hostname) return humanize(el.hostname.replace(/^www\./, '').split('.')[0]);
+    if (el.tagName === 'A' && el.getAttribute('href')) {
+      var p = (el.pathname || '').split('/').filter(Boolean).pop();
+      if (p) return humanize(p);
+      return 'Home';
+    }
 })(window, document);
