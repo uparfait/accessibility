@@ -2026,4 +2026,19 @@
       return { cmd: top, score: sc };
     },
 
+    // Everything said ends up here
+    heard: function (txt, alts, mode) {
+      var self = this;
+      if (this.hearingSelf(txt)) return;
+      if (this.pending && this.answer(txt)) return;
+      UI.pill(txt);
+      // The visitor is talking: a guide or tip being spoken stops, so it does not talk over them
+      if (TTS.active && TTS.items.length && TTS.items[0].raw) TTS.stop();
+      if (mode === 'nav') {
+        // Try every alternative the browser heard and keep the best guess
+        var top = null;
+        alts.forEach(function (a) { var g = self.guessNav(a); if (g && (!top || g.score > top.score)) top = g; });
+        this.act(top, txt);
+      } else this.type(txt, alts);
+    },
 })(window, document);
