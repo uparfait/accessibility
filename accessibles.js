@@ -133,4 +133,11 @@
   function $(sel, root) { return (root || shadow).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || shadow).querySelectorAll(sel)); }
   function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function vw() { return document.documentElement.clientWidth || window.innerWidth; }
+  function vh() { return window.innerHeight || document.documentElement.clientHeight; }
 })(window, document);
