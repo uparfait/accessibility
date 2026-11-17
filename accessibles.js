@@ -1804,4 +1804,12 @@
         Wrapped.__acc = Orig;
         try { window[name] = Wrapped; } catch (e) { /* read-only */ }
       });
+      this.ctxs.forEach(function (c) { if (c.suspend) c.suspend(); });
+    },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var self = this;
+      Array.prototype.forEach.call(root.querySelectorAll('audio,video'), function (m) { if (!m.muted) { self.prev.push([m, false]); m.muted = true; } });
+      Array.prototype.forEach.call(root.querySelectorAll('iframe'), function (f) { postToPlayer(f, 'mute'); });
+    },
 })(window, document);
