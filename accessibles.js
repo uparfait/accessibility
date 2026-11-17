@@ -1293,4 +1293,40 @@
       }
       return '';
     },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var rec = this.rec, self = this;
+      var fields = Array.prototype.slice.call(root.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="image"]),select,textarea'));
+      if (root.matches && root.matches('input,select,textarea')) fields.unshift(root);
+      fields.forEach(function (el) {
+        if (isOurs(el)) return;
+        var has = (el.labels && Array.prototype.some.call(el.labels, function (l) { return textOf(l); })) || accNameAttr(el) || (el.getAttribute('title') || '').trim();
+        if (!has) {
+          var name = (el.getAttribute('placeholder') || '').trim() || self.nearbyText(el) || humanize(el.getAttribute('name') || el.id || '') || humanize(el.type || 'Field');
+          rec.set(el, 'aria-label', name); markFixed(rec, el, 'form');
+        }
+        if (el.required && !el.hasAttribute('aria-required')) rec.set(el, 'aria-required', 'true');
+        if (!el.hasAttribute('autocomplete') && el.tagName === 'INPUT') {
+          var hint = ((el.getAttribute('name') || '') + ' ' + (el.id || '') + ' ' + el.type).toLowerCase();
+          var ac = /e-?mail/.test(hint) ? 'email' : /(^|\W)tel|phone|mobile/.test(hint) ? 'tel' : /first.?name|given/.test(hint) ? 'given-name' : /last.?name|surname|family/.test(hint) ? 'family-name' : /(^|\W)(full.?)?name($|\W)/.test(hint) ? 'name' : /zip|postal/.test(hint) ? 'postal-code' : '';
+          if (ac) rec.set(el, 'autocomplete', ac);
+        }
+        // Error messages near the field
+        var group = el.closest('.form-group,.field,.form-field,.input-group,.form-row,.control-group,fieldset,label,p,li,div');
+        var ERR_SEL = '.error,.errors,.invalid-feedback,.field-error,.error-message,.help-block.error,[class*="error-text"],[class*="errorMessage"],[role="alert"]';
+        var sib = el.nextElementSibling;
+        if (group && group.querySelectorAll('input:not([type="hidden"]),select,textarea').length > 2) group = null;
+        if (sib && sib.matches(ERR_SEL)) group = { querySelector: function () { return sib; } };
+        if (group) {
+          var err = group.querySelector('.error,.errors,.invalid-feedback,.field-error,.error-message,.help-block.error,[class*="error-text"],[class*="errorMessage"],[role="alert"]');
+          if (err && err !== el && textOf(err)) {
+            if (!err.id) rec.set(err, 'id', 'acc-err-' + Math.random().toString(36).slice(2, 8));
+            var by = el.getAttribute('aria-describedby') || '';
+            if ((' ' + by + ' ').indexOf(' ' + err.id + ' ') < 0) rec.set(el, 'aria-describedby', (by + ' ' + err.id).trim());
+            if (!err.hasAttribute('aria-live') && !err.getAttribute('role')) rec.set(err, 'aria-live', 'polite');
+            if (visible(err) && !el.hasAttribute('aria-invalid')) rec.set(el, 'aria-invalid', 'true');
+            markFixed(rec, el, 'form');
+          }
+        }
+      });
 })(window, document);
