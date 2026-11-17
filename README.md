@@ -405,3 +405,11 @@ Nothing external loads until a visitor turns on the feature that needs it.
 Current Chrome, Edge, Firefox and Safari, on desktop and mobile. In a browser without Shadow DOM, the script does nothing.
 
 A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site compliant by itself. Run the page check, then fix what it finds in your own code.
+
+## Project files
+
+| File | Purpose |
+|---|---|
+| `accessibles.js` | The whole widget. This is the only file a site needs. |
+| `index.html`, `favicon.svg` | The project website |
+| `demo.html`, `demo.css`, `demo-assets/` | A demo page with old-style markup, to show the widget needs no changes to the page |
