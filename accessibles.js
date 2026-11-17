@@ -2172,4 +2172,20 @@
     },
 
     /* --- Talk & type --- */
+    dictCmds: function () {
+      if (this._dict) return this._dict;
+      var self = this;
+      var list = [
+        ['Delete that', ['delete that', 'undo', 'undo that', 'scratch that', 'remove that'], function () { self.undo(); }],
+        ['Delete last word', ['delete last word', 'delete word', 'remove last word', 'delete the last word'], function () { deleteWord(lastEditable); }],
+        ['Clear all', ['clear all', 'delete all', 'clear everything', 'erase all', 'clear the box'], function () { if (lastEditable) { if (lastEditable.isContentEditable) lastEditable.textContent = ''; else setValue(lastEditable, ''); } }],
+        ['Next field', ['next field', 'next box'], function () { self.field(1); }],
+        ['Previous field', ['previous field', 'previous box'], function () { self.field(-1); }],
+        ['Send', ['send', 'submit', 'send message', 'submit form', 'send form'], function () { self.send(); }],
+        ['What can I say', ['what can i say', 'help', 'show commands', 'commands'], function () { UI.commands('dict'); }],
+        ['Stop typing', ['stop typing', 'stop listening', 'stop dictation', 'stop talk and type'], function () { setState('dictation', false); TTS.guide('Talk and type is off'); }]
+      ];
+      this._dict = list.map(function (c) { return { label: c[0], say: c[1], run: c[2] }; });
+      return this._dict;
+    },
 })(window, document);
