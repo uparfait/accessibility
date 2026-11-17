@@ -380,3 +380,7 @@ CSS can't reliably scale every font size, because sites mix `px`, `em`, `rem` an
 ### Colors
 
 The panel's colors all come from two inputs, `color` and `bg`. Text, borders and highlights are mixed from them and then nudged toward black or white until they meet WCAG contrast ratios: 12:1 for text and 4.6:1 for highlights. A pale brand color on a white panel still produces readable controls.
+
+### New content
+
+A `MutationObserver` watches the page. New elements are collected, and after a short pause every active module fixes just those parts. Single-page apps and infinite scrolling work without extra setup.
