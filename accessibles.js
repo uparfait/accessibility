@@ -2388,4 +2388,13 @@
         insertText(el, ch);
         if (this.shift && !this.caps) { this.shift = false; this.render(); }
       }
+      UI.vkbTarget();
+    },
+    sync: function () {
+      var box = $('.vkb');
+      if (S.vkeyboard && box.hidden) { this.render(); box.hidden = false; UI.vkbTarget(); }
+      else if (!S.vkeyboard && !box.hidden) box.hidden = true;
+    }
+  };
+
 })(window, document);
