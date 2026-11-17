@@ -4846,6 +4846,7 @@
     show: function () {
       var p = $('.panel');
       this.lastFocus = document.activeElement;
+      raise();
       p.hidden = false;
       this.open = true;
       $('.launch').setAttribute('aria-expanded', 'true');
