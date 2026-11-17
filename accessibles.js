@@ -4687,4 +4687,11 @@
       I18N.apply(pop);
       $('.q input', pop).focus();
     },
+    closeSelect: function (refocus) {
+      var pop = $('.cs-pop');
+      if (!pop || pop.hidden) return;
+      pop.hidden = true; pop.innerHTML = '';
+      var b = this.selOpen; this.selOpen = null;
+      if (b) { b.setAttribute('aria-expanded', 'false'); if (refocus && b.isConnected) b.focus(); }
+    },
 })(window, document);
