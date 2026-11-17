@@ -2497,4 +2497,18 @@
     var main = findMain();
     var text = mainText(main, true);
     var words = (text.match(/\S+/g) || []).length;
+    var heads = Array.prototype.filter.call(main.querySelectorAll('h2,h3,h4'), function (h) { return visible(h) && !isOurs(h); }).map(textOf).filter(Boolean).slice(0, 8);
+    var base = { words: words, minutes: Math.max(1, Math.round(words / 200)), headings: heads };
+    function timeout(p, ms) { return Promise.race([p, new Promise(function (_, rej) { later(function () { rej(new Error('timeout')); }, ms); })]); }
+    var attempt = null;
+    if (CFG.summarizeProvider) {
+      attempt = timeout(Promise.resolve(CFG.summarizeProvider(text.slice(0, 20000))), 20000);
+    } else if (typeof window.Summarizer === 'function' || (window.Summarizer && window.Summarizer.availability)) {
+      var okL = ['en', 'es', 'ja', 'de', 'fr'], ul = userLang().split('-')[0].toLowerCase(), pl = pageLang().split('-')[0].toLowerCase();
+      var sOpts = { type: 'key-points', format: 'plain-text', length: 'medium', outputLanguage: okL.indexOf(ul) > -1 ? ul : 'en', expectedInputLanguages: [okL.indexOf(pl) > -1 ? pl : 'en'] };
+      attempt = timeout(window.Summarizer.availability(sOpts).then(function (a) {
+        if (a !== 'available') throw new Error('not ready');
+        return window.Summarizer.create(sOpts);
+      }).then(function (s) { return s.summarize(text.slice(0, 12000)); }), 15000);
+    }
 })(window, document);
