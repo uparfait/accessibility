@@ -1446,4 +1446,11 @@
     announce(label + (accName(el) || textOf(el)).slice(0, 120));
   }
 
+  /* ------------------------------------------------------------------ *
+   * 12. Text to speech
+   * ------------------------------------------------------------------ */
+  // Voices do not report gender, so British male voices are recognised by the names browsers and systems give them
+  var MALE = /\b(male|man|george|ryan|daniel|arthur|oliver|thomas|james|brian|alfie|harry|william|noah|elliot|ethan|guy|reed|rocko|eddy|grandpa)\b/i;
+  var FEMALE = /\b(female|woman|hazel|susan|libby|sonia|kate|serena|martha|stephanie|fiona|maisie|abbi|bella|hollie|olivia|amy|emma|mia|sandy|shelley|flo|grandma|karen|moira|tessa)\b/i;
+  function ukMaleVoice(vs) {
 })(window, document);
