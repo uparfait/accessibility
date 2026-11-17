@@ -1983,6 +1983,7 @@
     },
     stop: function () {
       this.want = false; this.mode = ''; this.lang = ''; this.running = false; this.pending = null;
+      this.endPick(false);
       window.clearInterval(this.dog);
       if (this.rec) { var r = this.rec; this.rec = null; try { r.abort(); } catch (e) { /* ignore */ } }
       this.hideNumbers();
@@ -2015,7 +2016,7 @@
       googleText(todo, lang).then(function (out) { todo.forEach(function (p, i) { if (out[i]) c['v:' + p] = out[i]; }); I18N.persist(); fill(); }, function () { delete self.local[lang]; });
     },
     allPhrases: function () {
-      var out = this.YES.concat(this.NO);
+      var out = this.YES.concat(this.NO, this.NEXT, this.PREV, this.STOP, this.ALL);
       this.navCmds().concat(this.dictCmds()).forEach(function (c) { out = out.concat(c.say); });
       this.SLOTS.forEach(function (sl) { out = out.concat(sl.say); });
       PUNCT.forEach(function (p) { out.push(p[0]); });
@@ -2037,6 +2038,7 @@
     heard: function (txt, alts, mode) {
       var self = this;
       if (this.hearingSelf(txt)) return;
+      if (this.pick && this.pickAnswer(txt)) return;
       if (this.pending && this.answer(txt)) return;
       UI.pill(txt);
       // The visitor is talking: a guide or tip being spoken stops, so it does not talk over them
@@ -2056,6 +2058,7 @@
     // Ask "Did you mean …?" — answer by voice (yes / no) or with the buttons
     confirm: function (label, yes, no) {
       var self = this;
+      this.endPick(false);
       this.pending = { label: label, yes: yes, no: no, until: Date.now() + 15000 };
       UI.ask(label);
       if (S.spokenTips && TTS.ok) TTS.guide('Did you mean: ' + label + '?');
