@@ -2315,4 +2315,11 @@
     if (!el || !el.isConnected) return;
     if (el.isContentEditable) { el.focus(); document.execCommand('delete'); return; }
     var v = el.value, s = null, e2 = null;
+    try { s = el.selectionStart; e2 = el.selectionEnd; } catch (x) { s = null; }
+    var set = valueSetter(el);
+    if (s === null || s === undefined) set.call(el, v.slice(0, -1));
+    else if (s !== e2) { set.call(el, v.slice(0, s) + v.slice(e2)); el.setSelectionRange(s, s); }
+    else if (s > 0) { set.call(el, v.slice(0, s - 1) + v.slice(s)); el.setSelectionRange(s - 1, s - 1); }
+    el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'deleteContentBackward' }));
+  }
 })(window, document);
