@@ -2562,6 +2562,24 @@
     else if (s > 0) { set.call(el, v.slice(0, s - 1) + v.slice(s)); el.setSelectionRange(s - 1, s - 1); }
     el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'deleteContentBackward' }));
   }
+  // Removes n words from the start or the end of a box
+  function deleteWords(el, n, fromStart) {
+    if (!el || !el.isConnected) return;
+    var nv = currentValue(el);
+    for (var i = 0; i < n; i++) nv = fromStart ? nv.replace(/^\s*\S+\s*/, '') : nv.replace(/\s*\S+\s*$/, '');
+    if (el.isContentEditable) el.textContent = nv; else setValue(el, nv);
+  }
+  // Clears everything before or after the cursor; returns how much was removed
+  function clearSide(el, before) {
+    if (!el || !el.isConnected) return 0;
+    var v = currentValue(el), s = v.length, e = v.length;
+    try { if (!el.isContentEditable && el.selectionStart != null) { s = el.selectionStart; e = el.selectionEnd; } } catch (x) { /* use the end */ }
+    var nv = before ? v.slice(e) : v.slice(0, s);
+    if (el.isContentEditable) el.textContent = nv;
+    else { setValue(el, nv); try { var p = before ? 0 : nv.length; el.setSelectionRange(p, p); } catch (x) { /* ignore */ } }
+    return v.length - nv.length;
+  }
+  var RE_WCH = re('[\\p{L}\\p{N}]', 'u', /[A-Za-z0-9\u00C0-\u024F]/);
   function deleteWord(el) {
     if (!el) return;
     if (el.isContentEditable) { el.textContent = (el.textContent || '').replace(/\s*\S+\s*$/, ''); return; }
