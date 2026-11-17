@@ -4630,4 +4630,17 @@
           if (TTS.ok) TTS.say(T('This is how the reading voice sounds.'), null);
         }
       },
+      reptype: {
+        title: 'Problem type',
+        options: function () { return ['Something is hard to read', 'I cannot use it with a keyboard', 'My screen reader has trouble', 'Images or media have no description', 'A form does not work for me', 'The accessibility features', 'Something else'].map(function (x) { return { v: x, l: x }; }); },
+        value: function () { return UI.repType || 'Something is hard to read'; },
+        pick: function (v) { UI.repType = v; }
+      },
+      helplang: {
+        title: 'Language',
+        options: function () { return langOptions('English'); },
+        value: function () { return UI.helpLang || ''; },
+        pick: function (v) { UI.helpLang = v; UI.helpTranslate(); }
+      }
+    },
 })(window, document);
