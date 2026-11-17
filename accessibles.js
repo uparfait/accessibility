@@ -4097,4 +4097,28 @@
         drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top, moved: false };
         try { launch.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
       });
+      launch.addEventListener('pointermove', function (e) {
+        if (!drag || e.pointerId !== drag.id) return;
+        var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+        if (!drag.moved && Math.sqrt(dx * dx + dy * dy) < 6) return;
+        drag.moved = true;
+        launch.classList.add('dragging');
+        self.hideCard(true);
+        var s = self.launcherSize();
+        launch.style.left = clamp(drag.ox + dx, 8, vw() - s - 8) + 'px';
+        launch.style.top = clamp(drag.oy + dy, 8, vh() - s - 8) + 'px';
+        if (self.open && !self.panelPos) self.placePanel();
+      });
+      var end = function (e) {
+        if (!drag || e.pointerId !== drag.id) return;
+        if (drag.moved) {
+          var r = launch.getBoundingClientRect();
+          dragPos = { x: (r.left + r.width / 2) / vw(), y: (r.top + r.height / 2) / vh() };
+          suppress = true;
+          save();
+          later(function () { suppress = false; }, 50);
+        }
+        launch.classList.remove('dragging');
+        drag = null;
+      };
 })(window, document);
