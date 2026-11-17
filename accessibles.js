@@ -1104,4 +1104,11 @@
       var t = lb.split(/\s+/).map(function (id) { var n = document.getElementById(id); return n ? textOf(n) : ''; }).join(' ').trim();
       if (t) return t;
     }
+    if (el.labels && el.labels.length) {
+      var lt = Array.prototype.map.call(el.labels, textOf).join(' ').trim();
+      if (lt) return lt;
+    }
+    if (el.tagName === 'IMG' || (el.tagName === 'INPUT' && el.type === 'image')) return (el.getAttribute('alt') || '').trim();
+    var txt = textOf(el);
+    if (txt) return txt;
 })(window, document);
