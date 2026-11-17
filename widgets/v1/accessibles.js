@@ -5351,6 +5351,12 @@
       // While something is read out, the listening bar offers stop instead of help
       var hush = $('.pill [data-act="voice-hush"]'), vhelp = $('.pill [data-act="voice-help"]');
       if (hush) { hush.hidden = !TTS.active; vhelp.hidden = !!TTS.active; }
+      // Spoken commands and tips can always be stopped, even when the read aloud bar is off
+      var hb = $('.hush-bar');
+      if (hb) {
+        hb.hidden = !TTS.active || !!S.tts;
+        $('.bl', hb).textContent = T(/^cmds:/.test(TTS.tag) ? 'Reading the commands…' : 'Reading aloud…');
+      }
       // The button that started a command list turns into a stop button until it ends
       var reading = TTS.active ? TTS.tag : '';
       $$('[data-act="say-cmds"],[data-act="help-cmds"]').forEach(function (b) {
@@ -5359,10 +5365,12 @@
         if (on) {
           b.__orig = b.innerHTML; b.__label = b.getAttribute('aria-label'); b.__tt = b.getAttribute('data-tt');
           b.innerHTML = ic('stop') + (b.classList.contains('btn') ? '<span class="bl">' + esc(T('Stop reading')) + '</span>' : '');
+          b.classList.add('stopping');
           b.setAttribute('aria-label', T('Stop reading'));
           if (b.__tt) b.setAttribute('data-tt', 'Stop reading');
         } else {
           b.innerHTML = b.__orig;
+          b.classList.remove('stopping');
           if (b.__label) b.setAttribute('aria-label', b.__label); else b.removeAttribute('aria-label');
           if (b.__tt) b.setAttribute('data-tt', b.__tt);
         }
