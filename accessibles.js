@@ -3318,4 +3318,11 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 21. State changes
+   * ------------------------------------------------------------------ */
+  var applyQueued = false;
+  function setState(key, value, silent) {
+    if (S[key] === value) return;
+    S[key] = value;
 })(window, document);
