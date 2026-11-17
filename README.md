@@ -359,3 +359,5 @@ var Mute = {
   }
 };
 ```
+
+Settings are saved in `localStorage` under `accessibles.v1`, with a cookie as a fallback. With "Remember settings" off, they last only for the session. Voice input never comes back on by itself unless the microphone is already allowed.
