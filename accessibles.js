@@ -831,4 +831,11 @@
       { id: 'readable', name: 'Easy to read', note: 'Atkinson Hyperlegible', fam: 'Atkinson Hyperlegible', g: 'Atkinson Hyperlegible', stack: '"Atkinson Hyperlegible", Verdana, Tahoma, "Segoe UI", Arial, sans-serif' },
       { id: 'dyslexic', name: 'Dyslexia friendly', note: 'OpenDyslexic or Lexend', fam: 'Lexend', g: 'Lexend', stack: '"OpenDyslexic", "Lexend", Verdana, Tahoma, "Trebuchet MS", sans-serif' }
     ];
+    var G = { sans: 'Inter,Roboto,Open Sans,Lato,Montserrat,Poppins,Nunito,Figtree,Source Sans 3,Noto Sans,PT Sans,Work Sans,IBM Plex Sans,DM Sans,Manrope,Raleway,Rubik,Karla,Mulish,Quicksand,Ubuntu,Fira Sans,Cabin,Arimo,Space Grotesk,Josefin Sans,Sora,Outfit,Plus Jakarta Sans,Public Sans,Red Hat Display,Barlow,Hind,Titillium Web,Archivo,Libre Franklin,Varela Round,Overpass,Asap,Heebo,Assistant,Kanit,Mukta,Lexend Deca,Andika,Comic Neue,Atkinson Hyperlegible,Lexend',
+      serif: 'Merriweather,Lora,Playfair Display,PT Serif,Libre Baskerville,Source Serif 4,Noto Serif,IBM Plex Serif,Crimson Pro,EB Garamond,Cormorant Garamond,Roboto Slab,Bitter,Zilla Slab,Tinos,DM Serif Display',
+      monospace: 'JetBrains Mono,Roboto Mono,IBM Plex Mono,Inconsolata,Space Mono' };
+    var seen = {};
+    Object.keys(G).forEach(function (cat) {
+      G[cat].split(',').forEach(function (n) { if (seen[n]) return; seen[n] = 1; out.push({ id: n, name: n, note: cat === 'sans' ? 'Sans serif' : cat === 'serif' ? 'Serif' : 'Monospace', fam: n, g: n, stack: '"' + n + '", ' + (cat === 'sans' ? 'sans-serif' : cat) }); });
+    });
 })(window, document);
