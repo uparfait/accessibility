@@ -4227,7 +4227,7 @@
       '.btn.sm{height:2.2em;padding:0 1em;font-size:.9em}',
       '.cmd-h{display:flex;align-items:center;justify-content:space-between;gap:.5em}.cmd-h .sh{margin:0}',
       '.cmd-need{font-size:.8em;color:var(--muted);margin:.15em 0 .5em}',
-      '.kl.cmd{flex-direction:column;align-items:flex-start;gap:.15em}.kl.cmd span:first-child{white-space:nowrap}.kl.cmd span:last-child{color:var(--muted);text-align:start;font-size:.9em}',
+      '.kl.cmd{flex-direction:column;align-items:flex-start;gap:.15em}.kl.cmd .cn{white-space:nowrap}.kl.cmd .cd{color:var(--muted);text-align:start;font-size:.9em}.kl.cmd .cx{color:var(--accent);font-size:.86em}',
       '@media (forced-colors:active){.tile.on,.prow.on{outline:2px solid Highlight}.launch{border:2px solid ButtonText}}'
     ].join('\n');
   }
@@ -5360,7 +5360,7 @@
             return '<div class="sec" data-g="' + g + '"><div class="cmd-h"><h3 class="sh">' + c.title + '</h3>' +
               (TTS.ok ? '<button type="button" class="ib" data-act="say-cmds" data-cg="' + g + '" aria-label="Read the ' + c.title + ' commands out loud" data-tt="Read these out loud">' + ic('speak') + '</button>' : '') + '</div>' +
               '<p class="cmd-need">' + c.need + '</p>' +
-              c.items.map(function (it) { return c.keys ? k(it[1].charAt(0).toUpperCase() + it[1].slice(1), keys(it[0])) : '<div class="kl cmd"><span><b>"' + esc(it[0]) + '"</b></span><span>' + esc(it[1]) + '</span></div>'; }).join('') + '</div>';
+              c.items.map(function (it) { return c.keys ? k(it[1].charAt(0).toUpperCase() + it[1].slice(1), keys(it[0])) : '<div class="kl cmd"><span class="cn"><b>"' + esc(it[0]) + '"</b></span><span class="cd">' + esc(it[1]) + '</span>' + (it[2] ? '<span class="cx">' + esc(T('Example') + ': "' + it[2] + '"') + '</span>' : '') + '</div>'; }).join('') + '</div>';
           };
           box.innerHTML = '<h3 class="sh">Keyboard</h3>' +
             k('Open or close this panel', '<kbd>Alt</kbd> <kbd>A</kbd>') +
@@ -5370,7 +5370,7 @@
             k('Next heading', '<kbd>Alt</kbd> <kbd>H</kbd>') + k('Next link', '<kbd>Alt</kbd> <kbd>L</kbd>') + k('Next form field', '<kbd>Alt</kbd> <kbd>F</kbd>') +
             k('Next button', '<kbd>Alt</kbd> <kbd>B</kbd>') + k('Next region', '<kbd>Alt</kbd> <kbd>M</kbd>') + k('Next image', '<kbd>Alt</kbd> <kbd>G</kbd>') +
             k('Move the feature button', '<kbd>Alt</kbd> + arrows') +
-            group('nav') + group('read') + group('dict');
+            group('nav') + group('pick') + group('read') + group('dict');
         }
       }
     },
