@@ -1432,4 +1432,12 @@
     if (!list.length) { announce('None found'); return; }
     var cur = document.activeElement && document.activeElement !== document.body && !isOurs(document.activeElement) ? document.activeElement : null;
     var next = -1, i;
+    if (!cur) next = dir > 0 ? 0 : list.length - 1;
+    else if (dir > 0) {
+      for (i = 0; i < list.length; i++) if (list[i] !== cur && (cur.compareDocumentPosition(list[i]) & Node.DOCUMENT_POSITION_FOLLOWING)) { next = i; break; }
+      if (next < 0) next = 0;
+    } else {
+      for (i = list.length - 1; i >= 0; i--) if (list[i] !== cur && !list[i].contains(cur) && (cur.compareDocumentPosition(list[i]) & Node.DOCUMENT_POSITION_PRECEDING)) { next = i; break; }
+      if (next < 0) next = list.length - 1;
+    }
 })(window, document);
