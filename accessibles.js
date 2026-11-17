@@ -116,4 +116,14 @@
       lang: raw.lang || '',
       readableFontUrl: raw.readablefonturl || 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
       dyslexicFontUrl: raw.dyslexicfonturl || 'https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap',
+      dictionaryUrl: raw.dictionary || '',
+      // Optional hooks (functions) — only from window.AccessiblesConfig
+      altTextProvider: typeof g.altText === 'function' ? g.altText : null,
+      summarizeProvider: typeof g.summarize === 'function' ? g.summarize : null,
+      signProvider: typeof g.signProvider === 'function' ? g.signProvider : null,
+      glossary: (g.glossary && typeof g.glossary === 'object') ? g.glossary : (window.AccessiblesGlossary || null),
+      signVideos: (g.signVideos && typeof g.signVideos === 'object') ? g.signVideos : null
+    };
+  }
+
 })(window, document);
