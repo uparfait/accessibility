@@ -254,6 +254,26 @@ Voice commands and Talk & Type listen in the visitor's own language and keep lis
 
 "Search for" uses the page's search box. Without one, it finds the words on the page and highlights them; say it again for the next match. With the menu open, it searches the menu's features.
 
+#### Doing a whole task by voice
+
+With these commands a visitor can log in, search, fill in a form and check out without a mouse. For example:
+
+1. "Click Log in"
+2. "Type anna at mail dot com", then "Next field", then "Type" and the password
+3. "Turn on remember me", then "Press Enter"
+4. "Search for blue shoes", then "Click Add to cart", then "Choose Size 40"
+5. "Click Checkout", fill in the form the same way, then "Submit"
+6. "Click Log out", then "Reload" or "Go back"
+
+#### When it is not sure
+
+If a command could mean more than one thing, a question bar appears at the top of the screen with buttons, and every answer can also be spoken:
+
+- **Did you mean …?** for a command it didn't catch clearly. Say "Yes" or "No". Opening another website always asks first.
+- **Several matches**, such as three "Delete" buttons or a word that is in a text box more than once. All matches are outlined and the current one is highlighted, with a count such as "2 / 3". Say "Yes", "Next", "Previous", a number, "All" (for deleting every copy of a word) or "Stop" / "Terminate".
+
+Everything can be stopped: "Stop" or `Esc` ends reading, a question or a choice, and each bar has its own Stop or close button.
+
 Talk & Type types into the text box you clicked. If you haven't chosen one, it uses the first text box on the page, or the menu's search box when the page has none. It adds capital letters at the start of sentences and spaces punctuation correctly. In email fields, "anna at mail dot com" becomes `anna@mail.com`.
 
 ### Keyboard shortcuts
