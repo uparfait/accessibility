@@ -3007,4 +3007,19 @@
   };
   Sign.onClick = Sign.onClick.bind(Sign);
 
+  /* ------------------------------------------------------------------ *
+   * 20. Page check (compliance monitoring) and usage analytics
+   * ------------------------------------------------------------------ */
+  function effectiveBg(el) {
+    var n = el;
+    while (n && n.nodeType === 1) {
+      var cs = getComputedStyle(n);
+      if (cs.backgroundImage && cs.backgroundImage !== 'none') return null;
+      var m = /rgba?\(([^)]+)\)/.exec(cs.backgroundColor);
+      if (m) {
+        var p = m[1].split(/[\s,/]+/).filter(Boolean).map(parseFloat);
+        if (p.length < 4 || p[3] > 0.9) return [p[0], p[1], p[2]];
+      }
+      n = n.parentElement;
+    }
 })(window, document);
