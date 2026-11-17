@@ -3400,4 +3400,12 @@
     Promise.all(waits).then(function () { UI.doneBusy(); }, function () { UI.doneBusy(); });
   }
 
+  var fontsLoaded = {};
+  function addCSSLink(href, onerror) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = href; l.setAttribute('data-accessibles', '');
+    if (onerror) l.onerror = onerror;
+    (document.head || document.documentElement).appendChild(l);
+    return l;
+  }
 })(window, document);
