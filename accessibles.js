@@ -554,4 +554,22 @@
       ['Slower', 'reads slower'],
       ['Stop reading', 'stops reading']
     ] },
+    readKeys: { title: 'Reading keys', need: 'Work when Read aloud is on', keys: true, items: [
+      ['Alt + R', 'read the page, or pause and continue'],
+      ['Alt + N', 'next paragraph'],
+      ['Alt + Shift + N', 'previous paragraph'],
+      ['Esc', 'stop reading']
+    ] },
+    nav: { title: 'Moving around', need: 'Say these with Voice commands on', items: [
+      ['Scroll down', 'moves the page down'],
+      ['Scroll up', 'moves the page up'],
+      ['Go to top', 'jumps to the top of the page'],
+      ['Go to bottom', 'jumps to the end of the page'],
+      ['Click', 'then the name of a link or button, for example "Click Contact"'],
+      ['Show numbers', 'puts a number on everything you can press. Then say the number'],
+      ['Hide numbers', 'removes the numbers'],
+      ['Next heading', 'moves to the next heading'],
+      ['Previous heading', 'moves to the heading before'],
+      ['Next link', 'moves to the next link'],
+      ['Next field', 'moves to the next box you can type in'],
 })(window, document);
