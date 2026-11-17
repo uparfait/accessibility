@@ -5430,4 +5430,11 @@
     }
   };
 
+  var toastTimer;
+  function toast(msg) {
+    var t = $('.toast');
+    if (!t) return;
+    msg = T(msg);
+    t.textContent = msg;
+    t.hidden = false;
 })(window, document);
