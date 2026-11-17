@@ -4460,4 +4460,16 @@
       if (sec) try { sec.scrollIntoView({ block: 'start' }); } catch (e) { /* ignore */ }
       TTS.guide(cmdSpeech(g));
     },
+    show: function () {
+      var p = $('.panel');
+      this.lastFocus = document.activeElement;
+      p.hidden = false;
+      this.open = true;
+      $('.launch').setAttribute('aria-expanded', 'true');
+      // The small button and its card hide while the panel is open, and come back when it closes
+      $('.launch').classList.add('under');
+      this.hideCard(true);
+      this.refresh();
+      this.placePanel();
+    },
 })(window, document);
