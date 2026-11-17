@@ -103,21 +103,29 @@
   .more { margin-top: 20px; font-size: 15px; color: var(--muted); }
   .more a { color: var(--brand); text-underline-offset: 3px; }
 
-  .examples { margin-top: 40px; border-top: 1px solid var(--line); }
-  .example { border-bottom: 1px solid var(--line); }
-  .example summary { display: flex; align-items: center; gap: 16px; padding: 22px 0; cursor: pointer; list-style: none; }
+  .examples { margin-top: 48px; counter-reset: ex; }
+  .example { border-top: 1px solid var(--line); }
+  .example:last-child { border-bottom: 1px solid var(--line); }
+  .example summary { display: grid; grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1fr) 20px; align-items: baseline; gap: 24px; padding: 30px 0; cursor: pointer; list-style: none; }
+  .example summary .t { display: contents; }
   .example summary::-webkit-details-marker { display: none; }
-  .example summary .t { flex: 1; min-width: 0; }
-  .example summary .d { display: block; color: var(--muted); font-size: 15px; margin-top: 2px; }
-  .example .chev { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); transition: transform .2s ease; }
-  .example .chev svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .example summary:hover .chev { background: var(--surface); color: var(--text); }
-  .example[open] .chev { transform: rotate(180deg); }
-  .example .body { padding: 0 0 28px; }
-  .example .body .editor { margin-top: 0; }
-  .example .try { margin-top: 16px; height: 42px; font-size: 15px; }
+  .example summary::before { counter-increment: ex; content: counter(ex, decimal-leading-zero); font: 400 13px/1 var(--font-m); color: var(--muted); transition: color .25s ease; }
+  .example summary h3 { font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; transition: color .25s ease; }
+  .example summary .d { display: block; color: var(--muted); font-size: 16px; line-height: 1.55; }
+  .example summary:hover h3, .example[open] summary h3, .example[open] summary::before { color: var(--brand); }
+  .example .plus { position: relative; width: 14px; height: 14px; align-self: center; justify-self: end; color: var(--muted); transition: color .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); }
+  .example .plus::before, .example .plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.5px; border-radius: 2px; background: currentColor; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+  .example .plus::after { transform: rotate(90deg); }
+  .example summary:hover .plus { color: var(--text); }
+  .example[open] .plus { color: var(--brand); transform: rotate(180deg); }
+  .example[open] .plus::after { transform: rotate(0deg); }
+  .example .body { overflow: hidden; }
+  .example .inner { padding: 0 44px 36px calc(4rem + 24px); }
+  .example .editor { margin-top: 0; }
+  .example .try { margin-top: 16px; height: 40px; padding: 0 18px; font-size: 15px; }
   .example output { display: block; margin-top: 14px; min-height: 1.6em; font: 400 14px/1.6 var(--font-m); color: var(--brand); }
-  @media (prefers-reduced-motion: reduce) { .example .chev { transition: none; } }
+  @media (max-width: 760px) { .example summary { grid-template-columns: 2.5rem minmax(0, 1fr) 16px; gap: 14px; padding: 24px 0; } .example summary .t { display: block; } .example summary .d { margin-top: 6px; font-size: 15px; } .example .inner { padding: 0 0 28px; } }
+  @media (prefers-reduced-motion: reduce) { .example summary::before, .example summary h3, .example .plus, .example .plus::before, .example .plus::after { transition: none; } }
 
   .preview { display: inline-flex; align-items: center; gap: 12px; margin-top: 20px; padding: 8px 8px 8px 16px; border-radius: 999px; background: var(--brand-tint); color: var(--brand); font-size: 15px; }
   .preview[hidden] { display: none; }
