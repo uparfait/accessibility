@@ -5964,6 +5964,7 @@
     }).observe(document.body, { childList: true, subtree: true });
     // If a framework re-renders <html> children, put the widget back
     new MutationObserver(function () {
+      if (topEl && !topEl.isConnected) { document.documentElement.appendChild(topEl); if (useTopLayer) { try { topEl.showPopover(); } catch (e) { /* ignore */ } } }
       if (!host.isConnected) { document.documentElement.appendChild(host); if (useTopLayer) { try { host.showPopover(); } catch (e) { /* ignore */ } } }
       if (cbSvg && !cbSvg.isConnected) document.documentElement.appendChild(cbSvg);
       if (!canAdopt && pageStyleEl && !pageStyleEl.isConnected) (document.head || document.documentElement).appendChild(pageStyleEl);
