@@ -4556,4 +4556,19 @@
         '<button type="button" class="clr" data-c="' + key + '" data-v="" aria-label="Clear ' + label.toLowerCase() + ' color" data-tt="Clear">' + ic('close') + '</button></span></div>';
     },
 
+    /* --- custom slider (no native range input) --- */
+    sliderHTML: function (key, label, min, max, step) {
+      return '<div class="slide"><div class="top"><span id="acc-sl-' + key + '">' + label + '</span><span class="val"></span></div>' +
+        '<div class="sl" role="slider" tabindex="0" data-s="' + key + '" data-min="' + min + '" data-max="' + max + '" data-step="' + step + '" aria-labelledby="acc-sl-' + key + '" aria-valuemin="' + min + '" aria-valuemax="' + max + '"><div class="tr"><div class="fi"></div></div><div class="th"></div></div></div>';
+    },
+    fmtSlider: function (k, v) { return k === 'brightness' ? Math.round(v) + '%' : (Math.round(v * 10) / 10).toFixed(1) + '×'; },
+    paintSlider: function (sl) {
+      var k = sl.getAttribute('data-s'), min = +sl.getAttribute('data-min'), max = +sl.getAttribute('data-max'), v = S[k];
+      var f = clamp((v - min) / (max - min), 0, 1);
+      $('.fi', sl).style.width = (f * 100) + '%';
+      $('.th', sl).style.left = 'calc(.6em + (100% - 1.2em) * ' + f.toFixed(4) + ')';
+      sl.setAttribute('aria-valuenow', v);
+      sl.setAttribute('aria-valuetext', this.fmtSlider(k, v));
+      var out = sl.parentNode.querySelector('.val'); if (out) out.textContent = this.fmtSlider(k, v);
+    },
 })(window, document);
