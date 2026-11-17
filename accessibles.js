@@ -4524,4 +4524,18 @@
           '</div></div>' +
           '<div class="sec">' + this.shHTML('Display', 'display') + '<div class="card">' + this.sliderHTML('brightness', 'Brightness', 50, 150, 5) + '</div></div>';
       }
+      if (id === 'nav') {
+        return tiles('nav') + '<button type="button" class="linkrow" data-view="shortcuts">' + ic('keyboard') + '<span>Keyboard and voice shortcuts</span>' + ic('next') + '</button>';
+      }
+      if (id === 'reading') {
+        return tiles('reading') +
+          '<div class="sec">' + this.shHTML('Reading voice', 'readingVoice') + '<div class="card">' +
+          '<div class="slide"><div class="top"><span>Language</span></div>' + this.selectHTML('ttslang') + '</div>' +
+          '<div class="slide"><div class="top"><span>Voice</span></div>' + this.selectHTML('voice') + '</div>' +
+          this.sliderHTML('ttsRate', 'Speed', 0.5, 2, 0.1) + this.sliderHTML('ttsPitch', 'Pitch', 0.5, 1.5, 0.1) +
+          '</div><div class="btns"><button type="button" class="btn ghost" data-act="tts-test">' + ic('speak', 'talk') + 'Test the reading voice</button></div></div>';
+      }
+      if (id === 'tools') return tiles('tools');
+      return '';
+    },
 })(window, document);
