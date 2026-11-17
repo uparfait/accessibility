@@ -2198,4 +2198,21 @@
       }
       this.write(t);
     },
+    write: function (t) {
+      var el = lastEditable;
+      if (!el || !el.isConnected) { UI.pill(t, false, T('Click into a text box first')); return; }
+      t = this.punctuate(t);
+      var isInput = el.tagName === 'INPUT';
+      if (isInput) t = t.replace(/\n+/g, ' ');
+      if (isInput && el.type === 'email') t = t.replace(/\s+at\s+/gi, '@').replace(/\s+dot\s+/gi, '.').replace(/\s+/g, '').toLowerCase();
+      var before = currentValue(el), caret = before.length;
+      try { if (!el.isContentEditable && el.selectionStart != null) caret = el.selectionStart; } catch (e) { /* ignore */ }
+      var left = before.slice(0, caret);
+      // Capital letter at the start of a sentence
+      if (!(isInput && el.type === 'email') && (!left.trim() || /[.!?]\s*$|\n\s*$/.test(left))) t = t.charAt(0).toUpperCase() + t.slice(1);
+      var space = left && !/[\s\n(“"]$/.test(left) && !/^[.,?!:;)\n”]/.test(t) ? ' ' : '';
+      if (isInput && el.type === 'email') space = '';
+      insertText(el, space + t);
+      this.lastIns = { el: el, before: before, after: currentValue(el) };
+    },
 })(window, document);
