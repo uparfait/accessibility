@@ -1058,4 +1058,19 @@
         self.list.push(m.el);
       });
     },
+    restore: function () {
+      var self = this;
+      this.run++;
+      this.list.forEach(function (el) {
+        var r = self.map.get(el);
+        if (!r) return;
+        if (r.fs) el.style.setProperty('font-size', r.fs, r.fsp); else el.style.removeProperty('font-size');
+        if (r.setLh) { if (r.lh) el.style.setProperty('line-height', r.lh, r.lhp); else el.style.removeProperty('line-height'); }
+        if (!r.had && !el.getAttribute('style')) el.removeAttribute('style');
+        self.map.delete(el);
+      });
+      this.list = [];
+    }
+  };
+
 })(window, document);
