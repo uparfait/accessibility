@@ -132,6 +132,7 @@
   .opts th, .opts td { text-align: left; padding: 7px 16px 7px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
   .opts td:first-child { width: 9.5rem; }
   @media (max-width: 600px) {
+    .editor.with-try pre { padding-bottom: 50px; }
     .lead { font-size: 16px; }
     .editor pre { padding: 46px 14px 16px 10px; font-size: 13px; }
     .editor .copy { top: 8px; right: 8px; }
@@ -164,7 +165,8 @@
   .example .body { overflow: hidden; }
   .example .inner { padding: 0 36px 28px calc(3rem + 20px); }
   .example .editor { margin-top: 0; }
-  .example .try { margin-top: 16px; height: 40px; padding: 0 18px; font-size: 15px; }
+  .editor .try { position: absolute; right: 10px; bottom: 10px; display: inline-flex; align-items: center; height: 28px; padding: 0 14px; border: 1px solid #7fdbca; border-radius: var(--radius); background: #011627; color: #7fdbca; font: 500 12px/1 var(--font-b); text-decoration: none; cursor: pointer; }
+  .editor .try:hover { background: #7fdbca; color: #011627; }
   .example output { display: block; margin-top: 14px; min-height: 1.6em; font: 400 14px/1.6 var(--font-m); color: var(--brand); }
   @media (max-width: 760px) { .example summary { grid-template-columns: 2.5rem minmax(0, 1fr) 16px; gap: 14px; padding: 24px 0; } .example summary .t { display: block; } .example summary .d { margin-top: 6px; font-size: 15px; } .example .inner { padding: 0 0 28px; } }
   @media (prefers-reduced-motion: reduce) { .example summary::before, .example summary h3, .example .plus, .example .plus::before, .example .plus::after { transition: none; } }
