@@ -4830,4 +4830,22 @@
       I18N.apply(R);
     },
 
+    /* --- views --- */
+    openView: function (name) {
+      var V = this.views[name];
+      if (!V) return;
+      this.closeSelect(); this.closeColor();
+      this.view = name;
+      $('.tabs').hidden = true; $('.search').hidden = true;
+      var body = $('.body');
+      var vhelp = VIEW_HELP[name];
+      body.innerHTML = '<div class="vh"><button type="button" class="ib" data-act="back" aria-label="Back" data-tt="Back">' + ic('back') + '</button><h2 tabindex="-1">' +
+        (vhelp ? '<button type="button" class="tb" data-help="' + vhelp + '" aria-label="' + V.title + ', more information"><span class="tbl">' + V.title + '</span>' + ic('help') + '</button>' : '<span class="tbl">' + V.title + '</span>') + '</h2></div><div class="vbody"></div>';
+      body.scrollTop = 0;
+      V.render.call(this, $('.vbody'));
+      this.afterRender();
+      // Searchable views focus their search box right away (except on touch screens, where it would pop up the keyboard)
+      var fine = !window.matchMedia || window.matchMedia('(pointer: fine)').matches;
+      if (this.open) { var target = $('.vbody .qbox .inp') && (this.kbd || fine) ? $('.vbody .qbox .inp') : this.kbd ? $('.vh .ib') : $('.vh h2'); if (target) target.focus({ preventScroll: true }); }
+    },
 })(window, document);
