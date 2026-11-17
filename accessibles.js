@@ -2857,4 +2857,12 @@
         lastCSS = ''; scheduleApply();
       });
     },
+    ensureBox: function () {
+      if (document.getElementById('acc-gt-box')) return;
+      var d = document.createElement('div');
+      d.id = 'acc-gt-box';
+      d.setAttribute('aria-hidden', 'true');
+      d.style.cssText = 'position:absolute!important;left:-9999px!important;top:0!important;width:1px!important;height:1px!important;overflow:hidden!important';
+      document.body.appendChild(d);
+    },
 })(window, document);
