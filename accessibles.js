@@ -2701,4 +2701,36 @@
         if (Object.keys(self.pending).length) self.flush();
       });
     },
+    skip: function (el) { return !el || (el.closest && el.closest('[translate="no"],.vkb-keys,.rbody,.lens,.tip,.num,.help-text')); },
+    apply: function (root) {
+      if (!root) return;
+      var self = this, on = !!this.lang;
+      var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n;
+      while ((n = w.nextNode())) {
+        if (self.skip(n.parentElement)) continue;
+        var rec = self.nodes.get(n);
+        if (!rec || n.nodeValue !== rec.t) { if (!on) { if (rec) self.nodes.delete(n); continue; } rec = { o: n.nodeValue }; }
+        var raw = rec.o, core = raw.trim();
+        if (!core || !hasLetters(core)) continue;
+        var val = on ? raw.replace(core, self.tr(core)) : raw;
+        if (n.nodeValue !== val) n.nodeValue = val;
+        rec.t = val;
+        self.nodes.set(n, rec);
+      }
+      Array.prototype.forEach.call(root.querySelectorAll('[aria-label],[placeholder],[title]'), function (el) {
+        if (self.skip(el)) return;
+        var map = self.attrs.get(el) || {};
+        ['aria-label', 'placeholder', 'title'].forEach(function (a) {
+          var v = el.getAttribute(a);
+          if (v == null) return;
+          var rec = map[a];
+          if (!rec || v !== rec.t) rec = map[a] = { o: v };
+          var val = on ? self.tr(rec.o) : rec.o;
+          if (v !== val) el.setAttribute(a, val);
+          rec.t = val;
+        });
+        self.attrs.set(el, map);
+      });
+    }
+  };
 })(window, document);
