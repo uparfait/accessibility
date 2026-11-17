@@ -1181,4 +1181,26 @@
         });
         if (CFG.lang && !document.documentElement.getAttribute('lang')) rec.set(document.documentElement, 'lang', CFG.lang);
       }
+      // Clickable non-interactive elements → buttons
+      q('[onclick]:not(a[href]):not(button):not(input):not(select):not(textarea):not(summary):not(label):not(body):not(html), a:not([href])[onclick]').forEach(function (el) {
+        if (el.querySelector('a[href],button,input,select,textarea,[role="button"]')) return;
+        if (!el.getAttribute('role')) { rec.set(el, 'role', 'button'); markFixed(rec, el, 'aria'); }
+        if (!el.hasAttribute('tabindex')) rec.set(el, 'tabindex', '0');
+      });
+      // Buttons and links without a name
+      q('a[href],button,[role="button"],[role="link"],input[type="button"],input[type="submit"]').forEach(function (el) {
+        if (accName(el)) return;
+        var n = guessName(el) || (el.tagName === 'BUTTON' || el.getAttribute('role') === 'button' ? 'Button' : 'Link');
+        rec.set(el, 'aria-label', n); markFixed(rec, el, 'aria');
+      });
+      // Decorative SVGs inside named controls
+      q('a svg:not([aria-hidden]):not([role]), button svg:not([aria-hidden]):not([role])').forEach(function (svg) {
+        if (!svg.querySelector('title')) { rec.set(svg, 'aria-hidden', 'true'); rec.set(svg, 'focusable', 'false'); }
+      });
+      // Frames
+      q('iframe:not([title]):not([aria-label])').forEach(function (fr) {
+        var src = fr.getAttribute('src') || '', host2 = '';
+        try { host2 = new URL(src, location.href).hostname.replace(/^www\./, ''); } catch (e) { host2 = ''; }
+        rec.set(fr, 'title', host2 ? 'Embedded content from ' + host2 : 'Embedded content'); markFixed(rec, fr, 'aria');
+      });
 })(window, document);
