@@ -304,3 +304,34 @@ The settings you can pass to `set()`:
 | On/off settings | `highlightTitles`, `highlightLinks`, `magnifier`, `smartContrast`, `invert`, `keyboardNav`, `focusRing`, `hoverHighlight`, `vkeyboard`, `bigTargets`, `extendedTime`, `tts`, `readingGuide`, `readingMask`, `stopAnimations`, `hideImages`, `mute`, `tooltips`, `dictionary`, `spokenTips`, `ariaFix`, `altText`, `formFix`, `oversized`, `remember` |
 
 ## How it works
+
+### One file
+
+`accessibles.js` wraps everything in a single function. The only globals it creates are `window.Accessibles` and a flag that stops it from loading twice. The code is split into numbered sections:
+
+| # | Section | What it does |
+|---|---|---|
+| 1 | Configuration | Finds its own `<script>` tag and reads the options |
+| 2 | Helpers | DOM shortcuts and visibility checks |
+| 3 | Colors | Contrast math and the panel palette |
+| 4 | Icons | The icon set, as SVG paths |
+| 5 | Features | Profiles, features, help texts, default settings |
+| 6 | Storage | Saving settings |
+| 7 | Page styles | Turning settings into one stylesheet for the page |
+| 8 | Text scaling | Real font-size scaling |
+| 9 | Recorder | Undo log for every change made to the page |
+| 10 | Repairs | ARIA, image descriptions and forms |
+| 11 | Keyboard | Focus fixes, skip link, shortcuts |
+| 12 | Read aloud | The speech engine |
+| 13 | Pointer aids | Reading guide, mask, magnifier |
+| 14 | Motion and media | Stop animations, mute, more time |
+| 15 | Voice | Voice commands and Talk & Type |
+| 16 | Typing | Inserting text into any field |
+| 17 | Reading tools | Reader view, summary, dictionary |
+| 18 | Translation | Page and panel translation |
+| 19 | Sign language | ASL videos and VLibras |
+| 20 | Page check | Audit and usage counts |
+| 21 | State | `setState`, profiles, reset, `applyAll` |
+| 22 | Interface | Panel styles and rendering |
+| 23 | Observer | Fixing content that is added later |
+| 24 | Start | Mounting the widget and the API |
