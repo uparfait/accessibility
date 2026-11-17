@@ -2630,4 +2630,18 @@
 
   // Google Translate for individual strings (the panel's own text and help descriptions)
   function googleText(list, tl, onProgress, sl) {
+    var batches = [], cur = [], len = 0;
+    list.forEach(function (t) { if (len + t.length > 1400 && cur.length) { batches.push(cur); cur = []; len = 0; } cur.push(t); len += t.length + 1; });
+    if (cur.length) batches.push(cur);
+    function one(batch) {
+      var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + encodeURIComponent(sl || 'en') + '&tl=' + encodeURIComponent(tl) + '&dt=t&q=' + encodeURIComponent(batch.join('\n'));
+      return fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
+        var out = ((j && j[0]) || []).map(function (seg) { return seg[0] || ''; }).join('').split('\n');
+        if (out.length !== batch.length) {
+          if (batch.length === 1) return [out.join(' ').trim()];
+          return Promise.all(batch.map(function (t) { return one([t]).then(function (o) { return o[0]; }); }));
+        }
+        return out.map(function (t) { return t.trim(); });
+      });
+    }
 })(window, document);
