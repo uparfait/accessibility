@@ -2404,4 +2404,42 @@
   var DROP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, IFRAME: 1, FORM: 1, BUTTON: 1, INPUT: 1, SELECT: 1, TEXTAREA: 1, NAV: 1, ASIDE: 1, FOOTER: 1, SVG: 1, svg: 1, CANVAS: 1, VIDEO: 1, AUDIO: 1, OBJECT: 1, EMBED: 1, TEMPLATE: 1, DIALOG: 1, LINK: 1, META: 1 };
   var CLUTTER = /(^|[\s_-])(share|social|comment|related|advert|ads?|promo|cookie|newsletter|sidebar|breadcrumb|menu|popup|modal|banner|sponsor|subscribe|widget)([\s_-]|$)/i;
 
+  function cleanCopy(src, depth) {
+    var frag = document.createDocumentFragment();
+    if (depth > 40) return frag;
+    for (var n = src.firstChild; n; n = n.nextSibling) {
+      if (n.nodeType === 3) { frag.appendChild(document.createTextNode(n.nodeValue)); continue; }
+      if (n.nodeType !== 1 || isOurs(n) || DROP[n.tagName]) continue;
+      if (n.getAttribute('aria-hidden') === 'true' || n.hidden) continue;
+      var cls = (typeof n.className === 'string' ? n.className : '') + ' ' + (n.id || '');
+      if (CLUTTER.test(cls) && textOf(n).length < 600) continue;
+      if (n.tagName === 'HEADER' && depth > 0 && n.querySelector('nav')) continue;
+      var cs = null;
+      try { cs = getComputedStyle(n); } catch (e) { cs = null; }
+      if (cs && (cs.display === 'none' || cs.visibility === 'hidden')) continue;
+      if (KEEP[n.tagName]) {
+        var el = document.createElement(n.tagName.toLowerCase());
+        if (n.tagName === 'A') {
+          var href = n.href || '';
+          if (/^(https?:|mailto:|tel:)/i.test(href)) { el.setAttribute('href', href); el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener noreferrer'); }
+        } else if (n.tagName === 'IMG') {
+          var s = n.currentSrc || n.src || '';
+          if (!/^(https?:|data:image\/)/i.test(s) || (n.naturalWidth && n.naturalWidth < 48)) continue;
+          el.setAttribute('src', s);
+          el.setAttribute('alt', n.getAttribute('alt') || '');
+          el.setAttribute('loading', 'lazy');
+        } else if (/^T[DH]$/.test(n.tagName)) {
+          if (n.colSpan > 1) el.setAttribute('colspan', n.colSpan);
+          if (n.rowSpan > 1) el.setAttribute('rowspan', n.rowSpan);
+        }
+        el.appendChild(cleanCopy(n, depth + 1));
+        frag.appendChild(el);
+      } else {
+        // Unwrap containers (div, span, section…) but keep block separation
+        var inner = cleanCopy(n, depth + 1);
+        if (cs && /^(block|flex|grid|list-item|table)/.test(cs.display) && inner.childNodes.length) {
+          var hasBlock = false;
+          for (var c = inner.firstChild; c; c = c.nextSibling) if (c.nodeType === 1 && /^(P|H\d|UL|OL|TABLE|BLOCKQUOTE|PRE|FIGURE|DL|HR)$/.test(c.tagName)) { hasBlock = true; break; }
+          if (!hasBlock && textOf({ innerText: n.innerText }).length) { var p = document.createElement('p'); p.appendChild(inner); frag.appendChild(p); continue; }
+        }
 })(window, document);
