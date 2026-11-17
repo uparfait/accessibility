@@ -1154,4 +1154,31 @@
     return '';
   }
 
+  /* ------------------------------------------------------------------ *
+   * 10. ARIA, image description and form fixes (automatic, reversible)
+   * ------------------------------------------------------------------ */
+  var Aria = {
+    on: false, rec: new Recorder(), descNewTab: null,
+    sync: function () { if (S.ariaFix && !this.on) { this.on = true; this.fix(document.body); } else if (!S.ariaFix && this.on) { this.on = false; this.rec.revert(); this.descNewTab = null; if (Keyboard.on) Keyboard.fix(document.body); } },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var rec = this.rec, self = this;
+      var q = function (sel) { var a = Array.prototype.slice.call(root.querySelectorAll(sel)); if (root.matches && root.matches(sel)) a.unshift(root); return a.filter(function (n) { return !isOurs(n); }); };
+      // Landmarks
+      if (root === document.body) {
+        var LM_SKIP = 'article,aside,main,nav,section,[role]';
+        var header = Array.prototype.filter.call(document.querySelectorAll('header'), function (h) { return !h.parentElement.closest(LM_SKIP); })[0];
+        if (header && !header.getAttribute('role') && !document.querySelector('[role="banner"]')) { rec.set(header, 'role', 'banner'); markFixed(rec, header, 'aria'); }
+        var footer = Array.prototype.filter.call(document.querySelectorAll('footer'), function (h) { return !h.parentElement.closest(LM_SKIP); })[0];
+        if (footer && !footer.getAttribute('role') && !document.querySelector('[role="contentinfo"]')) { rec.set(footer, 'role', 'contentinfo'); markFixed(rec, footer, 'aria'); }
+        if (!document.querySelector('main,[role="main"]')) {
+          var m = findMain(true);
+          if (m && m !== document.body) { rec.set(m, 'role', 'main'); markFixed(rec, m, 'aria'); }
+        }
+        var navs = document.querySelectorAll('nav,[role="navigation"]');
+        if (navs.length > 1) Array.prototype.forEach.call(navs, function (n, i) {
+          if (!accNameAttr(n)) { var h = n.querySelector('h1,h2,h3,h4,h5,h6'); rec.set(n, 'aria-label', h ? textOf(h) : 'Navigation ' + (i + 1)); markFixed(rec, n, 'aria'); }
+        });
+        if (CFG.lang && !document.documentElement.getAttribute('lang')) rec.set(document.documentElement, 'lang', CFG.lang);
+      }
 })(window, document);
