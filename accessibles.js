@@ -2995,4 +2995,14 @@
         document.head.appendChild(sc);
       });
     },
+    // Turning Libras off removes its button and window from the page
+    removeLibras: function (quiet) {
+      cancel(this.waitT);
+      var w = this.wrap;
+      this.wrap = null;
+      if (w) w.remove();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-acc-libras],[vw-plugin-wrapper]:not([vw]:not([data-acc-libras]) *)'), function (el) { if (!isOurs(el)) el.remove(); });
+      if (!quiet) this.report('libras', 'off', 'Off. The Libras button was removed from the page.', !S.sign);
+    }
+  };
 })(window, document);
