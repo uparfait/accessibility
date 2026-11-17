@@ -5888,6 +5888,19 @@
   // The widget lives in the browser's top layer, above any z-index. Things the page or an extension
   // opens there later (popovers, modal dialogs, full screen) would cover it, so it moves back on top.
   var raising = false;
+  // Parts the widget adds outside its own layer (the Libras interpreter) live in a second top-layer box.
+  // It is transparent and lets clicks through, and it never moves or resizes what is inside it.
+  var topEl = null;
+  function topBox() {
+    if (topEl) return topEl;
+    topEl = document.createElement('div');
+    topEl.id = 'accessibles-top';
+    topEl.setAttribute('data-accessibles', '');
+    topEl.style.cssText = 'position:fixed!important;inset:0!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;pointer-events:none!important;z-index:2147483647!important;display:block!important;visibility:visible!important;opacity:1!important;transform:none!important;filter:none!important;contain:none!important';
+    (hostHome || document.documentElement).insertBefore(topEl, host && host.parentNode === (hostHome || document.documentElement) ? host : null);
+    if (useTopLayer) { try { topEl.setAttribute('popover', 'manual'); topEl.showPopover(); } catch (e) { /* stays a fixed layer */ } }
+    return topEl;
+  }
   function raise() {
     if (!useTopLayer || !host || raising) return;
     raising = true;
