@@ -861,4 +861,11 @@
     if (S.saturation === 'mono') f.push('grayscale(1)');
     else if (S.saturation === 'low') f.push('saturate(0.45)');
     else if (S.saturation === 'high') f.push('saturate(1.8)');
+    if (S.brightness !== 100) f.push('brightness(' + (S.brightness / 100) + ')');
+    if (S.colorBlind) f.push('url(#acc-cb-' + S.colorBlind + ')');
+    return f.join(' ');
+  }
+
+  function buildPageCSS() {
+    var A = hex(PAL.accentLight), INK = hex(contrast(PAL.accentLight, [255, 255, 255]) >= 4.5 ? [255, 255, 255] : [16, 19, 22]);
 })(window, document);
