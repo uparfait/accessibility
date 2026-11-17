@@ -4360,4 +4360,30 @@
         case 'vkb-close': setState('vkeyboard', false); break;
         case 'reader-close': this.reader(false); break;
         case 'reader-smaller': this.readerSize(-2); break;
+        case 'reader-bigger': this.readerSize(2); break;
+        case 'reader-font': this.readerFont(); break;
+        case 'reader-read': TTS.readPage($('.rbody')); break;
+        case 'dict-close': this.dict(null); break;
+        case 'dict-say': if (TTS.ok) TTS.say(t.getAttribute('data-word') || '', null); break;
+        case 'sign-close': this.signPlayer(null); break;
+        case 'sign-asl': case 'sign-libras':
+          var kind = a.slice(5);
+          this.setBusy(t.parentNode);
+          setState('sign', S.sign === kind ? '' : kind);
+          break;
+        case 'sign-provide': Sign.provide(); break;
+        case 'sum-read': if (this.summaryPoints) { if (!S.tts) setState('tts', true); TTS.play(this.summaryPoints.map(function (p) { return { text: p, el: null }; })); } break;
+        case 'sum-copy': this.copy((this.summaryPoints || []).map(function (p) { return '- ' + p; }).join('\n'), t); break;
+        case 'report-send': this.sendReport(); break;
+        case 'report-copy': this.copy(this.reportText(), t); break;
+        case 'audit-run': this.openView('audit'); break;
+        case 'audit-clear': $$('.acc-mark', document).forEach(function (n) { n.classList.remove('acc-mark'); }); break;
+        case 'pos-reset': dragPos = null; this.panelPos = null; setState('position', ''); this.placeLauncher(); save(); this.openView('position'); break;
+        case 'clear-search': $('.search input').value = ''; this.renderTab(this.tab); break;
+        case 'cp-apply': this.applyHex(); break;
+        case 'statement': this.statement(); break;
+        case 'help-report': this.help(null); if (!this.open) this.show(); this.openView('report'); break;
+      }
+    },
+
 })(window, document);
