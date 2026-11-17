@@ -3288,7 +3288,10 @@
       var wrap = this.wrap = document.createElement('div');
       wrap.setAttribute('vw', ''); wrap.setAttribute('data-acc-libras', ''); wrap.className = 'enabled';
       wrap.innerHTML = '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
-      document.body.appendChild(wrap);
+      // The interpreter goes in the widget's top-layer box, so the page cannot cover it
+      wrap.style.pointerEvents = 'auto';
+      topBox().appendChild(wrap);
+      raise();
       return new Promise(function (resolve) {
         var fail = function (msg) {
           if (self.wrap !== wrap) { resolve(); return; }
