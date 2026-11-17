@@ -1353,4 +1353,11 @@
       var m = document.querySelector('main,[role="main"]');
       if (m && textOf(m).length > 80) return m;
     }
+    var cands = document.querySelectorAll('article,#main,#content,#primary,.main,.main-content,.content,.post,.post-content,.entry-content,.article-body,.article,.page-content,[itemprop="articleBody"]');
+    var best = null, bestLen = 0;
+    Array.prototype.forEach.call(cands, function (c) {
+      if (isOurs(c)) return;
+      var len = textOf(c).length;
+      if (len > bestLen * 1.15) { best = c; bestLen = len; }
+    });
 })(window, document);
