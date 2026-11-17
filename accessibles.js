@@ -2644,4 +2644,11 @@
         return out.map(function (t) { return t.trim(); });
       });
     }
+    var done = 0;
+    return batches.reduce(function (p, b) {
+      return p.then(function (acc) { return one(b).then(function (o) { done++; if (onProgress) onProgress(done / batches.length); return acc.concat(o); }); });
+    }, Promise.resolve([]));
+  }
+
+  // Translates the panel's own interface into the visitor's chosen language
 })(window, document);
