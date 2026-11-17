@@ -2294,4 +2294,11 @@
     el.dispatchEvent(new Event('input', { bubbles: true }));
     el.dispatchEvent(new Event('change', { bubbles: true }));
   }
+  function insertText(el, text) {
+    if (!el || !el.isConnected) return false;
+    if (el.isContentEditable) {
+      try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+      if (!document.execCommand('insertText', false, text)) el.textContent += text;
+      return true;
+    }
 })(window, document);
