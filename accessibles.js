@@ -2350,4 +2350,24 @@
     if (n) { n.focus(); if (isEditable(n)) lastEditable = n; }
   }
 
+  var VKB = {
+    shift: false, caps: false, sym: false,
+    rows: function () {
+      if (this.sym) return [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], ['@', '#', '$', '&', '*', '(', ')', '-', "'", '"'], ['=', '%', '+', '!', '?', ',', '.', '/', ':', 'BKSP'], ['ABC', 'LEFT', 'SPACE', 'RIGHT', 'TAB', 'ENTER']];
+      return [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '-'], ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '.', 'BKSP'], ['123', 'LEFT', 'SPACE', 'RIGHT', 'TAB', 'ENTER']];
+    },
+    render: function () {
+      var up = this.shift || this.caps, html = '';
+      var LABEL = { BKSP: ic('backspace'), SHIFT: ic('shift'), ENTER: ic('enter'), LEFT: ic('left'), RIGHT: ic('right'), SPACE: 'space', TAB: 'tab', '123': '123', ABC: 'abc' };
+      var NAME = { BKSP: 'Backspace', SHIFT: 'Shift', ENTER: 'Enter', LEFT: 'Move left', RIGHT: 'Move right', SPACE: 'Space', TAB: 'Next field', '123': 'Numbers and symbols', ABC: 'Letters' };
+      this.rows().forEach(function (row) {
+        html += '<div class="krow">';
+        row.forEach(function (k) {
+          var special = LABEL[k] !== undefined;
+          var ch = special ? LABEL[k] : esc(up ? k.toUpperCase() : k);
+          var cls = 'key' + (special ? ' k-' + k.toLowerCase() : '') + (k === 'SHIFT' && up ? ' on' : '');
+          html += '<button type="button" class="' + cls + '" data-k="' + esc(k) + '" aria-label="' + esc(special ? NAME[k] : (up ? k.toUpperCase() : k)) + '"' + (k === 'SHIFT' ? ' aria-pressed="' + up + '"' : '') + '>' + ch + '</button>';
+        });
+        html += '</div>';
+      });
 })(window, document);
