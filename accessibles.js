@@ -2787,4 +2787,23 @@
       }
       return total ? done / total : 1;
     },
+    waitDone: function (target, seq) {
+      var self = this;
+      return new Promise(function (resolve) {
+        var tries = 0, last = -1, still = 0;
+        var t = nativeSetInterval.call(window, function () {
+          if (seq !== self.seq) { clearInterval(t); resolve(true); return; }
+          var flagged = self.isTranslated();
+          var p = self.measure();
+          self.progress = Math.max(self.progress, Math.min(0.99, flagged ? p : p * 0.5));
+          UI.translateWait();
+          if (Math.abs(p - last) < 0.005) still++; else still = 0;
+          last = p;
+          tries++;
+          if (flagged && (p > 0.9 || still > 6)) { clearInterval(t); resolve(true); }
+          else if (!flagged && tries > 20) { clearInterval(t); resolve(false); }      // nothing happened in 4 s
+          else if (tries > 120) { clearInterval(t); resolve(flagged); }
+        }, 200);
+      });
+    },
 })(window, document);
