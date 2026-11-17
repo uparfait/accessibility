@@ -5151,4 +5151,14 @@
       var item = isP ? PROFILES.filter(function (p) { return p.id === key; })[0] : FMAP[key];
       return { isP: isP, key: key, item: item };
     },
+    featureOn: function (f) {
+      if (!f) return false;
+      if (f.t === 'toggle') return !!S[f.key];
+      if (f.t === 'radio') return S[f.key] === f.val;
+      if (f.t === 'cycle') return f.opts.indexOf(S[f.key]) > 0;
+      if (f.id === 'translate') return !!S.translateTo;
+      if (f.id === 'sign') return !!S.sign;
+      if (f.val) return !!S[f.key];
+      return false;
+    },
 })(window, document);
