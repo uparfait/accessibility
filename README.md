@@ -168,6 +168,8 @@ window.addEventListener('accessibles:change', (e) => {
 
 Each feature in the panel has a small `?` button. It opens a short guide with steps, a drawing where one helps, and a button that says exactly what it will do. That guide can be translated into about 130 languages from its own language picker.
 
+Inside a view such as Shortcuts or Translate, the back button and title stay reachable: once they scroll out of sight, the panel's top header shows them in place of the site icon and name, and switches back when you scroll up. Nothing in the panel moves while this happens. Search boxes in views stay at the top while their list scrolls. A long site name is shortened with "…", and hovering it shows the full name.
+
 ### Profiles
 
 A profile turns on a group of settings at once. Turning it off puts back exactly what was there before, and you can combine profiles.
