@@ -5126,4 +5126,18 @@
       this.busyList.push(el);
       this.busyAt = Date.now();
     },
+    progress: function (f, owner) {
+      var t = f > 0 && f < 1 ? Math.round(f * 100) + '%' : '';
+      this.busyList.forEach(function (el) { if (owner === undefined || el.accBusy === owner) { var pc = el.querySelector('.pc'); if (pc) pc.textContent = t; } });
+    },
+    doneBusy: function (owner) {
+      owner = owner || '';
+      var list = this.busyList.filter(function (el) { return el.accBusy === owner; });
+      if (!list.length) return;
+      this.busyList = this.busyList.filter(function (el) { return el.accBusy !== owner; });
+      later(function () {
+        list.forEach(function (el) { el.classList.remove('busy'); el.removeAttribute('aria-busy'); var b = el.querySelector('.bz'); if (b) b.remove(); });
+      }, Math.max(0, 260 - (Date.now() - this.busyAt)));
+    },
+
 })(window, document);
