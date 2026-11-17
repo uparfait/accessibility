@@ -2609,4 +2609,11 @@
   var LANGS = [['af','Afrikaans'],['sq','Albanian','Shqip'],['am','Amharic','አማርኛ'],['ar','Arabic','العربية'],['hy','Armenian','Հայերեն'],['as','Assamese','অসমীয়া'],['ay','Aymara'],['az','Azerbaijani','Azərbaycanca'],
     ['bm','Bambara'],['eu','Basque','Euskara'],['be','Belarusian','Беларуская'],['bn','Bengali','বাংলা'],['bho','Bhojpuri'],['bs','Bosnian','Bosanski'],['bg','Bulgarian','Български'],['ca','Catalan','Català'],['ceb','Cebuano'],
     ['ny','Chichewa'],['zh-CN','Chinese (Simplified)','简体中文'],['zh-TW','Chinese (Traditional)','繁體中文'],['co','Corsican','Corsu'],['hr','Croatian','Hrvatski'],['cs','Czech','Čeština'],['da','Danish','Dansk'],
+    ['dv','Dhivehi'],['doi','Dogri'],['nl','Dutch','Nederlands'],['en','English'],['eo','Esperanto'],['et','Estonian','Eesti'],['ee','Ewe'],['tl','Filipino'],['fi','Finnish','Suomi'],['fr','French','Français'],
+    ['fy','Frisian','Frysk'],['gl','Galician','Galego'],['ka','Georgian','ქართული'],['de','German','Deutsch'],['el','Greek','Ελληνικά'],['gn','Guarani'],['gu','Gujarati','ગુજરાતી'],['ht','Haitian Creole','Kreyòl ayisyen'],
+    ['ha','Hausa'],['haw','Hawaiian'],['iw','Hebrew','עברית'],['hi','Hindi','हिन्दी'],['hmn','Hmong'],['hu','Hungarian','Magyar'],['is','Icelandic','Íslenska'],['ig','Igbo'],['ilo','Ilocano'],['id','Indonesian','Bahasa Indonesia'],
+    ['ga','Irish','Gaeilge'],['it','Italian','Italiano'],['ja','Japanese','日本語'],['jw','Javanese','Basa Jawa'],['kn','Kannada','ಕನ್ನಡ'],['kk','Kazakh','Қазақша'],['km','Khmer','ខ្មែរ'],['rw','Kinyarwanda','Ikinyarwanda'],
+    ['gom','Konkani'],['ko','Korean','한국어'],['kri','Krio'],['ku','Kurdish (Kurmanji)','Kurdî'],['ckb','Kurdish (Sorani)','کوردی'],['ky','Kyrgyz','Кыргызча'],['lo','Lao','ລາວ'],['la','Latin','Latina'],['lv','Latvian','Latviešu'],
+    ['ln','Lingala'],['lt','Lithuanian','Lietuvių'],['lg','Luganda'],['lb','Luxembourgish','Lëtzebuergesch'],['mk','Macedonian','Македонски'],['mai','Maithili'],['mg','Malagasy'],['ms','Malay','Bahasa Melayu'],
+    ['ml','Malayalam','മലയാളം'],['mt','Maltese','Malti'],['mi','Maori','Māori'],['mr','Marathi','मराठी'],['mni-Mtei','Meiteilon (Manipuri)'],['lus','Mizo'],['mn','Mongolian','Монгол'],['my','Myanmar (Burmese)','မြန်မာ'],
 })(window, document);
