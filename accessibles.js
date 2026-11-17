@@ -5271,4 +5271,24 @@
       var self = this, id = this.helpId;
       later(function () { if (self.helpId === id) self.help(id); }, 30);
     },
+    // The accessibility statement always opens inside the panel. A statement page on the same site is read and shown here.
+    statement: function () {
+      var self = this, site = CFG.siteName || location.hostname || 'this website';
+      this.helpId = 'doc';
+      var box = this.openShell(this.helpShell('statement', 'About', 'Accessibility statement', false));
+      var main = $('.help-main', box);
+      var builtIn = '<div class="help-text prose"><p>We want ' + esc(site) + ' to be usable by everyone, including people with disabilities. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.</p>' +
+        '<p>This site provides accessibility features so you can adjust text, colors, motion, reading and navigation to suit your needs. These features also repair some common technical problems automatically, such as missing labels and image descriptions.</p>' +
+        '<p>These features support, but do not replace, accessible design. If something on this site is hard to use, please tell us and we will work to fix it.</p></div>';
+      var foot = '<div class="btns"><button type="button" class="btn" data-act="help-report">' + ic('report') + 'Report an accessibility issue</button></div>';
+      var url = null;
+      try { url = CFG.statement ? new URL(CFG.statement, location.href) : null; } catch (e) { url = null; }
+      if (!url || !/^https?:$/.test(url.protocol)) { main.innerHTML = builtIn + foot; I18N.apply(box); return; }
+      main.innerHTML = '<div class="wait" translate="no">' + ic('spinner', 'spin') + '<span>' + esc(T('Waiting…')) + '</span></div>';
+      I18N.apply(box);
+      var showFrame = function () {
+        main.innerHTML = '<iframe class="help-frame" title="Accessibility statement" referrerpolicy="no-referrer"></iframe>' + foot;
+        $('.help-frame', main).src = url.href;
+        I18N.apply(box);
+      };
 })(window, document);
