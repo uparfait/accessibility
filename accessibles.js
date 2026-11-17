@@ -183,4 +183,9 @@
     var focusable = el.matches && el.matches('a[href],button,input,select,textarea,summary,[tabindex],[contenteditable="true"]');
     if (!focusable) el.setAttribute('tabindex', '-1');
     try { el.scrollIntoView({ block: 'center', behavior: 'auto' }); } catch (e) { el.scrollIntoView(); }
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    el.classList.add('acc-target');
+    later(function () { el.classList.remove('acc-target'); }, 1600);
+  }
+
 })(window, document);
