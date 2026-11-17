@@ -218,4 +218,13 @@
     return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
   }
   function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function mix(a, b, t) { return a.map(function (v, i) { return Math.round(v * (1 - t) + b[i] * t); }); }
+  function hex(c) { return '#' + c.map(function (v) { return ('0' + clamp(Math.round(v), 0, 255).toString(16)).slice(-2); }).join(''); }
+  function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+  function ensureContrast(c, toward, bg, ratio) {
+    var t = 0, r = c;
+    while (contrast(r, bg) < ratio && t < 1) { t += 0.03; r = mix(c, toward, t); }
+    return r;
+  }
+
 })(window, document);
