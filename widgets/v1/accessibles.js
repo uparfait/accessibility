@@ -2407,6 +2407,31 @@
       }
       this.write(t);
     },
+    // Finds a word in the box. Every copy is offered in turn: yes, next, previous, all or stop.
+    deleteAsk: function (word) {
+      var el = lastEditable;
+      word = String(word || '').replace(/[.,!?;:]+$/, '').trim();
+      if (!el || !el.isConnected) { UI.pill(word, false, T('Click into a text box first')); return; }
+      if (!word) return;
+      var v = currentValue(el), lv = v.toLowerCase(), w = word.toLowerCase(), at = [], i = -1;
+      var edge = function (ch) { return !ch || !RE_WCH.test(ch); };
+      while ((i = lv.indexOf(w, i + 1)) > -1) { if (edge(lv.charAt(i - 1)) && edge(lv.charAt(i + w.length))) at.push(i); }
+      if (!at.length) { UI.pill(word, false, T('Not found in this box')); return; }
+      var cut = function (cur, pos) {
+        var s = pos, e = pos + w.length;
+        if (cur.charAt(e) === ' ') e++; else if (s > 0 && cur.charAt(s - 1) === ' ') s--;
+        return cur.slice(0, s) + cur.slice(e);
+      };
+      var put = function (nv) { if (el.isContentEditable) el.textContent = nv; else setValue(el, nv); };
+      var items = at.map(function (pos) {
+        return { label: '"' + v.substr(pos, w.length) + '"', pos: pos, show: function () {
+          if (el.isContentEditable) return;
+          try { el.focus({ preventScroll: true }); el.setSelectionRange(pos, pos + w.length); } catch (e) { /* ignore */ }
+        } };
+      });
+      this.choose(items, T('Delete'), function (it) { put(cut(currentValue(el), it.pos)); },
+        function (all) { var cur = currentValue(el); all.slice().reverse().forEach(function (it) { cur = cut(cur, it.pos); }); put(cur); });
+    },
     // A text box to type into when none was chosen: the first one on the page, else the menu's search box
     pickField: function () {
       var f = Array.prototype.filter.call(document.querySelectorAll(FIELDS), function (x) { return !isOurs(x) && visible(x) && isEditable(x); })[0];
