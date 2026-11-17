@@ -5319,4 +5319,20 @@
       $('.bl', bar).textContent = TTS.active ? (TTS.paused ? 'Paused' : 'Reading…') : 'Select or click any text to hear it';
       R.classList.toggle('speaking', !!(TTS.active && !TTS.paused));
     },
+    // Listening indicator: quietly shows the words captured most recently
+    pill: function (text, interim, note) {
+      var p = $('.pill');
+      if (!S.voiceNav && !S.dictation) { p.hidden = true; this.heard = []; return; }
+      this.heard = this.heard || [];
+      if (text && !interim && this.heard[this.heard.length - 1] !== text) { this.heard.push(text); if (this.heard.length > 3) this.heard.shift(); }
+      var past = this.heard.slice(0, interim || note ? this.heard.length : -1).slice(-2);
+      var now = note || (interim ? text : this.heard[this.heard.length - 1]);
+      $('.vr', p).textContent = past.join('  ·  ');
+      $('.vn', p).textContent = now || T('Listening');
+      $('.vn', p).classList.toggle('dim', !now || !!interim || !!note);
+      // Talk & type shows which box the words go into
+      var el = S.dictation && lastEditable && lastEditable.isConnected ? lastEditable : null;
+      $('.vt', p).textContent = S.dictation ? (el ? (accName(el) || el.getAttribute('placeholder') || el.name || T('Text box')).slice(0, 40) : T('No text box')) : '';
+      p.hidden = false;
+    },
 })(window, document);
