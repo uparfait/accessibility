@@ -2780,6 +2780,8 @@
         }
         el.appendChild(cleanCopy(n, depth + 1));
         frag.appendChild(el);
+        // Inline tags the page shows on their own line (a bold label above its text) keep that line break
+        if (cs && /^(B|STRONG|EM|I|U|A|CODE|SMALL|MARK|TIME|CITE|Q|ABBR|SUP|SUB)$/.test(n.tagName) && /^(block|flex|grid|table|list-item)$/.test(cs.display)) frag.appendChild(document.createElement('br'));
       } else {
         // Unwrap containers (div, span, section…) but keep block separation
         var inner = cleanCopy(n, depth + 1);
