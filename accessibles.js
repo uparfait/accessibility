@@ -5013,4 +5013,20 @@
         }
       }
     },
+    featureLabel: function (k) {
+      if (k.indexOf('profile:') === 0) { var p = PROFILES.filter(function (x) { return 'profile:' + x.id === k; })[0]; return p ? p.label + ' profile' : k; }
+      var f = F.filter(function (x) { return x.key === k || x.id === k; })[0];
+      if (k === 'contrast' || k === 'saturation' || k === 'cursor') return { contrast: 'Contrast modes', saturation: 'Saturation', cursor: 'Big cursor' }[k];
+      return f ? f.label : humanize(k);
+    },
+    markCheck: function (id) {
+      var c = this.auditRes && this.auditRes.checks.filter(function (x) { return x.id === id; })[0];
+      if (!c || !c.open.length) return;
+      $$('.acc-mark', document).forEach(function (n) { n.classList.remove('acc-mark'); });
+      c.open.forEach(function (el) { if (el && el.classList && el !== document.documentElement && el !== document.body) el.classList.add('acc-mark'); });
+      var first = c.open.filter(function (el) { return el !== document.documentElement && el !== document.body && el.getClientRects && el.getClientRects().length; })[0];
+      if (first) { try { first.scrollIntoView({ block: 'center' }); } catch (e) { first.scrollIntoView(); } }
+      announce(c.open.length + ' marked on the page');
+      if (vw() < 700) this.close();
+    },
 })(window, document);
