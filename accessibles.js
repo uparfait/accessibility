@@ -4202,4 +4202,27 @@
         if (!e.target.closest('.cs-pop,[data-sel]')) self.closeSelect();
         if (!e.target.closest('.cp-pop,[data-cpick]')) self.closeColor();
       });
+      R.addEventListener('pointermove', function (e) { if (self.slDrag && e.pointerId === self.slDrag.id) self.sliderFromPointer(self.slDrag.el, e.clientX, true); });
+      var slEnd = function (e) { if (self.slDrag && e.pointerId === self.slDrag.id) { var el = self.slDrag.el; self.slDrag = null; track(el.getAttribute('data-s'), S[el.getAttribute('data-s')]); save(); } };
+      R.addEventListener('pointerup', slEnd); R.addEventListener('pointercancel', slEnd);
+
+      // The panel's own fields work with the on-screen keyboard and Talk & type; read aloud speaks what gets keyboard focus
+      R.addEventListener('focusin', function (e) {
+        var t = e.target;
+        if (isEditable(t)) { lastEditable = t; self.vkbTarget(); }
+        if (S.tts && TTS.ok && self.kbd && !t.closest('.vkb')) { var n = accName(t) || (t.getAttribute('aria-valuetext') || ''); if (n) TTS.say(n.slice(0, 200), null); }
+      });
+
+      // Move the on-screen keyboard by dragging its top bar
+      var vh2 = $('.vkb-head'), vdrag = null;
+      vh2.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0 || e.target.closest('button')) return;
+        var box = $('.vkb'), r = box.getBoundingClientRect();
+        vdrag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top };
+        box.classList.add('moved');
+        box.style.left = r.left + 'px'; box.style.top = r.top + 'px'; box.style.bottom = 'auto';
+        vh2.classList.add('dragging');
+        try { vh2.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
+        e.preventDefault();
+      });
 })(window, document);
