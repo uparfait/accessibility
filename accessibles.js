@@ -4162,4 +4162,26 @@
       R.addEventListener('change', function (e) { if (e.target.matches('input[type="text"],input:not([type]),input[type="search"],.inp')) return; self.onInput(e, true); });
       R.addEventListener('keydown', function (e) { self.onKey(e); });
 
+      // The panel's icon buttons show the same tooltip bubble (no plain browser tooltips)
+      R.addEventListener('pointerover', function (e) {
+        if (e.pointerType === 'touch') return;
+        var a = e.target.closest && e.target.closest('[data-tt]');
+        if (a && a !== Tip.el) Tip.show(a, T(a.getAttribute('data-tt')), 450);
+      });
+      R.addEventListener('pointerout', function (e) {
+        var a = e.target.closest && e.target.closest('[data-tt]');
+        if (a && !a.contains(e.relatedTarget)) Tip.hide();
+      });
+      R.addEventListener('focusin', function (e) { var a = e.target.closest && e.target.closest('[data-tt]'); if (a && self.kbd) Tip.show(a, T(a.getAttribute('data-tt')), 200); });
+      R.addEventListener('focusout', function () { if (!S.tooltips) Tip.hide(); });
+      // The help window stays put: wheel and touch scrolling outside its text never move the page behind it
+      var helpBox = $('.help');
+      var holdScroll = function (e) {
+        var main = e.target.closest && e.target.closest('.help-main,.help-frame');
+        if (!main) { e.preventDefault(); return; }
+        if (e.type === 'wheel') {
+          var atTop = main.scrollTop <= 0, atEnd = main.scrollTop + main.clientHeight >= main.scrollHeight - 1;
+          if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atEnd)) e.preventDefault();
+        }
+      };
 })(window, document);
