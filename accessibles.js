@@ -1531,4 +1531,17 @@
       UI.ttsState();
       return true;
     },
+    speed: function (d) {
+      setState('ttsRate', Math.round(clamp(S.ttsRate + d, 0.5, 2) * 10) / 10);
+      if (this.active) this.skip(0);
+      else this.guide(d > 0 ? 'Faster' : 'Slower');
+    },
+    readThis: function () {
+      var s = window.getSelection && String(window.getSelection()).trim();
+      if (s) { this.say(s.slice(0, 5000), null); return; }
+      var a = document.activeElement;
+      if (a && a !== document.body && !isOurs(a)) { var t = textOf(a) || accName(a); if (t) { this.say(t.slice(0, 5000), a); return; } }
+      if (this.curEl) { this.say(textOf(this.curEl), this.curEl); return; }
+      this.readPage();
+    },
 })(window, document);
