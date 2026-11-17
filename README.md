@@ -361,3 +361,12 @@ var Mute = {
 ```
 
 Settings are saved in `localStorage` under `accessibles.v1`, with a cookie as a fallback. With "Remember settings" off, they last only for the session. Voice input never comes back on by itself unless the microphone is already allowed.
+
+### Changes that can be undone
+
+The automatic repairs never set an attribute directly. They go through a recorder that saves the old value first:
+
+```js
+rec.set(img, 'alt', 'Team photo 2019');   // remembers that img had no alt
+rec.revert();                             // puts every attribute back
+```
