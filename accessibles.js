@@ -2153,4 +2153,16 @@
       }
       return guess;
     },
+    guessClick: function (name, headScore) {
+      var best = null, sc = 0;
+      Voice.clickables().forEach(function (el) {
+        var n = (accName(el) || '').trim();
+        if (!n || n.length > 80) return;
+        var s = wordMatch(name, n);
+        if (s > sc) { sc = s; best = el; }
+      });
+      if (!best) return null;
+      var label = (accName(best) || '').trim().slice(0, 60), el = best;
+      return { score: sc * Math.min(1, headScore + 0.1), label: 'Click ' + label, run: function () { if (isOurs(el)) { try { el.focus(); } catch (e) { /* ignore */ } } else focusEl(el); el.click(); } };
+    },
 })(window, document);
