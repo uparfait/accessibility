@@ -2930,4 +2930,12 @@
       else if (CFG.signProvider) this.report('asl', 'on', 'On. Select some text, then press the button below to see it signed.', true);
       else this.report('asl', 'warn', 'On, but this page has no sign language videos yet.', true);
     },
+    count: function () { return document.querySelectorAll('[data-acc-sign],[data-sign-video]').length; },
+    onClick: function (e) {
+      if (isOurs(e.target)) return;
+      var el = e.target.closest && e.target.closest('[data-acc-sign],[data-sign-video]');
+      if (!el) return;
+      var src = el.getAttribute('data-acc-sign') || el.getAttribute('data-sign-video');
+      if (src) { e.preventDefault(); UI.signPlayer(src, textOf(el).slice(0, 80)); }
+    },
 })(window, document);
