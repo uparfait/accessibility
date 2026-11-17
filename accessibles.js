@@ -3348,4 +3348,21 @@
     UI.refresh();
   }
 
+  function toggleProfile(id) {
+    var p = PROFILES.filter(function (x) { return x.id === id; })[0];
+    if (!p) return;
+    var active = S.profiles.slice();
+    var i = active.indexOf(id);
+    if (i > -1) {
+      active.splice(i, 1);
+      Object.keys(p.set).forEach(function (k) { S[k] = DEFAULTS[k]; });
+      // Re-apply what other active profiles still want
+      PROFILES.forEach(function (o) { if (active.indexOf(o.id) > -1) Object.keys(o.set).forEach(function (k) { S[k] = o.set[k]; }); });
+      announce(p.label + ' profile off');
+    } else {
+      active.push(id);
+      Object.keys(p.set).forEach(function (k) { S[k] = p.set[k]; });
+      announce(p.label + ' profile on');
+      track('profile:' + id, true);
+    }
 })(window, document);
