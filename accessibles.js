@@ -2511,4 +2511,16 @@
         return window.Summarizer.create(sOpts);
       }).then(function (s) { return s.summarize(text.slice(0, 12000)); }), 15000);
     }
+    if (!attempt) attempt = Promise.reject(new Error('none'));
+    return attempt.then(function (res) {
+      var points = Array.isArray(res) ? res : String(res || '').split(/\n+/);
+      points = points.map(function (p) { return String(p).replace(/^\s*([-*•]|\d+[.)])\s*/, '').trim(); }).filter(Boolean);
+      if (!points.length) throw new Error('empty');
+      base.points = points; return base;
+    }).catch(function () {
+      base.points = extractiveSummary(text);
+      return base;
+    });
+  }
+
 })(window, document);
