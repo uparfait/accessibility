@@ -2241,4 +2241,22 @@
       lastEditable = next;
       UI.pill('');
     },
+    send: function () {
+      var el = lastEditable, f = el && el.form;
+      if (!f) { if (el) pressEnter(el); return; }
+      if (f.requestSubmit) f.requestSubmit(); else f.submit();
+    },
+    showNumbers: function () {
+      this.hideNumbers();
+      var layer = $('.nums'), list = this.clickables().slice(0, 99), html = '';
+      this.numbers = list;
+      list.forEach(function (el, i) {
+        var r = el.getBoundingClientRect();
+        html += '<span class="num" data-x="' + Math.round(clamp(r.left, 2, vw() - 30)) + '" data-y="' + Math.round(clamp(r.top, 2, vh() - 24)) + '">' + (i + 1) + '</span>';
+      });
+      layer.innerHTML = html;
+      $$('.num', layer).forEach(function (n) { n.style.transform = 'translate(' + n.getAttribute('data-x') + 'px,' + n.getAttribute('data-y') + 'px)'; });
+      layer.hidden = false;
+      var self = this;
+      var off = function () { self.hideNumbers(); window.removeEventListener('scroll', off, true); };
 })(window, document);
