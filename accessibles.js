@@ -2227,4 +2227,18 @@
       t = t.replace(/\s+([.,?!:;)”])/g, '$1').replace(/([(“])\s+/g, '$1').replace(/ *\n */g, '\n');
       return t.replace(/([.!?]\s+|\n)([a-zà-ɏ])/g, function (m, a, b) { return a + b.toUpperCase(); }).replace(/^ +| +$/g, '');
     },
+    undo: function () {
+      var l = this.lastIns, el = lastEditable;
+      if (l && l.el === el && currentValue(el) === l.after) { if (el.isContentEditable) el.textContent = l.before; else setValue(el, l.before); this.lastIns = null; return; }
+      deleteWord(el);
+    },
+    field: function (d) {
+      var all = Array.prototype.filter.call(document.querySelectorAll(FIELDS), function (x) { return !isOurs(x) && visible(x) && isEditable(x); });
+      if (!all.length) return;
+      var i = all.indexOf(lastEditable);
+      var next = all[(i + d + all.length) % all.length];
+      focusEl(next);
+      lastEditable = next;
+      UI.pill('');
+    },
 })(window, document);
