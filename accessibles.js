@@ -2490,4 +2490,11 @@
       var dup = out.some(function (o) { return o.s.slice(0, 50) === p.s.slice(0, 50); });
       if (!dup) out.push(p);
     });
+    return out.map(function (p) { return p.s; });
+  }
+
+  function summarize() {
+    var main = findMain();
+    var text = mainText(main, true);
+    var words = (text.match(/\S+/g) || []).length;
 })(window, document);
