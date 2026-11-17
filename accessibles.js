@@ -1073,4 +1073,12 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 9. Change recorder — every DOM fix can be undone exactly
+   * ------------------------------------------------------------------ */
+  function Recorder() { this.recs = []; this.nodes = []; }
+  Recorder.prototype.set = function (el, attr, val) {
+    this.recs.push([el, attr, el.getAttribute(attr)]);
+    el.setAttribute(attr, val);
+  };
 })(window, document);
