@@ -1609,4 +1609,13 @@
         if (r.top < 0 || r.bottom > vh()) { try { this.curEl.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { this.curEl.scrollIntoView(); } }
       }
     },
+    pause: function () { if (!this.active) return; if (this.paused) { window.speechSynthesis.resume(); this.paused = false; } else { window.speechSynthesis.pause(); this.paused = true; } UI.ttsState(); },
+    stop: function () {
+      var was = this.active;
+      this.sid++; this.active = false; this.paused = false; this.items = []; this.idx = -1; this.curLang = '';
+      if (was) Voice.heardTTS();
+      try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+      this.mark(null);
+      UI.ttsState();
+    },
 })(window, document);
