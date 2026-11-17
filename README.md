@@ -31,3 +31,18 @@ Every option can be set in three places. If the same option is set twice, the la
 1. A `window.AccessiblesConfig` object, defined before the script loads
 2. The script URL: `accessibles.js?color=...&position=...`
 3. `data-` attributes on the `.accessibles-widget` div
+
+Option names ignore case and dashes, so `site-name`, `siteName` and `sitename` all mean the same thing.
+
+```html
+<!-- In the script URL -->
+<script src="accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
+
+<!-- As data attributes -->
+<div class="accessibles-widget" data-color="#7B3F00" data-position="bottom-left"></div>
+
+<!-- As a config object -->
+<script>
+  window.AccessiblesConfig = { color: '#7B3F00', position: 'bottom-left' };
+</script>
+```
