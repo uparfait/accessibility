@@ -3932,4 +3932,22 @@
         '<div class="pill" hidden translate="no"><i class="live"></i><span class="vt"></span><span class="vr"></span><span class="vn"></span>' +
         '<button type="button" class="ib" data-act="voice-help" aria-label="What can I say" data-tt="What can I say">' + ic('help') + '</button><button type="button" class="ib" data-act="voice-off" aria-label="Stop listening" data-tt="Stop listening">' + ic('close') + '</button></div>' +
         '<div class="ask" hidden role="alertdialog" aria-live="assertive" aria-label="Did you mean"><span class="aq"><span>Did you mean</span> <b translate="no"></b></span><span class="ab"><button type="button" class="btn sm" data-act="ask-yes">Yes</button><button type="button" class="btn sm ghost" data-act="ask-no">No</button></span></div>' +
+        '<div class="toast" hidden></div>' +
+        '<div class="guide" hidden></div><div class="hl" hidden aria-hidden="true"></div><div class="lens" hidden aria-hidden="true"></div><div class="tip" hidden aria-hidden="true"></div><div class="nums" hidden aria-hidden="true"></div>' +
+        '<div class="signp" hidden role="dialog" aria-label="Sign language video"></div>' +
+        '<div class="dict" hidden role="dialog" aria-label="Definition"></div>' +
+        '<div class="cs-pop" hidden role="dialog" aria-label="Choose an option"></div><div class="cp-pop" hidden role="dialog" aria-label="Choose a color"></div>' +
+        '<button type="button" class="lcard tl" tabindex="-1" aria-hidden="true"><span class="lc-ico">' + ic('web') + '</span><span class="lc-t"><span class="lc-n" translate="no"></span><span class="lc-s">Accessibility</span></span></button>' +
+        '<button type="button" class="launch" aria-label="' + esc(CFG.siteName ? 'Accessibility options for ' + CFG.siteName : 'Accessibility options') + '" aria-expanded="false" aria-controls="acc-panel">' + ic('logo') + '<span class="dot" hidden></span></button>' +
+        '<div class="srl" role="status" aria-live="polite"></div>';
+      shadow.appendChild(r);
+      R = r;
+      if (CFG.siteIcon && !/^(javascript|vbscript):/i.test(CFG.siteIcon)) {
+        var bm = $('.brandmark'), img = document.createElement('img');
+        img.alt = ''; img.decoding = 'async';
+        img.onload = function () { if (!img.naturalWidth) return; bm.classList.add('img'); bm.innerHTML = ''; bm.appendChild(img); };
+        img.onerror = function () { bm.classList.remove('img'); };
+        img.src = CFG.siteIcon;
+      }
+      this.bind();
 })(window, document);
