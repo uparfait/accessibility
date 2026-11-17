@@ -4989,4 +4989,28 @@
             '<div class="btns"><button type="button" class="btn" data-view="report">' + ic('report') + 'Report an accessibility issue</button></div>';
         }
       },
+      shortcuts: {
+        title: 'Shortcuts',
+        render: function (box) {
+          var k = function (a, b) { return '<div class="kl"><span>' + a + '</span><span>' + b + '</span></div>'; };
+          var keys = function (str) { return str.split(' + ').map(function (x) { return '<kbd>' + esc(x) + '</kbd>'; }).join(' '); };
+          var group = function (g) {
+            var c = CMDS[g];
+            return '<div class="sec" data-g="' + g + '"><div class="cmd-h"><h3 class="sh">' + c.title + '</h3>' +
+              (TTS.ok ? '<button type="button" class="ib" data-act="say-cmds" data-cg="' + g + '" aria-label="Read the ' + c.title + ' commands out loud" data-tt="Read these out loud">' + ic('speak') + '</button>' : '') + '</div>' +
+              '<p class="cmd-need">' + c.need + '</p>' +
+              c.items.map(function (it) { return c.keys ? k(it[1].charAt(0).toUpperCase() + it[1].slice(1), keys(it[0])) : '<div class="kl cmd"><span><b>"' + esc(it[0]) + '"</b></span><span>' + esc(it[1]) + '</span></div>'; }).join('') + '</div>';
+          };
+          box.innerHTML = '<h3 class="sh">Keyboard</h3>' +
+            k('Open or close this panel', '<kbd>Alt</kbd> <kbd>A</kbd>') +
+            k('Close panel or view', '<kbd>Esc</kbd>') +
+            group('readKeys') +
+            '<div class="sec">' + this.shHTML('With keyboard navigation on', 'shortcuts') + '</div>' +
+            k('Next heading', '<kbd>Alt</kbd> <kbd>H</kbd>') + k('Next link', '<kbd>Alt</kbd> <kbd>L</kbd>') + k('Next form field', '<kbd>Alt</kbd> <kbd>F</kbd>') +
+            k('Next button', '<kbd>Alt</kbd> <kbd>B</kbd>') + k('Next region', '<kbd>Alt</kbd> <kbd>M</kbd>') + k('Next image', '<kbd>Alt</kbd> <kbd>G</kbd>') +
+            k('Move the feature button', '<kbd>Alt</kbd> + arrows') +
+            group('nav') + group('read') + group('dict');
+        }
+      }
+    },
 })(window, document);
