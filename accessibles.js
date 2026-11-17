@@ -1095,4 +1095,13 @@
     if ((' ' + cur + ' ').indexOf(' ' + kind + ' ') < 0) rec.set(el, 'data-acc-fixed', (cur + ' ' + kind).trim());
   }
 
+  function accName(el) {
+    if (!el) return '';
+    var v = el.getAttribute('aria-label');
+    if (v && v.trim()) return v.trim();
+    var lb = el.getAttribute('aria-labelledby');
+    if (lb) {
+      var t = lb.split(/\s+/).map(function (id) { var n = document.getElementById(id); return n ? textOf(n) : ''; }).join(' ').trim();
+      if (t) return t;
+    }
 })(window, document);
