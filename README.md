@@ -302,3 +302,5 @@ The settings you can pass to `set()`:
 | `ttsRate`, `ttsPitch` | `0.5` to `2` and `0.5` to `1.5` |
 | `translateTo` | A language code such as `'fr'`, or `''` |
 | On/off settings | `highlightTitles`, `highlightLinks`, `magnifier`, `smartContrast`, `invert`, `keyboardNav`, `focusRing`, `hoverHighlight`, `vkeyboard`, `bigTargets`, `extendedTime`, `tts`, `readingGuide`, `readingMask`, `stopAnimations`, `hideImages`, `mute`, `tooltips`, `dictionary`, `spokenTips`, `ariaFix`, `altText`, `formFix`, `oversized`, `remember` |
+
+## How it works
