@@ -1669,4 +1669,11 @@
       }
       $('.guide').hidden = !S.readingGuide;
       $('.mask-t').hidden = $('.mask-b').hidden = !S.readingMask;
+      if (!S.magnifier) $('.lens').hidden = true;
+      if (S.readingMask && this.y < 0) { this.y = vh() / 2; this.draw(); }
+      if (S.readingGuide && this.y < 0) { this.y = vh() / 2; this.draw(); }
+    },
+    onMove: function (e) { Pointer.x = e.clientX; Pointer.y = e.clientY; Pointer.lastTarget = e.target; Pointer.schedule(); },
+    onTouch: function (e) { var t = e.touches && e.touches[0]; if (!t) return; Pointer.x = t.clientX; Pointer.y = t.clientY; Pointer.lastTarget = document.elementFromPoint(t.clientX, t.clientY); Pointer.schedule(); },
+    schedule: function () { if (!this.raf) this.raf = requestAnimationFrame(function () { Pointer.raf = 0; Pointer.draw(); }); },
 })(window, document);
