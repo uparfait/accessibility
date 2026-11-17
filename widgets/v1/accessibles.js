@@ -2244,16 +2244,40 @@
       return guess;
     },
     guessClick: function (name, headScore) {
-      var best = null, sc = 0;
+      var scored = [];
       Voice.clickables().forEach(function (el) {
         var n = (accName(el) || '').trim();
         if (!n || n.length > 80) return;
-        var s = wordMatch(name, n);
-        if (s > sc) { sc = s; best = el; }
+        scored.push({ el: el, s: wordMatch(name, n), n: n });
       });
-      if (!best) return null;
-      var label = (accName(best) || '').trim().slice(0, 60), el = best;
-      return { score: sc * Math.min(1, headScore + 0.1), label: 'Click ' + label, run: function () { if (isOurs(el)) { try { el.focus(); } catch (e) { /* ignore */ } } else focusEl(el); el.click(); } };
+      // Options in drop-down lists can be chosen by name too
+      Array.prototype.forEach.call(document.querySelectorAll('select'), function (sel) {
+        if (isOurs(sel) || sel.disabled || !visible(sel)) return;
+        Array.prototype.forEach.call(sel.options, function (o) { var n = textOf(o); if (n) scored.push({ el: o, s: wordMatch(name, n), n: n, opt: sel }); });
+      });
+      if (!scored.length) return null;
+      scored.sort(function (x, y) { return y.s - x.s; });
+      var top = scored[0], k = Math.min(1, headScore + 0.1);
+      if (!top.s) return null;
+      var press = function (it) {
+        var el = it.el;
+        if (it.opt) {
+          it.opt.value = el.value; el.selected = true;
+          it.opt.dispatchEvent(new Event('input', { bubbles: true }));
+          it.opt.dispatchEvent(new Event('change', { bubbles: true }));
+          focusEl(it.opt);
+          return;
+        }
+        if (isOurs(el)) { try { el.focus(); } catch (e) { /* ignore */ } } else focusEl(el);
+        el.click();
+      };
+      // Several things with the same name: highlight them and let the visitor pick one
+      var same = scored.filter(function (x) { return x.s >= Math.max(0.86, top.s - 0.02); });
+      if (same.length > 1) {
+        var items = same.slice(0, 30).map(function (x) { return { el: x.opt || x.el, label: x.n.slice(0, 60), it: x }; });
+        return { score: top.s * k, label: 'Click ' + top.n.slice(0, 60), run: function () { Voice.choose(items, T(top.opt ? 'Choose' : 'Click'), function (c) { press(c.it); }); } };
+      }
+      return { score: top.s * k, label: (top.opt ? 'Choose ' : 'Click ') + top.n.slice(0, 60), run: function () { press(top); } };
     },
     clickables: function () {
       // Includes the accessibility panel itself, so it can be used fully by voice
