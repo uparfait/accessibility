@@ -162,3 +162,7 @@ window.addEventListener('accessibles:change', (e) => {
   if (e.detail.key === 'contrast') document.body.dataset.theme = e.detail.value || 'default';
 });
 ```
+
+## Features
+
+Each feature in the panel has a small `?` button. It opens a short guide with steps, a drawing where one helps, and a button that says exactly what it will do. That guide can be translated into about 130 languages from its own language picker.
