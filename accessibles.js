@@ -1032,4 +1032,30 @@
       while ((n = w.nextNode())) { if (this.hasText(n)) out.push(n); }
       return out;
     },
+    run: 0,
+    apply: function (root) { if (this.factor !== 1) this.applyList(this.collect(root)); },
+    applyList: function (list) {
+      if (this.factor === 1) return;
+      var self = this, f = this.factor;
+      var targets = list.filter(function (el) { return !self.map.has(el); });
+      // Measure everything first, then write, so we never read a value we already scaled
+      var measured = targets.map(function (el) {
+        var cs = getComputedStyle(el);
+        var size = parseFloat(cs.fontSize) || 16;
+        var lh = /px$/.test(cs.lineHeight) ? parseFloat(cs.lineHeight) : 0;
+        // New content inside an already scaled element inherits the scaled size; undo that once
+        var anc = el.parentElement, pr = null;
+        while (anc && !pr) { pr = self.map.get(anc) || null; anc = anc.parentElement; }
+        if (pr && Math.abs(size - pr.size * f) < 0.05) { size = pr.size; if (lh) lh = lh / f; }
+        return { el: el, size: size, lh: lh };
+      });
+      measured.forEach(function (m) {
+        var st = m.el.style;
+        var rec = { had: m.el.hasAttribute('style'), size: m.size, fs: st.getPropertyValue('font-size'), fsp: st.getPropertyPriority('font-size'), lh: st.getPropertyValue('line-height'), lhp: st.getPropertyPriority('line-height'), setLh: false };
+        st.setProperty('font-size', (m.size * f).toFixed(2) + 'px', 'important');
+        if (!self.lhMode && m.lh) { st.setProperty('line-height', (m.lh * f).toFixed(2) + 'px', 'important'); rec.setLh = true; }
+        self.map.set(m.el, rec);
+        self.list.push(m.el);
+      });
+    },
 })(window, document);
