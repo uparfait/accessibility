@@ -4143,4 +4143,23 @@
         pdrag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top };
         try { head.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
       });
+      head.addEventListener('pointermove', function (e) {
+        if (!pdrag || e.pointerId !== pdrag.id) return;
+        self.panelPos = { x: pdrag.ox + e.clientX - pdrag.sx, y: pdrag.oy + e.clientY - pdrag.sy };
+        self.placePanel();
+      });
+      var pend = function () { pdrag = null; };
+      head.addEventListener('pointerup', pend); head.addEventListener('pointercancel', pend);
+
+      // Keep keyboard focus inside the page while using the on-screen keyboard
+      $('.vkb').addEventListener('pointerdown', function (e) { if (e.target.closest('.key')) e.preventDefault(); });
+      $('.vkb').addEventListener('mousedown', function (e) { if (e.target.closest('.key')) e.preventDefault(); });
+
+      R.addEventListener('click', function (e) { self.onClick(e); });
+      R.addEventListener('input', function (e) { self.onInput(e); });
+      // Text boxes are handled as you type. Their "change" fires again on blur, and re-drawing the list then
+      // would swallow the click that caused the blur, so it is ignored.
+      R.addEventListener('change', function (e) { if (e.target.matches('input[type="text"],input:not([type]),input[type="search"],.inp')) return; self.onInput(e, true); });
+      R.addEventListener('keydown', function (e) { self.onKey(e); });
+
 })(window, document);
