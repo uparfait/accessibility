@@ -3184,4 +3184,15 @@
         });
       });
     },
+    restore: function () {
+      for (var i = this.list.length - 1; i >= 0; i--) {
+        var r = this.list[i], el = r[0];
+        el.__accDir = false;
+        if (r[2]) el.style.setProperty(r[1], r[2], r[3]); else el.style.removeProperty(r[1]);
+        if (!r[4] && !el.getAttribute('style')) el.removeAttribute('style');
+      }
+      this.list = [];
+    }
+  };
+
 })(window, document);
