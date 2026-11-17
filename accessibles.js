@@ -2806,4 +2806,33 @@
         }, 200);
       });
     },
+    // Loads Google's page translator once; every later call reuses it
+    load: function () {
+      var self = this;
+      if (this.ready) return this.ready;
+      this.ensureBox();
+      this.ready = new Promise(function (resolve, reject) {
+        var make = function () {
+          try { new window.google.translate.TranslateElement({ pageLanguage: self.pageLang(), autoDisplay: false }, 'acc-gt-box'); } catch (e) { reject(e); return; }
+          var tries = 0;
+          var poll = nativeSetInterval.call(window, function () {
+            var combo = document.querySelector('select.goog-te-combo');
+            if (combo && combo.options.length > 1) { clearInterval(poll); self.engine = 'google'; resolve(combo); }
+            else if (++tries > 120) { clearInterval(poll); reject(new Error('timeout')); }
+          }, 125);
+        };
+        var G = window.google && window.google.translate;
+        if (G && G.TranslateElement) {
+          var have = document.querySelector('select.goog-te-combo');
+          if (have && have.options.length > 1) { self.engine = 'google'; resolve(have); } else make();
+          return;
+        }
+        window.__accessiblesGT = make;
+        var sc = document.createElement('script');
+        sc.src = 'https://translate.google.com/translate_a/element.js?cb=__accessiblesGT';
+        sc.async = true;
+        sc.onerror = function () { sc.remove(); reject(new Error('blocked')); };
+        (document.head || document.documentElement).appendChild(sc);
+        later(function () { reject(new Error('timeout')); }, 20000);
+      });
 })(window, document);
