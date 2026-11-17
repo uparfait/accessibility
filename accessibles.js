@@ -2109,4 +2109,12 @@
         ['Slower', ['slower', 'read slower', 'slow down'], function () { TTS.speed(-0.2); }, 1],
         ['Stop reading', ['stop reading', 'stop', 'be quiet', 'silence', 'quiet'], function () { TTS.stop(); }, 1]
       ];
+      this._nav = list.map(function (c) { return { label: c[0], say: c[1], run: c[2], reading: !!c[3] }; });
+      return this._nav;
+    },
+    // Commands that take words after them: "click Contact", "search for opening hours"
+    SLOTS: [
+      { id: 'click', say: ['click', 'press', 'open', 'select', 'tap', 'go to', 'follow', 'choose'] },
+      { id: 'search', say: ['search for', 'search', 'find', 'look for'] }
+    ],
 })(window, document);
