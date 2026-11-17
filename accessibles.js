@@ -4578,4 +4578,17 @@
       setState(sl.getAttribute('data-s'), v, silent);
       this.paintSlider(sl);
     },
+    sliderFromPointer: function (sl, x, silent) {
+      var tr = $('.tr', sl).getBoundingClientRect();
+      var min = +sl.getAttribute('data-min'), max = +sl.getAttribute('data-max');
+      this.setSlider(sl, min + clamp((x - tr.left) / tr.width, 0, 1) * (max - min), silent);
+    },
+    sliderKey: function (sl, e) {
+      var k = sl.getAttribute('data-s'), step = +sl.getAttribute('data-step'), v = S[k];
+      var map = { ArrowRight: step, ArrowUp: step, ArrowLeft: -step, ArrowDown: -step, PageUp: step * 5, PageDown: -step * 5 };
+      if (e.key === 'Home') v = +sl.getAttribute('data-min'); else if (e.key === 'End') v = +sl.getAttribute('data-max'); else if (map[e.key] !== undefined) v += map[e.key]; else return;
+      e.preventDefault();
+      this.setSlider(sl, v);
+    },
+
 })(window, document);
