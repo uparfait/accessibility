@@ -4070,4 +4070,13 @@
       c.style.left = Math.round(toLeft ? r.right - w : r.left) + 'px';
       c.style.top = Math.round(r.top) + 'px';
       l.classList.add('carded');
+      c.classList.add('show');
+    },
+    hideCard: function (now) {
+      var self = this;
+      cancel(this.cardT);
+      var go = function () { var c = $('.lcard'); if (c) c.classList.remove('show'); $('.launch').classList.remove('carded'); };
+      if (now) go(); else this.cardT = later(function () { if (!self.cardHover) go(); }, 160);
+    },
+
 })(window, document);
