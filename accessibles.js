@@ -2464,4 +2464,12 @@
   var STOPSET = {};
   STOP.forEach(function (w) { STOPSET[w] = 1; });
 
+  function extractiveSummary(text) {
+    var sentences = (text.replace(/\s+/g, ' ').match(/[^.!?。！？]+[.!?。！？]+["'”’)\]]*|[^.!?。！？]+$/g) || [])
+      .map(function (s) { return s.trim(); }).filter(function (s) { return s.length >= 40 && s.length <= 420; });
+    if (!sentences.length) return [];
+    var freq = {};
+    sentences.forEach(function (s) {
+      words(s.toLowerCase()).forEach(function (w) { if (w.length > 2 && !STOPSET[w]) freq[w] = (freq[w] || 0) + 1; });
+    });
 })(window, document);
