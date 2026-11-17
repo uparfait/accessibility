@@ -4805,4 +4805,22 @@
         if (f.id === 'sign') on = !!S.sign;
         tile.classList.toggle('on', on);
       });
+      $$('.prow').forEach(function (el) {
+        var on = S.profiles.indexOf(el.getAttribute('data-p')) > -1;
+        el.parentNode.classList.toggle('on', on); el.setAttribute('aria-pressed', on);
+      });
+      $$('.swb').forEach(function (b) {
+        var on = (S[b.getAttribute('data-c')] || '').toLowerCase() === b.getAttribute('data-v').toLowerCase();
+        b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+      });
+      $$('.pick').forEach(function (p) {
+        var k = p.getAttribute('data-pick'), v = S[k];
+        var preset = $$('.swb[data-c="' + k + '"]').some(function (b) { return b.getAttribute('data-v').toLowerCase() === (v || '').toLowerCase(); });
+        p.classList.toggle('on', !!v && !preset);
+        p.style.background = (v && !preset) ? v : '';
+      });
+      var self = this;
+      $$('.sl').forEach(function (sl) { self.paintSlider(sl); });
+      // Accessibility settings that also apply to this panel
+      R.classList.toggle('cur-black', S.cursor === 'black');
 })(window, document);
