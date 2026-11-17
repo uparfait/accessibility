@@ -1836,4 +1836,12 @@
       window.addEventListener('mouseout', this.onLeave, true);
       window.addEventListener('mouseleave', this.onLeave, true);
     },
+    disable: function () {
+      this.on = false;
+      window.setTimeout = nativeSetTimeout; window.setInterval = nativeSetInterval;
+      window.removeEventListener('mouseout', this.onLeave, true);
+      window.removeEventListener('mouseleave', this.onLeave, true);
+      this.pending.forEach(function (p) { p(); });
+      this.pending = [];
+    },
 })(window, document);
