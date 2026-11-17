@@ -3195,4 +3195,16 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 20b. Smart contrast, tooltips and hover highlight
+   * ------------------------------------------------------------------ */
+  // Fixes only the text that fails WCAG contrast, leaving the rest of the design alone
+  var Smart = {
+    on: false, list: [], sig: '',
+    sync: function () {
+      var sig = [S.contrast, S.textColor, S.bgColor, S.fontSize, S.invert].join('|');
+      if (S.smartContrast && this.on && sig !== this.sig) { this.restore(); this.sig = sig; this.fix(document.body); return; }
+      this.sig = sig;
+      if (S.smartContrast && !this.on) { this.on = true; this.fix(document.body); } else if (!S.smartContrast && this.on) { this.on = false; this.restore(); }
+    },
 })(window, document);
