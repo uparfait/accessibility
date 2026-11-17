@@ -372,3 +372,7 @@ rec.revert();                             // puts every attribute back
 ```
 
 Turning a repair off returns the page to exactly how it was. Repaired elements are tagged with `data-acc-fixed`, so the page check can report them as "fixed automatically".
+
+### Bigger text
+
+CSS can't reliably scale every font size, because sites mix `px`, `em`, `rem` and inline styles. So Bigger text measures the computed size of every element that holds text, then writes the scaled size inline. It measures everything before writing anything, keeps the original values in a `WeakMap`, and works in batches on large pages.
