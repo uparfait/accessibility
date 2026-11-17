@@ -225,13 +225,14 @@
         </div>
       </details>
 
-      <article class="example">
-        <h3>Turn features on from your code</h3>
-        <p>Your own buttons can switch profiles and settings.</p>
-        <div class="code"><pre><code><span class="tok">Accessibles.profile</span>('dyslexia');
-<span class="tok">Accessibles.set</span>('fontSize', 1.3);</code></pre></div>
-        <button type="button" class="btn btn-ghost try" data-dyslexia>Try it</button>
-      </article>
+      <details class="example">
+        <summary><span class="t"><h3>Turn features on from your code</h3><span class="d">Your own buttons can switch profiles and settings.</span></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></span></summary>
+        <div class="body">
+          <div class="editor" data-file="app.js"><pre><code data-lang="js">Accessibles.profile('dyslexia');
+Accessibles.set('fontSize', 1.3);</code></pre></div>
+          <button type="button" class="btn btn-ghost try" data-dyslexia>Try it</button>
+        </div>
+      </details>
 
       <article class="example">
         <h3>Listen for changes</h3>
