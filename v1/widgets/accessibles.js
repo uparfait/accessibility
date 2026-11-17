@@ -5104,7 +5104,7 @@
       this.selOpen = btn;
       btn.setAttribute('aria-expanded', 'true');
       pop.setAttribute('aria-label', d.title);
-      pop.innerHTML = '<div class="q">' + ic('search') + '<input type="text" placeholder="Search" aria-label="Search ' + esc(d.title.toLowerCase()) + '" autocomplete="off" spellcheck="false"></div><div class="opts" role="listbox" aria-label="' + esc(d.title) + '">' + this.optsHTML(d.options(), d.value()) + '</div>';
+      pop.innerHTML = '<div class="q">' + ic('search') + '<input type="text" placeholder="Search" aria-label="Search ' + esc(d.title.toLowerCase()) + '" autocomplete="off" spellcheck="false">' + clearBtn() + '</div><div class="opts" role="listbox" aria-label="' + esc(d.title) + '">' + this.optsHTML(d.options(), d.value()) + '</div>';
       pop.hidden = false;
       var r = btn.getBoundingClientRect(), W = vw(), H = vh(), fs = parseFloat(R.style.fontSize) || 15;
       var w = Math.min(Math.max(r.width, 16 * fs), W - 16);
