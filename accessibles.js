@@ -686,4 +686,11 @@
       readingMask: pg(70, lines([14, 24, 34, 44, 54], 3, 12, [76, 70, 76, 64, 72]) + '<path d="M0 9a9 9 0 0 1 9-9h82a9 9 0 0 1 9 9v21H0zM0 44h100v19a9 9 0 0 1-9 9H9a9 9 0 0 1-9-9z" fill="rgba(0,0,0,.6)"/>'),
       stopAnimations: pair('<rect x="30" y="20" width="40" height="32" rx="6" class="tx"/><path d="M14 36h10M76 36h10M18 28l6 4M18 44l6-4M82 28l-6 4M82 44l-6-4" class="acl"/>', '<rect x="30" y="20" width="40" height="32" rx="6" class="tx"/><circle cx="50" cy="36" r="11" class="pgf"/><path d="M46.5 31v10M53.5 31v10" class="acl"/>'),
       hideImages: pair('<rect x="12" y="10" width="76" height="30" rx="4" fill="#9cc3a4"/><path d="M12 36l20-14 16 10 14-8 26 12" fill="#5d8f6a"/>' + lines([48, 58], 4), '<rect x="12" y="10" width="76" height="30" rx="4" class="dash"/><rect x="20" y="22" width="56" height="6" rx="3" class="tx"/>' + lines([48, 58], 4)),
+      tooltips: pg(70, '<rect x="30" y="44" width="40" height="16" rx="8" class="tx"/><rect x="12" y="10" width="76" height="22" rx="8" class="bub"/><path d="M45 32l5 6 5-6z" class="bubf"/><rect x="20" y="18" width="52" height="5" rx="2" class="lt"/>'),
+      dictionary: pg(70, lines([16, 26, 36], 3, 12, [76, 70, 60]) + '<rect x="30" y="25" width="22" height="6" rx="2" class="acsel"/><rect x="18" y="40" width="70" height="24" rx="6" class="lz"/><rect x="24" y="46" width="30" height="4" rx="2" class="dkf"/><rect x="24" y="54" width="54" height="3" rx="1.5" class="tx"/>'),
+      position: pg(70, '<rect x="8" y="8" width="84" height="56" rx="6" class="dash"/>' + [[14, 14], [50, 14], [86, 14], [14, 36], [86, 36], [14, 58], [50, 58]].map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" class="tx"/>'; }).join('') + '<circle cx="86" cy="58" r="6" class="acf"/>')
+    };
+  })();
+
+  function guideLines(text) { return String(text || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean); }
 })(window, document);
