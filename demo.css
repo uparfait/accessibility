@@ -41,3 +41,7 @@ table.hours th { background: #23413a; color: #fff; }
 .try { margin: 0 auto 60px; max-width: 980px; font: 13px/1.5 system-ui, sans-serif; color: #444; padding: 0 16px; }
 .try code { background: #eee; padding: 1px 4px; border-radius: 3px; }
 .try a { color: #2F6B5A; margin-right: 10px; }
+@media (max-width: 700px) {
+  .main-col, .side-col { float: none; width: 100%; border: 0; }
+  #topbar .links { display: none; }
+}
