@@ -2336,4 +2336,11 @@
     if (el.tagName === 'TEXTAREA' || el.isContentEditable) { insertText(el, '\n'); return; }
     var ev = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true });
     var ok = el.dispatchEvent(ev);
+    el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+    var f = el.form;
+    if (ok && f) {
+      var single = f.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"])').length === 1;
+      if (f.querySelector('[type="submit"],button:not([type]),button[type="submit"]') || single) { if (f.requestSubmit) f.requestSubmit(); else f.submit(); }
+    }
+  }
 })(window, document);
