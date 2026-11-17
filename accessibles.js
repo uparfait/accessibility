@@ -2259,4 +2259,11 @@
       layer.hidden = false;
       var self = this;
       var off = function () { self.hideNumbers(); window.removeEventListener('scroll', off, true); };
+      window.addEventListener('scroll', off, true);
+    },
+    hideNumbers: function () { this.numbers = []; var l = $('.nums'); if (l) { l.innerHTML = ''; l.hidden = true; } }
+  };
+  var FIELDS = 'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),select,textarea,[contenteditable="true"],[contenteditable=""]';
+  // Spoken punctuation: [what you say, what is typed, keep the space before]
+  var PUNCT = [
 })(window, document);
