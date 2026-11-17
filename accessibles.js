@@ -5437,4 +5437,11 @@
     msg = T(msg);
     t.textContent = msg;
     t.hidden = false;
+    cancel(toastTimer);
+    toastTimer = later(function () { t.hidden = true; }, 2800);
+    announce(msg);
+  }
+  function announce(msg) {
+    var l = $('.srl');
+    if (!l) return;
 })(window, document);
