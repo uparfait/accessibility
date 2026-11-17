@@ -3271,4 +3271,22 @@
       if (S.tooltips && !this.on) { this.on = true; evs.forEach(function (e) { document.addEventListener(e[0], e[1], true); }); window.addEventListener('scroll', this.onOut, true); }
       else if (!S.tooltips && this.on) { this.on = false; evs.forEach(function (e) { document.removeEventListener(e[0], e[1], true); }); window.removeEventListener('scroll', this.onOut, true); this.hide(); }
     },
+    text: function (el) {
+      var t = el.getAttribute('data-tooltip') || el.getAttribute('title') || el.getAttribute('aria-label') || (el.tagName === 'IMG' ? el.getAttribute('alt') : '') || '';
+      if (!t && el.matches('a[href],button,[role="button"]') && !textOf(el)) t = accName(el);
+      return String(t).trim();
+    },
+    onOver: function (e) {
+      var t = e.target;
+      if (!t || t.nodeType !== 1 || isOurs(t)) return;
+      var el = t.closest('[data-tooltip],[title],[aria-label],img[alt],a[href],button,[role="button"]');
+      if (!el || isOurs(el)) return;
+      var r = el.getBoundingClientRect();
+      if (r.width > vw() * 0.9 && r.height > vh() * 0.6) return;   // whole sections are not "things" to describe
+      var txt = Tips.text(el);
+      if (!txt || txt === textOf(el)) { Tips.hide(); return; }
+      if (Tips.cur === el) return;
+      Tips.cur = el;
+      Tip.show(el, txt, e.type === 'focusin' ? 0 : 350);
+    },
 })(window, document);
