@@ -2566,4 +2566,12 @@
       if (isOurs(e.target) || isEditable(e.target) || e.key !== 'Shift') return;
       later(Dict.fromSelection, 20);
     },
+    glossary: function (w) {
+      var lw = w.toLowerCase();
+      var g = CFG.glossary;
+      if (g) { for (var k in g) if (k.toLowerCase() === lw) return { word: k, defs: [{ pos: 'Glossary', text: String(g[k]) }] }; }
+      var abbr = Array.prototype.filter.call(document.querySelectorAll('abbr[title],dfn[title],acronym[title]'), function (a) { return textOf(a).toLowerCase() === lw; })[0];
+      if (abbr) return { word: textOf(abbr), defs: [{ pos: 'On this page', text: abbr.getAttribute('title') }] };
+      return null;
+    },
 })(window, document);
