@@ -1,3 +1,8 @@
 /* Demo site styles — intentionally "legacy": px sizes, floats, tables, fixed header. */
 body { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 15px; color: #333; background: #f4f1ea; }
 #topbar { position: fixed; top: 0; left: 0; right: 0; height: 48px; background: #23413a; color: #dfe9e4; z-index: 50; }
+#topbar .inner { max-width: 980px; margin: 0 auto; padding: 0 16px; line-height: 48px; font-size: 13px; }
+#topbar a { color: #fff; margin-right: 14px; text-decoration: none; }
+#topbar .icons { float: right; }
+#topbar .icons a { display: inline-block; width: 28px; text-align: center; }
+.icon { display: inline-block; width: 16px; height: 16px; vertical-align: middle; }
