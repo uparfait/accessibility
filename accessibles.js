@@ -2007,4 +2007,11 @@
       if (!todo.length) { fill(); return; }
       googleText(todo, lang).then(function (out) { todo.forEach(function (p, i) { if (out[i]) c['v:' + p] = out[i]; }); I18N.persist(); fill(); }, function () { delete self.local[lang]; });
     },
+    allPhrases: function () {
+      var out = this.YES.concat(this.NO);
+      this.navCmds().concat(this.dictCmds()).forEach(function (c) { out = out.concat(c.say); });
+      this.SLOTS.forEach(function (sl) { out = out.concat(sl.say); });
+      PUNCT.forEach(function (p) { out.push(p[0]); });
+      return out;
+    },
 })(window, document);
