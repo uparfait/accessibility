@@ -760,4 +760,15 @@
     }
   };
 
+  var S = JSON.parse(JSON.stringify(DEFAULTS));
+  var dragPos = null;   // {x,y} launcher center as fraction of viewport
+  var usage = {};
+  (function load() {
+    var d = Store.read();
+    if (!d) return;
+    if (d.s && typeof d.s === 'object') {
+      Object.keys(DEFAULTS).forEach(function (k) {
+        if (d.s[k] !== undefined && typeof d.s[k] === typeof DEFAULTS[k]) S[k] = d.s[k];
+      });
+    }
 })(window, document);
