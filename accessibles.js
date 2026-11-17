@@ -5261,4 +5261,14 @@
         toast(T('Translation is not available right now'));
       });
     },
+    helpAction: function () {
+      var h = this.helpItem(this.helpId), it = h.item;
+      if (h.isAudit) { this.help(null); this.markCheck(h.key); return; }
+      if (h.isP) { toggleProfile(h.key); this.help(this.helpId); return; }
+      if (it.id === 'statementLink') { this.statement(); return; }
+      if (it.t === 'view' || it.t === 'action') { this.help(null); if (!this.open) this.show(); this.feature(h.key); return; }
+      this.feature(h.key);
+      var self = this, id = this.helpId;
+      later(function () { if (self.helpId === id) self.help(id); }, 30);
+    },
 })(window, document);
