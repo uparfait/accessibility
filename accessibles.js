@@ -1370,4 +1370,11 @@
       if (a) scores.set(a, (scores.get(a) || 0) + l);
       if (b) scores.set(b, (scores.get(b) || 0) + l / 2);
     });
+    var top = null, topScore = 0;
+    scores.forEach(function (v, k) { if (v > topScore && !isOurs(k)) { top = k; topScore = v; } });
+    return top || document.body;
+  }
+
+  var Keyboard = {
+    on: false, rec: new Recorder(), skip: null,
 })(window, document);
