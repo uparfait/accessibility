@@ -195,4 +195,13 @@
   try { ctx2d = document.createElement('canvas').getContext('2d'); } catch (e) { ctx2d = null; }
   function parseColor(input) {
     if (!input) return null;
+    var s = String(input).trim();
+    if (/^[0-9a-f]{3}([0-9a-f]{3})?([0-9a-f]{2})?$/i.test(s)) s = '#' + s;
+    var m = /^#([0-9a-f]{3,8})$/i.exec(s);
+    if (m) {
+      var h = m[1];
+      if (h.length === 3 || h.length === 4) h = h.split('').map(function (c) { return c + c; }).join('');
+      if (h.length !== 6 && h.length !== 8) return null;
+      return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+    }
 })(window, document);
