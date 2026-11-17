@@ -4538,4 +4538,12 @@
       if (id === 'tools') return tiles('tools');
       return '';
     },
+    tileHTML: function (f) {
+      var pips = f.t === 'cycle' ? '<span class="pips">' + f.opts.slice(1).map(function () { return '<i class="pip"></i>'; }).join('') + '</span>' : '';
+      var mark = f.t === 'view' ? '<span class="go">' + ic('next') + '</span>' : (f.t === 'action' ? '' : '<span class="ck">' + ic('check') + '</span>');
+      var aria = (f.t === 'toggle' || f.t === 'radio') ? ' aria-pressed="false"' : '';
+      return '<div class="tile' + (f.t === 'cycle' ? ' cycle' : '') + '" data-tile="' + f.id + '"><button type="button" class="tm" data-f="' + f.id + '"' + aria + '><span class="ti">' + ic(f.icon) + '</span><span class="tl">' + f.label + '</span>' +
+        ((f.t === 'cycle' || f.val) ? '<span class="tv"></span>' : '') + pips + mark + '</button>' +
+        '<button type="button" class="hb" data-help="' + f.id + '" aria-label="About ' + f.label + '" data-tt="About this feature">' + ic('help') + '</button></div>';
+    },
 })(window, document);
