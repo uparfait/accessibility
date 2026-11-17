@@ -1081,4 +1081,11 @@
     this.recs.push([el, attr, el.getAttribute(attr)]);
     el.setAttribute(attr, val);
   };
+  Recorder.prototype.add = function (node) { this.nodes.push(node); return node; };
+  Recorder.prototype.revert = function () {
+    for (var i = this.recs.length - 1; i >= 0; i--) {
+      var r = this.recs[i];
+      if (r[2] === null) r[0].removeAttribute(r[1]); else r[0].setAttribute(r[1], r[2]);
+    }
+    this.nodes.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
 })(window, document);
