@@ -3408,4 +3408,11 @@
     (document.head || document.documentElement).appendChild(l);
     return l;
   }
+  function gfURL(fam, extra) { return 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fam).replace(/%20/g, '+') + (extra || '') + '&display=swap'; }
+  var fontReady = {};
+  function loadFont(id) {
+    if (!id) return Promise.resolve();
+    if (fontReady[id]) return fontReady[id];
+    var f = fontInfo(id);
+    if (id === 'readable' && CFG.readableFontUrl) addCSSLink(CFG.readableFontUrl);
 })(window, document);
