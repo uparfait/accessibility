@@ -693,4 +693,15 @@
   })();
 
   function guideLines(text) { return String(text || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean); }
+  function guideHTML(text) {
+    var out = '', list = null;
+    var close = function () { if (list) { out += '</' + list + '>'; list = null; } };
+    guideLines(text).forEach(function (l, i) {
+      var m;
+      if (l.charAt(0) === '@') { close(); if (ILL[l.slice(1)]) out += '<figure class="ill" aria-hidden="true"><svg viewBox="0 0 240 88" focusable="false">' + ILL[l.slice(1)] + '</svg></figure>'; return; }
+      if ((m = /^##\s*(.*)$/.exec(l))) { close(); out += '<h3 class="gh" data-l="' + i + '">' + esc(m[1]) + '</h3>'; return; }
+      if ((m = /^-\s+(.*)$/.exec(l))) { if (list !== 'ul') { close(); out += '<ul class="gl">'; list = 'ul'; } out += '<li data-l="' + i + '">' + esc(m[1]) + '</li>'; return; }
+      if ((m = /^\d+\.\s+(.*)$/.exec(l))) { if (list !== 'ol') { close(); out += '<ol class="gs">'; list = 'ol'; } out += '<li data-l="' + i + '">' + esc(m[1]) + '</li>'; return; }
+      close(); out += '<p data-l="' + i + '">' + esc(l) + '</p>';
+    });
 })(window, document);
