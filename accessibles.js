@@ -4969,4 +4969,24 @@
           $('.score .bar i', box).style.width = res.score + '%';
         }
       },
+      report: {
+        title: 'Report an issue',
+        render: function (box) {
+          box.innerHTML = '<div class="field"><span>What kind of problem?</span>' + this.selectHTML('reptype') + '</div>' +
+            '<label class="field"><span>Describe the problem</span><textarea class="rep-msg inp" placeholder="What were you trying to do, and what happened?"></textarea></label>' +
+            '<label class="field"><span>Email (optional, so we can reply)</span><input type="email" class="rep-mail inp" autocomplete="email"></label>' +
+            '<div class="btns"><button type="button" class="btn" data-act="report-send">' + ic('report') + 'Send the report</button><button type="button" class="btn ghost" data-act="report-copy">' + ic('copy') + 'Copy the report</button></div>' +
+            '<p class="status rep-status" role="status"></p>';
+        }
+      },
+      statement: {
+        title: 'Accessibility statement',
+        render: function (box) {
+          var site = esc(CFG.siteName || location.hostname || 'this website');
+          box.innerHTML = '<div class="prose"><p>We want ' + site + ' to be usable by everyone, including people with disabilities. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.</p>' +
+            '<p>This site provides accessibility features so you can adjust text, colors, motion, reading and navigation to suit your needs. These features also repair some common technical problems automatically, such as missing labels and image descriptions.</p>' +
+            '<p>These features support, but do not replace, accessible design. If something on this site is hard to use, please tell us and we will work to fix it.</p></div>' +
+            '<div class="btns"><button type="button" class="btn" data-view="report">' + ic('report') + 'Report an accessibility issue</button></div>';
+        }
+      },
 })(window, document);
