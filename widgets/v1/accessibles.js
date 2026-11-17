@@ -143,6 +143,17 @@
   function vw() { return document.documentElement.clientWidth || window.innerWidth; }
   function vh() { return window.innerHeight || document.documentElement.clientHeight; }
   function isOurs(n) { return !!n && !!host && (n === host || host.contains(n)); }
+  // The reader view is the widget's own copy of the page; reading aids treat it like page content
+  function inReader(el) { return !!(el && el.closest && el.closest('.rbody')); }
+  function pageLike(el) { return !!el && (!isOurs(el) || inReader(el)); }
+  // The element really under the pointer, also inside the widget (events from it reach the page as the widget itself)
+  function realTarget(e) { var p = e.composedPath && e.composedPath(), t = p && p[0]; if (t && t.nodeType === 3) t = t.parentElement; return t && t.nodeType === 1 ? t : e.target; }
+  // The current text selection, inside the reader view when it is open
+  function getSel() {
+    var r = shadow && shadow.querySelector('.reader');
+    if (r && !r.hidden && shadow.getSelection) { var s = shadow.getSelection(); if (s && s.rangeCount && !s.isCollapsed) return s; }
+    return window.getSelection ? window.getSelection() : null;
+  }
   function textOf(el) { return ((el && (el.innerText || el.textContent)) || '').replace(/\s+/g, ' ').trim(); }
   function visible(el) {
     if (!el || !el.getClientRects || !el.getClientRects().length) return false;
