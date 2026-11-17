@@ -3098,4 +3098,17 @@
     });
   }
 
+  function track(feature, value) {
+    if (value === false || value === '' || value === 0 || value === 1 && /scale|size/i.test(feature)) return;
+    usage[feature] = (usage[feature] || 0) + 1;
+    var payload = { event: 'accessibles_feature', feature: feature, value: value, page: location.pathname, ts: Date.now(), v: VERSION };
+    if (CFG.analytics && /^https?:/i.test(CFG.analytics)) {
+      try {
+        var body = JSON.stringify(payload);
+        if (navigator.sendBeacon) navigator.sendBeacon(CFG.analytics, new Blob([body], { type: 'application/json' }));
+        else fetch(CFG.analytics, { method: 'POST', body: body, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(function () { });
+      } catch (e) { /* ignore */ }
+    }
+  }
+
 })(window, document);
