@@ -2549,4 +2549,13 @@
       var r = sel.rangeCount ? sel.getRangeAt(0).getBoundingClientRect() : null;
       return { word: w, rect: r };
     },
+    onDbl: function (e) { if (isOurs(e.target)) return; var w = Dict.word(); if (w) Dict.lookup(w.word, w.rect); },
+    last: '', lastAt: 0,
+    fromSelection: function () {
+      var w = Dict.word();
+      if (!w) return;
+      if (w.word === Dict.last && Date.now() - Dict.lastAt < 1500) return;
+      Dict.last = w.word; Dict.lastAt = Date.now();
+      Dict.lookup(w.word, w.rect);
+    },
 })(window, document);
