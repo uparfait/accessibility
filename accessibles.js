@@ -188,4 +188,11 @@
     later(function () { el.classList.remove('acc-target'); }, 1600);
   }
 
+  /* ------------------------------------------------------------------ *
+   * 3. Color system — every widget color is derived from the primary
+   * ------------------------------------------------------------------ */
+  var ctx2d = null;
+  try { ctx2d = document.createElement('canvas').getContext('2d'); } catch (e) { ctx2d = null; }
+  function parseColor(input) {
+    if (!input) return null;
 })(window, document);
