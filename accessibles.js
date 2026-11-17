@@ -3423,4 +3423,11 @@
       var t = later(resolve, 4000);
       later(function () { document.fonts.load('16px "' + f.fam + '"').then(function () { cancel(t); resolve(); }, function () { cancel(t); resolve(); }); }, 60);
     });
+    return fontReady[id];
+  }
+  var previewLoaded = false;
+  function loadFontPreviews() {
+    if (previewLoaded) return;
+    previewLoaded = true;
+    var fams = FONT_LIST.filter(function (f) { return f.g; });
 })(window, document);
