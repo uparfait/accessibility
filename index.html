@@ -249,3 +249,18 @@
     box.appendChild(btn);
   });
 </script>
+
+<script>
+  // Open the GitHub project in a popup window, centered on the screen
+  document.querySelector('[data-popup]').addEventListener('click', function (e) {
+    var w = Math.min(1100, screen.availWidth - 80);
+    var h = Math.min(780, screen.availHeight - 80);
+    var left = (screen.availLeft || 0) + (screen.availWidth - w) / 2;
+    var top = (screen.availTop || 0) + (screen.availHeight - h) / 2;
+    var win = window.open(this.href, 'accessibles-github', 'popup=yes,width=' + w + ',height=' + h + ',left=' + left + ',top=' + top);
+    if (!win) return;
+    e.preventDefault();
+    win.opener = null;
+    win.focus();
+  });
+</script>
