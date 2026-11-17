@@ -3950,4 +3950,18 @@
         img.src = CFG.siteIcon;
       }
       this.bind();
+      this.scale();
+      this.placeLauncher();
+      this.renderTab('profiles');
+    },
+
+    /* --- sizing: identical look at every width, clamped between 360px and 1200px layouts --- */
+    scale: function () {
+      if (!R) return;
+      var w = vw();
+      var f = w < 360 ? 13 * w / 360 : 13 + 2 * Math.min(1, (w - 360) / 840);
+      if (S.oversized) f *= w >= 600 ? 1.2 : 1.08;
+      R.style.fontSize = f.toFixed(3) + 'px';
+      R.classList.toggle('still', !!S.stopAnimations);
+    },
 })(window, document);
