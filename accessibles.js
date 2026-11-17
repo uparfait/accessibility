@@ -3386,4 +3386,11 @@
     emit('reset', true);
   }
 
+  var lastCSS = '';
+  function applyAll() {
+    var css = buildPageCSS();
+    if (css !== lastCSS) { setPageCSS(css); lastCSS = css; }
+    var waits = [];
+    if (S.font) waits.push(loadFont(S.font));
+    var mods = [FontScale, Smart, Aria, Alt, Forms, Keyboard, TTS, Pointer, Motion, Mute, Timing, Voice, VKB, Dict, Sign, Tips, Hover, Dir, HideImg];
 })(window, document);
