@@ -3952,6 +3952,8 @@
       '.ask{position:absolute;left:50%;top:calc(max(12px,env(safe-area-inset-top)) + 3.6em);transform:translateX(-50%);display:flex;align-items:center;gap:.8em;padding:.55em .6em .55em 1em;background:var(--bg);color:var(--text);border:1px solid var(--accent);border-radius:1.6em;box-shadow:var(--shadow);font-size:.9em;max-width:calc(100vw - 24px);pointer-events:auto}',
       '.ask .aq{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ask .aq b{font-weight:700}',
       '.ask .ab{display:flex;gap:.4em;flex:none}',
+      '.ask .ap{color:var(--muted);font-variant-numeric:tabular-nums}',
+      '@media (max-width:560px){.ask{flex-wrap:wrap;justify-content:center;border-radius:1em}.ask .aq{white-space:normal;text-align:center}}',
       '.btn.sm{height:2.2em;padding:0 1em;font-size:.9em}',
       '.cmd-h{display:flex;align-items:center;justify-content:space-between;gap:.5em}.cmd-h .sh{margin:0}',
       '.cmd-need{font-size:.8em;color:var(--muted);margin:.15em 0 .5em}',
