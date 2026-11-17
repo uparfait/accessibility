@@ -2602,4 +2602,11 @@
   };
   Dict.onDbl = Dict.onDbl.bind(Dict); Dict.onUp = Dict.onUp.bind(Dict); Dict.onKeyUp = Dict.onKeyUp.bind(Dict);
 
+  /* ------------------------------------------------------------------ *
+   * 18. Translation
+   * ------------------------------------------------------------------ */
+  // Languages offered by Google Translate: [code, English name, native name]
+  var LANGS = [['af','Afrikaans'],['sq','Albanian','Shqip'],['am','Amharic','አማርኛ'],['ar','Arabic','العربية'],['hy','Armenian','Հայերեն'],['as','Assamese','অসমীয়া'],['ay','Aymara'],['az','Azerbaijani','Azərbaycanca'],
+    ['bm','Bambara'],['eu','Basque','Euskara'],['be','Belarusian','Беларуская'],['bn','Bengali','বাংলা'],['bho','Bhojpuri'],['bs','Bosnian','Bosanski'],['bg','Bulgarian','Български'],['ca','Catalan','Català'],['ceb','Cebuano'],
+    ['ny','Chichewa'],['zh-CN','Chinese (Simplified)','简体中文'],['zh-TW','Chinese (Traditional)','繁體中文'],['co','Corsican','Corsu'],['hr','Croatian','Hrvatski'],['cs','Czech','Čeština'],['da','Danish','Dansk'],
 })(window, document);
