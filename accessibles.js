@@ -256,4 +256,11 @@
     };
   }
 
+  /* ------------------------------------------------------------------ *
+   * 4. Icons — one consistent 24px line set, drawn for this widget
+   * ------------------------------------------------------------------ */
+  var DOT = 'stroke-width="2.6"';
+  var I = {
+    logo: '<circle cx="12" cy="6.4" r="1.7" fill="currentColor" stroke="none"/><path d="M6.6 9.7c1.8.6 3.6.9 5.4.9s3.6-.3 5.4-.9"/><path d="M12 10.6v3.6M12 14.2l-2.6 4.5M12 14.2l2.6 4.5"/><path d="M20.6 9.4A9 9 0 1 1 15.2 3.6"/><circle cx="18.4" cy="5.6" r="1.1" fill="currentColor" stroke="none"/>',
+    close: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
 })(window, document);
