@@ -64,4 +64,11 @@
       var v = eq < 0 ? 'true' : dec(pair.slice(eq + 1)).trim();
       if (k) out[k] = v;
     });
+    return out;
+  }
+
+  function truthy(v) { return v === true || /^(1|true|yes|on)$/i.test(String(v || '')); }
+  function num(v, d) { var n = parseFloat(v); return isFinite(n) ? n : d; }
+
+  // Accepts common spellings and typos: "ritgh", "rigth", "botom", "centre", "middle"…
 })(window, document);
