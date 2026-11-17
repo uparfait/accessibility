@@ -35,4 +35,12 @@
   function later(fn, ms) { return nativeSetTimeout.call(window, fn, ms || 0); }
   function cancel(id) { nativeClearTimeout.call(window, id); }
 
+  /* ------------------------------------------------------------------ *
+   * 1. Configuration
+   * ------------------------------------------------------------------ */
+  var SCRIPT = document.currentScript || (function () {
+    var list = document.querySelectorAll('script[src]');
+    for (var i = list.length - 1; i >= 0; i--) {
+      if (/accessibles(\.min)?\.js/i.test(list[i].getAttribute('src') || '')) return list[i];
+    }
 })(window, document);
