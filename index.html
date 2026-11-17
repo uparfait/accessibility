@@ -239,20 +239,53 @@
 </main>
 
 <script>
-  // Copy buttons for every code block
-  document.querySelectorAll('.code').forEach(function (box) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'copy';
-    btn.textContent = 'Copy';
-    btn.addEventListener('click', function () {
-      navigator.clipboard.writeText(box.querySelector('code').textContent).then(function () {
-        btn.textContent = 'Copied';
-        setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+  // Code editors: window bar, copy button, line numbers and Night Owl colors
+  (function () {
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function wrap(cls, s) { return '<span class="t-' + cls + '">' + esc(s) + '</span>'; }
+    // Escapes the plain parts of the text and lets fn color each match
+    function paint(text, re, fn) {
+      var out = '', last = 0, m;
+      re.lastIndex = 0;
+      while ((m = re.exec(text))) { out += esc(text.slice(last, m.index)) + fn(m); last = re.lastIndex; }
+      return out + esc(text.slice(last));
+    }
+    function attrs(s) {
+      return paint(s, /([\w-]+)(?:(=)("[^"]*"))?/g, function (m) {
+        return wrap('attr', m[1]) + (m[2] ? wrap('pun', m[2]) + wrap('str', m[3]) : '');
       });
+    }
+    var LANG = {
+      html: function (text) {
+        return paint(text, /<(\/?)([\w-]+)([^>]*?)(\/?)>/g, function (m) {
+          return wrap('pun', '<' + m[1]) + wrap('tag', m[2]) + attrs(m[3]) + wrap('pun', m[4] + '>');
+        });
+      },
+      js: function (text) {
+        return paint(text, /('[^']*'|"[^"]*")|\b(function|var|const|let|return|if|else|new)\b|\b(\d+(?:\.\d+)?)\b|([A-Za-z_$][\w$]*)(?=\()|(=>|[{}()[\];,.])/g, function (m) {
+          return m[1] ? wrap('str', m[1]) : m[2] ? wrap('kw', m[2]) : m[3] ? wrap('num', m[3]) : m[4] ? wrap('fn', m[4]) : wrap('pun', m[5]);
+        });
+      }
+    };
+    document.querySelectorAll('.editor').forEach(function (box) {
+      var code = box.querySelector('code');
+      var text = code.textContent;
+      var html = (LANG[code.getAttribute('data-lang')] || esc)(text);
+      code.innerHTML = html.split('\n').map(function (line) { return '<span class="ln">' + (line || ' ') + '</span>'; }).join('');
+      var bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.innerHTML = '<i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="file"></span><button type="button" class="copy">Copy</button>';
+      bar.querySelector('.file').textContent = box.getAttribute('data-file') || '';
+      var btn = bar.querySelector('.copy');
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(text).then(function () {
+          btn.textContent = 'Copied';
+          setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+        });
+      });
+      box.insertBefore(bar, box.firstChild);
     });
-    box.appendChild(btn);
-  });
+  })();
 </script>
 
 <script>
