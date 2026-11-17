@@ -646,12 +646,12 @@
   // Guide lines ("- ...") for a group of commands
   function cmdLines(g) {
     var c = CMDS[g];
-    return c.items.map(function (it) { return '- ' + (c.keys ? it[0] : '"' + it[0] + '"') + ': ' + it[1]; }).join('\n');
+    return c.items.map(function (it) { return '- ' + (c.keys ? it[0] : '"' + it[0] + '"') + ': ' + it[1] + (it[2] ? '. Example: "' + it[2] + '"' : ''); }).join('\n');
   }
   // Plain sentences for speaking a group of commands out loud
   function cmdSpeech(g) {
     var c = CMDS[g];
-    return [c.title + '. ' + c.need + '.'].concat(c.items.map(function (it) { return (c.keys ? it[0].replace(/\+/g, 'plus') : it[0]) + ': ' + it[1] + '.'; }));
+    return [c.title + '. ' + c.need + '.'].concat(c.items.map(function (it) { return (c.keys ? it[0].replace(/\+/g, 'plus') : it[0]) + ': ' + it[1] + '.' + (it[2] ? ' For example: ' + it[2] + '.' : ''); }));
   }
 
   // Human-friendly help for each page check
