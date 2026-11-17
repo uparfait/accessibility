@@ -4020,4 +4020,12 @@
         }
         p.style.setProperty('--ox', third === 'right' ? '100%' : third === 'left' ? '0%' : '50%');
       }
+      p.style.height = Math.round(hh) + 'px';
+      p.style.maxHeight = (H - 2 * m) + 'px';
+      p.style.left = Math.round(clamp(x, m, Math.max(m, W - w - m))) + 'px';
+      p.style.top = Math.round(clamp(y, m, Math.max(m, H - hh - m))) + 'px';
+      // The button stays hidden while the panel is open; the panel has its own close
+      $('.launch').classList.toggle('under', !!this.open);
+    },
+
 })(window, document);
