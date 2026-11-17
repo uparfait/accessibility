@@ -4288,6 +4288,8 @@
       '.kl.cmd{flex-direction:column;align-items:flex-start;gap:.15em}.kl.cmd .cn{white-space:nowrap}.kl.cmd .cd{color:var(--muted);text-align:start;font-size:.9em}.kl.cmd .cx{color:var(--accent);font-size:.86em}',
       // No sideways scrolling anywhere in the widget
       '.r .body,.r .help-main,.r .opts,.r .dict,.r .reader,.r .cs-pop,.r .signp{overflow-x:hidden!important}',
+      // Long words, addresses and links wrap onto the next line instead of widening their box
+      '.r p,.r li,.r dd,.r dt,.r .empty,.r .hint,.r .prose,.r .help-text,.r .dict .dd,.r .dict strong,.r .lens,.r .tip,.r .toast,.r .status,.r .cmd-need,.r .kl.cmd .cd,.r .kl.cmd .cx,.r .chk .cb,.r .tr-note span,.r .field,.r .wait span,.r .sgs span,.r .help h2,.r .rbody{overflow-wrap:anywhere;word-break:break-word}',
       '@media (forced-colors:active){.tile.on,.prow.on{outline:2px solid Highlight}.launch{border:2px solid ButtonText}}'
     ].join('\n');
   }
