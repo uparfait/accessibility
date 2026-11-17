@@ -78,4 +78,12 @@
       .replace(/lfet|leftt|lef(?!t)/g, 'left')
       .replace(/tpo(?!s)/g, 'top')
       .replace(/middle|centre|centr(?!e)|cener|cntr/g, 'center');
+    var hasTop = s.indexOf('top') > -1, hasBottom = s.indexOf('bottom') > -1;
+    var hasLeft = s.indexOf('left') > -1, hasRight = s.indexOf('right') > -1;
+    if (!hasTop && !hasBottom && !hasLeft && !hasRight) return { v: 'bottom', h: 'right', key: 'bottom-right' };
+    var vert = hasTop ? 'top' : hasBottom ? 'bottom' : 'center';
+    var hor = hasLeft ? 'left' : hasRight ? 'right' : 'center';
+    return { v: vert, h: hor, key: vert === 'center' ? hor + '-center' : hor === 'center' ? vert + '-center' : vert + '-' + hor };
+  }
+
 })(window, document);
