@@ -541,4 +541,17 @@
   // Every spoken command and reading key, in one place. The Shortcuts view, the help guides,
   // the spoken "What can I say" answer and the command matching all come from this list.
   var CMDS = {
+    read: { title: 'Reading aloud', need: 'Say these with Voice commands on', items: [
+      ['Read page', 'reads the whole page from the top'],
+      ['Read this', 'reads the selected text, or the item you are on'],
+      ['Read headings', 'reads only the headings, to get an overview'],
+      ['Pause', 'pauses reading'],
+      ['Continue', 'carries on from where it paused'],
+      ['Next', 'skips to the next paragraph'],
+      ['Previous', 'goes back one paragraph'],
+      ['Repeat', 'reads the current paragraph again'],
+      ['Faster', 'reads faster'],
+      ['Slower', 'reads slower'],
+      ['Stop reading', 'stops reading']
+    ] },
 })(window, document);
