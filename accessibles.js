@@ -2623,4 +2623,11 @@
     ['tr','Turkish','Türkçe'],['tk','Turkmen','Türkmençe'],['ak','Twi'],['uk','Ukrainian','Українська'],['ur','Urdu','اردو'],['ug','Uyghur','ئۇيغۇرچە'],['uz','Uzbek','Oʻzbekcha'],['vi','Vietnamese','Tiếng Việt'],
     ['cy','Welsh','Cymraeg'],['xh','Xhosa','isiXhosa'],['yi','Yiddish','ייִדיש'],['yo','Yoruba','Yorùbá'],['zu','Zulu','isiZulu']];
   function langOptions(origLabel) {
+    return [{ v: '', l: origLabel || 'Original language' }].concat(LANGS.map(function (l) { return { v: l[0], l: l[2] || l[1], s: l[2] ? l[1] : '', k: l[0] }; }));
+  }
+  var RTL_LANGS = /^(ar|iw|he|fa|ur|ps|sd|ug|yi|ckb|dv)(-|$)/i;
+  function langName(code) { for (var i = 0; i < LANGS.length; i++) if (LANGS[i][0] === code) return LANGS[i][2] || LANGS[i][1]; return code; }
+
+  // Google Translate for individual strings (the panel's own text and help descriptions)
+  function googleText(list, tl, onProgress, sl) {
 })(window, document);
