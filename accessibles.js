@@ -4762,4 +4762,19 @@
       $$('.sl').forEach(function (sl) { self.paintSlider(sl); });
       this.refresh();
     },
+    search: function (q) {
+      var self = this;
+      q = q.trim().toLowerCase();
+      if (!q) { this.renderTab(this.tab); return; }
+      $('.tabs').hidden = true;
+      var hits = F.filter(function (f) { return (f.label + ' ' + T(f.label) + ' ' + (f.kw || '') + ' ' + f.tab).toLowerCase().indexOf(q) > -1; });
+      var profs = PROFILES.filter(function (p) { return (p.label + ' ' + T(p.label) + ' ' + p.desc + ' profile').toLowerCase().indexOf(q) > -1; });
+      var html = '';
+      if (profs.length) html += '<div class="plist">' + profs.map(function (p) { return self.profileHTML(p); }).join('') + '</div>';
+      if (hits.length) html += '<div class="grid' + (profs.length ? ' mt' : '') + '">' + hits.map(this.tileHTML).join('') + '</div>';
+      if (!html) html = '<p class="empty">No features match "' + esc(q) + '".</p><div class="btns center"><button type="button" class="btn ghost" data-act="clear-search">Clear the search</button></div>';
+      $('.body').innerHTML = html;
+      this.refresh();
+    },
+
 })(window, document);
