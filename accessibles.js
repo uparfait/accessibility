@@ -800,4 +800,17 @@
   var canAdopt = 'adoptedStyleSheets' in Document.prototype && typeof CSSStyleSheet === 'function' && 'replaceSync' in CSSStyleSheet.prototype;
   var pageSheet = null, pageStyleEl = null;
 
+  function setPageCSS(css) {
+    if (canAdopt) {
+      try {
+        if (!pageSheet) {
+          pageSheet = new CSSStyleSheet();
+          document.adoptedStyleSheets = Array.prototype.slice.call(document.adoptedStyleSheets).concat([pageSheet]);
+        } else if (Array.prototype.indexOf.call(document.adoptedStyleSheets, pageSheet) < 0) {
+          document.adoptedStyleSheets = Array.prototype.slice.call(document.adoptedStyleSheets).concat([pageSheet]);
+        }
+        pageSheet.replaceSync(css);
+        return;
+      } catch (e) { canAdopt = false; }
+    }
 })(window, document);
