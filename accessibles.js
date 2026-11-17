@@ -986,4 +986,16 @@
     return svg;
   }
 
+  /* ------------------------------------------------------------------ *
+   * 8. Text scaling — works on px, em, rem and inline font sizes alike
+   * ------------------------------------------------------------------ */
+  var FontScale = {
+    factor: 1, lhMode: false, map: new WeakMap(), list: [],
+    sync: function () {
+      var f = S.fontSize, lh = !!S.lineHeight;
+      if (f === this.factor && lh === this.lhMode) return;
+      this.restore();
+      this.factor = f; this.lhMode = lh;
+      if (f !== 1 && document.body) return this.applyAsync(document.body);
+    },
 })(window, document);
