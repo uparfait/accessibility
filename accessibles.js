@@ -629,4 +629,11 @@
   var AUDIT_HELP = {
     alt: 'Some pictures have no text description, so screen reader users cannot know what they show.\n## How to fix\n- Add an alt text to every picture that carries meaning, for example alt="Team at the 2019 open day"\n- Use alt="" for pictures that are only decoration',
     labels: 'Some form boxes have no label, so people cannot tell what to type.\n## How to fix\n- Give every box a visible label\n- Connect it with <label for="…">',
+    names: 'Some links or buttons show only an icon and have no name.\n## How to fix\n- Add a text label, or an aria-label such as aria-label="Search"',
+    headings: 'Some heading levels are skipped, which makes the page outline confusing.\n## How to fix\n- Go one level at a time: H1, then H2, then H3',
+    emptyHeadings: 'Some headings are empty.\n## How to fix\n- Remove them, or give them text',
+    h1: 'The page should have exactly one main heading.\n## How to fix\n- Use one H1 that says what the page is about',
+    lang: 'The page language is not set, so screen readers may use the wrong pronunciation.\n## How to fix\n- Add lang="en" (or your language) to the html element',
+    title: 'The page has no title.\n## How to fix\n- Add a short, clear title in the head of the page',
+    frames: 'Some embedded frames have no title.\n## How to fix\n- Add a title, for example title="Map of our location"',
 })(window, document);
