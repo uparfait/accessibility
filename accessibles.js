@@ -3261,4 +3261,14 @@
       tip.style.setProperty('--ax', Math.round(clamp(cx - x, 12, w - 12)) + 'px');
       tip.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
     },
+    hide: function () { cancel(this.timer); this.el = null; var t = $('.tip'); if (t) t.hidden = true; }
+  };
+
+  var Tips = {
+    on: false, cur: null,
+    sync: function () {
+      var evs = [['pointerover', this.onOver], ['focusin', this.onOver], ['pointerout', this.onOut], ['focusout', this.onOut]];
+      if (S.tooltips && !this.on) { this.on = true; evs.forEach(function (e) { document.addEventListener(e[0], e[1], true); }); window.addEventListener('scroll', this.onOut, true); }
+      else if (!S.tooltips && this.on) { this.on = false; evs.forEach(function (e) { document.removeEventListener(e[0], e[1], true); }); window.removeEventListener('scroll', this.onOut, true); this.hide(); }
+    },
 })(window, document);
