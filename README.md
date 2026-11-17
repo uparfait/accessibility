@@ -70,3 +70,10 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 | `dictionary` | dictionaryapi.dev | Your own dictionary endpoint, with `{word}` and `{lang}` placeholders. |
 
 ## Examples
+
+### Brand color in the bottom-left corner
+
+```html
+<div class="accessibles-widget"></div>
+<script src="https://uparfait.github.io/accessibility/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
+```
