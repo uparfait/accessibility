@@ -748,4 +748,16 @@
       }
       try { return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
     },
+    write: function (data, persistent) {
+      var s = JSON.stringify(data);
+      var primary = persistent ? 'localStorage' : 'sessionStorage';
+      var other = persistent ? 'sessionStorage' : 'localStorage';
+      try { window[other].removeItem(KEY); } catch (e) { /* ignore */ }
+      try { window[primary].setItem(KEY, s); return; } catch (e) { /* fall through */ }
+      try {
+        document.cookie = 'accessibles=' + encodeURIComponent(s) + ';path=/;SameSite=Lax' + (persistent ? ';max-age=31536000' : '');
+      } catch (e) { /* ignore */ }
+    }
+  };
+
 })(window, document);
