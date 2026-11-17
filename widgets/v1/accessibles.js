@@ -3852,6 +3852,7 @@
       '.brandmark img,.lc-ico img{width:100%;height:100%;object-fit:contain;display:block;background:none!important;border-radius:0}',
       // With icon-color set, the site icon on the card is drawn in that color through a mask
       '.lc-mask{display:block;width:100%;height:100%;background:currentColor}',
+      '.bm-mask{display:block;width:100%;height:100%;background:var(--mark)}',
       '.brandmark.img,.lc-ico.img{background:none!important;box-shadow:none!important;overflow:visible}',
       '.htxt{flex:1;min-width:0;padding-left:.4em}',
       '.title{display:block;font-weight:650;font-size:1.06em;letter-spacing:-.005em;line-height:1.25;min-width:0}',
