@@ -5548,4 +5548,7 @@
   if (document.head && document.readyState === 'loading') {
     try { CFG = readConfig(null); PAL = buildPalette(CFG.color, CFG.bg); setPageCSS(buildPageCSS()); } catch (e) { /* will apply at start */ }
   }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+  window.addEventListener('load', start);
 })(window, document);
