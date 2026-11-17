@@ -935,4 +935,14 @@
       c.push(B + ' :is(a[href],a[href] *,button,button *,[role="button"],[role="link"],label,select,summary,[onclick],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"]){cursor:' + svgCursor(fill, stroke, 'hand') + ',pointer!important}');
     }
 
+    // Focus
+    if (S.focusRing || S.keyboardNav) {
+      c.push(B + ' *:focus{outline:3px solid ' + A + '!important;outline-offset:2px!important;box-shadow:0 0 0 6px rgba(255,255,255,.9)!important}');
+    }
+    // Bigger targets
+    if (S.bigTargets) {
+      c.push(B + ' :is(button,[role="button"],input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),select,summary){min-height:44px!important;min-width:44px!important}');
+      c.push(B + ' input:is([type="checkbox"],[type="radio"]){width:22px!important;height:22px!important;margin:6px!important}');
+      c.push(B + ' a[href]{padding-top:.25em!important;padding-bottom:.25em!important}');
+    }
 })(window, document);
