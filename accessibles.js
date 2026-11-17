@@ -711,4 +711,12 @@
   function guideWords(text) { return guideLines(text).map(function (l) { return l.charAt(0) === '@' ? '' : l.replace(/^##\s*|^-\s+|^\d+\.\s+/, ''); }); }
 
   var TABS = [
+    { id: 'profiles', label: 'Profiles' },
+    { id: 'text', label: 'Text' },
+    { id: 'color', label: 'Color' },
+    { id: 'nav', label: 'Navigate' },
+    { id: 'reading', label: 'Reading' },
+    { id: 'tools', label: 'Tools' }
+  ];
+
 })(window, document);
