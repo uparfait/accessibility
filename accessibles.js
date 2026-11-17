@@ -140,4 +140,11 @@
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function vw() { return document.documentElement.clientWidth || window.innerWidth; }
   function vh() { return window.innerHeight || document.documentElement.clientHeight; }
+  function isOurs(n) { return !!n && !!host && (n === host || host.contains(n)); }
+  function textOf(el) { return ((el && (el.innerText || el.textContent)) || '').replace(/\s+/g, ' ').trim(); }
+  function visible(el) {
+    if (!el || !el.getClientRects || !el.getClientRects().length) return false;
+    var cs = getComputedStyle(el);
+    return cs.visibility !== 'hidden' && cs.display !== 'none' && parseFloat(cs.opacity) > 0.02;
+  }
 })(window, document);
