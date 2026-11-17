@@ -191,3 +191,12 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 - **Line height**, **letter spacing**, **word spacing**, **bolder text** and **text align**
 - **Text direction** switches the page to right-to-left and mirrors the layout, the way Arabic, Hebrew and Persian sites are built.
 - **Highlight titles**, **highlight links** and a **text magnifier** that shows the text under the pointer in large letters
+
+### Color
+
+- **Dark**, **light** and **high contrast**
+- **Smart contrast** fixes only the text that is too close to its background color, and leaves the rest of the design alone.
+- **Invert colors**, **monochrome**, **low** and **high saturation**
+- **Color blindness** correction for protanopia, deuteranopia and tritanopia
+- **Custom colors** for text, titles and background, from preset swatches or a color code
+- **Brightness**
