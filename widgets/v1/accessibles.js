@@ -5226,6 +5226,7 @@
       if (!id) {
         if (box.hidden) return;
         box.hidden = true; box.innerHTML = ''; this.helpId = null;
+        if (TTS.active && /^cmds:/.test(TTS.tag)) TTS.stop();
         $('.launch').classList.toggle('under', !!this.open);
         this.placePanel();
         if (this.helpFrom && this.helpFrom.isConnected) { try { this.helpFrom.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
