@@ -234,14 +234,15 @@ Accessibles.set('fontSize', 1.3);</code></pre></div>
         </div>
       </details>
 
-      <article class="example">
-        <h3>Listen for changes</h3>
-        <p>React when a visitor changes a setting in the panel.</p>
-        <div class="code"><pre><code>addEventListener(<span class="tok">'accessibles:change'</span>, e =&gt; {
+      <details class="example">
+        <summary><span class="t"><h3>Listen for changes</h3><span class="d">React when a visitor changes a setting in the panel.</span></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></span></summary>
+        <div class="body">
+          <div class="editor" data-file="app.js"><pre><code data-lang="js">addEventListener('accessibles:change', e =&gt; {
   console.log(e.detail.key, e.detail.value);
 });</code></pre></div>
-        <output aria-live="polite">Change any setting in the panel…</output>
-      </article>
+          <output aria-live="polite">Change any setting in the panel…</output>
+        </div>
+      </details>
 
     </div>
   </div>
