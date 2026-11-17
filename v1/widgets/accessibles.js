@@ -4295,7 +4295,7 @@
       // Category tabs wrap to a second row if they ever do not fit (long translations, larger features)
       '.tabs{flex-wrap:wrap;overflow:visible}',
       // Rows of two or more buttons split their width equally; a single button keeps its own size
-      '.btns{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:.5em}.btns>.btn{min-width:0;width:100%}',
+      '.btns:not([hidden]){display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:.5em}.btns>.btn{min-width:0;width:100%}',
       '.btns>.btn:only-child{justify-self:start;width:auto}.btns.center>.btn:only-child{justify-self:center}',
       // The question bar: Yes / No (and Previous / Next / All) the same width, sized to the longest
       '.ask .ab{display:grid;grid-auto-flow:column;grid-auto-columns:1fr}.ask .ab>.btn{min-width:0}',
