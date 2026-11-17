@@ -23,3 +23,11 @@ A few things to know:
 - The `div` is optional. If the script can't find one, it creates it.
 - `defer` is optional. The script waits for the page to load either way, so it also works when a tag manager injects it.
 - To host it yourself, download `accessibles.js` and change the `src`. It's a single file with no dependencies.
+
+## Configuration
+
+Every option can be set in three places. If the same option is set twice, the later one wins:
+
+1. A `window.AccessiblesConfig` object, defined before the script loads
+2. The script URL: `accessibles.js?color=...&position=...`
+3. `data-` attributes on the `.accessibles-widget` div
