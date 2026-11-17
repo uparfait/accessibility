@@ -1858,4 +1858,11 @@
     }
   };
 
+  /* ------------------------------------------------------------------ *
+   * 15. Voice commands and Talk & Type (Web Speech API)
+   * ------------------------------------------------------------------ */
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var lastEditable = null;
+  document.addEventListener('focusin', function (e) { if (!isOurs(e.target) && isEditable(e.target)) lastEditable = e.target; }, true);
+
 })(window, document);
