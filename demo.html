@@ -65,3 +65,17 @@
         <tr><td>Saturday</td><td>10:00 to 16:00</td></tr>
         <tr><td>Sunday</td><td>Closed</td></tr>
       </table>
+      <h4 id="contact" style="color:#23413a">Ask a librarian</h4>
+      <div class="form-box">
+        <form onsubmit="alert('Thank you!'); return false;">
+          <input type="text" name="full_name" placeholder="Your name">
+          <input type="email" name="email" placeholder="Email address" required>
+          <div class="error">Please enter a valid email address.</div>
+          <select name="topic"><option>General question</option><option>Membership</option><option>Accessibility</option></select>
+          <textarea name="message" rows="3"></textarea>
+          <span class="btn-green" onclick="this.closest('form').requestSubmit()">Send</span>
+        </form>
+      </div>
+      <iframe src="about:blank" width="100%" height="60" frameborder="0"></iframe>
+    </div>
+  </div>
