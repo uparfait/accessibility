@@ -79,13 +79,8 @@
   .steps p { color: var(--muted); margin-top: 6px; }
   p code, td code { font: 500 .84em/1.4 var(--font-m); padding: .18em .5em; border-radius: 6px; background: #011627; color: #7fdbca; white-space: nowrap; }
 
-  .editor { margin-top: 16px; border-radius: 12px; overflow: hidden; background: #011627; box-shadow: 0 14px 34px -20px rgba(1, 22, 39, .7); }
-  .editor .bar { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px 0 14px; background: #0b2942; border-bottom: 1px solid #122d42; }
-  .editor .dot { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
-  .editor .dot + .dot { background: #febc2e; }
-  .editor .dot + .dot + .dot { background: #28c840; }
-  .editor .file { margin-left: 10px; font: 400 12px/1 var(--font-m); color: #5f7e97; }
-  .editor .copy { margin-left: auto; height: 26px; padding: 0 12px; border: 1px solid #1d3b53; border-radius: 999px; background: transparent; color: #8badc1; font: 500 12px/1 var(--font-b); cursor: pointer; }
+  .editor { position: relative; margin-top: 16px; border-radius: 12px; overflow: hidden; background: #011627; box-shadow: 0 14px 34px -20px rgba(1, 22, 39, .7); }
+  .editor .copy { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 12px; border: 1px solid #1d3b53; border-radius: 999px; background: #011627; box-shadow: -12px 0 12px #011627; color: #8badc1; font: 500 12px/1 var(--font-b); cursor: pointer; }
   .editor .copy:hover { background: #1d3b53; color: #d6deeb; }
   .editor pre { margin: 0; padding: 18px 20px 18px 12px; overflow-x: auto; font: 400 14px/1.75 var(--font-m); color: #d6deeb; }
   .editor code { counter-reset: ln; }
