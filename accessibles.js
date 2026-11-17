@@ -5041,4 +5041,22 @@
       var on = Object.keys(DEFAULTS).filter(function (k) { return JSON.stringify(S[k]) !== JSON.stringify(DEFAULTS[k]); }).map(function (k) { return k + '=' + JSON.stringify(S[k]); }).join(', ');
       return 'Accessibility issue' + (CFG.siteName ? ' on ' + CFG.siteName : '') + ': ' + type + '\n\n' + msg + '\n\nPage: ' + location.href + '\nBrowser: ' + navigator.userAgent + '\nScreen: ' + vw() + 'x' + vh() + '\nSettings: ' + (on || 'default');
     },
+    sendReport: function () {
+      var st = $('.rep-status'), msg = $('.rep-msg').value.trim(), mail = $('.rep-mail').value.trim();
+      if (msg.length < 5) { st.textContent = 'Please describe the problem first.'; $('.rep-msg').focus(); return; }
+      var dest = CFG.report, self = this;
+      var data = { site: CFG.siteName || location.hostname, type: this.repType || 'Something is hard to read', message: msg, email: mail, page: location.href, userAgent: navigator.userAgent, viewport: vw() + 'x' + vh(), settings: S, time: new Date().toISOString(), widget: 'accessibles/' + VERSION };
+      var addr = dest.replace(/^mailto:/i, '');
+      if (/^[^\s@/]+@[^\s@/]+\.[^\s@/]+$/.test(addr)) {
+        location.href = 'mailto:' + addr + '?subject=' + encodeURIComponent('Accessibility issue: ' + data.type) + '&body=' + encodeURIComponent(this.reportText() + (mail ? '\nReply to: ' + mail : ''));
+        st.textContent = 'Your email app should open with the report.';
+        return;
+      }
+      if (/^https?:/i.test(dest) || /^\//.test(dest)) {
+        st.textContent = 'Sending…';
+        fetch(dest, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+          .then(function (r) { if (!r.ok) throw new Error(r.status); st.textContent = 'Thank you. Your report was sent.'; $('.rep-msg').value = ''; })
+          .catch(function () { st.textContent = 'The report could not be sent. Use Copy and send it to the site owner.'; });
+        return;
+      }
 })(window, document);
