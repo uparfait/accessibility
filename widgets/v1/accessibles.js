@@ -4054,7 +4054,18 @@
         var img = document.createElement('img');
         img.alt = ''; img.decoding = 'async'; img.referrerPolicy = 'no-referrer';
         var t = later(function () { img.onload = img.onerror = null; next(); }, 6000);
-        img.onload = function () { cancel(t); if (!img.naturalWidth) { next(); return; } box.classList.remove('sk'); box.classList.add('img'); box.innerHTML = ''; box.appendChild(img); };
+        img.onload = function () {
+          cancel(t);
+          if (!img.naturalWidth) { next(); return; }
+          box.classList.remove('sk'); box.classList.add('img'); box.innerHTML = '';
+          if (!CFG.iconColor) { box.appendChild(img); return; }
+          // Paint the icon's shape in the chosen icon color, so it matches the button
+          var m = document.createElement('span'), mu = 'url("' + u.replace(/"/g, '%22') + '") center / contain no-repeat';
+          m.className = 'lc-mask';
+          m.style.setProperty('-webkit-mask', mu);
+          m.style.setProperty('mask', mu);
+          box.appendChild(m);
+        };
         img.onerror = function () { cancel(t); next(); };   // 404 or any other error: try the next one
         img.src = u;
       };
