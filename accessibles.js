@@ -923,4 +923,16 @@
       c.push(B + ' :is(a[href],a[href] *){color:#0645ad!important}');
       c.push(B + ' :is(input,textarea,select,button){background-color:#ffffff!important;border-color:#444!important}');
     }
+    // Custom colors
+    if (S.bgColor) c.push(B + ',' + B + ' *' + NOT_MEDIA + '{background-color:' + S.bgColor + '!important}');
+    if (S.textColor) c.push(B + ',' + B + ' *' + NOT_MEDIA + '{color:' + S.textColor + '!important}');
+    if (S.titleColor) c.push(B + ' :is(' + HEADINGS + '),' + B + ' :is(' + HEADINGS + ') *{color:' + S.titleColor + '!important}');
+
+    // Cursor
+    if (S.cursor) {
+      var fill = S.cursor === 'black' ? '#000' : '#fff', stroke = S.cursor === 'black' ? '#fff' : '#000';
+      c.push(B + ',' + B + ' *{cursor:' + svgCursor(fill, stroke, 'arrow') + ',auto!important}');
+      c.push(B + ' :is(a[href],a[href] *,button,button *,[role="button"],[role="link"],label,select,summary,[onclick],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"]){cursor:' + svgCursor(fill, stroke, 'hand') + ',pointer!important}');
+    }
+
 })(window, document);
