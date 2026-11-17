@@ -204,4 +204,11 @@
       if (h.length !== 6 && h.length !== 8) return null;
       return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
     }
+    m = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)/i.exec(s);
+    if (m) return [+m[1], +m[2], +m[3]].map(function (v) { return clamp(Math.round(v), 0, 255); });
+    if (!ctx2d) return null;
+    ctx2d.fillStyle = '#010203';
+    ctx2d.fillStyle = s;
+    var out = String(ctx2d.fillStyle);
+    if (out === '#010203') return null;
 })(window, document);
