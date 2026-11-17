@@ -2901,4 +2901,21 @@
       asl: { s: 'off', msg: 'Off. Turn on to watch sign language videos for parts of this page.' },
       libras: { s: 'off', msg: 'Off. Turn on to add a Libras interpreter to this page.' }
     },
+    report: function (kind, state, msg, tell) {
+      this.st[kind] = { s: state, msg: msg };
+      UI.signStatus(kind);
+      if (tell) toast(T(msg));
+    },
+    sync: function () {
+      if (S.sign === this.mode) return;
+      var was = this.mode;
+      this.mode = S.sign;
+      if (was === 'asl') {
+        this.rec.revert(); document.removeEventListener('click', this.onClick, true); UI.signPlayer(null);
+        this.report('asl', 'off', 'Off. Sign language videos are no longer offered on this page.', !S.sign);
+      }
+      if (was === 'libras') this.removeLibras();
+      if (S.sign === 'asl') return this.asl();
+      if (S.sign === 'libras') return this.loadLibras();
+    },
 })(window, document);
