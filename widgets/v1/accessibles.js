@@ -2247,7 +2247,17 @@
             var head = words.slice(0, n2).join(' '), rest = words.slice(n2).join(' ').replace(/^(on|the|on the) /, '');
             var hs = editRatio(head, pw.join(' '));
             if (hs < 0.75) return;
-            var g = sl.id === 'click' ? self.guessClick(rest, hs) : { score: hs, label: 'Search for ' + rest, run: function () { searchPage(rest); } };
+            var g;
+            if (sl.id === 'click') {
+              // "go to wikipedia dot org" opens the website, after asking first
+              var site = self.siteFrom(rest);
+              g = site ? { score: Math.min(hs, 0.84), label: 'Open ' + site, run: function () { location.href = 'https://' + site; } } : self.guessClick(rest, hs);
+            } else if (sl.id === 'search') g = { score: hs, label: 'Search for ' + rest, run: function () { searchPage(rest); } };
+            else if (sl.id === 'type') {
+              // Keep the words as spoken (accents, capitals), only drop the command words
+              var raw = String(said).trim().split(/\s+/).slice(n2).join(' ');
+              g = { score: hs, label: 'Type ' + raw, run: function () { Voice.write(raw); } };
+            } else g = self.guessToggle(rest, hs, sl.id);
             if (g && (!guess || g.score > guess.score)) guess = g;
           });
         });
