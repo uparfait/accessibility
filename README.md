@@ -62,7 +62,7 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 | `offset` | `20` | Distance from the edge of the screen, in pixels. Use `offsetx` and `offsety` to set each direction separately. |
 | `title` | `Accessibility` | Panel title. When `site-name` is set, this becomes the subtitle. |
 | `statement` | none | Link to your accessibility statement. It opens inside the panel. Without it, a built-in statement is shown. |
-| `report` | none | Where issue reports go. Use an email address to open the visitor's mail app, or a URL to receive a JSON `POST`. |
+| `report` | none | Where issue reports go. Use an email address to open the visitor's mail app, or a URL to receive a JSON `POST`. The visitor must give a valid email address so you can reply. |
 | `analytics` | none | URL that receives anonymous feature-usage events through `navigator.sendBeacon`. |
 | `size` | none | `large` starts with the bigger version of the panel. |
 | `draggable` | `true` | Set to `false` to stop visitors from dragging the button. |
