@@ -1823,4 +1823,17 @@
     }
   };
 
+  // Extended timeouts: long timers (session warnings, carousels) run 3× longer,
+  // and mouse-leave handlers (hover menus) fire after a grace period.
+  var Timing = {
+    on: false, pending: [],
+    sync: function () { if (S.extendedTime && !this.on) this.enable(); else if (!S.extendedTime && this.on) this.disable(); },
+    enable: function () {
+      this.on = true;
+      var K = 3, T = 4000;
+      window.setTimeout = function (fn, d) { var a = Array.prototype.slice.call(arguments); if (typeof d === 'number' && d >= T) a[1] = d * K; return nativeSetTimeout.apply(window, a); };
+      window.setInterval = function (fn, d) { var a = Array.prototype.slice.call(arguments); if (typeof d === 'number' && d >= T) a[1] = d * K; return nativeSetInterval.apply(window, a); };
+      window.addEventListener('mouseout', this.onLeave, true);
+      window.addEventListener('mouseleave', this.onLeave, true);
+    },
 })(window, document);
