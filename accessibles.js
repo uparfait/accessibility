@@ -2215,4 +2215,16 @@
       insertText(el, space + t);
       this.lastIns = { el: el, before: before, after: currentValue(el) };
     },
+    punctuate: function (t) {
+      var self = this;
+      PUNCT.forEach(function (p) {
+        self.variants(p[0]).forEach(function (v) {
+          var esc2 = v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          t = t.replace(new RegExp('(^|\\s)' + esc2 + '(?=\\s|$)', 'gi'), p[2] ? '$1' + p[1] : p[1]);
+        });
+      });
+      // Tidy spaces around punctuation and capitalise new sentences
+      t = t.replace(/\s+([.,?!:;)”])/g, '$1').replace(/([(“])\s+/g, '$1').replace(/ *\n */g, '\n');
+      return t.replace(/([.!?]\s+|\n)([a-zà-ɏ])/g, function (m, a, b) { return a + b.toUpperCase(); }).replace(/^ +| +$/g, '');
+    },
 })(window, document);
