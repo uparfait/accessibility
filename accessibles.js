@@ -161,4 +161,12 @@
     if (el.tagName === 'TEXTAREA') return !el.readOnly && !el.disabled;
     if (el.tagName !== 'INPUT') return false;
     var t = (el.type || 'text').toLowerCase();
+    return /^(text|search|email|url|tel|password|number)$/.test(t) && !el.readOnly && !el.disabled;
+  }
+  function humanize(s) {
+    s = String(s || '').replace(/\.[a-z0-9]{2,5}(\?.*)?$/i, '').replace(/[-_.+]+/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\s+/g, ' ').trim();
+    if (!s) return '';
+    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  }
 })(window, document);
