@@ -2938,4 +2938,11 @@
       var src = el.getAttribute('data-acc-sign') || el.getAttribute('data-sign-video');
       if (src) { e.preventDefault(); UI.signPlayer(src, textOf(el).slice(0, 80)); }
     },
+    provide: function () {
+      var sel = String(window.getSelection ? window.getSelection() : '').trim() || mainText().slice(0, 600);
+      if (!CFG.signProvider) return;
+      UI.signPlayer('loading');
+      Promise.resolve(CFG.signProvider(sel, S.sign || 'asl')).then(function (url) { if (url) UI.signPlayer(url, sel.slice(0, 80)); else throw 0; })
+        .catch(function () { UI.signPlayer(null); toast(T('No sign language video is available for this text')); });
+    },
 })(window, document);
