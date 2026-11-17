@@ -1151,4 +1151,7 @@
       if (p) return humanize(p);
       return 'Home';
     }
+    return '';
+  }
+
 })(window, document);
