@@ -2014,4 +2014,16 @@
       PUNCT.forEach(function (p) { out.push(p[0]); });
       return out;
     },
+    variants: function (p) { var l = this.local[this.lang]; return l && l[p] && l[p] !== p ? [p, l[p]] : [p]; },
+    score: function (said, phrases) {
+      var best = 0, self = this;
+      phrases.forEach(function (p) { self.variants(p).forEach(function (v) { var s = wordMatch(said, v); if (s > best) best = s; }); });
+      return best;
+    },
+    best: function (said, cmds) {
+      var top = null, sc = 0, self = this;
+      cmds.forEach(function (c) { var s = self.score(said, c.say); if (s > sc) { sc = s; top = c; } });
+      return { cmd: top, score: sc };
+    },
+
 })(window, document);
