@@ -413,3 +413,9 @@ A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site 
 | `accessibles.js` | The whole widget. This is the only file a site needs. |
 | `index.html`, `favicon.svg` | The project website |
 | `demo.html`, `demo.css`, `demo-assets/` | A demo page with old-style markup, to show the widget needs no changes to the page |
+
+To work on it locally, serve the folder with any static server and open `demo.html`:
+
+```bash
+npx serve .
+```
