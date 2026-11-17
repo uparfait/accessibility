@@ -448,4 +448,11 @@
     { id: 'statementLink', tab: 'tools', t: 'action', icon: 'statement', label: 'Accessibility statement', kw: 'policy' },
     { id: 'resetAll', tab: 'tools', t: 'action', icon: 'reset', label: 'Reset all', kw: 'clear default restore' }
   ];
+  var FMAP = {};
+  F.forEach(function (f) { FMAP[f.id] = f; });
+
+  /* Help texts, written as short guides.
+   * Format, one item per line:  plain text = paragraph,  "## Title" = small heading,
+   * "- text" = bullet,  "1. text" = numbered step,  "@name" = small illustration from ILL. */
+  var DESC = {
 })(window, document);
