@@ -5513,4 +5513,11 @@
       try { var sh = new CSSStyleSheet(); sh.replaceSync(css); shadow.adoptedStyleSheets = [sh]; adopted = true; } catch (e) { adopted = false; }
     }
     if (!adopted) { var st = document.createElement('style'); st.textContent = css; shadow.appendChild(st); }
+    if (useTopLayer) {
+      try { host.setAttribute('popover', 'manual'); host.showPopover(); } catch (e) { useTopLayer = false; host.removeAttribute('popover'); }
+    }
+    // Widget typeface (Figtree); falls back to the system UI font if it cannot load
+    if (!document.querySelector('link[data-accessibles-font]')) { var fl = addCSSLink('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap'); fl.setAttribute('data-accessibles-font', ''); }
+    I18N.load();
+    if (S.translateTo) I18N.lang = /^en(-|$)/i.test(S.translateTo) ? '' : S.translateTo;
 })(window, document);
