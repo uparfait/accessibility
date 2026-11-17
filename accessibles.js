@@ -71,4 +71,11 @@
   function num(v, d) { var n = parseFloat(v); return isFinite(n) ? n : d; }
 
   // Accepts common spellings and typos: "ritgh", "rigth", "botom", "centre", "middle"…
+  function normPosition(v) {
+    var s = String(v || '').toLowerCase().replace(/[\s_]+/g, '-')
+      .replace(/rigth|ritgh|rihgt|rght|riht|rigt|rgiht/g, 'right')
+      .replace(/botom|bottm|buttom|bottem|botton/g, 'bottom')
+      .replace(/lfet|leftt|lef(?!t)/g, 'left')
+      .replace(/tpo(?!s)/g, 'top')
+      .replace(/middle|centre|centr(?!e)|cener|cntr/g, 'center');
 })(window, document);
