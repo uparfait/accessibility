@@ -22,21 +22,21 @@ A few things to know:
 
 - The `div` is optional. If the script can't find one, it creates it.
 - `defer` is optional. The script waits for the page to load either way, so it also works when a tag manager injects it.
-- To host it yourself, download `accessibles.js` and change the `src`. It's a single file with no dependencies.
+- To host it yourself, download `widgets/v1/accessibles.js` and change the `src`. It's a single file with no dependencies.
 
 ## Configuration
 
 Every option can be set in three places. If the same option is set twice, the later one wins:
 
 1. A `window.AccessiblesConfig` object, defined before the script loads
-2. The script URL: `accessibles.js?color=...&position=...`
+2. The script URL: `widgets/v1/accessibles.js?color=...&position=...`
 3. `data-` attributes on the `.accessibles-widget` div
 
 Option names ignore case and dashes, so `site-name`, `siteName` and `sitename` all mean the same thing.
 
 ```html
 <!-- In the script URL -->
-<script src="accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
+<script src="widgets/v1/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
 
 <!-- As data attributes -->
 <div class="accessibles-widget" data-color="#7B3F00" data-position="bottom-left"></div>
@@ -307,7 +307,7 @@ The settings you can pass to `set()`:
 
 ### One file
 
-`accessibles.js` wraps everything in a single function. The only globals it creates are `window.Accessibles` and a flag that stops it from loading twice. The code is split into numbered sections:
+`widgets/v1/accessibles.js` wraps everything in a single function. The only globals it creates are `window.Accessibles` and a flag that stops it from loading twice. The code is split into numbered sections:
 
 | # | Section | What it does |
 |---|---|---|
@@ -410,7 +410,7 @@ A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site 
 
 | File | Purpose |
 |---|---|
-| `accessibles.js` | The whole widget. This is the only file a site needs. |
+| `widgets/v1/accessibles.js` | The whole widget. This is the only file a site needs. |
 | `index.html`, `favicon.svg` | The project website |
 | `demo.html`, `demo.css` | A demo page with old-style markup and placeholder text, to show the widget needs no changes to the page |
 
