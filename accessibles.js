@@ -5197,4 +5197,22 @@
       $('.launch').classList.add('under');
       return box;
     },
+    help: function (id) {
+      var box = $('.help');
+      if (!id) {
+        if (box.hidden) return;
+        box.hidden = true; box.innerHTML = ''; this.helpId = null;
+        $('.launch').classList.toggle('under', !!this.open);
+        this.placePanel();
+        if (this.helpFrom && this.helpFrom.isConnected) { try { this.helpFrom.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+        return;
+      }
+      var h = this.helpItem(id), it = h.item;
+      if (!it) return;
+      this.helpId = id;
+      if (this.helpLang === undefined) this.helpLang = I18N.lang || '';
+      var kind = h.isP ? 'Profile' : (h.isInfo || h.isAudit) ? it.kind : (TABS.filter(function (t) { return t.id === it.tab; })[0] || {}).label;
+      var w = this.helpWords(h);
+      var cg = !h.isP && !h.isInfo && !h.isAudit ? { tts: 'read', voiceNav: 'nav', dictation: 'dict' }[h.key] : (h.isInfo && h.key === 'shortcuts' ? 'nav' : '');
+      this.openShell(this.helpShell(it.icon, kind, it.label, true));
 })(window, document);
