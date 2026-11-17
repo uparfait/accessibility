@@ -1510,4 +1510,13 @@
       if (/^en(-|$)/i.test(tl)) { go(list, 'en'); return; }
       googleText(list, tl).then(function (out) { go(list.map(function (t, i) { return out[i] || t; }), tl); }, function () { go(list, 'en'); });
     },
+    play: function (items) {
+      if (!this.ok) return;
+      this.stop();
+      this.active = true; this.paused = false;
+      this.items = items.slice(); this.idx = -1;
+      this.sid++;
+      this.next(this.sid);
+      UI.ttsState();
+    },
 })(window, document);
