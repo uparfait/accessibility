@@ -46,3 +46,5 @@ Option names ignore case and dashes, so `site-name`, `siteName` and `sitename` a
   window.AccessiblesConfig = { color: '#7B3F00', position: 'bottom-left' };
 </script>
 ```
+
+In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`, it still works, because the script reads its own `src` attribute directly.
