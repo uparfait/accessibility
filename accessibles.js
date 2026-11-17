@@ -4745,4 +4745,14 @@
       var b = this.cpOpen; this.cpOpen = null;
       if (refocus && b && b.isConnected) b.focus();
     },
+    pickColor: function (c) { var k = this.cpKey; this.closeColor(true); setState(k, c); },
+    applyHex: function () {
+      var c = parseColor(($('.cp-hex') || {}).value || '');
+      if (!c) { var i = $('.cp-hex'); if (i) { i.focus(); i.select(); } return; }
+      this.pickColor(hex(c));
+    },
+    fontOptions: function () {
+      return FONT_LIST.map(function (f) { return { v: f.id, l: f.name, s: T(f.note || ''), k: f.g || f.fam || '', font: f.stack || '' }; });
+    },
+
 })(window, document);
