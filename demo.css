@@ -29,3 +29,8 @@ table.hours th { background: #23413a; color: #fff; }
 .form-box input, .form-box select, .form-box textarea { width: 100%; box-sizing: border-box; margin: 4px 0 8px; padding: 6px; font-size: 13px; border: 1px solid #ccc; }
 .form-box .error { color: #c00; font-size: 12px; margin: -4px 0 8px; }
 .btn-green { display: inline-block; background: #2F6B5A; color: #fff; padding: 8px 14px; font-size: 13px; cursor: pointer; }
+.carousel { position: relative; height: 70px; overflow: hidden; background: #23413a; color: #fff; font-size: 14px; margin: 18px 0; }
+.carousel div { position: absolute; left: 0; right: 0; padding: 24px 16px; animation: slide 9s infinite; }
+@keyframes slide { 0%, 30% { transform: translateX(0); } 35%, 65% { transform: translateX(-100%); } 70%, 100% { transform: translateX(-200%); } }
+.blink { animation: blink 1s steps(2) infinite; color: #b00; font-weight: bold; }
+@keyframes blink { 50% { opacity: 0; } }
