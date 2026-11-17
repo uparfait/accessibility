@@ -77,7 +77,7 @@
   .steps > li { counter-increment: step; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; }
   .steps > li::before { content: counter(step); width: 32px; height: 32px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); display: grid; place-items: center; font: 600 15px/1 var(--font-h); }
   .steps p { color: var(--muted); margin-top: 6px; }
-  p code, td code { font: 500 .88em/1.4 var(--font-m); color: var(--brand); }
+  p code, td code { font: 500 .84em/1.4 var(--font-m); padding: .18em .5em; border-radius: 6px; background: #011627; color: #7fdbca; white-space: nowrap; }
 
   .editor { margin-top: 16px; border-radius: 12px; overflow: hidden; background: #011627; box-shadow: 0 14px 34px -20px rgba(1, 22, 39, .7); }
   .editor .bar { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px 0 14px; background: #0b2942; border-bottom: 1px solid #122d42; }
@@ -103,7 +103,7 @@
   .opts { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
   .opts th, .opts td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   .opts th { font-weight: 500; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
-  .opts code { font: 500 14px/1.4 var(--font-m); color: var(--brand); white-space: nowrap; }
+  .opts code { font: 500 13px/1.4 var(--font-m); color: #addb67; }
   .table { overflow-x: auto; }
   .more { margin-top: 20px; font-size: 15px; color: var(--muted); }
   .more a { color: var(--brand); text-underline-offset: 3px; }
