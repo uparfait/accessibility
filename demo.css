@@ -15,3 +15,10 @@ body { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 15p
 #menu span:hover { text-decoration: underline; }
 .hero img { width: 100%; display: block; }
 .cols:after { content: ""; display: table; clear: both; }
+.main-col { float: left; width: 64%; padding: 20px 24px; box-sizing: border-box; }
+.side-col { float: right; width: 36%; padding: 20px 24px; box-sizing: border-box; background: #faf8f3; border-left: 1px solid #eee7d8; }
+.main-col h2 { font-size: 22px; color: #23413a; }
+.main-col h4 { font-size: 16px; color: #23413a; margin-top: 26px; }
+.main-col p { line-height: 22px; }
+.light { color: #aaa; }
+.notice { background: #fff8d8; border: 1px solid #eadb9a; padding: 10px 12px; font-size: 13px; margin: 14px 0; }
