@@ -3084,4 +3084,18 @@
     };
     return { steps: steps, finish: finish };
   }
+  function runAudit() { var a = auditSteps(); a.steps.forEach(function (f) { f(); }); return a.finish(); }
+  function runAuditAsync(onProgress) {
+    var a = auditSteps(), i = 0;
+    return new Promise(function (resolve) {
+      (function next() {
+        if (i >= a.steps.length) { resolve(a.finish()); return; }
+        try { a.steps[i](); } catch (e) { /* skip a failing check */ }
+        i++;
+        if (onProgress) onProgress(i / a.steps.length);
+        later(next, 16);
+      })();
+    });
+  }
+
 })(window, document);
