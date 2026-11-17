@@ -4571,4 +4571,11 @@
       sl.setAttribute('aria-valuetext', this.fmtSlider(k, v));
       var out = sl.parentNode.querySelector('.val'); if (out) out.textContent = this.fmtSlider(k, v);
     },
+    setSlider: function (sl, v, silent) {
+      var min = +sl.getAttribute('data-min'), max = +sl.getAttribute('data-max'), step = +sl.getAttribute('data-step');
+      v = clamp(Math.round((v - min) / step) * step + min, min, max);
+      v = Math.round(v * 1000) / 1000;
+      setState(sl.getAttribute('data-s'), v, silent);
+      this.paintSlider(sl);
+    },
 })(window, document);
