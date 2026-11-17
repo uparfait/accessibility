@@ -1453,4 +1453,11 @@
   var MALE = /\b(male|man|george|ryan|daniel|arthur|oliver|thomas|james|brian|alfie|harry|william|noah|elliot|ethan|guy|reed|rocko|eddy|grandpa)\b/i;
   var FEMALE = /\b(female|woman|hazel|susan|libby|sonia|kate|serena|martha|stephanie|fiona|maisie|abbi|bella|hollie|olivia|amy|emma|mia|sandy|shelley|flo|grandma|karen|moira|tessa)\b/i;
   function ukMaleVoice(vs) {
+    var gb = vs.filter(function (v) { return /^en[-_]gb$/i.test(v.lang || ''); });
+    var pick = function (list) { return list.filter(function (v) { return MALE.test(v.name) && !FEMALE.test(v.name); })[0]; };
+    return pick(gb.filter(function (v) { return v.localService; })) || pick(gb) || gb.filter(function (v) { return !FEMALE.test(v.name); })[0] || gb[0] ||
+      pick(vs.filter(function (v) { return /^en/i.test(v.lang || ''); })) || null;
+  }
+  var TTS = {
+    ok: 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance === 'function',
 })(window, document);
