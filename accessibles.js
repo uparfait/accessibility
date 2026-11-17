@@ -1228,4 +1228,22 @@
   };
   function accNameAttr(el) { return (el.getAttribute('aria-label') || el.getAttribute('aria-labelledby') || '').trim(); }
 
+  var Alt = {
+    on: false, rec: new Recorder(), pending: 0,
+    sync: function () { if (S.altText && !this.on) { this.on = true; this.fix(document.body); } else if (!S.altText && this.on) { this.on = false; this.rec.revert(); } },
+    describe: function (img) {
+      var fig = img.closest('figure'), cap = fig && fig.querySelector('figcaption');
+      if (cap && textOf(cap)) return textOf(cap).slice(0, 180);
+      if (img.getAttribute('title')) return img.getAttribute('title').trim();
+      var ar = img.getAttribute('aria-describedby');
+      if (ar) { var n = document.getElementById(ar.split(/\s+/)[0]); if (n && textOf(n)) return textOf(n).slice(0, 180); }
+      for (var k in img.dataset) { if (/alt|caption|title|desc/i.test(k) && img.dataset[k]) return String(img.dataset[k]).slice(0, 180); }
+      var src = img.currentSrc || img.getAttribute('src') || '';
+      if (/^data:/i.test(src)) return '';
+      var file = '';
+      try { file = decodeURIComponent(new URL(src, location.href).pathname.split('/').pop() || ''); } catch (e) { file = ''; }
+      file = file.replace(/\.[a-z0-9]{2,5}$/i, '').replace(/[@-]?\d+x\d+$|[-_]?(scaled|thumb|small|large|medium|copy|final|edited)$/gi, '');
+      var letters = file.replace(/[^a-z]/gi, '');
+      // Hash-like or numeric file names carry no meaning
+      if (letters.length < 3 || /^[a-f0-9]{8,}$/i.test(file.replace(/[-_]/g, '')) || /^(img|image|dsc|pxl|photo|pic|screenshot)[-_ ]?\d/i.test(file)) return '';
 })(window, document);
