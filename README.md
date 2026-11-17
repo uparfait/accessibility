@@ -247,7 +247,9 @@ Voice commands and Talk & Type listen in the visitor's own language and keep lis
 | Zoom in / out, Go back / forward, Reload | | What can I say, Stop typing |
 | Open menu, Close menu, What can I say, Stop listening | | |
 
-Talk & Type adds capital letters at the start of sentences and spaces punctuation correctly. In email fields, "anna at mail dot com" becomes `anna@mail.com`.
+"Search for" uses the page's search box. Without one, it finds the words on the page and highlights them; say it again for the next match. With the menu open, it searches the menu's features.
+
+Talk & Type types into the text box you clicked. If you haven't chosen one, it uses the first text box on the page, or the menu's search box when the page has none. It adds capital letters at the start of sentences and spaces punctuation correctly. In email fields, "anna at mail dot com" becomes `anna@mail.com`.
 
 ### Keyboard shortcuts
 
