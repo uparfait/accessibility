@@ -726,4 +726,12 @@
     contrast: '', invert: false, saturation: '', colorBlind: '', textColor: '', titleColor: '', bgColor: '', brightness: 100,
     keyboardNav: false, focusRing: false, cursor: '', vkeyboard: false, voiceNav: false, dictation: false, bigTargets: false, extendedTime: false,
     tts: false, ttsRate: 1, ttsPitch: 1, ttsVoice: '', ttsLang: '', readingGuide: false, readingMask: false, stopAnimations: false,
+    hideImages: false, mute: false, dictionary: false, sign: '', translateTo: '', spokenTips: true,
+    ariaFix: true, altText: true, formFix: true, oversized: true, remember: true, position: ''
+  };
+  // Settings that are about the page view, used for the "something is active" dot on the button
+  var VISUAL_KEYS = Object.keys(DEFAULTS).filter(function (k) {
+    return ['profiles', 'ariaFix', 'altText', 'formFix', 'remember', 'position', 'ttsRate', 'ttsPitch', 'ttsVoice', 'oversized', 'spokenTips'].indexOf(k) < 0;
+  });
+
 })(window, document);
