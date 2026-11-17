@@ -2177,8 +2177,10 @@
         ['Next heading', ['next heading', 'next title'], function () { moveTo(HEADINGS, 1); }],
         ['Previous heading', ['previous heading', 'heading before'], function () { moveTo(HEADINGS, -1); }],
         ['Next link', ['next link'], function () { moveTo('a[href]', 1); }],
-        ['Next field', ['next field', 'next box', 'next input'], function () { moveTo(FIELDS, 1); }],
-        ['Previous field', ['previous field', 'previous box'], function () { moveTo(FIELDS, -1); }],
+        ['Next field', ['next field', 'next box', 'next input', 'go to next input', 'go to next field'], function () { moveTo(FIELDS, 1); }],
+        ['Previous field', ['previous field', 'previous box', 'previous input', 'go to previous input', 'go to previous field'], function () { moveTo(FIELDS, -1); }],
+        ['Press Enter', ['press enter', 'enter', 'submit', 'submit form', 'send', 'send form'], function () { Voice.enter(); }],
+        ['Clear field', ['clear field', 'clear this field', 'clear the box', 'empty field'], function () { Voice.clearField(); }],
         ['Show numbers', ['show numbers', 'show labels', 'numbers'], function () { Voice.showNumbers(); }],
         ['Hide numbers', ['hide numbers', 'hide labels'], function () { Voice.hideNumbers(); }],
         ['Zoom in', ['zoom in', 'bigger', 'make it bigger'], function () { stepCycle('contentScale', 1); }],
@@ -2197,7 +2199,7 @@
         ['Repeat', ['repeat', 'say again', 'again'], function () { TTS.skip(0); }, 1],
         ['Faster', ['faster', 'read faster', 'speed up'], function () { TTS.speed(0.2); }, 1],
         ['Slower', ['slower', 'read slower', 'slow down'], function () { TTS.speed(-0.2); }, 1],
-        ['Stop reading', ['stop reading', 'stop', 'be quiet', 'silence', 'quiet'], function () { TTS.stop(); }, 1]
+        ['Stop', ['stop', 'stop reading', 'cancel', 'be quiet', 'silence', 'quiet'], function () { Voice.stopAll(); }, 1]
       ];
       this._nav = list.map(function (c) { return { label: c[0], say: c[1], run: c[2], reading: !!c[3] }; });
       return this._nav;
