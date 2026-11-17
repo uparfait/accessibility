@@ -27,3 +27,11 @@
     --radius: 10px;
     --wrap: 1040px;
   }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.65 var(--font-b); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  ::selection { background: var(--brand); color: var(--brand-ink); }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
