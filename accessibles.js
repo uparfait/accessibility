@@ -1618,4 +1618,12 @@
       this.mark(null);
       UI.ttsState();
     },
+    readPage: function (root) {
+      var main = root || findMain();
+      var sel = 'h1,h2,h3,h4,h5,h6,p,li,blockquote,dt,dd,figcaption,td,th,caption,pre';
+      var all = Array.prototype.filter.call(main.querySelectorAll(sel), function (el) { return !isOurs(el) && visible(el) && textOf(el).length > 1; });
+      var leaves = all.filter(function (el) { return !el.querySelector(sel); });
+      if (!leaves.length && textOf(main)) leaves = [main];
+      this.play(leaves.map(function (el) { return { text: textOf(el), el: el }; }));
+    },
 })(window, document);
