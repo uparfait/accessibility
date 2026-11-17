@@ -476,4 +476,11 @@
     highlightTitles: 'Draws a box around every heading, so you can see how the page is organized at a glance.\n@highlightTitles',
     highlightLinks: 'Underlines and outlines every link, so you always know what you can click.\n@highlightLinks',
     magnifier: 'Shows the text under your pointer in large letters next to it.\n@magnifier\n## How to use\n1. Turn it on\n2. Point at any text on the page\n3. Read it in the large box',
+    darkContrast: 'Shows light text on a dark background.\n@darkContrast\n## Good for\n- Less glare and eye strain\n- Reading at night',
+    lightContrast: 'Shows dark text on a plain white background.\n@lightContrast\n## Good for\n- Busy or faded designs\n- Strong, clear reading',
+    highContrast: 'Makes the difference between light and dark parts stronger, so text and edges stand out.\n@highContrast',
+    smartContrast: 'Fixes only the text that is hard to read because its color is too close to the background.\n@smartContrast\n## Good to know\n- The rest of the design stays the same\n- It pauses while dark or light contrast is on',
+    invert: 'Swaps light and dark colors on the page.\n@invert\n## Good to know\n- Photos and videos keep their normal colors',
+    mono: 'Shows the page in black, white and gray, which removes color distractions.\n@mono',
+    lowSat: 'Makes colors softer and calmer.\n@lowSat',
 })(window, document);
