@@ -2301,4 +2301,11 @@
       if (!document.execCommand('insertText', false, text)) el.textContent += text;
       return true;
     }
+    if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') return false;
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    var v = el.value, s = null, e2 = null;
+    try { s = el.selectionStart; e2 = el.selectionEnd; } catch (x) { s = null; }
+    var set = valueSetter(el);
+    if (s === null || s === undefined) { set.call(el, v + text); }
+    else { set.call(el, v.slice(0, s) + text + v.slice(e2)); try { el.setSelectionRange(s + text.length, s + text.length); } catch (x) { /* ignore */ } }
 })(window, document);
