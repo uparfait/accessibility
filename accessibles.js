@@ -5506,4 +5506,11 @@
     // so page-wide filters, zoom and color overrides never touch it.
     document.documentElement.appendChild(host);
     host.style.cssText = 'all:initial!important;position:fixed!important;inset:0!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;pointer-events:none!important;z-index:2147483647!important;display:block!important;visibility:visible!important;opacity:1!important;transform:none!important;filter:none!important;contain:none!important;color-scheme:light dark!important';
+    shadow = host.shadowRoot || host.attachShadow({ mode: 'open' });
+    var css = widgetCSS(PAL);
+    var adopted = false;
+    if (canAdopt) {
+      try { var sh = new CSSStyleSheet(); sh.replaceSync(css); shadow.adoptedStyleSheets = [sh]; adopted = true; } catch (e) { adopted = false; }
+    }
+    if (!adopted) { var st = document.createElement('style'); st.textContent = css; shadow.appendChild(st); }
 })(window, document);
