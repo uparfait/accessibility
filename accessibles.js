@@ -4546,4 +4546,14 @@
         ((f.t === 'cycle' || f.val) ? '<span class="tv"></span>' : '') + pips + mark + '</button>' +
         '<button type="button" class="hb" data-help="' + f.id + '" aria-label="About ' + f.label + '" data-tt="About this feature">' + ic('help') + '</button></div>';
     },
+    shHTML: function (label, info) {
+      return '<h3 class="sh"><button type="button" class="shb" data-help="i:' + info + '" aria-label="' + label + ', more information"><span class="tbl">' + label + '</span>' + ic('help') + '</button></h3>';
+    },
+    colorRow: function (key, label, icon, colors) {
+      var sw = colors.map(function (c) { return '<button type="button" class="swb" data-c="' + key + '" data-v="' + c + '" data-bg="' + c + '" aria-label="' + label + ' ' + c + '"></button>'; }).join('');
+      return '<div class="row"><span class="rl">' + ic(icon) + label + '</span><span class="swatches">' + sw +
+        '<button type="button" class="pick" data-cpick="' + key + '" data-pick="' + key + '" aria-label="More ' + label.toLowerCase() + ' colors" data-tt="More colors">' + ic('plus') + '</button>' +
+        '<button type="button" class="clr" data-c="' + key + '" data-v="" aria-label="Clear ' + label.toLowerCase() + ' color" data-tt="Clear">' + ic('close') + '</button></span></div>';
+    },
+
 })(window, document);
