@@ -3340,4 +3340,12 @@
     // Wait one frame so a loading state can paint before heavier work runs
     (window.requestAnimationFrame || later)(function () { later(function () { applyQueued = false; applyAll(); }, 0); });
   }
+  function stepCycle(key, dir) {
+    var f = F.filter(function (x) { return x.key === key && x.t === 'cycle'; })[0];
+    if (!f) return;
+    var i = f.opts.indexOf(S[key]);
+    setState(key, f.opts[clamp(i + dir, 0, f.opts.length - 1)]);
+    UI.refresh();
+  }
+
 })(window, document);
