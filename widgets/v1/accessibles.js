@@ -5915,8 +5915,12 @@
   function rehome(dlg) {
     var had = shadow && shadow.activeElement;
     try { if (host.matches(':popover-open')) host.hidePopover(); } catch (e) { /* ignore */ }
-    (dlg || document.documentElement).appendChild(host);
+    if (topEl) { try { if (topEl.matches(':popover-open')) topEl.hidePopover(); } catch (e) { /* ignore */ } }
+    var home = dlg || document.documentElement;
+    if (topEl) home.appendChild(topEl);
+    home.appendChild(host);
     hostHome = dlg || null;
+    if (topEl) { try { topEl.showPopover(); } catch (e) { /* ignore */ } }
     try { host.showPopover(); } catch (e) { /* ignore */ }
     if (had && had.isConnected) { try { had.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
   }
