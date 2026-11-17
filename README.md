@@ -48,3 +48,23 @@ Option names ignore case and dashes, so `site-name`, `siteName` and `sitename` a
 ```
 
 In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`, it still works, because the script reads its own `src` attribute directly.
+
+### Options
+
+| Option | Default | Description |
+|---|---|---|
+| `color` | `#2F6B5A` | Main color for the button, highlights and active states. Any CSS color works: `#7B3F00`, `7B3F00`, `rgb(123,63,0)`, `chocolate`. |
+| `bg` | `#000000` | Panel background. Text, borders and highlights adjust to stay readable, so a light `bg` gives you a light panel. |
+| `site-name` | none | Your site's name. It's shown as the panel title, in the button's hover card, in the accessibility statement and in issue reports. |
+| `site-icon-url` | none | Your site's icon, shown in the panel header and the hover card. It's scaled to fit a circle without cropping. If it fails to load, the favicon is used instead. |
+| `position` | `bottom-right` | `bottom-right`, `bottom-left`, `bottom-center`, `top-right`, `top-left`, `top-center`, `right-center` or `left-center`. Short forms such as `right` and typos such as `rigth` or `botom` are understood. |
+| `offset` | `20` | Distance from the edge of the screen, in pixels. Use `offsetx` and `offsety` to set each direction separately. |
+| `title` | `Accessibility` | Panel title. When `site-name` is set, this becomes the subtitle. |
+| `statement` | none | Link to your accessibility statement. It opens inside the panel. Without it, a built-in statement is shown. |
+| `report` | none | Where issue reports go. Use an email address to open the visitor's mail app, or a URL to receive a JSON `POST`. |
+| `analytics` | none | URL that receives anonymous feature-usage events through `navigator.sendBeacon`. |
+| `size` | none | `large` starts with the bigger version of the panel. |
+| `draggable` | `true` | Set to `false` to stop visitors from dragging the button. |
+| `lang` | none | Sets `<html lang>` when the page doesn't have one. |
+| `readable-font-url`, `dyslexic-font-url` | Google Fonts | Load the easy-to-read and dyslexia fonts from your own server instead. |
+| `dictionary` | dictionaryapi.dev | Your own dictionary endpoint, with `{word}` and `{lang}` placeholders. |
