@@ -1992,4 +1992,19 @@
       heard.forEach(function (w) { for (var i = 0; i < spoken.length; i++) { if (editRatio(w, spoken[i]) >= 0.8) { hit++; return; } } });
       return hit / heard.length >= 0.6;
     },
+    heardTTS: function () { this.quietUntil = Date.now() + 1500; },
+
+    // Phrases in the visitor's language, so commands work in any language the visitor speaks
+    local: {},
+    prepare: function (lang) {
+      if (!lang || /^en(-|$)/i.test(lang) || this.local[lang]) return;
+      var self = this, list = [];
+      this.local[lang] = {};
+      this.allPhrases().forEach(function (p) { if (list.indexOf(p) < 0) list.push(p); });
+      var c = I18N.cache[lang] || (I18N.cache[lang] = {});
+      var todo = list.filter(function (p) { return c['v:' + p] == null; });
+      var fill = function () { list.forEach(function (p) { if (c['v:' + p]) self.local[lang][p] = normWords(c['v:' + p]); }); };
+      if (!todo.length) { fill(); return; }
+      googleText(todo, lang).then(function (out) { todo.forEach(function (p, i) { if (out[i]) c['v:' + p] = out[i]; }); I18N.persist(); fill(); }, function () { delete self.local[lang]; });
+    },
 })(window, document);
