@@ -5527,4 +5527,18 @@
     observe();
     if (S.translateTo) Translate.run(S.translateTo, true);
     // Voice input stays on across pages, but only when the microphone is already allowed (no surprise prompts)
+    if (voiceWas && SR && navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({ name: 'microphone' }).then(function (p) { if (p.state === 'granted' && !S.voiceNav && !S.dictation) setState(voiceWas, true, true); }, function () { /* not supported */ });
+    }
+    // Expose a small API for site owners
+    window.Accessibles = {
+      version: VERSION,
+      open: function () { UI.show(); }, close: function () { UI.close(); }, toggle: function () { UI.toggle(); },
+      get: function (k) { return k ? S[k] : JSON.parse(JSON.stringify(S)); },
+      set: function (k, v) { if (k in DEFAULTS) setState(k, v); },
+      profile: function (id) { toggleProfile(id); },
+      reset: function () { resetAll(); },
+      audit: function () { return runAudit(); },
+      readPage: function () { if (!S.tts) setState('tts', true); TTS.readPage(); }
+    };
 })(window, document);
