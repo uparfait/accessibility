@@ -4479,4 +4479,15 @@
       if (byKeyboard) { var sel = this.view ? $('.vh .ib') : $('.tab[aria-selected="true"]'); if (sel) sel.focus(); }
       else { try { $('.panel').focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
     },
+    close: function () {
+      if (!this.open) return;
+      this.closeSelect(); this.closeColor();
+      $('.panel').hidden = true;
+      this.open = false;
+      this.panelPos = null;
+      $('.launch').setAttribute('aria-expanded', 'false');
+      $('.launch').classList.remove('under');
+      try { $('.launch').focus({ preventScroll: true }); } catch (e) { $('.launch').focus(); }
+    },
+
 })(window, document);
