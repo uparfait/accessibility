@@ -245,3 +245,5 @@ Voice commands and Talk & Type listen in the visitor's own language and keep lis
 | Search for + words | Stop reading | Next field, Previous field, Send |
 | Zoom in / out, Go back / forward, Reload | | What can I say, Stop typing |
 | Open menu, Close menu, What can I say, Stop listening | | |
+
+Talk & Type adds capital letters at the start of sentences and spaces punctuation correctly. In email fields, "anna at mail dot com" becomes `anna@mail.com`.
