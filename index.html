@@ -166,7 +166,7 @@
       <li><div>
         <h3>Add two lines to your page</h3>
         <p>Paste them just before the closing <code>&lt;/body&gt;</code> tag.</p>
-        <div class="editor" data-file="index.html"><pre><code data-lang="html">&lt;div class="accessibles-widget"&gt;&lt;/div&gt;
+        <div class="editor"><pre><code data-lang="html">&lt;div class="accessibles-widget"&gt;&lt;/div&gt;
 &lt;script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js" defer&gt;&lt;/script&gt;</code></pre></div>
       </div></li>
       <li><div>
@@ -206,7 +206,7 @@
       <details class="example" open>
         <summary><span class="t"><h3>Brand color and position</h3><span class="d">Match your site and move the button to another corner.</span></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></span></summary>
         <div class="body">
-          <div class="editor" data-file="index.html"><pre><code data-lang="html">&lt;script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js?color=%23B3261E&amp;position=bottom-left" defer&gt;&lt;/script&gt;</code></pre></div>
+          <div class="editor"><pre><code data-lang="html">&lt;script src="https://uparfait.github.io/accessibility/widgets/v1/accessibles.js?color=%23B3261E&amp;position=bottom-left" defer&gt;&lt;/script&gt;</code></pre></div>
           <a class="btn btn-ghost try" href="?color=%23B3261E&amp;position=bottom-left#examples">Try it</a>
         </div>
       </details>
@@ -214,7 +214,7 @@
       <details class="example">
         <summary><span class="t"><h3>Light panel with your name</h3><span class="d">A light background and your site's name in the title.</span></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></span></summary>
         <div class="body">
-          <div class="editor" data-file="index.html"><pre><code data-lang="html">&lt;div class="accessibles-widget"
+          <div class="editor"><pre><code data-lang="html">&lt;div class="accessibles-widget"
      data-bg="#FBF8F4"
      data-site-name="Green Valley Library"&gt;&lt;/div&gt;</code></pre></div>
           <a class="btn btn-ghost try" href="?bg=%23FBF8F4&amp;site-name=Green%20Valley%20Library#examples">Try it</a>
@@ -224,7 +224,7 @@
       <details class="example">
         <summary><span class="t"><h3>Turn features on from your code</h3><span class="d">Your own buttons can switch profiles and settings.</span></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></span></summary>
         <div class="body">
-          <div class="editor" data-file="app.js"><pre><code data-lang="js">Accessibles.profile('dyslexia');
+          <div class="editor"><pre><code data-lang="js">Accessibles.profile('dyslexia');
 Accessibles.set('fontSize', 1.3);</code></pre></div>
           <button type="button" class="btn btn-ghost try" data-dyslexia>Try it</button>
         </div>
@@ -233,7 +233,7 @@ Accessibles.set('fontSize', 1.3);</code></pre></div>
       <details class="example">
         <summary><span class="t"><h3>Listen for changes</h3><span class="d">React when a visitor changes a setting in the panel.</span></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></span></summary>
         <div class="body">
-          <div class="editor" data-file="app.js"><pre><code data-lang="js">addEventListener('accessibles:change', e =&gt; {
+          <div class="editor"><pre><code data-lang="js">addEventListener('accessibles:change', e =&gt; {
   console.log(e.detail.key, e.detail.value);
 });</code></pre></div>
           <output aria-live="polite">Change any setting in the panel…</output>
