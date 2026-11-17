@@ -5091,4 +5091,17 @@
         });
       });
     },
+    // Translation progress is shown on the language row that was pressed; done is true or false when it ends
+    translateWait: function (done) {
+      var f = Math.min(Translate.progress, Translate.uiProgress);
+      if (Translate.busy) this.progress(Math.max(0.01, f), 'translate');
+      else if (!I18N.busy || done === false) {
+        this.doneBusy('translate');
+        var big = $('.biglist[data-list="lang"]');
+        if (big) this.markList(big, Translate.target || '');
+      }
+      if (done === false && this.view === 'translate') this.translateNote(Translate.error);
+      if (done === true && this.view === 'translate') this.translateNote('');
+      this.refresh();
+    },
 })(window, document);
