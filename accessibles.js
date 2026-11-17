@@ -5485,4 +5485,11 @@
     }).observe(document.documentElement, { childList: true });
   }
 
+  /* ------------------------------------------------------------------ *
+   * 24. Start
+   * ------------------------------------------------------------------ */
+  var cbSvg = null;
+  var started = false;
+  function start() {
+    if (started || !document.body) return;
 })(window, document);
