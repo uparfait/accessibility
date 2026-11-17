@@ -2616,4 +2616,11 @@
     ['gom','Konkani'],['ko','Korean','한국어'],['kri','Krio'],['ku','Kurdish (Kurmanji)','Kurdî'],['ckb','Kurdish (Sorani)','کوردی'],['ky','Kyrgyz','Кыргызча'],['lo','Lao','ລາວ'],['la','Latin','Latina'],['lv','Latvian','Latviešu'],
     ['ln','Lingala'],['lt','Lithuanian','Lietuvių'],['lg','Luganda'],['lb','Luxembourgish','Lëtzebuergesch'],['mk','Macedonian','Македонски'],['mai','Maithili'],['mg','Malagasy'],['ms','Malay','Bahasa Melayu'],
     ['ml','Malayalam','മലയാളം'],['mt','Maltese','Malti'],['mi','Maori','Māori'],['mr','Marathi','मराठी'],['mni-Mtei','Meiteilon (Manipuri)'],['lus','Mizo'],['mn','Mongolian','Монгол'],['my','Myanmar (Burmese)','မြန်မာ'],
+    ['ne','Nepali','नेपाली'],['no','Norwegian','Norsk'],['or','Odia (Oriya)','ଓଡ଼ିଆ'],['om','Oromo','Afaan Oromoo'],['ps','Pashto','پښتو'],['fa','Persian','فارسی'],['pl','Polish','Polski'],['pt','Portuguese','Português'],
+    ['pa','Punjabi','ਪੰਜਾਬੀ'],['qu','Quechua','Runasimi'],['ro','Romanian','Română'],['ru','Russian','Русский'],['sm','Samoan'],['sa','Sanskrit','संस्कृतम्'],['gd','Scots Gaelic','Gàidhlig'],['nso','Sepedi'],['sr','Serbian','Српски'],
+    ['st','Sesotho'],['sn','Shona'],['sd','Sindhi','سنڌي'],['si','Sinhala','සිංහල'],['sk','Slovak','Slovenčina'],['sl','Slovenian','Slovenščina'],['so','Somali','Soomaali'],['es','Spanish','Español'],['su','Sundanese'],
+    ['sw','Swahili','Kiswahili'],['sv','Swedish','Svenska'],['tg','Tajik','Тоҷикӣ'],['ta','Tamil','தமிழ்'],['tt','Tatar','Татарча'],['te','Telugu','తెలుగు'],['th','Thai','ไทย'],['ti','Tigrinya','ትግርኛ'],['ts','Tsonga'],
+    ['tr','Turkish','Türkçe'],['tk','Turkmen','Türkmençe'],['ak','Twi'],['uk','Ukrainian','Українська'],['ur','Urdu','اردو'],['ug','Uyghur','ئۇيغۇرچە'],['uz','Uzbek','Oʻzbekcha'],['vi','Vietnamese','Tiếng Việt'],
+    ['cy','Welsh','Cymraeg'],['xh','Xhosa','isiXhosa'],['yi','Yiddish','ייִדיש'],['yo','Yoruba','Yorùbá'],['zu','Zulu','isiZulu']];
+  function langOptions(origLabel) {
 })(window, document);
