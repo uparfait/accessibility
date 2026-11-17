@@ -4490,4 +4490,18 @@
       try { $('.launch').focus({ preventScroll: true }); } catch (e) { $('.launch').focus(); }
     },
 
+    renderTab: function (id) {
+      this.tab = id; this.view = null;
+      this.closeSelect(); this.closeColor();
+      $('.tabs').hidden = false; $('.search').hidden = false;
+      $$('.tab').forEach(function (b) {
+        var on = b.getAttribute('data-tab') === id;
+        b.setAttribute('aria-selected', on); b.setAttribute('tabindex', on ? 0 : -1);
+      });
+      var body = $('.body');
+      body.setAttribute('aria-labelledby', 'acc-tab-' + id);
+      body.innerHTML = this.tabHTML(id);
+      body.scrollTop = 0;
+      this.afterRender();
+    },
 })(window, document);
