@@ -786,4 +786,10 @@
       try { window.sessionStorage.setItem(KEY + '.session', JSON.stringify({ s: S })); } catch (e) { /* ignore */ }
     }
   }
+  if (!S.remember) {
+    try { var sess = JSON.parse(window.sessionStorage.getItem(KEY + '.session') || 'null'); if (sess && sess.s) Object.keys(DEFAULTS).forEach(function (k) { if (sess.s[k] !== undefined) S[k] = sess.s[k]; }); } catch (e) { /* ignore */ }
+    voiceWas = S.voiceNav ? 'voiceNav' : S.dictation ? 'dictation' : voiceWas;
+    S.voiceNav = false; S.dictation = false;
+  }
+
 })(window, document);
