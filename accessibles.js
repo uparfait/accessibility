@@ -3245,4 +3245,20 @@
       var self = this;
       this.timer = later(function () { self.place(anchor, text); }, delay == null ? 350 : delay);
     },
+    place: function (anchor, text) {
+      var tip = $('.tip');
+      if (!tip || !anchor || !anchor.isConnected || !text) return;
+      this.el = anchor;
+      tip.textContent = String(text).slice(0, 240);
+      tip.classList.remove('up', 'down');
+      tip.hidden = false;
+      var r = anchor.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight, gap = 10;
+      var cx = r.left + r.width / 2;
+      var x = clamp(cx - w / 2, 8, Math.max(8, vw() - w - 8));
+      var above = r.top - h - gap >= 8;
+      var y = above ? r.top - h - gap : Math.min(r.bottom + gap, vh() - h - 8);
+      tip.classList.add(above ? 'up' : 'down');
+      tip.style.setProperty('--ax', Math.round(clamp(cx - x, 12, w - 12)) + 'px');
+      tip.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+    },
 })(window, document);
