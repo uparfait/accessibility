@@ -1649,4 +1649,6 @@
       }, 30);
     }
   };
+  TTS.onClick = TTS.onClick.bind(TTS); TTS.onFocus = TTS.onFocus.bind(TTS); TTS.onSelect = TTS.onSelect.bind(TTS);
+
 })(window, document);
