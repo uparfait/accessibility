@@ -2740,4 +2740,26 @@
     engine: '', busy: false, target: '', progress: 0, uiProgress: 1, scriptAdded: false, seq: 0, error: '', ready: null,
     pageLang: function () { var l = (document.documentElement.getAttribute('lang') || '').split('-')[0].toLowerCase(); return l || 'auto'; },
     isTranslated: function () { var h = document.documentElement; return h.classList.contains('translated-ltr') || h.classList.contains('translated-rtl'); },
+    // One call does the whole job: the panel and the page are translated together, or neither is
+    run: function (target, quiet) {
+      var self = this, seq = ++this.seq, prev = S.translateTo || '';
+      var src = this.pageLang();
+      if (target && src !== 'auto' && target.split('-')[0].toLowerCase() === src) target = '';
+      this.target = target; this.error = '';
+      setState('translateTo', target, true);
+      I18N.set(target);
+      if (!target) return this.restore();
+      this.busy = true; this.progress = 0;
+      UI.translateWait();
+      var attempt = 0;
+      var go = function () {
+        attempt++;
+        return self.google(target).then(function () { return self.waitDone(target, seq); }).then(function (ok) {
+          if (seq !== self.seq) return;
+          // Google sometimes ignores the first request: ask again, up to three times
+          if (!ok && attempt < 3) return go();
+          if (!ok) throw new Error('timeout');
+          self.busy = false; self.progress = 1; UI.translateWait(true);
+        });
+      };
 })(window, document);
