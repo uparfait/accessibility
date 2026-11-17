@@ -5161,4 +5161,22 @@
       if (f.val) return !!S[f.key];
       return false;
     },
+    // Plain sentences for the help window: what state the feature is in, and what the button will do
+    helpWords: function (h) {
+      var it = h.item, on = h.isP ? S.profiles.indexOf(h.key) > -1 : this.featureOn(it);
+      var noun = h.isP ? 'profile' : 'feature';
+      if (h.isAudit) {
+        var n = h.check ? h.check.open.length : 0;
+        return { on: !n, state: n ? n + (n === 1 ? ' problem found on this page' : ' problems found on this page') : 'No problems found', action: n ? 'Show them on the page' : '' };
+      }
+      if (h.isInfo) return { state: '', action: '' };
+      if (h.isP || it.t === 'toggle' || it.t === 'radio') return { on: on, state: 'This ' + noun + ' is ' + (on ? 'on' : 'off'), action: 'Turn this ' + noun + (on ? ' off' : ' on') };
+      if (it.t === 'cycle') {
+        var i = Math.max(0, it.opts.indexOf(S[it.key])), next = it.opts[(i + 1) % it.opts.length];
+        return { on: i > 0, state: i > 0 ? 'This feature is set to ' + it.fmt(S[it.key]) : 'This feature is off', action: (i + 1) % it.opts.length === 0 ? 'Turn this feature off' : 'Change this feature to ' + it.fmt(next) };
+      }
+      if (it.id === 'translate') return { on: on, state: on ? 'This page is shown in ' + langName(S.translateTo) : 'This page is shown in its original language', action: 'Choose a language' };
+      if (it.id === 'sign') return { on: on, state: on ? 'Sign language is on' : 'Sign language is off', action: 'Choose sign language' };
+      if (it.id === 'font') return { on: on, state: 'The font is ' + fontName(S.font), action: 'Choose a font' };
+      if (it.t === 'view') return { state: '', action: 'Open this feature' };
 })(window, document);
