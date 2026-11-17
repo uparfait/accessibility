@@ -2661,4 +2661,11 @@
       if (R) R.setAttribute('dir', lang && RTL_LANGS.test(lang) ? 'rtl' : (document.documentElement.getAttribute('dir') === 'rtl' && !Dir.cur ? 'rtl' : 'ltr'));
       if (R) this.apply(R);
     },
+    tr: function (s) {
+      if (!this.lang || !s || !hasLetters(s)) return s;
+      var c = this.cache[this.lang] || (this.cache[this.lang] = {});
+      if (c[s] != null) return c[s];
+      this.queue(s);
+      return s;
+    },
 })(window, document);
