@@ -1626,4 +1626,14 @@
       if (!leaves.length && textOf(main)) leaves = [main];
       this.play(leaves.map(function (el) { return { text: textOf(el), el: el }; }));
     },
+    onClick: function (e) {
+      if (isOurs(e.target) || !e.isTrusted) return;
+      var sel = window.getSelection && String(window.getSelection());
+      if (sel && sel.trim().length > 1) return;
+      var t = e.target.closest && e.target.closest('h1,h2,h3,h4,h5,h6,p,li,td,th,dt,dd,blockquote,figcaption,caption,label,button,a,summary,legend,span,div,img');
+      if (!t || t === document.body) return;
+      var text = t.tagName === 'IMG' ? (t.getAttribute('alt') || '') : (t.matches('a,button,summary') ? accName(t) : textOf(t));
+      if (t.tagName === 'DIV' && text.length > 600) return; // a wrapper, not a text block
+      if (text) TTS.say(text.slice(0, 5000), t);
+    },
 })(window, document);
