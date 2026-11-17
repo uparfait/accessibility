@@ -4675,4 +4675,16 @@
       var r = btn.getBoundingClientRect(), W = vw(), H = vh(), fs = parseFloat(R.style.fontSize) || 15;
       var w = Math.min(Math.max(r.width, 16 * fs), W - 16);
       pop.style.width = w + 'px';
+      var below = H - r.bottom - 12, above = r.top - 12;
+      var room = Math.max(below, above);
+      $('.opts', pop).style.maxHeight = Math.max(6 * fs, Math.min(17 * fs, room - 3.6 * fs)) + 'px';
+      var h = pop.offsetHeight;
+      var y = (below >= h || below >= above) ? r.bottom + 4 : r.top - 4 - h;
+      pop.style.left = Math.round(clamp(r.left, 8, W - w - 8)) + 'px';
+      pop.style.top = Math.round(clamp(y, 8, Math.max(8, H - h - 8))) + 'px';
+      this.afterList(pop);
+      var act = $('.opt.act', pop); if (act) act.scrollIntoView({ block: 'nearest' });
+      I18N.apply(pop);
+      $('.q input', pop).focus();
+    },
 })(window, document);
