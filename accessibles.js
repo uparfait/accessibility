@@ -1278,4 +1278,19 @@
     }
   };
 
+  var Forms = {
+    on: false, rec: new Recorder(),
+    sync: function () { if (S.formFix && !this.on) { this.on = true; this.fix(document.body); } else if (!S.formFix && this.on) { this.on = false; this.rec.revert(); } },
+    nearbyText: function (el) {
+      var prev = el.previousElementSibling;
+      if (prev && !/^(INPUT|SELECT|TEXTAREA|BUTTON)$/.test(prev.tagName)) { var t = textOf(prev); if (t && t.length < 80) return t; }
+      var p = el.parentElement;
+      if (p && p.children.length <= 3) {
+        var clone = '';
+        for (var n = p.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3) clone += n.nodeValue; else if (n !== el && n.nodeType === 1 && !/^(INPUT|SELECT|TEXTAREA)$/.test(n.tagName)) clone += ' ' + textOf(n); }
+        clone = clone.replace(/\s+/g, ' ').trim();
+        if (clone && clone.length < 80) return clone;
+      }
+      return '';
+    },
 })(window, document);
