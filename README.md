@@ -376,3 +376,7 @@ Turning a repair off returns the page to exactly how it was. Repaired elements a
 ### Bigger text
 
 CSS can't reliably scale every font size, because sites mix `px`, `em`, `rem` and inline styles. So Bigger text measures the computed size of every element that holds text, then writes the scaled size inline. It measures everything before writing anything, keeps the original values in a `WeakMap`, and works in batches on large pages.
+
+### Colors
+
+The panel's colors all come from two inputs, `color` and `bg`. Text, borders and highlights are mixed from them and then nudged toward black or white until they meet WCAG contrast ratios: 12:1 for text and 4.6:1 for highlights. A pale brand color on a white panel still produces readable controls.
