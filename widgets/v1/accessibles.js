@@ -1719,7 +1719,7 @@
       if (S.readingMask && this.y < 0) { this.y = vh() / 2; this.draw(); }
       if (S.readingGuide && this.y < 0) { this.y = vh() / 2; this.draw(); }
     },
-    onMove: function (e) { Pointer.x = e.clientX; Pointer.y = e.clientY; Pointer.lastTarget = e.target; Pointer.schedule(); },
+    onMove: function (e) { Pointer.x = e.clientX; Pointer.y = e.clientY; Pointer.lastTarget = realTarget(e); Pointer.schedule(); },
     onTouch: function (e) { var t = e.touches && e.touches[0]; if (!t) return; Pointer.x = t.clientX; Pointer.y = t.clientY; Pointer.lastTarget = document.elementFromPoint(t.clientX, t.clientY); Pointer.schedule(); },
     schedule: function () { if (!this.raf) this.raf = requestAnimationFrame(function () { Pointer.raf = 0; Pointer.draw(); }); },
     draw: function () {
@@ -1739,7 +1739,7 @@
     },
     lens: function () {
       var L = $('.lens'), t = this.lastTarget;
-      if (!t || isOurs(t) || t.nodeType !== 1) { L.hidden = true; return; }
+      if (!t || t.nodeType !== 1 || !pageLike(t)) { L.hidden = true; return; }
       var block = t.closest('h1,h2,h3,h4,h5,h6,p,li,td,th,dt,dd,a,button,label,span,blockquote,figcaption,caption,summary,legend,div');
       var text = block ? textOf(block) : '';
       if (!text || (block.tagName === 'DIV' && text.length > 400)) { L.hidden = true; return; }
@@ -3649,13 +3649,13 @@
       else if (!S.hoverHighlight && this.on) { this.on = false; document.removeEventListener('pointermove', this.onMove); window.removeEventListener('scroll', this.onScroll, true); $('.hl').hidden = true; }
     },
     onMove: function (e) {
-      Hover.target = e.target;
+      Hover.target = realTarget(e);
       if (!Hover.raf) Hover.raf = requestAnimationFrame(function () { Hover.raf = 0; Hover.draw(); });
     },
     onScroll: function () { if (Hover.target) Hover.draw(); },
     draw: function () {
       var box = $('.hl'), t = this.target;
-      if (!t || t.nodeType !== 1 || isOurs(t)) { box.hidden = true; return; }
+      if (!t || t.nodeType !== 1 || !pageLike(t)) { box.hidden = true; return; }
       var el = t.closest('a[href],button,input,select,textarea,label,summary,[role="button"],[role="link"],img,video,h1,h2,h3,h4,h5,h6,p,li,td,th,blockquote,figure') || t;
       if (el === document.body || el === document.documentElement) { box.hidden = true; return; }
       var r = el.getBoundingClientRect();
