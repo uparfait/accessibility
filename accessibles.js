@@ -2442,4 +2442,11 @@
           for (var c = inner.firstChild; c; c = c.nextSibling) if (c.nodeType === 1 && /^(P|H\d|UL|OL|TABLE|BLOCKQUOTE|PRE|FIGURE|DL|HR)$/.test(c.tagName)) { hasBlock = true; break; }
           if (!hasBlock && textOf({ innerText: n.innerText }).length) { var p = document.createElement('p'); p.appendChild(inner); frag.appendChild(p); continue; }
         }
+        frag.appendChild(inner);
+      }
+    }
+    return frag;
+  }
+
+  function mainText(main, noHeadings) {
 })(window, document);
