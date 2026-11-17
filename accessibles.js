@@ -1377,4 +1377,21 @@
 
   var Keyboard = {
     on: false, rec: new Recorder(), skip: null,
+    sync: function () {
+      if (S.keyboardNav && !this.on) { this.on = true; this.fix(document.body); this.addSkip(); document.addEventListener('keydown', this.onKey, true); }
+      else if (!S.keyboardNav && this.on) { this.on = false; this.rec.revert(); this.skip = null; document.removeEventListener('keydown', this.onKey, true); if (Aria.on) Aria.fix(document.body); }
+    },
+    fix: function (root) {
+      if (!this.on || !root || root.nodeType !== 1) return;
+      var rec = this.rec;
+      var sel = '[onclick]:not(a[href]):not(button):not(input):not(select):not(textarea):not(summary):not(label):not(body):not(html):not([tabindex]),' +
+        '[role="button"]:not([tabindex]):not(button),[role="link"]:not([tabindex]):not(a[href]),[role="tab"]:not([tabindex]),[role="menuitem"]:not([tabindex]),[role="option"]:not([tabindex]),' +
+        'div[class*="btn"]:not([tabindex]),span[class*="btn"]:not([tabindex]),div[class*="button"]:not([tabindex]),span[class*="button"]:not([tabindex])';
+      var list = Array.prototype.slice.call(root.querySelectorAll(sel));
+      list.forEach(function (el) {
+        if (isOurs(el) || el.closest('a[href],button') || el.querySelector('a[href],button,input,select,textarea')) return;
+        rec.set(el, 'tabindex', '0');
+        rec.set(el, 'data-acc-kb', '1');
+      });
+    },
 })(window, document);
