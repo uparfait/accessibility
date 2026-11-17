@@ -1812,4 +1812,15 @@
       Array.prototype.forEach.call(root.querySelectorAll('audio,video'), function (m) { if (!m.muted) { self.prev.push([m, false]); m.muted = true; } });
       Array.prototype.forEach.call(root.querySelectorAll('iframe'), function (f) { postToPlayer(f, 'mute'); });
     },
+    disable: function () {
+      this.on = false;
+      this.prev.forEach(function (p) { try { p[0].muted = p[1]; } catch (e) { /* ignore */ } });
+      this.prev = [];
+      if (this.origPlay) { HTMLMediaElement.prototype.play = this.origPlay; this.origPlay = null; }
+      ['AudioContext', 'webkitAudioContext'].forEach(function (name) { if (window[name] && window[name].__acc) { try { window[name] = window[name].__acc; } catch (e) { /* ignore */ } } });
+      this.ctxs.forEach(function (c) { if (c.resume && c.state === 'suspended') c.resume(); });
+      Array.prototype.forEach.call(document.querySelectorAll('iframe'), function (f) { postToPlayer(f, 'unmute'); });
+    }
+  };
+
 })(window, document);
