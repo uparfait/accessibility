@@ -344,3 +344,18 @@ The panel has to recolor, zoom and invert the whole page while staying readable 
 - **Outside `<body>`.** The mount element is moved to be a direct child of `<html>`. Zoom, fonts and color overrides target `body`, so they never touch the panel.
 - **The top layer.** The mount element becomes a `popover` and is shown with `showPopover()`. Color filters go on `<html>`, and the browser paints the top layer outside that filter. This also keeps `position: fixed` headers on the page working, which a filter on `body` would break.
 - **CSP-safe styles.** Both stylesheets are attached with `adoptedStyleSheets`, and dynamic values are set through `element.style`. Strict `style-src` policies allow both.
+
+### Settings
+
+All settings live in one object. Every change goes through `setState(key, value)`, which saves the value, fires `accessibles:change` and schedules `applyAll()`. That function rebuilds the page stylesheet and calls `sync()` on each module. Each module compares the settings with what it last applied and turns itself on, off or updates. Modules that do slow work return a promise, and the pressed control shows a spinner until they finish.
+
+```js
+// The pattern every module follows
+var Mute = {
+  on: false,
+  sync: function () {
+    if (S.mute && !this.on) this.enable();
+    else if (!S.mute && this.on) this.disable();
+  }
+};
+```
