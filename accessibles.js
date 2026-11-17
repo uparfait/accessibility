@@ -5379,4 +5379,25 @@
       if (t !== 'light') box.classList.add(t);
       $$('[data-theme]', box).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-theme') === t); });
     },
+    readerSize: function (d) { this.rfs = clamp((this.rfs || 20) + d, 14, 36); $('.reader').style.setProperty('--rfs', this.rfs + 'px'); },
+    readerFont: function () { $('.rbody').classList.toggle('sans'); },
+    dict: function (res, rect) {
+      var box = $('.dict');
+      if (!res) { box.hidden = true; return; }
+      var html = '<div class="dw"><strong>' + esc(res.word) + '</strong>' +
+        (TTS.ok ? '<button type="button" class="ib" data-act="dict-say" data-word="' + esc(res.word) + '" aria-label="Pronounce">' + ic('speak') + '</button>' : '') +
+        '<button type="button" class="ib" data-act="dict-close" aria-label="Close definition">' + ic('close') + '</button></div>';
+      if (res.phonetic) html += '<div class="ph">' + esc(res.phonetic) + '</div>';
+      if (res.loading) html += '<div class="dd">Looking up…</div>';
+      else if (res.none || !res.defs.length) html += '<div class="dd">No definition found.</div>';
+      else res.defs.forEach(function (d) { html += (d.pos ? '<div class="dp">' + esc(d.pos) + '</div>' : '') + '<div class="dd">' + esc(d.text) + '</div>' + (d.ex ? '<div class="dx">' + esc(d.ex) + '</div>' : ''); });
+      box.innerHTML = html;
+      box.hidden = false;
+      if (rect) {
+        var w = box.offsetWidth, h = box.offsetHeight;
+        var x = clamp(rect.left + rect.width / 2 - w / 2, 8, vw() - w - 8);
+        var y = rect.bottom + 10 + h < vh() - 8 ? rect.bottom + 10 : Math.max(8, rect.top - h - 10);
+        box.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+      }
+    },
 })(window, document);
