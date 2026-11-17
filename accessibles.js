@@ -1440,4 +1440,10 @@
       for (i = list.length - 1; i >= 0; i--) if (list[i] !== cur && !list[i].contains(cur) && (cur.compareDocumentPosition(list[i]) & Node.DOCUMENT_POSITION_PRECEDING)) { next = i; break; }
       if (next < 0) next = list.length - 1;
     }
+    var el = list[next];
+    focusEl(el);
+    var label = /^H[1-6]$/.test(el.tagName) ? 'Heading level ' + el.tagName.charAt(1) + ', ' : '';
+    announce(label + (accName(el) || textOf(el)).slice(0, 120));
+  }
+
 })(window, document);
