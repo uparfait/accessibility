@@ -222,3 +222,12 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 - **Page summary**: the main points, word count and reading time
 - **Sign language**: Libras through the free VLibras service, and ASL videos that your site provides
 - **Translate** the page and the panel into about 130 languages
+
+### Tools
+
+- **ARIA fixes**, **image descriptions** and **form fixes** are on by default and change nothing you can see.
+- **Larger features** makes the panel itself bigger. It's on by default.
+- **Feature position** moves the button.
+- **Remember settings** keeps choices for the next visit.
+- **Page check** scores the page and points to the problems.
+- **Report an issue**, **accessibility statement** and **reset all**
