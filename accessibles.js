@@ -3145,4 +3145,22 @@
   function pageDir() { return S.textDir || (S.translateTo && RTL_LANGS.test(S.translateTo) ? 'rtl' : ''); }
   var Dir = {
     cur: '', saved: null, list: [],
+    sync: function () {
+      var d = pageDir();
+      if (d === this.cur) return;
+      var h = document.documentElement, b = document.body;
+      this.restore();
+      if (d) {
+        if (!this.saved) this.saved = { h: h.getAttribute('dir'), b: b.getAttribute('dir') };
+        h.setAttribute('dir', d); b.setAttribute('dir', d);
+        this.cur = d;
+        this.fix(b);
+      } else {
+        if (this.saved) {
+          if (this.saved.h === null) h.removeAttribute('dir'); else h.setAttribute('dir', this.saved.h);
+          if (this.saved.b === null) b.removeAttribute('dir'); else b.setAttribute('dir', this.saved.b);
+        }
+        this.saved = null; this.cur = '';
+      }
+    },
 })(window, document);
