@@ -4755,4 +4755,11 @@
       return FONT_LIST.map(function (f) { return { v: f.id, l: f.name, s: T(f.note || ''), k: f.g || f.fam || '', font: f.stack || '' }; });
     },
 
+    afterRender: function () {
+      var self = this;
+      this.wrapButtons();
+      $$('.body [data-bg]').forEach(function (b) { b.style.background = b.getAttribute('data-bg'); });
+      $$('.sl').forEach(function (sl) { self.paintSlider(sl); });
+      this.refresh();
+    },
 })(window, document);
