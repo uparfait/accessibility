@@ -3372,4 +3372,11 @@
 
   function resetAll() {
     TTS.stop();
+    Voice.stop();
+    if (S.translateTo || Translate.engine) { Translate.target = ''; Translate.restore(); I18N.set(''); }
+    S = JSON.parse(JSON.stringify(DEFAULTS));
+    dragPos = null;
+    UI.panelPos = null; UI.vkbPos = null; UI.helpLang = undefined; UI.repType = undefined; UI.rfs = undefined; UI.rtheme = undefined; UI.structMode = 'headings';
+    var vk = $('.vkb'); if (vk) { vk.classList.remove('moved'); vk.style.left = vk.style.top = vk.style.bottom = ''; }
+    UI.scale();
 })(window, document);
