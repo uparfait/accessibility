@@ -246,6 +246,8 @@
       primary: p, ink: ink, accentLight: ensureContrast(p, K, W, 4.6), dark: dark,
       vars: {
         '--p': hex(p), '--p-ink': hex(ink),
+        // The site icon in the panel header: the icon color when it shows on the panel, else the panel text color
+        '--mark': hex(contrast(ink, bg) >= 3 ? ink : fg),
         '--p-edge': contrast(p, W) < 1.5 || contrast(p, K) < 1.5 ? hex(mix(p, contrast(p, W) < 1.5 ? K : W, 0.4)) : 'transparent',
         '--p-shadow': rgba(mix(p, K, 0.5), 0.3),
         '--bg': hex(bg), '--text': hex(fg), '--muted': hex(muted),
