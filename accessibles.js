@@ -1776,4 +1776,32 @@
     } catch (e) { /* cross-origin player not reachable */ }
   }
 
+  var Mute = {
+    on: false, prev: [], origPlay: null, OrigAC: null, OrigWAC: null, ctxs: [],
+    sync: function () { if (S.mute && !this.on) this.enable(); else if (!S.mute && this.on) this.disable(); },
+    enable: function () {
+      this.on = true;
+      var self = this;
+      this.fix(document.body);
+      if (window.HTMLMediaElement && !this.origPlay) {
+        this.origPlay = HTMLMediaElement.prototype.play;
+        var orig = this.origPlay;
+        HTMLMediaElement.prototype.play = function () {
+          if (self.on && !this.muted) { self.prev.push([this, false]); this.muted = true; }
+          return orig.apply(this, arguments);
+        };
+      }
+      ['AudioContext', 'webkitAudioContext'].forEach(function (name) {
+        var Orig = window[name];
+        if (typeof Orig !== 'function' || Orig.__acc) return;
+        var Wrapped = function () {
+          var c = new (Function.prototype.bind.apply(Orig, [null].concat(Array.prototype.slice.call(arguments))))();
+          self.ctxs.push(c);
+          if (self.on && c.suspend) c.suspend();
+          return c;
+        };
+        Wrapped.prototype = Orig.prototype;
+        Wrapped.__acc = Orig;
+        try { window[name] = Wrapped; } catch (e) { /* read-only */ }
+      });
 })(window, document);
