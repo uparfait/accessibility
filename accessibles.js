@@ -3989,4 +3989,35 @@
       var card = $('.lcard'); if (card && card.classList.contains('show')) this.showCard();
       if (this.open) this.placePanel();
     },
+    placePanel: function () {
+      var p = $('.panel');
+      if (!p || p.hidden) return;
+      var W = vw(), H = vh(), m = 8, gap = 10;
+      var fs = parseFloat(R.style.fontSize) || 15;
+      var h = Math.min(Math.round(44 * fs), H - 2 * m);   // fixed height: switching tabs never makes it jump
+      var w = p.offsetWidth;
+      var x, y, hh = h;
+      if (this.panelPos) {
+        x = this.panelPos.x; y = this.panelPos.y;
+      } else {
+        var l = $('.launch').getBoundingClientRect();
+        var above = l.top - gap - m, below = H - l.bottom - gap - m, left = l.left - gap - m, right = W - l.right - gap - m;
+        var cx = l.left + l.width / 2, cy = l.top + l.height / 2;
+        var third = cx < W / 3 ? 'left' : cx > W * 2 / 3 ? 'right' : 'center';
+        var alignX = third === 'right' ? l.right - w : third === 'left' ? l.left : cx - w / 2;
+        if (Math.max(above, below) >= Math.min(h, 30 * fs)) {
+          var useBelow = below > above;
+          hh = Math.min(h, useBelow ? below : above);
+          x = alignX; y = useBelow ? l.bottom + gap : l.top - gap - hh;
+          p.style.setProperty('--oy', useBelow ? '0%' : '100%');
+        } else if (Math.max(left, right) >= w) {
+          x = right >= left ? l.right + gap : l.left - gap - w;
+          y = cy - h / 2;
+          p.style.setProperty('--oy', '50%');
+        } else {
+          x = (W - w) / 2; y = H - m - h;   // small screens: sheet over the page
+          p.style.setProperty('--oy', '100%');
+        }
+        p.style.setProperty('--ox', third === 'right' ? '100%' : third === 'left' ? '0%' : '50%');
+      }
 })(window, document);
