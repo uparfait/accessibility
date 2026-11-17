@@ -166,3 +166,19 @@ window.addEventListener('accessibles:change', (e) => {
 ## Features
 
 Each feature in the panel has a small `?` button. It opens a short guide with steps, a drawing where one helps, and a button that says exactly what it will do. That guide can be translated into about 130 languages from its own language picker.
+
+### Profiles
+
+A profile turns on a group of settings at once. Turning it off puts back exactly what was there before, and you can combine profiles.
+
+| Profile | Turns on |
+|---|---|
+| Seizure safe | Stop animations, low saturation |
+| Vision impaired | Bigger text, easy-to-read font, highlighted titles and links, focus highlight, big black cursor, smart contrast |
+| ADHD friendly | Reading mask, stop animations, low saturation |
+| Cognitive disability | Highlighted titles and links, stop animations, focus highlight, easy-to-read font, tooltips |
+| Dyslexia | Dyslexia font, letter, word and line spacing, left alignment |
+| Color blind | Deuteranopia correction, high saturation |
+| Motor impaired | Keyboard navigation, focus highlight, bigger targets, big cursor, more time, stop animations, hover highlight |
+| Blind users | ARIA fixes, image descriptions, form fixes, keyboard navigation, focus highlight |
+| Older adults | Bigger text, easy-to-read font, big cursor, highlighted links, bigger targets, more time, smart contrast |
