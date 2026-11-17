@@ -1587,4 +1587,17 @@
         try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
         later(function () { if (sid === self.sid && self.active) self.utter(text, sid, done, false); }, 120);
       };
+      u.onstart = function () { started = true; };
+      u.onend = function () { if (!started && withVoice && v) { retry(); return; } finish(); };
+      u.onerror = function (ev) {
+        if (ev && (ev.error === 'interrupted' || ev.error === 'canceled')) { finished = true; return; }
+        if (!started && withVoice && v) retry(); else finish();
+      };
+      this.cur = u;
+      // Remember what was spoken, so voice input can tell the page's own voice from the visitor's
+      this.said.push({ t: text, at: Date.now() }); if (this.said.length > 4) this.said.shift();
+      try { window.speechSynthesis.resume(); } catch (e) { /* ignore */ }
+      window.speechSynthesis.speak(u);
+      if (withVoice && v) later(function () { if (!started && !finished && sid === self.sid && !window.speechSynthesis.speaking) retry(); }, 2500);
+    },
 })(window, document);
