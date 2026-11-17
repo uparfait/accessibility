@@ -4269,4 +4269,23 @@
       window.addEventListener('resize', keepVkb);
     },
 
+    onKey: function (e) {
+      var t = e.target;
+      this.kbd = true;
+      // Lists (dropdowns and full lists): arrows move, Enter picks
+      var inPop = t.closest && t.closest('.cs-pop');
+      var listBox = inPop ? $('.opts', inPop) : (t.closest && t.closest('.qbox') ? $('.biglist') : null);
+      if (listBox && /^(ArrowDown|ArrowUp|Enter|Home|End)$/.test(e.key) && (t.tagName === 'INPUT' || t.classList.contains('opt'))) {
+        var opts = $$('.opt', listBox);
+        if (opts.length) {
+          var cur = opts.indexOf($('.opt.act', listBox));
+          if (e.key === 'Enter') { e.preventDefault(); var pick = opts[cur < 0 ? 0 : cur]; if (pick) pick.click(); return; }
+          e.preventDefault();
+          var n = e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : clamp(cur + (e.key === 'ArrowDown' ? 1 : -1), 0, opts.length - 1);
+          opts.forEach(function (o) { o.classList.remove('act'); });
+          opts[n].classList.add('act');
+          opts[n].scrollIntoView({ block: 'nearest' });
+          return;
+        }
+      }
 })(window, document);
