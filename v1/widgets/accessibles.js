@@ -4307,7 +4307,7 @@
         // A copy of the open view's back button and title, shown here once the view's own header scrolls away
         '<div class="hview"><button type="button" class="ib" data-act="back" aria-label="Back" data-tt="Back">' + ic('back') + '</button><div class="title hv-t"></div></div></div>' +
         '<button type="button" class="ib" data-act="close" aria-label="Close" data-tt="Close">' + ic('close') + '</button></div>' +
-        '<div class="search">' + ic('search') + '<input type="search" placeholder="Search features" aria-label="Search accessibility features" autocomplete="off" spellcheck="false"></div>' +
+        '<div class="search">' + ic('search') + '<input type="search" placeholder="Search features" aria-label="Search accessibility features" autocomplete="off" spellcheck="false">' + clearBtn() + '</div>' +
         '<div class="tabs" role="tablist" aria-label="Categories">' + tabs + '</div>' +
         '<div class="body" id="acc-body" role="tabpanel" tabindex="-1" aria-labelledby="acc-tab-profiles"></div>' +
         '<div class="foot"><div class="links">' +
