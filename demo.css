@@ -22,3 +22,10 @@ body { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 15p
 .main-col p { line-height: 22px; }
 .light { color: #aaa; }
 .notice { background: #fff8d8; border: 1px solid #eadb9a; padding: 10px 12px; font-size: 13px; margin: 14px 0; }
+table.hours { border-collapse: collapse; width: 100%; font-size: 13px; margin: 10px 0 20px; }
+table.hours th, table.hours td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; }
+table.hours th { background: #23413a; color: #fff; }
+.form-box { border: 1px solid #e3dccd; padding: 12px; background: #fff; margin-bottom: 18px; }
+.form-box input, .form-box select, .form-box textarea { width: 100%; box-sizing: border-box; margin: 4px 0 8px; padding: 6px; font-size: 13px; border: 1px solid #ccc; }
+.form-box .error { color: #c00; font-size: 12px; margin: -4px 0 8px; }
+.btn-green { display: inline-block; background: #2F6B5A; color: #fff; padding: 8px 14px; font-size: 13px; cursor: pointer; }
