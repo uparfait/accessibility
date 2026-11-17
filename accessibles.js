@@ -2542,4 +2542,11 @@
           if (so !== rg.startOffset || eo !== rg.endOffset) { rg.setStart(sc, so); rg.setEnd(ec, eo); sel.removeAllRanges(); sel.addRange(rg); }
         }
       } catch (e) { /* keep the selection as it is */ }
+      var w = String(sel).trim();
+      if (!w || w.length > 40 || /\s{2,}/.test(w) || w.split(/\s+/).length > 3) return null;
+      RE_EDGE_PUNCT.lastIndex = 0; w = w.replace(RE_EDGE_PUNCT, '');
+      if (!w) return null;
+      var r = sel.rangeCount ? sel.getRangeAt(0).getBoundingClientRect() : null;
+      return { word: w, rect: r };
+    },
 })(window, document);
