@@ -98,4 +98,22 @@
         if (a.name.indexOf('data-') === 0) raw[normKey(a.name.slice(5))] = a.value;
       }
     }
+    var off = num(raw.offset, 20);
+    return {
+      color: raw.color || raw.primary || raw.colour || '#2F6B5A',
+      bg: raw.bg || raw.background || raw.backgroundcolor || '#000000',
+      siteName: String(raw.sitename || raw.site || '').trim(),
+      siteIcon: String(raw.siteiconurl || raw.siteicon || raw.icon || '').trim(),
+      position: normPosition(raw.position || raw.pos || 'bottom-right'),
+      offsetX: num(raw.offsetx, off),
+      offsetY: num(raw.offsety, off),
+      title: raw.title || 'Accessibility',
+      statement: raw.statement || '',
+      report: raw.report || '',
+      analytics: raw.analytics || '',
+      large: /^(large|big|xl)$/i.test(raw.size || ''),
+      draggable: !/^(false|0|no|off)$/i.test(String(raw.draggable == null ? 'true' : raw.draggable)),
+      lang: raw.lang || '',
+      readableFontUrl: raw.readablefonturl || 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+      dyslexicFontUrl: raw.dyslexicfonturl || 'https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap',
 })(window, document);
