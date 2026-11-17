@@ -23,4 +23,11 @@
  * or on window.AccessiblesConfig before the script loads (that object can also hold hooks).
  */
 (function (window, document) {
+  'use strict';
+  if (!window || !document || window.__accessiblesLoaded) return;
+  if (!document.documentElement || typeof document.documentElement.attachShadow !== 'function') return;
+  window.__accessiblesLoaded = true;
+
+  var VERSION = '1.0.0';
+  var nativeSetTimeout = window.setTimeout;
 })(window, document);
