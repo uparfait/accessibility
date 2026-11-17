@@ -4807,6 +4807,12 @@
         case 'audit-clear': $$('.acc-mark', document).forEach(function (n) { n.classList.remove('acc-mark'); }); break;
         case 'pos-reset': dragPos = null; this.panelPos = null; setState('position', ''); this.placeLauncher(); save(); this.openView('position'); break;
         case 'clear-search': $('.search input').value = ''; this.renderTab(this.tab); break;
+        case 'sclear': {
+          var si = t.parentNode.querySelector('input');
+          if (si) { si.value = ''; si.dispatchEvent(new Event('input', { bubbles: true })); try { si.focus({ preventScroll: true }); } catch (x) { si.focus(); } }
+          t.hidden = true;
+          break;
+        }
         case 'cp-apply': this.applyHex(); break;
         case 'statement': this.statement(); break;
         case 'help-report': this.help(null); if (!this.open) this.show(); this.openView('report'); break;
@@ -4815,6 +4821,7 @@
 
     onInput: function (e) {
       var t = e.target;
+      this.syncClears();
       if (t.matches('.search input')) { this.search(t.value); return; }
       if (t.matches('.cs-pop .q input')) {
         var d = this.selects[this.selOpen && this.selOpen.getAttribute('data-sel')];
@@ -5189,8 +5196,13 @@
       return FONT_LIST.map(function (f) { return { v: f.id, l: f.name, s: T(f.note || ''), k: f.g || f.fam || '', font: f.stack || '' }; });
     },
 
+    // Each clear button shows only while its search box has text
+    syncClears: function () {
+      $$('.sclr').forEach(function (b) { var i = b.parentNode.querySelector('input'); b.hidden = !(i && i.value); });
+    },
     afterRender: function () {
       var self = this;
+      this.syncClears();
       this.wrapButtons();
       $$('.body [data-bg]').forEach(function (b) { b.style.background = b.getAttribute('data-bg'); });
       $$('.sl').forEach(function (sl) { self.paintSlider(sl); });
@@ -5198,6 +5210,7 @@
     },
     search: function (q) {
       var self = this;
+      this.syncClears();
       q = q.trim().toLowerCase();
       if (!q) { this.renderTab(this.tab); return; }
       $('.tabs').hidden = true;
