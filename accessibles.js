@@ -572,4 +572,15 @@
       ['Previous heading', 'moves to the heading before'],
       ['Next link', 'moves to the next link'],
       ['Next field', 'moves to the next box you can type in'],
+      ['Search for', 'then your words, to use the search box of the page'],
+      ['Zoom in', 'makes the page bigger'],
+      ['Zoom out', 'makes the page smaller'],
+      ['Go back', 'opens the page before'],
+      ['Go forward', 'opens the next page'],
+      ['Reload', 'loads the page again'],
+      ['Open menu', 'opens the accessibility menu'],
+      ['Close menu', 'closes the accessibility menu'],
+      ['What can I say', 'reads this list out loud'],
+      ['Stop listening', 'turns voice commands off']
+    ] },
 })(window, document);
