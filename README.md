@@ -242,10 +242,15 @@ Voice commands and Talk & Type listen in the visitor's own language and keep lis
 | Scroll down / up, Go to top / bottom | Read page, Read this, Read headings | Period, Comma, Question mark, Colon, Dash |
 | Click + a name ("Click Contact") | Pause, Continue | Open quote / Close quote, Open bracket / Close bracket |
 | Show numbers, then say a number | Next, Previous, Repeat | New line, New paragraph |
-| Next / Previous heading, Next link, Next field | Faster, Slower | Delete that, Delete last word, Clear all |
-| Search for + words | Stop reading | Next field, Previous field, Send |
-| Zoom in / out, Go back / forward, Reload | | What can I say, Stop typing |
-| Open menu, Close menu, What can I say, Stop listening | | |
+| Type + words ("Type anna at mail dot com") | Faster, Slower | Delete that, Delete first word, Delete last word |
+| Next field ("Go to next input"), Previous field, Clear field | Stop | Delete last 3 words, Delete + a word ("Delete Tuesday") |
+| Press Enter ("Submit") | | Clear from start, Clear to end, Clear all |
+| Turn on / Turn off + a name ("Turn on dark contrast") | | Go to next input, Go to previous input |
+| Choose + an option ("Choose Membership") | | Press Enter, Send |
+| Search for + words, Go to + a website ("Go to wikipedia dot org") | | Stop, What can I say, Stop typing |
+| Next / Previous heading, Next link, Zoom in / out | | |
+| Go back / forward, Reload, Open menu, Close menu | | |
+| Stop, What can I say, Stop listening | | |
 
 "Search for" uses the page's search box. Without one, it finds the words on the page and highlights them; say it again for the next match. With the menu open, it searches the menu's features.
 
