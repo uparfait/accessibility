@@ -1897,4 +1897,17 @@
     return Math.max(whole, words);
   }
 
+  var Voice = {
+    rec: null, mode: '', lang: '', want: false, running: false, fails: 0, numbers: [], pending: null, quietUntil: 0, dog: 0, lastIns: null,
+    SURE: 0.86, MAYBE: 0.6,
+    YES: ['yes', 'yeah', 'yep', 'yes please', 'correct', 'right', 'okay', 'ok', 'sure', 'do it'],
+    NO: ['no', 'nope', 'cancel', 'wrong', 'no thanks', 'not that'],
+    sync: function () {
+      var want = S.voiceNav ? 'nav' : S.dictation ? 'dict' : '';
+      var lang = want ? userLang() : '';
+      if (want === this.mode && lang === this.lang) return;
+      var first = want && want !== this.mode;
+      this.stop();
+      if (want) this.start(want, first);
+    },
 })(window, document);
