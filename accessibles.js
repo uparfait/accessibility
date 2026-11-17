@@ -2865,4 +2865,22 @@
       d.style.cssText = 'position:absolute!important;left:-9999px!important;top:0!important;width:1px!important;height:1px!important;overflow:hidden!important';
       document.body.appendChild(d);
     },
+    restore: function () {
+      this.busy = false;
+      UI.translateWait();
+      if (!this.engine) return Promise.resolve();
+      var restored = false;
+      Array.prototype.forEach.call(document.querySelectorAll('iframe.skiptranslate,iframe.goog-te-banner-frame,iframe[id^=":"]'), function (f) {
+        if (restored) return;
+        try { var b = f.contentDocument && f.contentDocument.querySelector('[id$=".restore"],button[id*="restore"]'); if (b) { b.click(); restored = true; } } catch (e) { /* cross-origin */ }
+      });
+      if (!restored) {
+        var combo = document.querySelector('select.goog-te-combo'), src = this.pageLang();
+        if (combo) {
+          var ok = Array.prototype.some.call(combo.options, function (o) { return o.value === src; });
+          combo.value = ok ? src : '';
+          combo.dispatchEvent(new Event('change'));
+        }
+      }
+      ['', ';domain=' + location.hostname, ';domain=.' + location.hostname.replace(/^www\./, '')].forEach(function (d) { document.cookie = 'googtrans=;path=/;max-age=0' + d; });
 })(window, document);
