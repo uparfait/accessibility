@@ -704,4 +704,11 @@
       if ((m = /^\d+\.\s+(.*)$/.exec(l))) { if (list !== 'ol') { close(); out += '<ol class="gs">'; list = 'ol'; } out += '<li data-l="' + i + '">' + esc(m[1]) + '</li>'; return; }
       close(); out += '<p data-l="' + i + '">' + esc(l) + '</p>';
     });
+    close();
+    return out;
+  }
+  // The words of a guide (without markers), so they can be translated and put back in place
+  function guideWords(text) { return guideLines(text).map(function (l) { return l.charAt(0) === '@' ? '' : l.replace(/^##\s*|^-\s+|^\d+\.\s+/, ''); }); }
+
+  var TABS = [
 })(window, document);
