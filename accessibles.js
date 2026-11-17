@@ -615,4 +615,11 @@
   INFO.shortcuts.desc = INFO.shortcuts.desc.replace(/%(\w+)%/g, function (m, g) { return cmdLines(g); });
 
   // Guide lines ("- ...") for a group of commands
+  function cmdLines(g) {
+    var c = CMDS[g];
+    return c.items.map(function (it) { return '- ' + (c.keys ? it[0] : '"' + it[0] + '"') + ': ' + it[1]; }).join('\n');
+  }
+  // Plain sentences for speaking a group of commands out loud
+  function cmdSpeech(g) {
+    var c = CMDS[g];
 })(window, document);
