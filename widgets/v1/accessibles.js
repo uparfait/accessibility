@@ -4162,6 +4162,7 @@
       '.rbody h2{font-size:1.4em;line-height:1.3;margin:1.6em 0 .5em;font-weight:700}',
       '.rbody h3,.rbody h4,.rbody h5,.rbody h6{font-size:1.15em;margin:1.4em 0 .4em;font-weight:700}',
       '.rbody p{margin:0 0 1em}',
+      '.rbody .acc-reading{outline:2px solid currentColor;outline-offset:6px;border-radius:3px}',
       '.rbody ul,.rbody ol{margin:0 0 1em 1.4em}.rbody ul li{list-style:disc}.rbody ol li{list-style:decimal}.rbody li{margin:.3em 0}',
       '.rbody a{color:inherit;text-decoration:underline;text-underline-offset:3px}',
       '.rbody img{display:block;max-width:100%;height:auto;margin:1.2em auto;border-radius:.4em}',
