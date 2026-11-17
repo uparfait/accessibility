@@ -1872,4 +1872,15 @@
     return s.replace(/[.,!?;:"“”'’«»()\[\]¿¡。、，！？،؟]/g, ' ').replace(/\s+/g, ' ').trim();
   }
   function editRatio(a, b) {
+    if (a === b) return 1;
+    var la = a.length, lb = b.length;
+    if (!la || !lb) return 0;
+    if (Math.abs(la - lb) > Math.max(la, lb) * 0.6) return 0;
+    var prev = [], cur = [], i, j;
+    for (j = 0; j <= lb; j++) prev[j] = j;
+    for (i = 1; i <= la; i++) {
+      cur = [i];
+      for (j = 1; j <= lb; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1));
+      prev = cur;
+    }
 })(window, document);
