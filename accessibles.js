@@ -4028,4 +4028,28 @@
       $('.launch').classList.toggle('under', !!this.open);
     },
 
+    // The site's own picture for the hover card: site-icon-url, else the site's favicon, else a plain website icon.
+    // Loaded only the first time the card is shown, with a placeholder until it arrives.
+    cardIcon: function () {
+      if (this.cardIconDone) return;
+      this.cardIconDone = true;
+      var box = $('.lc-ico'), list = [];
+      var safe = function (u) { try { var x = new URL(u, location.href); return /^(https?:|data:image\/)/.test(x.protocol + (x.protocol === 'data:' ? x.pathname.slice(0, 6) : '')) ? x.href : ''; } catch (e) { return ''; } };
+      if (CFG.siteIcon) list.push(safe(CFG.siteIcon));
+      var link = document.querySelector('link[rel~="icon"][href],link[rel="shortcut icon"][href],link[rel="apple-touch-icon"][href]');
+      if (link) list.push(safe(link.getAttribute('href')));
+      if (/^https?:$/.test(location.protocol)) list.push(location.origin + '/favicon.ico');
+      list = list.filter(function (u, i) { return u && list.indexOf(u) === i; });
+      if (!list.length) return;
+      box.classList.add('sk'); box.innerHTML = '';
+      var next = function () {
+        var u = list.shift();
+        if (!u) { box.classList.remove('sk', 'img'); box.innerHTML = ic('web'); return; }
+        var img = document.createElement('img');
+        img.alt = ''; img.decoding = 'async'; img.referrerPolicy = 'no-referrer';
+        var t = later(function () { img.onload = img.onerror = null; next(); }, 6000);
+        img.onload = function () { cancel(t); if (!img.naturalWidth) { next(); return; } box.classList.remove('sk'); box.classList.add('img'); box.innerHTML = ''; box.appendChild(img); };
+        img.onerror = function () { cancel(t); next(); };   // 404 or any other error: try the next one
+        img.src = u;
+      };
 })(window, document);
