@@ -77,3 +77,13 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 <div class="accessibles-widget"></div>
 <script src="https://uparfait.github.io/accessibility/accessibles.js?color=%237B3F00&position=bottom-left" defer></script>
 ```
+
+### A light panel with your site's name and icon
+
+```html
+<div class="accessibles-widget"
+     data-site-name="Green Valley Library"
+     data-site-icon-url="/img/logo.svg"
+     data-bg="#FBFAF6"></div>
+<script src="https://uparfait.github.io/accessibility/accessibles.js?color=%232F7A3A" defer></script>
+```
