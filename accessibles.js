@@ -2775,4 +2775,16 @@
         if (!quiet) toast(T(self.error));
       });
     },
+    // Progress is estimated from how many text blocks Google has already rewritten
+    measure: function () {
+      var total = 0, done = 0;
+      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), n, seen = 0;
+      while ((n = w.nextNode()) && seen < 4000) {
+        var p = n.parentElement;
+        if (!p || isOurs(p) || SKIP_TAGS[p.tagName] || !hasLetters(n.nodeValue)) continue;
+        seen++; total++;
+        if (p.closest('font')) done++;
+      }
+      return total ? done / total : 1;
+    },
 })(window, document);
