@@ -5179,4 +5179,13 @@
       if (it.id === 'sign') return { on: on, state: on ? 'Sign language is on' : 'Sign language is off', action: 'Choose sign language' };
       if (it.id === 'font') return { on: on, state: 'The font is ' + fontName(S.font), action: 'Choose a font' };
       if (it.t === 'view') return { state: '', action: 'Open this feature' };
+      return { state: '', action: { reader: 'Open the reader view', resetAll: 'Reset all settings', statementLink: 'Read the accessibility statement' }[it.id] || 'Use this feature' };
+    },
+    helpShell: function (icon, kind, title, langPicker) {
+      var lv = this.selects.helplang.options().filter(function (o) { return o.v === (UI.helpLang || ''); })[0];
+      return '<div class="help-win" role="document"><div class="help-head"><span class="help-ico">' + ic(icon) + '</span>' +
+        '<div class="help-ht"><div class="help-kind">' + esc(kind || '') + '</div><h2 id="acc-help-title" class="help-title" tabindex="-1" translate="no">' + esc(title) + '</h2></div>' +
+        (langPicker ? '<button type="button" class="cs-btn help-lang" data-sel="helplang" aria-haspopup="listbox" aria-expanded="false" aria-label="Description language: ' + esc(lv ? lv.l : 'English') + '">' + ic('gtranslate') + '<span class="cv" translate="no">' + esc(lv ? lv.l : 'English') + '</span>' + ic('chevron') + '</button>' : '') +
+        '<button type="button" class="ib" data-act="help-close" aria-label="Close" data-tt="Close">' + ic('close') + '</button></div><div class="help-main"></div></div>';
+    },
 })(window, document);
