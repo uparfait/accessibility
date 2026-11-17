@@ -1474,4 +1474,21 @@
         vs.filter(function (v) { return v.lang && v.lang.toLowerCase().split(/[-_]/)[0] === pre && v.localService; })[0] ||
         vs.filter(function (v) { return v.lang && v.lang.toLowerCase().split(/[-_]/)[0] === pre; })[0] || null;
     },
+    sync: function () {
+      if (S.tts && !this.on) {
+        if (!this.ok) { toast('Read aloud is not supported in this browser'); setState('tts', false, true); return; }
+        this.on = true;
+        document.addEventListener('click', this.onClick, true);
+        document.addEventListener('focusin', this.onFocus, true);
+        document.addEventListener('mouseup', this.onSelect, true);
+        UI.ttsBar(true);
+      } else if (!S.tts && this.on) {
+        this.on = false;
+        this.stop();
+        document.removeEventListener('click', this.onClick, true);
+        document.removeEventListener('focusin', this.onFocus, true);
+        document.removeEventListener('mouseup', this.onSelect, true);
+        UI.ttsBar(false);
+      }
+    },
 })(window, document);
