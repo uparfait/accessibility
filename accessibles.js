@@ -3393,4 +3393,11 @@
     var waits = [];
     if (S.font) waits.push(loadFont(S.font));
     var mods = [FontScale, Smart, Aria, Alt, Forms, Keyboard, TTS, Pointer, Motion, Mute, Timing, Voice, VKB, Dict, Sign, Tips, Hover, Dir, HideImg];
+    mods.forEach(function (m) { try { var r = m.sync(); if (r && typeof r.then === 'function') waits.push(r); } catch (e) { if (window.console) console.warn('[Accessibles]', e); } });
+    UI.refresh();
+    UI.placeLauncher();
+    save();
+    Promise.all(waits).then(function () { UI.doneBusy(); }, function () { UI.doneBusy(); });
+  }
+
 })(window, document);
