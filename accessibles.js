@@ -1651,4 +1651,22 @@
   };
   TTS.onClick = TTS.onClick.bind(TTS); TTS.onFocus = TTS.onFocus.bind(TTS); TTS.onSelect = TTS.onSelect.bind(TTS);
 
+  /* ------------------------------------------------------------------ *
+   * 13. Pointer aids: reading guide, reading mask, text magnifier
+   * ------------------------------------------------------------------ */
+  var Pointer = {
+    x: -1, y: -1, raf: 0, bound: false, lastTarget: null,
+    sync: function () {
+      var need = S.readingGuide || S.readingMask || S.magnifier;
+      if (need && !this.bound) {
+        this.bound = true;
+        document.addEventListener('pointermove', this.onMove, { passive: true });
+        document.addEventListener('touchmove', this.onTouch, { passive: true });
+      } else if (!need && this.bound) {
+        this.bound = false;
+        document.removeEventListener('pointermove', this.onMove);
+        document.removeEventListener('touchmove', this.onTouch);
+      }
+      $('.guide').hidden = !S.readingGuide;
+      $('.mask-t').hidden = $('.mask-b').hidden = !S.readingMask;
 })(window, document);
