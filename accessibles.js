@@ -1018,4 +1018,18 @@
       }
       return false;
     },
+    collect: function (root) {
+      var out = [];
+      if (!root || root.nodeType !== 1 || isOurs(root)) return out;
+      if (this.hasText(root)) out.push(root);
+      var w = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, {
+        acceptNode: function (n) {
+          if (SKIP_TAGS[n.tagName] || n.namespaceURI === 'http://www.w3.org/2000/svg' || isOurs(n)) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      var n;
+      while ((n = w.nextNode())) { if (this.hasText(n)) out.push(n); }
+      return out;
+    },
 })(window, document);
