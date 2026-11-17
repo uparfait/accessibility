@@ -3964,4 +3964,22 @@
       R.style.fontSize = f.toFixed(3) + 'px';
       R.classList.toggle('still', !!S.stopAnimations);
     },
+    launcherSize: function () { var l = $('.launch'); return l ? l.offsetWidth || 52 : 52; },
+    placeLauncher: function () {
+      var l = $('.launch');
+      if (!l) return;
+      var size = this.launcherSize(), W = vw(), H = vh(), m = 8, x, y;
+      var pos = S.position ? normPosition(S.position) : CFG.position;
+      if (dragPos) {
+        x = dragPos.x * W - size / 2; y = dragPos.y * H - size / 2;
+      } else {
+        var k = Math.min(1, W / 400);
+        var ox = Math.max(m, CFG.offsetX * k), oy = Math.max(m, CFG.offsetY * k);
+        x = pos.h === 'left' ? ox : pos.h === 'right' ? W - size - ox : (W - size) / 2;
+        y = pos.v === 'top' ? oy : pos.v === 'bottom' ? H - size - oy : (H - size) / 2;
+      }
+      x = clamp(x, m, W - size - m); y = clamp(y, m, H - size - m);
+      l.style.transform = '';
+      l.style.left = Math.round(x) + 'px';
+      l.style.top = Math.round(y) + 'px';
 })(window, document);
