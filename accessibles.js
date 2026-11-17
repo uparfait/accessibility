@@ -126,4 +126,11 @@
     };
   }
 
+  /* ------------------------------------------------------------------ *
+   * 2. Small helpers
+   * ------------------------------------------------------------------ */
+  var host, shadow, R, CFG;
+  function $(sel, root) { return (root || shadow).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || shadow).querySelectorAll(sel)); }
+  function esc(s) {
 })(window, document);
