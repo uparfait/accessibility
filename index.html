@@ -252,7 +252,7 @@ Accessibles.set('fontSize', 1.3);</code></pre></div>
 </main>
 
 <script>
-  // Code editors: window bar, copy button, line numbers and Night Owl colors
+  // Code editors: copy button, line numbers and Night Owl colors
   (function () {
     function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
     function wrap(cls, s) { return '<span class="t-' + cls + '">' + esc(s) + '</span>'; }
@@ -285,18 +285,17 @@ Accessibles.set('fontSize', 1.3);</code></pre></div>
       var text = code.textContent;
       var html = (LANG[code.getAttribute('data-lang')] || esc)(text);
       code.innerHTML = html.split('\n').map(function (line) { return '<span class="ln">' + (line || ' ') + '</span>'; }).join('');
-      var bar = document.createElement('div');
-      bar.className = 'bar';
-      bar.innerHTML = '<i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="file"></span><button type="button" class="copy">Copy</button>';
-      bar.querySelector('.file').textContent = box.getAttribute('data-file') || '';
-      var btn = bar.querySelector('.copy');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy';
+      btn.textContent = 'Copy';
       btn.addEventListener('click', function () {
         navigator.clipboard.writeText(text).then(function () {
           btn.textContent = 'Copied';
           setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
         });
       });
-      box.insertBefore(bar, box.firstChild);
+      box.appendChild(btn);
     });
   })();
 </script>
