@@ -4713,4 +4713,13 @@
       var cur = d.options().filter(function (x) { return x.v === v; })[0];
       if (cur && b.classList.contains('cs-btn')) { $('.cv', b).textContent = cur.l; b.setAttribute('aria-label', d.title + ': ' + cur.l); I18N.apply(b); }
     },
+    markList: function (box, v) {
+      $$('.opt', box).forEach(function (o) { o.setAttribute('aria-selected', o.getAttribute('data-ov') === v); });
+    },
+
+    /* --- color picker (no native color input) --- */
+    PALETTE: ['#000000', '#262626', '#4d4d4d', '#737373', '#a3a3a3', '#d4d4d4', '#f2f2f2', '#ffffff',
+      '#7f1d1d', '#b91c1c', '#ea580c', '#b45309', '#a16207', '#4d7c0f', '#15803d', '#0f766e',
+      '#0e7490', '#0369a1', '#1d4ed8', '#4338ca', '#6d28d9', '#7e22ce', '#a21caf', '#be185d',
+      '#fee2e2', '#ffedd5', '#fef9c3', '#dcfce7', '#cffafe', '#dbeafe', '#ede9fe', '#fce7f3'],
 })(window, document);
