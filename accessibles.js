@@ -893,4 +893,11 @@
       else c.push(B + '{transform:scale(' + S.contentScale + ')!important;transform-origin:0 0!important;width:' + (100 / S.contentScale) + '%!important}');
     }
 
+    if (S.font) c.push(B + NOT_ICON + ',' + B + ' *' + NOT_ICON + '{font-family:' + fontInfo(S.font).stack + '!important}');
+    if (S.fontWeight) {
+      c.push(B + ' *' + NOT_ICON + '{font-weight:' + S.fontWeight + '!important}');
+      c.push(B + ' :is(' + HEADINGS + ',b,strong,th){font-weight:800!important}');
+    }
+    if (S.lineHeight) c.push(B + ',' + B + ' *:not(svg *){line-height:' + S.lineHeight + '!important}');
+    if (S.letterSpacing) c.push(B + ',' + B + ' *:not(svg *){letter-spacing:' + S.letterSpacing + 'em!important}');
 })(window, document);
