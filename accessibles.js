@@ -1118,4 +1118,11 @@
     }
     if (el.getAttribute('title')) return el.getAttribute('title').trim();
     if (el.tagName === 'INPUT' && /^(submit|reset|button)$/i.test(el.type)) return el.value || '';
+    return '';
+  }
+
+  var ICON_WORDS = [
+    [/close|times|dismiss|(^|[-_ ])x($|[-_ ])/, 'Close'], [/hamburger|menu|bars|navicon/, 'Menu'], [/search|magnif|loupe/, 'Search'],
+    [/cart|basket|bag|shop/, 'Shopping cart'], [/user|account|profile|person|avatar/, 'Account'], [/home|house/, 'Home'],
+    [/facebook/, 'Facebook'], [/twitter/, 'Twitter'], [/instagram/, 'Instagram'], [/linkedin/, 'LinkedIn'], [/youtube/, 'YouTube'],
 })(window, document);
