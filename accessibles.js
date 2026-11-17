@@ -4324,4 +4324,40 @@
       if (t.hasAttribute('data-ov')) { this.pickOption(t); return; }
       if (t.hasAttribute('data-cpick')) { this.openColor(t); return; }
       if (t.hasAttribute('data-cpv')) { this.pickColor(t.getAttribute('data-cpv')); return; }
+      if (t.hasAttribute('data-tab')) { this.renderTab(t.getAttribute('data-tab')); return; }
+      if (t.hasAttribute('data-view')) { if (!this.open) this.show(); this.openView(t.getAttribute('data-view')); return; }
+      if (t.hasAttribute('data-p')) { this.setBusy(t.parentNode); toggleProfile(t.getAttribute('data-p')); this.speakState(t); return; }
+      if (t.hasAttribute('data-f')) {
+        var ff = FMAP[t.getAttribute('data-f')];
+        if (ff && /^(toggle|radio|cycle)$/.test(ff.t)) this.setBusy(t.parentNode);
+        this.feature(t.getAttribute('data-f')); this.speakState(t); return;
+      }
+      if (t.hasAttribute('data-c')) { setState(t.getAttribute('data-c'), t.getAttribute('data-v') || ''); return; }
+      if (t.hasAttribute('data-pos')) { setState('position', t.getAttribute('data-pos')); dragPos = null; this.panelPos = null; this.placeLauncher(); save(); this.openView('position'); return; }
+      if (t.hasAttribute('data-go')) { this.goStruct(+t.getAttribute('data-go')); return; }
+      if (t.hasAttribute('data-seg')) { this.structMode = t.getAttribute('data-seg'); this.openView('structure'); var sb = $('[data-seg="' + this.structMode + '"]'); if (sb) sb.focus(); return; }
+      if (t.hasAttribute('data-theme')) { this.readerTheme(t.getAttribute('data-theme')); return; }
+      if (t.hasAttribute('data-check')) { this.markCheck(t.getAttribute('data-check')); return; }
+      switch (a) {
+        case 'close': this.close(); break;
+        case 'reset': resetAll(); if (this.view) this.closeView(); break;
+        case 'back': this.closeView(); break;
+        case 'help-close': this.help(null); break;
+        case 'help-toggle': this.helpAction(); break;
+        case 'tts-page': if (TTS.active) TTS.pause(); else TTS.readPage(); break;
+        case 'tts-pause': TTS.pause(); break;
+        case 'tts-stop': TTS.stop(); break;
+        case 'tts-off': setState('tts', false); break;
+        case 'tts-test': TTS.say(T('This is how the reading voice sounds.'), null); break;
+        case 'voice-off': setState('voiceNav', false); setState('dictation', false); break;
+        case 'voice-help': this.commands(S.dictation ? 'dict' : 'nav'); break;
+        case 'say-cmds': TTS.guide(cmdSpeech(t.getAttribute('data-cg'))); break;
+        case 'help-cmds': TTS.guide(cmdSpeech(t.getAttribute('data-cg'))); break;
+        case 'ask-yes': Voice.reply(true); break;
+        case 'ask-no': Voice.reply(false); break;
+        case 'tts-prev': TTS.skip(-1); break;
+        case 'tts-next': TTS.skip(1); break;
+        case 'vkb-close': setState('vkeyboard', false); break;
+        case 'reader-close': this.reader(false); break;
+        case 'reader-smaller': this.readerSize(-2); break;
 })(window, document);
