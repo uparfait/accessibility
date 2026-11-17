@@ -2984,4 +2984,15 @@
           };
           check();
         };
+        if (window.VLibras && window.VLibras.Widget) { init(); return; }
+        if (self.scriptState === 'error') { fail('The Libras service could not be reached. It may be blocked on this website, or you may be offline.'); return; }
+        UI.progress(0.2);
+        var sc = document.createElement('script');
+        sc.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+        sc.async = true; sc.setAttribute('data-accessibles', '');
+        sc.onload = function () { self.scriptState = 'ok'; UI.progress(0.5); init(); };
+        sc.onerror = function () { self.scriptState = 'error'; sc.remove(); fail('The Libras service could not be reached. It may be blocked on this website, or you may be offline.'); };
+        document.head.appendChild(sc);
+      });
+    },
 })(window, document);
