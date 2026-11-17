@@ -1968,4 +1968,18 @@
       this.rec = r;
       try { r.start(); } catch (e) { /* already started */ }
     },
+    halt: function (msg) {
+      var key = this.mode === 'nav' ? 'voiceNav' : 'dictation';
+      this.want = false;
+      toast(msg);
+      setState(key, false, true);
+    },
+    stop: function () {
+      this.want = false; this.mode = ''; this.lang = ''; this.running = false; this.pending = null;
+      window.clearInterval(this.dog);
+      if (this.rec) { var r = this.rec; this.rec = null; try { r.abort(); } catch (e) { /* ignore */ } }
+      this.hideNumbers();
+      UI.ask(null);
+      UI.pill('');
+    },
 })(window, document);
