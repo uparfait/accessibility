@@ -3138,4 +3138,11 @@
     }
   };
 
+  // Text direction: sets dir on <html> and <body>, restoring the originals exactly
+  // Page direction. Right to left mirrors the whole layout the way Arabic, Hebrew or Persian sites are built:
+  // dir attributes flip flex, grid and text flow; floats and explicit left/right alignment are swapped too.
+  // Translating into a right-to-left language turns it on automatically.
+  function pageDir() { return S.textDir || (S.translateTo && RTL_LANGS.test(S.translateTo) ? 'rtl' : ''); }
+  var Dir = {
+    cur: '', saved: null, list: [],
 })(window, document);
