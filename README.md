@@ -335,3 +335,12 @@ The settings you can pass to `set()`:
 | 22 | Interface | Panel styles and rendering |
 | 23 | Observer | Fixing content that is added later |
 | 24 | Start | Mounting the widget and the API |
+
+### Staying out of the page's way
+
+The panel has to recolor, zoom and invert the whole page while staying readable itself, and the site's CSS must never break it. Four things make that work:
+
+- **Shadow DOM.** The panel renders inside a shadow root, so page styles can't reach in and panel styles can't leak out.
+- **Outside `<body>`.** The mount element is moved to be a direct child of `<html>`. Zoom, fonts and color overrides target `body`, so they never touch the panel.
+- **The top layer.** The mount element becomes a `popover` and is shown with `showPopover()`. Color filters go on `<html>`, and the browser paints the top layer outside that filter. This also keeps `position: fixed` headers on the page working, which a filter on `body` would break.
+- **CSP-safe styles.** Both stylesheets are attached with `adoptedStyleSheets`, and dynamic values are set through `element.style`. Strict `style-src` policies allow both.
