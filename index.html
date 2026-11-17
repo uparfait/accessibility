@@ -77,3 +77,9 @@
   .groups span { color: var(--muted); font-size: 15px; line-height: 1.5; }
   @media (max-width: 760px) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 480px) { .groups { grid-template-columns: 1fr; } }
+
+  .steps { list-style: none; counter-reset: step; padding: 0; margin: 48px 0 0; display: grid; gap: 40px; }
+  .steps > li { counter-increment: step; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; }
+  .steps > li::before { content: counter(step); width: 32px; height: 32px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); display: grid; place-items: center; font: 600 15px/1 var(--font-h); }
+  .steps p { color: var(--muted); margin-top: 6px; }
+  p code, td code { font: 500 .88em/1.4 var(--font-m); color: var(--brand); }
