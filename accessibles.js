@@ -4252,4 +4252,21 @@
           else if (!$('.dict').hidden) self.dict(null);
         }
       }, true);
+      document.addEventListener('pointerdown', function (e) {
+        if (!isOurs(e.target) && !$('.dict').hidden) self.dict(null);
+      }, true);
+      document.addEventListener('focusin', function (e) { if (!isOurs(e.target) && S.vkeyboard) self.vkbTarget(); if (!isOurs(e.target) && S.dictation) later(function () { self.pill(''); }, 0); }, true);
+
+      var onResize = debounce(function () { self.scale(); self.placeLauncher(); }, 60);
+      window.addEventListener('resize', onResize);
+      if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
+      window.addEventListener('orientationchange', onResize);
+      if (TTS.ok && window.speechSynthesis.addEventListener) window.speechSynthesis.addEventListener('voiceschanged', function () {
+        var b = $('[data-sel="voice"]'), d = self.selects.voice, cur = d.options().filter(function (o) { return o.v === S.ttsVoice; })[0];
+        if (b && cur) $('.cv', b).textContent = cur.l;
+      });
+      var keepVkb = debounce(function () { if (self.vkbPos) { var box = $('.vkb'), w = box.offsetWidth, h = box.offsetHeight; self.vkbPos = { x: clamp(self.vkbPos.x, 8, vw() - w - 8), y: clamp(self.vkbPos.y, 8, vh() - h - 8) }; box.style.left = self.vkbPos.x + 'px'; box.style.top = self.vkbPos.y + 'px'; } }, 80);
+      window.addEventListener('resize', keepVkb);
+    },
+
 })(window, document);
