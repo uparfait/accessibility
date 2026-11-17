@@ -1890,4 +1890,11 @@
     var a = normWords(said), b = normWords(phrase);
     if (!a || !b) return 0;
     if (a === b) return 1;
+    var whole = editRatio(a, b);
+    var wa = a.split(' '), wb = b.split(' '), sum = 0;
+    wb.forEach(function (w) { var best = 0; wa.forEach(function (x) { var r = editRatio(x, w); if (r > best) best = r; }); sum += best; });
+    var words = sum / Math.max(wa.length, wb.length);
+    return Math.max(whole, words);
+  }
+
 })(window, document);
