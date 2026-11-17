@@ -399,3 +399,9 @@ Nothing external loads until a visitor turns on the feature that needs it.
 | Page summary | Your hook, the browser's Summarizer, or an on-device summary | Always works offline |
 | Sign language | VLibras for Libras, your videos for ASL | The status line explains what failed |
 | Fonts | Google Fonts | Similar system fonts |
+
+## Browser support
+
+Current Chrome, Edge, Firefox and Safari, on desktop and mobile. In a browser without Shadow DOM, the script does nothing.
+
+A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site compliant by itself. Run the page check, then fix what it finds in your own code.
