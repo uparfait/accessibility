@@ -1763,4 +1763,17 @@
     }
   };
 
+  function postToPlayer(frame, cmd) {
+    var src = frame.getAttribute('src') || '';
+    try {
+      if (/youtube(-nocookie)?\.com\/embed/i.test(src)) {
+        var fn = { pause: 'pauseVideo', mute: 'mute', unmute: 'unMute' }[cmd];
+        if (fn) frame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: fn, args: [] }), '*');
+      } else if (/player\.vimeo\.com/i.test(src)) {
+        var msg = cmd === 'pause' ? { method: 'pause' } : { method: 'setVolume', value: cmd === 'mute' ? 0 : 1 };
+        frame.contentWindow.postMessage(JSON.stringify(msg), '*');
+      }
+    } catch (e) { /* cross-origin player not reachable */ }
+  }
+
 })(window, document);
