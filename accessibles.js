@@ -154,4 +154,11 @@
   function debounce(fn, ms) { var t; return function () { cancel(t); t = later(fn, ms); }; }
   function pageLang() { return (CFG && CFG.lang) || document.documentElement.getAttribute('lang') || navigator.language || 'en'; }
   // The language the visitor uses: the language they chose to translate into, else the panel language, else the page language
+  function userLang() { return (typeof S !== 'undefined' && S.translateTo) || (typeof I18N !== 'undefined' && I18N.lang) || pageLang(); }
+  function isEditable(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (el.isContentEditable) return true;
+    if (el.tagName === 'TEXTAREA') return !el.readOnly && !el.disabled;
+    if (el.tagName !== 'INPUT') return false;
+    var t = (el.type || 'text').toLowerCase();
 })(window, document);
