@@ -875,4 +875,11 @@
     c.push('a.acc-skip{position:fixed!important;left:12px!important;top:-200px!important;z-index:2147483646!important;padding:12px 18px!important;background:' + A + '!important;color:' + INK + '!important;font:600 16px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;border-radius:10px!important;text-decoration:none!important;box-shadow:0 6px 20px rgba(0,0,0,.2)!important}');
     c.push('a.acc-skip:focus{top:12px!important;outline:3px solid ' + INK + '!important;outline-offset:2px!important}');
     c.push('.acc-reading{outline:3px solid ' + A + '!important;outline-offset:4px!important;border-radius:3px;scroll-margin:30vh}');
+    c.push('.acc-target{outline:3px solid ' + A + '!important;outline-offset:4px!important;transition:outline-color .3s}');
+    c.push('.acc-mark{outline:3px dashed #c62828!important;outline-offset:2px!important}');
+    c.push('[data-acc-signable]{outline:2px dotted ' + A + '!important;outline-offset:3px!important;cursor:help!important}');
+    if (Translate.engine === 'google') c.push('.goog-te-banner-frame,.skiptranslate>iframe,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}body{top:0!important}.goog-text-highlight{background:none!important;box-shadow:none!important}');
+
+    // Filters (invert / saturation / brightness / color blindness / high contrast)
+    var fv = filterValue();
 })(window, document);
