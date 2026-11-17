@@ -231,3 +231,17 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 - **Remember settings** keeps choices for the next visit.
 - **Page check** scores the page and points to the problems.
 - **Report an issue**, **accessibility statement** and **reset all**
+
+### Voice commands
+
+Voice commands and Talk & Type listen in the visitor's own language and keep listening until they are turned off. They don't need exact wording: "scrol down" works, and when a command is unclear the visitor is asked "Did you mean …?" and can answer yes or no.
+
+| Moving around | Reading aloud | Talk & Type |
+|---|---|---|
+| Scroll down / up, Go to top / bottom | Read page, Read this, Read headings | Period, Comma, Question mark, Colon, Dash |
+| Click + a name ("Click Contact") | Pause, Continue | Open quote / Close quote, Open bracket / Close bracket |
+| Show numbers, then say a number | Next, Previous, Repeat | New line, New paragraph |
+| Next / Previous heading, Next link, Next field | Faster, Slower | Delete that, Delete last word, Clear all |
+| Search for + words | Stop reading | Next field, Previous field, Send |
+| Zoom in / out, Go back / forward, Reload | | What can I say, Stop typing |
+| Open menu, Close menu, What can I say, Stop listening | | |
