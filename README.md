@@ -149,3 +149,16 @@ Functions can only be passed through `window.AccessiblesConfig`:
 ```
 
 You can also mark any element with `data-acc-sign="video.mp4"` to give it a sign language video.
+
+### Reacting to changes
+
+```js
+window.addEventListener('accessibles:ready', (e) => {
+  console.log('Accessibles', e.detail.version, 'is ready');
+});
+
+window.addEventListener('accessibles:change', (e) => {
+  // e.detail.key, e.detail.value and the full e.detail.state
+  if (e.detail.key === 'contrast') document.body.dataset.theme = e.detail.value || 'default';
+});
+```
