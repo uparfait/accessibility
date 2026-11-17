@@ -2651,4 +2651,14 @@
   }
 
   // Translates the panel's own interface into the visitor's chosen language
+  var I18N = {
+    lang: '', cache: {}, pending: {}, busy: false, nodes: new WeakMap(), attrs: new WeakMap(), failed: false, timer: 0,
+    load: function () { try { this.cache = JSON.parse(window.sessionStorage.getItem(KEY + '.i18n') || '{}') || {}; } catch (e) { this.cache = {}; } },
+    persist: function () { try { window.sessionStorage.setItem(KEY + '.i18n', JSON.stringify(this.cache)); } catch (e) { /* full or blocked */ } },
+    set: function (lang) {
+      this.lang = lang && !/^en(-|$)/i.test(lang) ? lang : '';
+      this.failed = false;
+      if (R) R.setAttribute('dir', lang && RTL_LANGS.test(lang) ? 'rtl' : (document.documentElement.getAttribute('dir') === 'rtl' && !Dir.cur ? 'rtl' : 'ltr'));
+      if (R) this.apply(R);
+    },
 })(window, document);
