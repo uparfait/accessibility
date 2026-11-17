@@ -1221,4 +1221,11 @@
         nt.forEach(function (a) { rec.set(a, 'aria-describedby', 'acc-desc-newtab'); });
       }
       // Live regions for status/alert style containers
+      q('[class*="alert"]:not([role]):not([aria-live]),[class*="toast"]:not([role]):not([aria-live]),[class*="notification"]:not([role]):not([aria-live])').forEach(function (el) {
+        if (el.children.length < 6 && textOf(el).length < 300) { rec.set(el, 'aria-live', 'polite'); }
+      });
+    }
+  };
+  function accNameAttr(el) { return (el.getAttribute('aria-label') || el.getAttribute('aria-labelledby') || '').trim(); }
+
 })(window, document);
