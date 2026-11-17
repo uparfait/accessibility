@@ -2041,4 +2041,17 @@
         this.act(top, txt);
       } else this.type(txt, alts);
     },
+    act: function (g, txt) {
+      if (g && g.score >= this.SURE) { this.pending = null; UI.ask(null); g.run(); return; }
+      if (g && g.score >= this.MAYBE) { this.confirm(g.label, g.run, null); return; }
+      UI.pill(txt, false, T('Not sure what you meant. Say "What can I say" to hear the commands.'));
+    },
+    // Ask "Did you mean …?" — answer by voice (yes / no) or with the buttons
+    confirm: function (label, yes, no) {
+      var self = this;
+      this.pending = { label: label, yes: yes, no: no, until: Date.now() + 15000 };
+      UI.ask(label);
+      if (S.spokenTips && TTS.ok) TTS.guide('Did you mean: ' + label + '?');
+      later(function () { if (self.pending && Date.now() > self.pending.until) { self.pending = null; UI.ask(null); } }, 15100);
+    },
 })(window, document);
