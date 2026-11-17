@@ -5448,4 +5448,11 @@
     later(function () { l.textContent = msg; }, 40);
   }
 
+  /* ------------------------------------------------------------------ *
+   * 23. Watching the page for new content
+   * ------------------------------------------------------------------ */
+  var pendingRoots = [];
+  var processRoots = debounce(function () {
+    var roots = pendingRoots; pendingRoots = [];
+    roots = roots.filter(function (n, i) { return n.isConnected && !isOurs(n) && roots.indexOf(n) === i && !roots.some(function (o) { return o !== n && o.contains(n); }); });
 })(window, document);
