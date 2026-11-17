@@ -234,4 +234,26 @@
     var W = [255, 255, 255], K = [14, 16, 19];
     var dark = lum(bg) < 0.3;
     function inkOn(c) { return contrast(c, W) >= contrast(c, K) ? W : K; }
+    var fg = ensureContrast(dark ? [242, 244, 245] : [21, 24, 28], dark ? W : K, bg, 12);
+    var accent = ensureContrast(p, dark ? W : K, bg, 4.6);
+    var muted = ensureContrast(mix(fg, bg, 0.38), fg, bg, 4.6);
+    var shadowC = dark ? 'rgba(0,0,0,.55)' : rgba(mix(p, K, 0.7), 0.18);
+    return {
+      primary: p, ink: inkOn(p), accentLight: ensureContrast(p, K, W, 4.6), dark: dark,
+      vars: {
+        '--p': hex(p), '--p-ink': hex(inkOn(p)),
+        '--p-edge': contrast(p, W) < 1.5 || contrast(p, K) < 1.5 ? hex(mix(p, contrast(p, W) < 1.5 ? K : W, 0.4)) : 'transparent',
+        '--p-shadow': rgba(mix(p, K, 0.5), 0.3),
+        '--bg': hex(bg), '--text': hex(fg), '--muted': hex(muted),
+        '--surface': hex(mix(bg, fg, dark ? 0.06 : 0.025)), '--hover': hex(mix(bg, fg, dark ? 0.11 : 0.06)),
+        '--field': hex(mix(bg, fg, dark ? 0.13 : 0.06)),
+        '--line': hex(mix(bg, fg, dark ? 0.15 : 0.12)), '--line-2': hex(mix(bg, fg, dark ? 0.34 : 0.3)),
+        '--accent': hex(accent), '--accent-ink': hex(inkOn(accent)),
+        '--soft': hex(mix(bg, accent, dark ? 0.16 : 0.1)), '--soft-2': hex(mix(bg, accent, dark ? 0.28 : 0.2)),
+        '--bad': dark ? '#ffb4ab' : '#b42318', '--bad-bg': dark ? '#3d1714' : '#fde8e8',
+        '--shadow': '0 18px 48px ' + shadowC + ', 0 2px 6px rgba(0,0,0,' + (dark ? '.4' : '.06') + ')'
+      }
+    };
+  }
+
 })(window, document);
