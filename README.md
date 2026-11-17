@@ -54,6 +54,7 @@ In a URL, `#` has to be written as `%23`. If you forget and type `color=#7B3F00`
 | Option | Default | Description |
 |---|---|---|
 | `color` | `#2F6B5A` | Main color for the button, highlights and active states. Any CSS color works: `#7B3F00`, `7B3F00`, `rgb(123,63,0)`, `chocolate`. |
+| `icon-color` | automatic | Color of the icon on the button, such as `#FFFFFF`. By default it's white or near-black, whichever contrasts more with `color`. |
 | `bg` | `#000000` | Panel background. Text, borders and highlights adjust to stay readable, so a light `bg` gives you a light panel. |
 | `site-name` | none | Your site's name. It's shown as the panel title, in the button's hover card, in the accessibility statement and in issue reports. |
 | `site-icon-url` | none | Your site's icon, shown in the panel header and the hover card. It's scaled to fit a circle without cropping. If it fails to load, the favicon is used instead. |
