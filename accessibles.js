@@ -3365,4 +3365,11 @@
       announce(p.label + ' profile on');
       track('profile:' + id, true);
     }
+    S.profiles = active;
+    emit('profiles', active);
+    scheduleApply();
+  }
+
+  function resetAll() {
+    TTS.stop();
 })(window, document);
