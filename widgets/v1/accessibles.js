@@ -1507,10 +1507,10 @@
     },
     say: function (text, el) { this.play([{ text: text, el: el }]); },
     // Spoken instructions from the panel, always in the visitor's language
-    guide: function (lines) {
+    guide: function (lines, tag) {
       if (!this.ok) return;
       var self = this, list = [].concat(lines), tl = userLang();
-      var go = function (out, lang) { self.play(out.map(function (t) { return { text: t, el: null, lang: lang, raw: true }; })); };
+      var go = function (out, lang) { self.play(out.map(function (t) { return { text: t, el: null, lang: lang, raw: true, tag: tag || '' }; })); };
       if (/^en(-|$)/i.test(tl)) { go(list, 'en'); return; }
       googleText(list, tl).then(function (out) { go(list.map(function (t, i) { return out[i] || t; }), tl); }, function () { go(list, 'en'); });
     },
@@ -1519,6 +1519,7 @@
       this.stop();
       this.active = true; this.paused = false;
       this.items = items.slice(); this.idx = -1;
+      this.tag = (items[0] && items[0].tag) || '';
       this.sid++;
       this.next(this.sid);
       UI.ttsState();
@@ -1558,7 +1559,7 @@
       this.idx++;
       var item = this.items[this.idx];
       this.mark(null);
-      if (!item) { this.active = false; this.curLang = ''; UI.ttsState(); Voice.heardTTS(); return; }
+      if (!item) { this.active = false; this.curLang = ''; this.tag = ''; UI.ttsState(); Voice.heardTTS(); return; }
       this.curLang = item.lang || '';
       this.mark(item.el);
       var self = this, chunks = this.chunks(item.text);
@@ -1616,7 +1617,7 @@
     pause: function () { if (!this.active) return; if (this.paused) { window.speechSynthesis.resume(); this.paused = false; } else { window.speechSynthesis.pause(); this.paused = true; } UI.ttsState(); },
     stop: function () {
       var was = this.active;
-      this.sid++; this.active = false; this.paused = false; this.items = []; this.idx = -1; this.curLang = '';
+      this.sid++; this.active = false; this.paused = false; this.items = []; this.idx = -1; this.curLang = ''; this.tag = '';
       if (was) Voice.heardTTS();
       try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
       this.mark(null);
