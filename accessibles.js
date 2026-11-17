@@ -43,4 +43,11 @@
     for (var i = list.length - 1; i >= 0; i--) {
       if (/accessibles(\.min)?\.js/i.test(list[i].getAttribute('src') || '')) return list[i];
     }
+    return null;
+  })();
+  var SCRIPT_SRC = SCRIPT ? (SCRIPT.getAttribute('src') || '') : '';
+  var SCRIPT_BASE = '';
+  try { SCRIPT_BASE = SCRIPT ? new URL('.', SCRIPT.src).href : ''; } catch (e) { SCRIPT_BASE = ''; }
+
+  function dec(s) { try { return decodeURIComponent(String(s).replace(/\+/g, ' ')); } catch (e) { return String(s); } }
 })(window, document);
