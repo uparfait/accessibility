@@ -5291,4 +5291,21 @@
         $('.help-frame', main).src = url.href;
         I18N.apply(box);
       };
+      if (url.origin !== location.origin) { showFrame(); return; }
+      fetch(url.href, { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }).then(function (html) {
+        if (self.helpId !== 'doc') return;
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var base = doc.createElement('base'); base.href = url.href; doc.head.insertBefore(base, doc.head.firstChild);
+        var m = doc.querySelector('main,[role="main"],article,#content,.content') || doc.body;
+        var art = document.createElement('div');
+        art.className = 'help-text prose doc';
+        art.setAttribute('translate', 'no');
+        art.appendChild(cleanCopy(m, 0));
+        main.innerHTML = '';
+        main.appendChild(art);
+        main.insertAdjacentHTML('beforeend', foot);
+        I18N.apply(box);
+      }).catch(showFrame);
+    },
+
 })(window, document);
