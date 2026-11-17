@@ -2064,4 +2064,12 @@
       if (y >= n) p.yes(); else if (p.no) p.no();
       return true;
     },
+    reply: function (yes) {
+      var p = this.pending;
+      this.pending = null; UI.ask(null);
+      if (!p) return;
+      if (TTS.active) TTS.stop();
+      if (yes) p.yes(); else if (p.no) p.no();
+    },
+
 })(window, document);
