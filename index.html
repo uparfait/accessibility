@@ -366,33 +366,45 @@ Accessibles.set('fontSize', 1.3);</code></pre></div>
 </script>
 
 <script>
-  // Examples open and close with a smooth height animation
+  // Examples open and close with a smooth height animation; opening one closes the others
   (function () {
     var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (still || !Element.prototype.animate) return;
-    document.querySelectorAll('.example').forEach(function (item) {
-      var summary = item.querySelector('summary'), body = item.querySelector('.body'), anim = null, closing = false;
-      summary.addEventListener('click', function (e) {
+    var items = Array.prototype.slice.call(document.querySelectorAll('.example'));
+
+    function open(item) {
+      var body = item.querySelector('.body');
+      var from = item.open ? body.getBoundingClientRect().height : 0;
+      if (item.anim) item.anim.cancel();
+      item.closing = false;
+      item.open = true;
+      item.anim = body.animate([
+        { height: from + 'px', opacity: from ? 1 : 0, transform: from ? 'none' : 'translateY(-8px)' },
+        { height: body.scrollHeight + 'px', opacity: 1, transform: 'none' }
+      ], { duration: 380, easing: 'cubic-bezier(.2, .7, .2, 1)' });
+      item.anim.onfinish = function () { item.anim = null; };
+    }
+
+    function close(item) {
+      var body = item.querySelector('.body');
+      var from = body.getBoundingClientRect().height;
+      if (item.anim) item.anim.cancel();
+      item.closing = true;
+      item.anim = body.animate([
+        { height: from + 'px', opacity: 1 },
+        { height: '0px', opacity: 0 }
+      ], { duration: 260, easing: 'cubic-bezier(.4, 0, .2, 1)' });
+      item.anim.onfinish = function () { item.open = false; item.closing = false; item.anim = null; };
+    }
+
+    items.forEach(function (item) {
+      // The script handles one-at-a-time itself, so the closing can animate
+      item.removeAttribute('name');
+      item.querySelector('summary').addEventListener('click', function (e) {
         e.preventDefault();
-        var from = body.getBoundingClientRect().height;
-        if (anim) anim.cancel();
-        if (!item.open || closing) {
-          closing = false;
-          item.open = true;
-          var to = body.scrollHeight;
-          anim = body.animate([
-            { height: (from && item.open ? from : 0) + 'px', opacity: 0, transform: 'translateY(-8px)' },
-            { height: to + 'px', opacity: 1, transform: 'none' }
-          ], { duration: 380, easing: 'cubic-bezier(.2, .7, .2, 1)' });
-          anim.onfinish = function () { anim = null; };
-        } else {
-          closing = true;
-          anim = body.animate([
-            { height: from + 'px', opacity: 1 },
-            { height: '0px', opacity: 0 }
-          ], { duration: 260, easing: 'cubic-bezier(.4, 0, .2, 1)' });
-          anim.onfinish = function () { item.open = false; closing = false; anim = null; };
-        }
+        if (item.open && !item.closing) { close(item); return; }
+        items.forEach(function (other) { if (other !== item && other.open && !other.closing) close(other); });
+        open(item);
       });
     });
   })();
