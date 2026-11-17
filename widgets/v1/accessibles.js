@@ -2277,10 +2277,24 @@
     ['open quote', '“', 1], ['close quote', '”'], ['open bracket', '(', 1], ['close bracket', ')']
   ];
   function searchPage(words) {
-    var box = document.querySelector('input[type="search"],input[name="q"],input[name="s"],input[name*="search" i],input[placeholder*="search" i]');
-    if (!box) { UI.pill(words, false, T('This page has no search box')); return; }
-    focusEl(box); setValue(box, words);
-    if (box.form) { if (box.form.requestSubmit) box.form.requestSubmit(); else box.form.submit(); }
+    // With the menu open, search its features
+    if (UI.open) {
+      if (UI.view) UI.closeView();
+      var q = $('.search input');
+      q.value = words; UI.search(words);
+      UI.pill(words, false, T('Searching the menu'));
+      return;
+    }
+    // The page's own search box
+    var box = Array.prototype.filter.call(document.querySelectorAll('input[type="search"],input[name="q"],input[name="s"],input[name*="search" i],input[placeholder*="search" i]'), function (b) { return !isOurs(b) && visible(b); })[0];
+    if (box) {
+      focusEl(box); setValue(box, words);
+      if (box.form) { if (box.form.requestSubmit) box.form.requestSubmit(); else box.form.submit(); }
+      return;
+    }
+    // Otherwise find the words on the page
+    var f = findOnPage(words);
+    UI.pill(words, false, f ? T('Found on the page') + ' (' + f.index + '/' + f.total + ')' : T('Not found on this page'));
   }
 
   // Finds words in the page text, selects them and scrolls there. Saying the same words again moves to the next match.
