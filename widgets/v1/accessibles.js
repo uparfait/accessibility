@@ -5905,6 +5905,7 @@
     if (!useTopLayer || !host || raising) return;
     raising = true;
     var had = shadow && shadow.activeElement;
+    if (topEl) { try { topEl.hidePopover(); topEl.showPopover(); } catch (e) { /* ignore */ } }
     try { host.hidePopover(); host.showPopover(); } catch (e) { /* not shown as a popover */ }
     if (had && had.isConnected) { try { had.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
     later(function () { raising = false; }, 0);
