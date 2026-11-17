@@ -258,3 +258,24 @@ Talk & Type adds capital letters at the start of sentences and spaces punctuatio
 | `Alt + N` / `Alt + Shift + N` | Next / previous paragraph (read aloud on) |
 | `Alt + H`, `L`, `F`, `B`, `M`, `G` | Next heading, link, field, button, region or image (keyboard navigation on). Add `Shift` to go back. |
 | `Alt + arrows` | Move the button while it has focus |
+
+## JavaScript API
+
+Once the script has loaded, `window.Accessibles` is available:
+
+```js
+Accessibles.open();                   // open the panel
+Accessibles.close();
+Accessibles.toggle();
+
+Accessibles.set('fontSize', 1.3);     // change one setting
+Accessibles.set('contrast', 'dark');
+Accessibles.get('contrast');          // 'dark'
+Accessibles.get();                    // every setting
+
+Accessibles.profile('dyslexia');      // toggle a profile
+Accessibles.reset();                  // back to the defaults
+
+Accessibles.readPage();               // read the main content aloud
+Accessibles.audit();                  // { score, checks: [{ id, label, open, fixed, help }] }
+```
