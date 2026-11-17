@@ -5372,4 +5372,11 @@
       this.readerTheme(this.rtheme || 'light');
       try { $('[data-act="reader-close"]', box).focus(); } catch (e) { /* ignore */ }
     },
+    readerTheme: function (t) {
+      this.rtheme = t;
+      var box = $('.reader');
+      box.classList.remove('sepia', 'dark');
+      if (t !== 'light') box.classList.add(t);
+      $$('[data-theme]', box).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-theme') === t); });
+    },
 })(window, document);
