@@ -169,4 +169,11 @@
     if (!s) return '';
     return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
   }
+  // Unicode-aware patterns, built at runtime so older engines fall back instead of failing to parse
+  function re(src, flags, fallback) { try { return new RegExp(src, flags); } catch (e) { return fallback; } }
+  var LATINISH = 'A-Za-z0-9\\u00C0-\\u024F\\u0370-\\u03FF\\u0400-\\u04FF\\u0590-\\u06FF\\u0900-\\u0DFF\\u0E00-\\u0E7F\\u1200-\\u137F\\u3040-\\u30FF\\u3400-\\u9FFF\\uAC00-\\uD7AF';
+  var RE_WORDS = re("[\\p{L}\\p{N}']+", 'gu', new RegExp('[' + LATINISH + "']+", 'g'));
+  var RE_HAS_LETTERS = re('\\p{L}{2,}', 'u', new RegExp('[' + LATINISH.replace('0-9', '') + ']{2,}'));
+  var RE_EDGE_PUNCT = re('^[^\\p{L}\\p{N}]+|[^\\p{L}\\p{N}]+$', 'gu', new RegExp('^[^' + LATINISH + ']+|[^' + LATINISH + ']+$', 'g'));
+  function words(s) { RE_WORDS.lastIndex = 0; return String(s).match(RE_WORDS) || []; }
 })(window, document);
