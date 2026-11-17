@@ -1739,4 +1739,14 @@
           img.setAttribute('src', url);
         } catch (e) { /* cross-origin GIF without CORS: cannot be frozen */ }
       };
+      if (img.complete && img.naturalWidth) go(); else img.addEventListener('load', go, { once: true });
+    },
+    pauseWAAPI: function () {
+      if (!this.on || !document.getAnimations) return;
+      var self = this;
+      document.getAnimations().forEach(function (a) {
+        var css = (typeof CSSAnimation !== 'undefined' && a instanceof CSSAnimation) || (typeof CSSTransition !== 'undefined' && a instanceof CSSTransition);
+        if (!css && a.playState === 'running') { try { a.pause(); self.anims.push(a); } catch (e) { /* ignore */ } }
+      });
+    },
 })(window, document);
