@@ -1,14 +1,15 @@
 /* dark-mode/dark-mode.js: Dark mode: every background dark and every text light, each keeping its own color */
-accessibles_core.define('dark-mode/dark-mode.js', ['dark-mode-2.js', 'dark-mode-3.js', 'dark-mode-4.js'], function (core) {
+accessibles_core.define('dark-mode/dark-mode.js', ['dark-mode-2.js', 'dark-mode-3.js', 'dark-mode-4.js', 'dark-mode-5.js'], function (core) {
   'use strict';
   core.dark_mode = {
-    on: false, recorder: new core.change_recorder(), turn: 0, done: [], sheet: null, watch: null, rebuild_timer: 0,
+    on: false, recorder: new core.change_recorder(), turn: 0, done: [], sheet: null, watch: null, rebuild_timer: 0, state_count: 0,
     // Turns dark mode on or off to match the settings
     sync: function () {
       var self = this;
       if (core.state.darkMode && !this.on) {
         this.on = true;
         this.build_sheet();
+        this.watch_states(true);
         // Stylesheets the page adds later get dark colors too
         this.watch = new MutationObserver(function (list) {
           if (!list.some(function (change) { return Array.prototype.some.call(change.addedNodes, function (node) { return node !== self.sheet && /^(STYLE|LINK)$/.test(node.nodeName); }); })) return;
@@ -20,6 +21,7 @@ accessibles_core.define('dark-mode/dark-mode.js', ['dark-mode-2.js', 'dark-mode-
       } else if (!core.state.darkMode && this.on) {
         this.on = false; this.turn++;
         if (this.watch) this.watch.disconnect();
+        this.watch_states(false);
         if (this.sheet) this.sheet.remove();
         this.sheet = null;
         this.recorder.revert();
