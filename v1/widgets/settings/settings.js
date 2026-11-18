@@ -26,7 +26,7 @@ accessibles_core.define('settings/settings.js', ['settings-2.js'], function (cor
   core.defaults = {
     profiles: [],
     contentScale: 1, fontSize: 1, font: '', lineHeight: 0, letterSpacing: 0, wordSpacing: 0, fontWeight: 0, textAlign: '',
-    textDir: '', highlightTitles: false, highlightLinks: false, magnifier: 0, smartContrast: false, hoverHighlight: false, tooltips: false,
+    textDir: '', highlightTitles: false, highlightLinks: false, magnifier: 0, smartContrast: false, darkMode: false, hoverHighlight: false, tooltips: false,
     contrast: '', invert: false, saturation: '', colorBlind: '', textColor: '', titleColor: '', bgColor: '', brightness: 100,
     keyboardNav: false, focusRing: false, cursor: '', vkeyboard: false, voiceNav: false, dictation: false, bigTargets: false, extendedTime: false,
     tts: false, ttsRate: 1, ttsPitch: 1, ttsVoice: '', ttsLang: '', readingGuide: false, readingMask: false, stopAnimations: false,
