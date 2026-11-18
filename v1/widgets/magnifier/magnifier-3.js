@@ -4,10 +4,11 @@ accessibles_core.define('magnifier/magnifier-3.js', [], function (core) {
   // Goes through the copy and the page side by side; then removes what must not run twice
   core.magnifier.clean = function (copy, original) {
     var self = this, copies = Array.prototype.slice.call(copy.getElementsByTagName('*')), sources = Array.prototype.slice.call(original.getElementsByTagName('*'));
-    this.live = []; this.fixed = []; this.scrolled = [];
+    this.live = []; this.fixed = []; this.scrolled = []; this.frame_sources = [];
     if (original.scrollTop || original.scrollLeft) this.scrolled.push([copy, original]);
     copies.forEach(function (node, index) { self.match(node, sources[index]); });
     Array.prototype.forEach.call(copy.querySelectorAll('script,noscript,audio,template,dialog:not([open])'), function (node) { node.remove(); });
+    this.sync_frames();
   };
   // Makes one copied element look like the real one right now
   core.magnifier.match = function (node, source) {
@@ -30,26 +31,9 @@ accessibles_core.define('magnifier/magnifier-3.js', [], function (core) {
     if (tag === 'IFRAME') { this.copy_frame(node, source); return; }
     if (tag === 'IMG') node.removeAttribute('loading');
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag)) { node.value = source.value; if (/checkbox|radio/.test(source.type)) node.checked = source.checked; }
-    // Boxes fixed on the screen are moved to where they are now, as the page scrolls
-    if (getComputedStyle(source).position === 'fixed') this.fixed.push([node, source]);
-  };
-  // Frames: a page from this site is copied too; a page from another site is loaded again in the glass, without sound
-  core.magnifier.copy_frame = function (node, source) {
-    var inner = null, rect = source.getBoundingClientRect();
-    try { inner = source.contentDocument; } catch (error) { inner = null; }
-    if (!inner || !inner.body) { node.setAttribute('allow', ''); node.setAttribute('tabindex', '-1'); return; }
-    var box = document.createElement('div');
-    box.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:top;width:' + rect.width + 'px;height:' + rect.height + 'px';
-    var root = box.attachShadow({ mode: 'open' });
-    Array.prototype.forEach.call(inner.querySelectorAll('link[rel~="stylesheet"],style'), function (sheet) {
-      var sheet_copy = sheet.cloneNode(true);
-      if (sheet.href) sheet_copy.href = sheet.href;
-      root.appendChild(sheet_copy);
-    });
-    var page = inner.documentElement.cloneNode(false);
-    page.style.setProperty('display', 'block'); page.style.setProperty('width', rect.width + 'px');
-    page.appendChild(inner.body.cloneNode(true));
-    root.appendChild(page);
-    node.replaceWith(box);
+    // Boxes fixed or stuck on the screen are pinned to where they are now; a stuck box leaves a space of its size behind
+    var position = getComputedStyle(source).position;
+    if (position === 'sticky') { var space = document.createElement('div'); space.style.height = source.getBoundingClientRect().height + 'px'; node.before(space); }
+    if (position === 'fixed' || position === 'sticky') this.fixed.push([node, source]);
   };
 });
