@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../guide/guide.css?version=26">
+<link rel="stylesheet" href="../../guide/guide.css?version=27">
 </head>
 <body data-root="../../">
 <a class="skip" href="#content">Skip to the content</a>
@@ -38,7 +38,25 @@
 <main class="page" id="content">
 <div class="title"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3.5" width="18" height="12.5" rx="2.2"/><circle cx="8.5" cy="8.2" r="1.4"/><path d="m21 13-4-3.6L9.5 16"/><path d="M6 20.2h12"/></svg></span><h1>Image descriptions</h1></div><p class="lead">Adds short descriptions to pictures that have none, so screen reader users know what they show.</p><h2>Use it from your own code</h2><p>The setting is called <code>altText</code>. Use <code>true</code> to turn it on and <code>false</code> to turn it off. It is on unless a visitor turns it off.</p><div class="code"><pre><code data-lang="js">Accessibles.set('altText', true);    // on
 Accessibles.set('altText', false);   // off
-Accessibles.get('altText');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Image descriptions on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
+Accessibles.get('altText');          // is it on?</code></pre></div><h2>Use your own service</h2>
+<p>The widget already guesses a description from the file name and the text around a picture. If you have a better source, such as a service that describes pictures, give the widget a function called <code>altText</code>.</p>
+<h3>What your function gets and gives back</h3>
+<ul>
+  <li>It gets the picture itself: an <code>&lt;img&gt;</code> element, so you can use <code>image.src</code>.</li>
+  <li>It gives back the description as text, or a promise of text. The widget keeps the first 300 characters.</li>
+  <li>If it gives back nothing, or fails, the widget keeps its own guess.</li>
+</ul>
+<div class="code"><pre><code data-lang="html">&lt;script&gt;
+  window.AccessiblesConfig = {
+    altText: async function (image) {
+      const response = await fetch('/api/describe?src=' + encodeURIComponent(image.src));
+      return response.text();
+    }
+  };
+&lt;/script&gt;</code></pre></div>
+<h3>What your server sends back</h3>
+<p>Plain text, with nothing else around it:</p>
+<div class="code"><pre><code data-lang="text">Rows of tall wooden shelves full of old books</code></pre></div><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Image descriptions on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
 &lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
 &lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;
 
@@ -57,7 +75,7 @@ Accessibles.get('altText');          // is it on?</code></pre></div><h2>Try it y
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
-<script src="../../guide/guide.js?version=26" defer></script>
-<script src="../../v1/widgets/accessibles.js?version=26&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../../guide/guide.js?version=27" defer></script>
+<script src="../../v1/widgets/accessibles.js?version=27&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
