@@ -43,7 +43,7 @@ accessibles_core.define('sign-language/sign-language-4.js', [], function (core) 
   core.ui.sign_player = function (src, label) {
     var box = core.find_one('.signp');
     if (!src) { box.hidden = true; box.innerHTML = ''; return; }
-    if (src === 'loading') { box.innerHTML = '<div class="sh2"><span>Loading sign language…</span></div>'; box.hidden = false; return; }
+    if (src === 'loading') { box.innerHTML = '<div class="sh2">' + core.icon_svg('spinner', 'spin') + '<span>Loading sign language…</span></div>'; box.hidden = false; return; }
     var safe = /^(https?:|blob:|data:video\/|\/|\.\/|\.\.\/)/i.test(src) || !/^[a-z]+:/i.test(src);
     if (!safe) return;
     box.innerHTML = '<div class="sh2"><span>' + core.escape_html(label || 'Sign language') + '</span><button type="button" class="ib" data-act="sign-close" aria-label="Close video">' + core.icon_svg('close') + '</button></div><video controls autoplay playsinline muted></video>';
