@@ -27,6 +27,8 @@ accessibles_core.define('panel-styles/panel-styles-11.js', [], function (core) {
     '.r :is(input:not([type="checkbox"]):not([type="radio"]),textarea,.cs-btn):not([aria-invalid="true"]):hover{border-color:var(--muted)!important}',
     '.r :is(input:not([type="checkbox"]):not([type="radio"]),textarea,.cs-btn):not([aria-invalid="true"]):is(:focus,[aria-expanded="true"]){border-color:var(--accent)!important;box-shadow:inset 0 0 0 1px var(--accent)!important}',
     '.r input:-webkit-autofill:focus{-webkit-box-shadow:inset 0 0 0 1px var(--accent),0 0 0 1000px var(--field) inset!important;box-shadow:inset 0 0 0 1px var(--accent),0 0 0 1000px var(--field) inset!important}',
+      // Text boxes and drop-down lists are fully rounded; text areas keep their soft corners
+    '.r :is(input:not([type="checkbox"]):not([type="radio"]),.cs-btn){border-radius:999px!important}.r :is(.inp,.field input,.cs-btn):not(.qbox .inp){padding-left:1.1em;padding-right:1.1em}',
       // Small screens: larger text in fields and lists, and more room around the panel's content
     '@media (max-width:599px){.panel{width:calc(100vw - 24px)!important}.head{padding:.95em .95em .65em 1.25em}.search{margin:.25em 1.25em .85em}.tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:space-between;padding:0 .7em}.tab{padding:.55em .45em;font-size:.84em}.body{padding:1.15em 1.25em 1.5em}.foot{padding:.8em 1.25em;font-size:.84em}}',
     '@media (max-width:599px){.r :is(.search input,.inp,.cs-pop .q input,.field input,.field textarea){font-size:16px}.r .cs-btn{font-size:15px;height:2.8em}.r .opt{font-size:.95em;padding:.7em .75em}.r .biglist .opt{padding:.8em .8em}}',
