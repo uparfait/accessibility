@@ -15,8 +15,7 @@
   // Adds one file to the page; a file that does not arrive, or arrives broken, is tried again later
   core.fetch_file = function (path) {
     var file = core.files[path] = core.files[path] || { attempts: 0, delay: 0, body: null };
-    if (file.body || file.loading) return;
-    file.loading = true;
+    if (file.body || file.loading) return; else file.loading = true;
     var query = [core.file_version && 'version=' + core.file_version, file.attempts && 'attempt=' + file.attempts].filter(Boolean).join('&');
     var element = document.createElement('script');
     element.src = core.base_url + path + (query ? '?' + query : '');
@@ -25,8 +24,7 @@
   };
   // Waits longer before each new try: 2s, 4s, 6s, 12s, 14s, 28s, 30s ... (twice as long, then 2s more, in turn)
   core.retry_file = function (path) {
-    var file = core.files[path];
-    file.attempts++;
+    var file = core.files[path]; file.attempts++;
     file.delay = file.attempts === 1 ? 2000 : file.attempts % 2 ? file.delay + 2000 : file.delay * 2;
     clear_timer.call(window, file.timer);
     file.timer = set_timer.call(window, function () { core.fetch_file(path); }, Math.min(file.delay, 600000));
@@ -52,9 +50,11 @@
       folder.paths.forEach(function (path) { core.files[path].body = null; core.retry_file(path); });
       return false;
     }
-    folder.state = 'ready';
-    if (core.folder_ready) core.folder_ready(name);
+    folder.state = 'ready'; if (core.folder_ready) core.folder_ready(name);
     return true;
   };
-  core.fetch_file('loader/loader.js');
+  // The widget starts fetching once the page itself has loaded, so it never holds the page up or keeps it loading
+  var begin = function () { if (!core.begun) { core.begun = true; core.fetch_file('loader/loader.js'); } };
+  if (document.readyState === 'complete') begin();
+  else { window.addEventListener('load', begin); document.addEventListener('DOMContentLoaded', function () { set_timer.call(window, begin, 10000); }); }
 })(window, document);
