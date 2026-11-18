@@ -31,9 +31,9 @@ accessibles_core.define('panel/panel-2.js', [], function (core) {
       '<div class="search">' + core.icon_svg('search') + '<input type="search" placeholder="Search features" aria-label="Search accessibility features" autocomplete="off" spellcheck="false">' + core.clear_button_html() + '</div>' +
       '<div class="tabs" role="tablist" aria-label="Categories">' + tab_buttons + '</div>' +
       '<div class="body" id="acc-body" role="tabpanel" tabindex="-1" aria-labelledby="acc-tab-profiles"></div>' +
-      '<div class="foot"><div class="links">' +
-      '<button type="button" data-act="statement">Statement</button>' +
-      '<button type="button" data-view="report">Report an issue</button><button type="button" data-view="shortcuts">Shortcuts</button></div>' +
+      '<div class="foot"><div class="links more-wrap"><button type="button" class="more-btn" data-more aria-expanded="false" aria-haspopup="true">' + core.icon_svg('info') + '<span>For more</span>' + core.icon_svg('chevron', 'more-arrow') + '</button>' +
+      '<div class="more-list" role="menu" hidden><button type="button" role="menuitem" data-act="statement">' + core.icon_svg('statement') + 'Statement</button>' +
+      '<button type="button" role="menuitem" data-view="report">' + core.icon_svg('report') + 'Report an issue</button><button type="button" role="menuitem" data-view="shortcuts">' + core.icon_svg('keyboard') + 'Shortcuts</button></div></div>' +
       '<button type="button" class="rst" data-act="reset" hidden>' + core.icon_svg('reset') + 'Reset all settings</button></div>' +
       '</section>';
   };
