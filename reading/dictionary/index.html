@@ -38,24 +38,26 @@
 <main class="page" id="content">
 <div class="title"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 2-2h12v15H7a2 2 0 0 0-2 2z"/><path d="M5 19a2 2 0 0 0 2 2h12v-3"/><path d="M9.5 13.2 12 6.8l2.5 6.4M10.3 11.2h3.4"/></svg></span><h1>Dictionary</h1></div><p class="lead">Shows what a word means.</p><figure class="ill" aria-hidden="true"><svg viewBox="0 0 240 88" focusable="false"><g transform="translate(70 8)"><rect width="100" height="72" rx="9" class="pg"/><rect x="12" y="16" width="76" height="3" rx="1.5" class="tx"/><rect x="12" y="26" width="70" height="3" rx="1.5" class="tx"/><rect x="12" y="36" width="60" height="3" rx="1.5" class="tx"/><rect x="30" y="25" width="22" height="6" rx="2" class="acsel"/><rect x="18" y="40" width="70" height="24" rx="6" class="lz"/><rect x="24" y="46" width="30" height="4" rx="2" class="dkf"/><rect x="24" y="54" width="54" height="3" rx="1.5" class="tx"/></g></svg></figure><h2>How to use</h2><ol><li>Turn it on</li><li>Select a word on the page</li><li>Read the meaning in the box next to it</li></ol><h2>Use it from your own code</h2><p>The setting is called <code>dictionary</code>. Use <code>true</code> to turn it on and <code>false</code> to turn it off.</p><div class="code"><pre><code data-lang="js">Accessibles.set('dictionary', true);    // on
 Accessibles.set('dictionary', false);   // off
-Accessibles.get('dictionary');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Press the button in the preview to switch Dictionary on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
+Accessibles.get('dictionary');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Dictionary on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
 &lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
 &lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;
 
-&lt;!-- Your own buttons --&gt;
-&lt;button onclick=&quot;Accessibles.set('dictionary', !Accessibles.get('dictionary'))&quot;&gt;Dictionary on or off&lt;/button&gt;
+&lt;!-- Your own controls --&gt;
+&lt;div class=&quot;controls&quot;&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; onchange=&quot;Accessibles.set('dictionary', this.checked)&quot;&gt; Dictionary&lt;/label&gt;
+&lt;/div&gt;
 
 &lt;!-- Your page --&gt;
 &lt;h1&gt;Green Valley Library&lt;/h1&gt;
 &lt;p&gt;We are open every day from 9 in the morning to 5 in the evening. Come in to borrow books, use the computers or join a reading group.&lt;/p&gt;
 &lt;img src=&quot;https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=640&amp;h=200&amp;fit=crop&quot; alt=&quot;Rows of shelves full of books&quot;&gt;
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;See this month's events&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label"><span>Preview</span><button type="button" class="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write" loading="lazy"></iframe></div></div>
+&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label"><span>Preview</span><button type="button" class="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write"></iframe></div></div>
 <nav class="pager" aria-label="Previous and next"><a class="prev" href="../../reading/reader-view/" aria-label="Previous: Reader view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Reader view</span></a><a class="next" href="../../reading/page-summary/" aria-label="Next: Page summary"><span>Page summary</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></nav>
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
 <script src="../../guide/guide.js" defer></script>
-<script src="../../v1/widgets/accessibles.js?version=21&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../../v1/widgets/accessibles.js?version=22&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
