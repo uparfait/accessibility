@@ -16,6 +16,7 @@ accessibles_core.define('catalogue/catalogue-2.js', [], function (core) {
     { id: 'highlightLinks', tab: 'text', type: 'toggle', key: 'highlightLinks', icon: 'links', label: 'Highlight links', keywords: 'underline' },
     { id: 'magnifier', tab: 'text', type: 'cycle', key: 'magnifier', icon: 'magnifier', label: 'Magnifier', options: [0, 1.5, 2, 3], format: function (value) { return value ? value + '×' : 'Off'; }, keywords: 'zoom lens hover glass bigger text magnifier' },
     // Color
+    { id: 'darkMode', tab: 'color', type: 'toggle', key: 'darkMode', icon: 'dark', label: 'Dark mode', keywords: 'night dark theme black reverse colors' },
     { id: 'darkContrast', tab: 'color', type: 'radio', key: 'contrast', value: 'dark', icon: 'dark', label: 'Dark contrast', keywords: 'night black' },
     { id: 'lightContrast', tab: 'color', type: 'radio', key: 'contrast', value: 'light', icon: 'light', label: 'Light contrast', keywords: 'white bright' },
     { id: 'highContrast', tab: 'color', type: 'radio', key: 'contrast', value: 'high', icon: 'contrast', label: 'High contrast', keywords: 'strong' },
