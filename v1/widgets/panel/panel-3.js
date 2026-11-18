@@ -48,11 +48,11 @@ accessibles_core.define('panel/panel-3.js', [], function (core) {
     }
   };
 
-    /* --- sizing: identical look at every width, clamped between 360px and 1200px layouts --- */
+  // Sizes the widget for the screen: phones keep a comfortable size, larger screens grow a little up to 1200px
   core.ui.scale = function () {
     if (!core.root) return;
     var width = core.view_width();
-    var value = width < 360 ? 13 * width / 360 : 13 + 2 * Math.min(1, (width - 360) / 840);
+    var value = width < 600 ? 14.5 : 13 + 2 * Math.min(1, (width - 360) / 840);
     if (core.state.oversized) value *= width >= 600 ? 1.2 : 1.08;
     core.root.style.fontSize = value.toFixed(3) + 'px';
     core.root.classList.toggle('still', !!core.state.stopAnimations);
