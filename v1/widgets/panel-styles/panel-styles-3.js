@@ -3,9 +3,7 @@ accessibles_core.define('panel-styles/panel-styles-3.js', [], function (core) {
   'use strict';
   core.widget_css_rules.push(
     '.lc-ico .i{width:1.75em;height:1.75em}',
-    '.lc-ico.sk{background:var(--p-ink);opacity:.35;animation:accPulse 1.1s ease-in-out infinite alternate!important}',
-    '@keyframes accPulse{from{opacity:.3}to{opacity:.6}}',
-    '@media (prefers-reduced-motion:reduce){.lc-ico.sk{animation:none!important}}',
+    '.lc-ico.sk .spin{width:1.4em;height:1.4em;color:var(--p-ink)}',
     '.lc-t{display:flex;flex-direction:column;min-width:0;line-height:1.2}',
     '.lc-n{font-size:.86em;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.lc-s{font-size:.72em;font-weight:500;opacity:.88;white-space:nowrap}',

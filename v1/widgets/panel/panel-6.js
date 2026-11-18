@@ -14,7 +14,7 @@ accessibles_core.define('panel/panel-6.js', [], function (core) {
     if (/^https?:$/.test(location.protocol)) list.push(location.origin + '/favicon.ico');
     list = list.filter(function (item, index) { return item && list.indexOf(item) === index; });
     if (!list.length) return;
-    box.classList.add('sk'); box.innerHTML = '';
+    box.classList.add('sk'); box.innerHTML = core.icon_svg('spinner', 'spin');
     var next = function () {
       var utterance = list.shift();
       if (!utterance) { box.classList.remove('sk', 'img'); box.innerHTML = core.icon_svg('web'); return; }
