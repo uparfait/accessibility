@@ -38,24 +38,26 @@
 <main class="page" id="content">
 <div class="title"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></svg></span><h1>Stop animations</h1></div><p class="lead">Stops everything that moves: animations, moving pictures, slideshows and videos that play by themselves.</p><figure class="ill" aria-hidden="true"><svg viewBox="0 0 240 88" focusable="false"><g transform="translate(4 8)"><rect width="100" height="72" rx="9" class="pg"/><rect x="30" y="20" width="40" height="32" rx="6" class="tx"/><path d="M14 36h10M76 36h10M18 28l6 4M18 44l6-4M82 28l-6 4M82 44l-6-4" class="acl"/></g><path d="M110 44h16m-5-5 5 5-5 5" class="ar"/><g transform="translate(136 8)"><rect width="100" height="72" rx="9" class="pg"/><rect x="30" y="20" width="40" height="32" rx="6" class="tx"/><circle cx="50" cy="36" r="11" class="pgf"/><path d="M46.5 31v10M53.5 31v10" class="acl"/></g></svg></figure><h2>Use it from your own code</h2><p>The setting is called <code>stopAnimations</code>. Use <code>true</code> to turn it on and <code>false</code> to turn it off.</p><div class="code"><pre><code data-lang="js">Accessibles.set('stopAnimations', true);    // on
 Accessibles.set('stopAnimations', false);   // off
-Accessibles.get('stopAnimations');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Press the button in the preview to switch Stop animations on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
+Accessibles.get('stopAnimations');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Stop animations on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
 &lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
 &lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;
 
-&lt;!-- Your own buttons --&gt;
-&lt;button onclick=&quot;Accessibles.set('stopAnimations', !Accessibles.get('stopAnimations'))&quot;&gt;Stop animations on or off&lt;/button&gt;
+&lt;!-- Your own controls --&gt;
+&lt;div class=&quot;controls&quot;&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; onchange=&quot;Accessibles.set('stopAnimations', this.checked)&quot;&gt; Stop animations&lt;/label&gt;
+&lt;/div&gt;
 
 &lt;!-- Your page --&gt;
 &lt;h1&gt;Green Valley Library&lt;/h1&gt;
 &lt;p&gt;We are open every day from 9 in the morning to 5 in the evening. Come in to borrow books, use the computers or join a reading group.&lt;/p&gt;
 &lt;img src=&quot;https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=640&amp;h=200&amp;fit=crop&quot; alt=&quot;Rows of shelves full of books&quot;&gt;
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;See this month's events&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label"><span>Preview</span><button type="button" class="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write" loading="lazy"></iframe></div></div>
+&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label"><span>Preview</span><button type="button" class="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write"></iframe></div></div>
 <nav class="pager" aria-label="Previous and next"><a class="prev" href="../../reading/reading-mask/" aria-label="Previous: Reading mask"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Reading mask</span></a><a class="next" href="../../reading/hide-images/" aria-label="Next: Hide images"><span>Hide images</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></nav>
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
 <script src="../../guide/guide.js" defer></script>
-<script src="../../v1/widgets/accessibles.js?version=21&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../../v1/widgets/accessibles.js?version=22&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
