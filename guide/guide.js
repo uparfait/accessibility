@@ -63,7 +63,24 @@
       '<style>body{margin:0;padding:24px;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1f2a2e;background:#fff}' +
       'h1{font-size:26px;line-height:1.2;margin:0 0 12px}p{margin:0 0 14px;max-width:60ch}img{display:block;width:100%;max-width:560px;height:140px;object-fit:cover;border-radius:6px;margin:0 0 14px}' +
       'button{font:inherit;padding:8px 14px;margin:0 8px 8px 0;border:1px solid #9fb4ba;border-radius:4px;background:#f2f7f8;cursor:pointer}' +
-      'input{font:inherit;padding:8px 10px;border:1px solid #9fb4ba;border-radius:4px}a{color:#0f4c5c}</style></head><body>' + body + '</body></html>';
+      'input{font:inherit;padding:8px 10px;border:1px solid #9fb4ba;border-radius:4px}a{color:#0f4c5c}' +
+      '.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin:0 0 20px;padding:12px 16px;border:1px solid #d5e2e5;border-radius:8px;background:#f5f9fa}' +
+      '.controls label{display:inline-flex;align-items:center;gap:8px;font-size:15px;white-space:nowrap}.controls button{margin:0}.controls output{font-weight:600;color:#0f4c5c}' +
+      '.controls input[type=checkbox]{width:20px;height:20px;margin:0;padding:0;accent-color:#0f4c5c}.controls input[type=range]{width:140px;padding:0;border:0;accent-color:#0f4c5c}' +
+      '.controls input[type=color]{width:36px;height:30px;padding:2px;border-radius:4px}.controls select{font:inherit;font-size:15px;padding:6px 10px;border:1px solid #9fb4ba;border-radius:4px;background:#fff}</style></head><body>' + body + '</body></html>';
+  }
+  // Runs the callback once the page has not scrolled for a moment and the browser is free
+  function when_still(then) {
+    var timer = 0;
+    var wait = function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        window.removeEventListener('scroll', wait);
+        if (window.requestIdleCallback) window.requestIdleCallback(then, { timeout: 1000 }); else then();
+      }, 400);
+    };
+    window.addEventListener('scroll', wait, { passive: true });
+    wait();
   }
   document.querySelectorAll('.live').forEach(function (live) {
     var area = live.querySelector('textarea'), shown = live.querySelector('pre code'), frame = live.querySelector('iframe');
@@ -85,26 +102,25 @@
     live.querySelector('.run').addEventListener('click', run);
     live.querySelector('.copy-code').addEventListener('click', function () { copy_text(area.value, this); });
     live.querySelector('.reset').addEventListener('click', function () { area.value = first_code; paint_code(); run(); });
-    // The preview can fill the whole screen, and comes back with the same button or Escape
+    // The preview can fill the whole page, and comes back with the same button or Escape
     var out = live.querySelector('.live-out'), full = live.querySelector('.full');
-    var set_full_label = function (on) { full.querySelector('span').textContent = on ? 'Exit full screen' : 'Full screen'; };
-    full.addEventListener('click', function () {
-      if (document.fullscreenElement === out) { document.exitFullscreen(); return; }
-      if (out.classList.contains('is-full')) { out.classList.remove('is-full'); set_full_label(false); return; }
-      if (out.requestFullscreen) out.requestFullscreen().catch(function () { out.classList.add('is-full'); set_full_label(true); });
-      else { out.classList.add('is-full'); set_full_label(true); }
-    });
-    document.addEventListener('fullscreenchange', function () { set_full_label(document.fullscreenElement === out); });
-    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && out.classList.contains('is-full')) { out.classList.remove('is-full'); set_full_label(false); } });
+    var set_full = function (on) {
+      if (on && !frame.srcdoc) run();
+      out.classList.toggle('is-full', on);
+      document.documentElement.classList.toggle('preview-full', on);
+      full.querySelector('span').textContent = on ? 'Back to the page' : 'Full screen';
+    };
+    full.addEventListener('click', function () { set_full(!out.classList.contains('is-full')); });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && out.classList.contains('is-full')) set_full(false); });
     window.addEventListener('resize', paint_code);
     paint_code();
-    // The preview starts when it comes into view, so pages open quickly
+    // The preview starts once it is in view and the page has stopped scrolling, so scrolling stays smooth
     if (!window.IntersectionObserver) { run(); return; }
     var seen = new IntersectionObserver(function (entries) {
       if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
       seen.disconnect();
-      run();
-    }, { rootMargin: '200px' });
+      when_still(run);
+    }, { rootMargin: '100px' });
     seen.observe(frame);
   });
 
@@ -126,6 +142,8 @@
   // ---- Phone menu: opens the sidebar from the top ----
   var menu_button = document.querySelector('.menu-btn');
   function set_menu(open) {
+    // On phones the menu opens right under the header, wherever the page is scrolled
+    if (open && window.innerWidth <= 900) document.querySelector('.side').style.top = Math.max(0, document.querySelector('.top').getBoundingClientRect().bottom) + 'px';
     document.body.classList.toggle('side-open', open);
     menu_button.setAttribute('aria-expanded', String(open));
     menu_button.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
@@ -136,11 +154,29 @@
   document.addEventListener('click', function (event) { if (!event.target.closest('.side, .menu-btn')) set_menu(false); });
   window.addEventListener('resize', function () { if (window.innerWidth > 900) set_menu(false); });
 
+  // ---- The header follows once the page is scrolled down, and goes back to its place at the top ----
+  var top_bar = document.querySelector('.top');
+  function follow_header() {
+    var y = window.pageYOffset, floating = document.body.classList.contains('header-floating');
+    if (!floating && y > 180) { document.body.classList.add('header-floating'); top_bar.classList.add('floating'); }
+    else if (floating && y < 70) { document.body.classList.remove('header-floating'); top_bar.classList.remove('floating'); }
+  }
+  window.addEventListener('scroll', follow_header, { passive: true });
+  follow_header();
+
+  // ---- Screens narrower than 360px show the 360px layout, a little smaller ----
+  function fit_narrow_screens() {
+    var scale = window.innerWidth < 360 ? window.innerWidth / 360 : 1;
+    document.querySelectorAll('.top, .layout, .to-top').forEach(function (part) { part.style.zoom = scale === 1 ? '' : String(scale); part.style.minWidth = scale === 1 ? '' : '360px'; });
+  }
+  window.addEventListener('resize', fit_narrow_screens);
+
   // ---- Back to top: shows after scrolling down, and moves up when the widget's button is in its place ----
   var to_top = document.createElement('a');
   to_top.className = 'to-top'; to_top.href = '#'; to_top.hidden = true; to_top.setAttribute('aria-label', 'Back to top');
   to_top.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
   document.body.appendChild(to_top);
+  fit_narrow_screens();
   to_top.addEventListener('click', function (event) { event.preventDefault(); window.scrollTo({ top: 0 }); document.querySelector('.brand').focus({ preventScroll: true }); });
   function place_to_top() {
     to_top.hidden = window.pageYOffset < 500;
