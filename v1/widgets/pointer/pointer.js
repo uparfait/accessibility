@@ -24,8 +24,8 @@ accessibles_core.define('pointer/pointer.js', [], function (core) {
       window[change]('orientationchange', this.on_resize);
       if (window.visualViewport) window.visualViewport[change]('resize', this.on_resize);
     },
-    on_move: function (event) { core.pointer.x = event.clientX; core.pointer.y = event.clientY; core.pointer.last_target = core.real_target(event); core.pointer.schedule(); },
-    on_touch: function (event) { var target = event.touches && event.touches[0]; if (!target) return; core.pointer.x = target.clientX; core.pointer.y = target.clientY; core.pointer.last_target = document.elementFromPoint(target.clientX, target.clientY); core.pointer.schedule(); },
+    on_move: function (event) { core.pointer.touch = event.pointerType === 'touch'; core.pointer.x = event.clientX; core.pointer.y = event.clientY; core.pointer.last_target = core.real_target(event); core.pointer.schedule(); },
+    on_touch: function (event) { var target = event.touches && event.touches[0]; if (!target) return; core.pointer.touch = true; core.pointer.x = target.clientX; core.pointer.y = target.clientY; core.pointer.last_target = document.elementFromPoint(target.clientX, target.clientY); core.pointer.schedule(); },
     // The screen changed size: the drawings keep the same place on it, inside its new edges
     on_resize: function () {
       var pointer = core.pointer, width = core.view_width(), height = core.view_height();
