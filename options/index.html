@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../guide/guide.css?version=26">
+<link rel="stylesheet" href="../guide/guide.css?version=27">
 </head>
 <body data-root="../">
 <a class="skip" href="#content">Skip to the content</a>
@@ -95,16 +95,38 @@
 <div class="code"><pre><code data-lang="html">&lt;div class=&quot;accessibles-widget&quot;
      data-statement=&quot;/accessibility&quot;
      data-report=&quot;help@example.org&quot;&gt;&lt;/div&gt;</code></pre></div>
-<p>With an email address, the report opens the visitor's email app with the message filled in. With an address on your server, the report arrives as JSON like this:</p>
+<p>With an email address, the report opens the visitor's email app with the message filled in. With the address of your server, the widget sends the report there instead:</p>
+<h3>What the widget sends</h3>
+<p>A <code>POST</code> request with this JSON body:</p>
 <div class="code"><pre><code data-lang="js">{
   &quot;site&quot;: &quot;Green Valley Library&quot;,
   &quot;type&quot;: &quot;A form does not work for me&quot;,
   &quot;message&quot;: &quot;The search button does nothing with the keyboard.&quot;,
   &quot;email&quot;: &quot;reader@example.org&quot;,
   &quot;page&quot;: &quot;https://example.org/catalog&quot;,
+  &quot;userAgent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...&quot;,
+  &quot;viewport&quot;: &quot;1280x800&quot;,
   &quot;settings&quot;: { &quot;fontSize&quot;: 1.3, &quot;focusRing&quot;: true },
-  &quot;time&quot;: &quot;2026-11-17T09:30:00.000Z&quot;
+  &quot;time&quot;: &quot;2026-11-17T09:30:00.000Z&quot;,
+  &quot;widget&quot;: &quot;accessibles/1.0.0&quot;
 }</code></pre></div>
+<h3>What your server sends back</h3>
+<p>Any success status, from <code>200</code> to <code>299</code>. The body of the answer is not read, so it can be empty:</p>
+<div class="code"><pre><code data-lang="text">HTTP/1.1 204 No Content</code></pre></div>
+<p>With any other status, the visitor sees "The report could not be sent" and can copy the report instead.</p>
+<h3>Your own dictionary</h3>
+<p>The <code>dictionary</code> option takes the address of your own service. The <a href="../reading/dictionary/">Dictionary</a> page shows what it must send back.</p>
+<h3>Usage notes for your analytics</h3>
+<p>With the <code>analytics</code> option, each time a visitor turns a feature on, the widget sends a small note to that address. Nothing about the visitor is included.</p>
+<div class="code"><pre><code data-lang="js">{
+  &quot;event&quot;: &quot;accessibles_feature&quot;,
+  &quot;feature&quot;: &quot;fontSize&quot;,
+  &quot;value&quot;: 1.3,
+  &quot;page&quot;: &quot;/catalog&quot;,
+  &quot;ts&quot;: 1763372400000,
+  &quot;v&quot;: &quot;1.0.0&quot;
+}</code></pre></div>
+<p>It is sent with <code>navigator.sendBeacon</code>, so your server doesn't need to answer with anything.</p>
 <h3>A light panel with your name and icon</h3>
 <div class="code"><pre><code data-lang="html">&lt;div class=&quot;accessibles-widget&quot;
      data-site-name=&quot;Green Valley Library&quot;
@@ -115,7 +137,7 @@
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
-<script src="../guide/guide.js?version=26" defer></script>
-<script src="../v1/widgets/accessibles.js?version=26&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../guide/guide.js?version=27" defer></script>
+<script src="../v1/widgets/accessibles.js?version=27&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
