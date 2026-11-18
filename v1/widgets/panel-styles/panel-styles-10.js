@@ -36,7 +36,7 @@ accessibles_core.define('panel-styles/panel-styles-10.js', [], function (core) {
     '@media (prefers-reduced-motion:reduce){.r.speaking .talk .w1,.r.speaking .talk .w2,.r.speaking .talk .w3{animation:none!important;opacity:1}}',
     '.r.still.speaking .talk .w1,.r.still.speaking .talk .w2,.r.still.speaking .talk .w3{animation:none!important;opacity:1}',
     '.tts-bar>.talk{width:1.2em;height:1.2em;color:var(--muted)}',
-    '.r .spin{stroke-width:2.8;color:var(--accent);transform-origin:50% 50%;animation:accSpin .8s linear infinite!important}',
+    '.r .spin{stroke-width:2.4;stroke-linecap:round;color:var(--accent);transform-origin:50% 50%;animation:accSpin .9s steps(8) infinite!important}',
     '@keyframes accSpin{to{transform:rotate(360deg)}}',
     '@media (prefers-reduced-motion:reduce){.r .spin{animation:none!important}}',
     '.r.still .spin{animation:none!important}',
