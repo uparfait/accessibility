@@ -51,6 +51,9 @@ accessibles_core.define('panel-styles/panel-styles-11.js', [], function (core) {
     '.title,.vh h2,.help h2,.help-kind,.subtitle{white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;word-break:normal!important;overflow-wrap:normal!important}',
     '@media (max-width:599px){.panel{width:calc(100% - 24px)!important}}',
       // Placeholder text stays quiet, so it never competes with what was typed
-    '.r ::placeholder{color:var(--muted)!important;opacity:.55!important}'
+    '.r ::placeholder{color:var(--muted)!important;opacity:.55!important}',
+      // Tiles: three in a row; when the last row has one or two, they stretch to fill it
+    '.grid{grid-template-columns:repeat(6,minmax(0,1fr))}.grid>*{grid-column:span 2}.grid>:last-child:nth-child(3n+1){grid-column:span 6}',
+    '.grid>:nth-last-child(2):nth-child(3n+1),.grid>:last-child:nth-child(3n+2){grid-column:span 3}'
   );
 });
