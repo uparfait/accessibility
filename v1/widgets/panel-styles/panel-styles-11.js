@@ -21,6 +21,11 @@ accessibles_core.define('panel-styles/panel-styles-11.js', [], function (core) {
     '.btns>.btn:only-child{justify-self:start;width:auto}.btns.center>.btn:only-child{justify-self:center}',
       // The question bar: Yes / No (and Previous / Next / All) the same width, sized to the longest
     '.ask .ab{display:grid;grid-auto-flow:column;grid-auto-columns:1fr}.ask .ab>.btn{min-width:0}',
-    '@media (forced-colors:active){.tile.on,.prow.on{outline:2px solid Highlight}.launch{border:2px solid ButtonText}}'
+    '@media (forced-colors:active){.tile.on,.prow.on{outline:2px solid Highlight}.launch{border:2px solid ButtonText}}',
+      // Text boxes and drop-down lists look the same at rest, on hover and while in use: no rings or glowing borders
+    '.r :is(input:not([type="checkbox"]):not([type="radio"]),textarea,.cs-btn):not([aria-invalid="true"]):is(:hover,:focus,:focus-visible,[aria-expanded="true"]){border-color:var(--line-2)!important;box-shadow:none!important;outline:none!important}',
+    '.r input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 1000px var(--field) inset!important;box-shadow:0 0 0 1000px var(--field) inset!important}',
+      // Placeholder text stays quiet, so it never competes with what was typed
+    '.r ::placeholder{color:var(--muted)!important;opacity:.55!important}'
   );
 });
