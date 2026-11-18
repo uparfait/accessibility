@@ -18,6 +18,8 @@ accessibles_core.define('panel/panel-4.js', [], function (core) {
       top = position.v === 'top' ? origin_y : position.v === 'bottom' ? view_h - size - origin_y : (view_h - size) / 2;
     }
     left = core.clamp(left, match, white - size - match); top = core.clamp(top, match, view_h - size - match);
+    // Not dragged by the visitor: keep clear of the page's own fixed buttons and bars
+    if (!core.drag_position && this.free_spot) { var spot = this.free_spot(left, top, size, position); left = spot.left; top = spot.top; }
     element.style.transform = '';
     element.style.left = Math.round(left) + 'px';
     element.style.top = Math.round(top) + 'px';
