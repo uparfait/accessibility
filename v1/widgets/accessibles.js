@@ -1,24 +1,23 @@
 /* accessibles.js: Starts the Accessibles widget by loading its folders, which sit next to this file */
 (function (window, document) {
   'use strict';
-  if (!window || !document || window.__accessibles_loaded) return;
-  if (!document.documentElement || typeof document.documentElement.attachShadow !== 'function') return;
+  if (!window || !document || window.__accessibles_loaded || !document.documentElement || typeof document.documentElement.attachShadow !== 'function') return;
   window.__accessibles_loaded = true;
   var set_timer = window.setTimeout, clear_timer = window.clearTimeout;
+  // Work waits for a quiet moment, so scrolling and typing on the page stay smooth
+  var when_idle = window.requestIdleCallback ? function (then) { return window.requestIdleCallback(then, { timeout: 200 }); } : function (then) { return set_timer.call(window, then, 30); };
   // This file's <script> tag: its address gives the folder and the version for every other file
   var script_tag = document.currentScript || document.querySelector('script[src*="accessibles"]');
   var script_url = script_tag ? script_tag.src : '', version_match = /[?&]version=([^&#]*)/.exec(script_url);
   var core = window.accessibles_core = {
-    script_tag: script_tag, files: {}, folders: {}, core_folders: ['loader'], feature_folders: [],
-    base_url: script_url.replace(/[?#].*$/, '').replace(/[^\/]*$/, ''), file_version: version_match ? version_match[1] : ''
-  };
+    script_tag: script_tag, when_idle: when_idle, files: {}, folders: {}, core_folders: ['loader'], feature_folders: [],
+    base_url: script_url.replace(/[?#].*$/, '').replace(/[^\/]*$/, ''), file_version: version_match ? version_match[1] : '' };
   // Adds one file to the page; a file that does not arrive, or arrives broken, is tried again later
   core.fetch_file = function (path) {
     var file = core.files[path] = core.files[path] || { attempts: 0, delay: 0, body: null };
     if (file.body || file.loading) return; else file.loading = true;
     var query = [core.file_version && 'version=' + core.file_version, file.attempts && 'attempt=' + file.attempts].filter(Boolean).join('&');
-    var element = document.createElement('script');
-    element.src = core.base_url + path + (query ? '?' + query : '');
+    var element = document.createElement('script'); element.src = core.base_url + path + (query ? '?' + query : '');
     element.onload = element.onerror = function () { file.loading = false; element.remove(); if (!file.body) core.retry_file(path); };
     (document.head || document.documentElement).appendChild(element);
   };
@@ -39,14 +38,15 @@
   };
   core.folder = function (name) { return core.folders[name] = core.folders[name] || { name: name, paths: null, state: 'waiting' }; };
   core.arrived = function (name) { var folder = core.folder(name); return folder.state !== 'ready' && !!folder.paths && folder.paths.every(function (path) { return core.files[path].body; }); };
-  // Runs one folder whose files have all arrived (the widget's own folders in order, then any feature), then lets the page breathe
+  // The next folder whose files have all arrived: the widget's own folders in order, then any feature
+  core.next_folder = function () { var first = core.core_folders.filter(function (name) { return core.folder(name).state !== 'ready'; })[0]; return (first ? [first] : core.feature_folders).filter(core.arrived)[0]; };
+  // Runs as many arrived folders as fit in a quiet moment (at least one), then lets the page breathe
   core.run_soon = function () {
-    if (core.run_timer) return;
-    core.run_timer = set_timer.call(window, function () {
-      core.run_timer = 0; var next_core = core.core_folders.filter(function (name) { return core.folder(name).state !== 'ready'; })[0];
-      var next = (next_core ? [next_core] : core.feature_folders).filter(core.arrived)[0];
-      if (next) { core.run_folder(next); core.run_soon(); }
-    }, 0);
+    if (core.run_timer) return; else core.run_timer = when_idle(function (deadline) {
+      core.run_timer = 0; var next;
+      do { next = core.next_folder(); if (next) core.run_folder(next); } while (next && deadline && deadline.timeRemaining() > 4);
+      if (next) core.run_soon();
+    });
   };
   // Runs a folder's files in order; a folder that breaks is fetched again
   core.run_folder = function (name) {
