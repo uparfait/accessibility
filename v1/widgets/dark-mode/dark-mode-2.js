@@ -35,6 +35,7 @@ accessibles_core.define('dark-mode/dark-mode-2.js', [], function (core) {
     var hsl = this.to_hsl(color), hue = hsl[0], saturation = hsl[1], light = hsl[2], far = light > 0.5 ? 1 - light : light;
     if (role === 'back') return this.from_hsl(hue, saturation * 0.8, 0.03 + far * 0.32, color[3]);
     if (role === 'line') return this.from_hsl(hue, saturation * 0.6, 0.2 + far * 0.3, color[3]);
+    if (role === 'select') return this.from_hsl(hue, Math.max(saturation, 0.35), 0.36, Math.max(color[3], 0.85));   // selected text: clearly visible, not glaring
     return this.from_hsl(hue, Math.min(saturation, 0.6), light < 0.5 ? 0.93 - light * 0.3 : 0.78 + (light - 0.5) * 0.3, color[3]);
   };
   // A whole CSS value with every color in it made dark or light (a gradient keeps its shape)
