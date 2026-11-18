@@ -102,7 +102,7 @@
     live.querySelector('.run').addEventListener('click', run);
     live.querySelector('.copy-code').addEventListener('click', function () { copy_text(area.value, this); });
     live.querySelector('.reset').addEventListener('click', function () { area.value = first_code; paint_code(); run(); });
-    // The preview can fill the whole page, and comes back with the same button or Escape
+    // The preview can fill the whole page; the address ends in #full, so the browser's back button brings the page back too
     var out = live.querySelector('.live-out'), full = live.querySelector('.full');
     var set_full = function (on) {
       if (on && !frame.srcdoc) run();
@@ -110,8 +110,21 @@
       document.documentElement.classList.toggle('preview-full', on);
       full.querySelector('span').textContent = on ? 'Back to the page' : 'Full screen';
     };
-    full.addEventListener('click', function () { set_full(!out.classList.contains('is-full')); });
-    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && out.classList.contains('is-full')) set_full(false); });
+    var pushed = false;
+    var close_full = function () {
+      if (pushed) { pushed = false; history.back(); return; }
+      if (location.hash === '#full') history.replaceState(null, '', location.pathname + location.search);
+      set_full(false);
+    };
+    full.addEventListener('click', function () {
+      if (out.classList.contains('is-full')) { close_full(); return; }
+      history.pushState({ full: true }, '', '#full'); pushed = true;
+      set_full(true);
+    });
+    window.addEventListener('popstate', function () { if (location.hash !== '#full' && out.classList.contains('is-full')) { pushed = false; set_full(false); } });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && out.classList.contains('is-full')) close_full(); });
+    // A link that ends in #full opens the page with its first preview filling it
+    if (location.hash === '#full' && live === document.querySelector('.live')) set_full(true);
     window.addEventListener('resize', paint_code);
     paint_code();
     // The preview starts once it is in view and the page has stopped scrolling, so scrolling stays smooth
