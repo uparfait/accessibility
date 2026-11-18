@@ -1,5 +1,5 @@
 /* panel/panel.js: The button, the panel, its tabs, tiles, views, help and messages */
-accessibles_core.define('panel/panel.js', ['panel-2.js', 'panel-3.js', 'panel-4.js', 'panel-5.js', 'panel-6.js', 'panel-7.js', 'panel-8.js', 'panel-9.js', 'panel-10.js', 'panel-11.js', 'panel-12.js', 'panel-13.js', 'panel-14.js', 'panel-15.js', 'panel-16.js', 'panel-17.js', 'panel-18.js', 'panel-19.js', 'panel-20.js', 'panel-21.js', 'panel-22.js', 'panel-23.js', 'panel-24.js', 'panel-25.js', 'panel-26.js', 'panel-27.js', 'panel-28.js', 'panel-29.js', 'panel-30.js', 'panel-31.js'], function (core) {
+accessibles_core.define('panel/panel.js', ['panel-2.js', 'panel-3.js', 'panel-4.js', 'panel-5.js', 'panel-6.js', 'panel-7.js', 'panel-8.js', 'panel-9.js', 'panel-10.js', 'panel-11.js', 'panel-12.js', 'panel-13.js', 'panel-14.js', 'panel-15.js', 'panel-16.js', 'panel-17.js', 'panel-18.js', 'panel-19.js', 'panel-20.js', 'panel-21.js', 'panel-22.js', 'panel-23.js', 'panel-24.js', 'panel-25.js', 'panel-26.js', 'panel-27.js', 'panel-28.js', 'panel-29.js', 'panel-30.js', 'panel-31.js', 'panel-32.js'], function (core) {
   'use strict';
   // Shows a short message
   core.toast = function (message) {
