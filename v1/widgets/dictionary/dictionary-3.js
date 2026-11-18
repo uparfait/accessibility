@@ -27,4 +27,6 @@ accessibles_core.define('dictionary/dictionary-3.js', [], function (core) {
   core.register('action', { folder: 'dictionary', names: ['dict-say'], run: function (target) {
     if (core.speech.ok) core.speech.say(target.getAttribute('data-word') || '', null);
   } });
+  // The screen changed size: the definition box would no longer sit next to its word, so it closes
+  core.dictionary.on_resize = function () { if (!core.find_one('.dict').hidden) core.ui.dict(null); };
 });

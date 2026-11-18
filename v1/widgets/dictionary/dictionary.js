@@ -7,8 +7,8 @@ accessibles_core.define('dictionary/dictionary.js', ['dictionary-2.js', 'diction
   core.dictionary.cache = {};
   // Brings this part of the page in line with the settings
   core.dictionary.sync = function () {
-    if (core.state.dictionary && !this.on) { this.on = true; document.addEventListener('pointerup', this.on_up, true); document.addEventListener('keyup', this.on_key_up, true); }
-    else if (!core.state.dictionary && this.on) { this.on = false; document.removeEventListener('pointerup', this.on_up, true); document.removeEventListener('keyup', this.on_key_up, true); core.ui.dict(null); }
+    if (core.state.dictionary && !this.on) { this.on = true; document.addEventListener('pointerup', this.on_up, true); document.addEventListener('keyup', this.on_key_up, true); window.addEventListener('resize', this.on_resize); }
+    else if (!core.state.dictionary && this.on) { this.on = false; document.removeEventListener('pointerup', this.on_up, true); document.removeEventListener('keyup', this.on_key_up, true); window.removeEventListener('resize', this.on_resize); core.ui.dict(null); }
   };
   // Shows the meaning of a word next to it
   core.dictionary.word = function () {
