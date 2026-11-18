@@ -1,45 +1,50 @@
-/* dark-mode/dark-mode-3.js: Dark mode, continued: reading every color of the page, then writing the new ones */
+/* dark-mode/dark-mode-3.js: Dark mode, continued: a dark copy of the page's own stylesheets, hover colors included */
 accessibles_core.define('dark-mode/dark-mode-3.js', [], function (core) {
   'use strict';
-  // Reads every color first and only then writes the new ones, a few hundred at a time so the page stays responsive
-  core.dark_mode.read_then_write = function (list, turn) {
-    var self = this, notes = [], index = 0;
-    var read_some = function () {
-      if (turn !== self.turn) return;
-      for (var end = Math.min(list.length, index + 300); index < end; index++) notes.push(self.read(list[index]));
-      if (index < list.length) core.run_later(read_some, 0); else { index = 0; write_some(); }
-    };
-    var write_some = function () {
-      if (turn !== self.turn) return;
-      for (var end = Math.min(notes.length, index + 300); index < end; index++) self.write(notes[index]);
-      if (index < notes.length) core.run_later(write_some, 0);
-    };
-    read_some();
+  // Which colors play which part: backgrounds end dark, text ends light, lines and borders in between
+  core.dark_mode.roles = {
+    'background-color': 'back', 'background-image': 'back', color: 'text', 'caret-color': 'text', 'text-decoration-color': 'text',
+    'border-top-color': 'line', 'border-right-color': 'line', 'border-bottom-color': 'line', 'border-left-color': 'line', 'outline-color': 'line', 'column-rule-color': 'line'
   };
-  // The colors one element sets itself, turned around (colors it only takes from its parent follow the parent)
-  core.dark_mode.read = function (element) {
-    var self = this, style = getComputedStyle(element), parent = element.parentElement, colors = {};
-    // Content added later inside a part that is already dark takes its color from there, unless it sets its own
-    var parent_now = parent && parent.__acc_dark ? getComputedStyle(parent).color : null;
-    if (!parent_now || style.color !== parent_now) colors.color = this.flip(style.color);
-    // The very back of the page (html) is made black by the page styles, not here
-    if (element !== document.documentElement && !/rgba\(0, 0, 0, 0\)|transparent/.test(style.backgroundColor)) colors['background-color'] = this.flip(style.backgroundColor);
-    if (/gradient/.test(style.backgroundImage)) colors['background-image'] = this.flip_gradient(style.backgroundImage);
-    ['top', 'right', 'bottom', 'left'].forEach(function (side) {
-      if (parseFloat(style['border-' + side + '-width']) > 0) colors['border-' + side + '-color'] = self.flip(style['border-' + side + '-color']);
+  // Builds one stylesheet with every color rule of the page in dark colors, and puts it after the page's own styles
+  core.dark_mode.build_sheet = function () {
+    var self = this, parts = [];
+    Array.prototype.forEach.call(document.styleSheets, function (sheet) {
+      if (self.sheet && sheet.ownerNode === self.sheet) return;
+      var rules = null;
+      try { rules = sheet.cssRules; } catch (error) { rules = null; }   // a stylesheet from another site cannot be read
+      if (rules) parts.push(self.dark_rules(rules));
     });
-    if (window.SVGElement && element instanceof SVGElement) {
-      ['fill', 'stroke'].forEach(function (name) { if (/rgb/.test(style[name]) && self.is_gray(style[name])) colors[name] = self.flip(style[name]); });
-    }
-    return { element: element, colors: colors };
+    var base = 'html{background-color:#000!important;color:rgb(232,234,236)!important;color-scheme:dark}' +
+      'input,textarea,select,button{background-color:rgb(20,22,24);color:rgb(232,234,236);border-color:rgb(70,74,78)}';
+    if (!this.sheet) { this.sheet = document.createElement('style'); this.sheet.setAttribute('data-accessibles-dark', ''); }
+    this.sheet.textContent = base + parts.join('');
+    (document.head || document.documentElement).appendChild(this.sheet);
   };
-  // Writes the new colors on the element; everything it changes is undone when dark mode turns off
-  core.dark_mode.write = function (note) {
-    var element = note.element, extra = '';
-    if (element.__acc_dark || !element.isConnected) return;
-    for (var name in note.colors) if (note.colors[name]) extra += name + ':' + note.colors[name] + ' !important;';
-    element.__acc_dark = true;
-    this.done.push(element);
-    if (extra) this.recorder.set(element, 'style', (element.getAttribute('style') || '').replace(/;?\s*$/, ';') + extra);
+  // The dark version of a list of rules; rules inside @media and @supports keep their condition
+  core.dark_mode.dark_rules = function (rules) {
+    var self = this, out = '';
+    Array.prototype.forEach.call(rules, function (rule) {
+      // Groups of rules: @media, @supports and @container keep their condition; @layer groups are opened up
+      if (!rule.selectorText && rule.cssRules) {
+        var inner = self.dark_rules(rule.cssRules), kind = rule.media ? '@media ' : 'containerName' in rule ? '@container ' : '@supports ';
+        if (inner) out += rule.conditionText !== undefined ? kind + rule.conditionText + '{' + inner + '}' : inner;
+        return;
+      }
+      if (!rule.selectorText || !rule.style) return;
+      var changes = '';
+      for (var name in self.roles) {
+        var value = rule.style.getPropertyValue(name);
+        if (!value || (name === 'background-image' && !/gradient/.test(value))) continue;
+        var dark = self.map_value(self.roles[name], value);
+        if (dark) changes += name + ':' + dark + '!important;';
+      }
+      ['fill', 'stroke'].forEach(function (name) {
+        var value = rule.style.getPropertyValue(name), color = value && self.read_color(self.resolve_variables(value));
+        if (color && self.to_hsl(color)[1] < 0.15) changes += name + ':' + self.map_color('text', color) + '!important;';
+      });
+      if (changes) out += rule.selectorText + '{' + changes + '}';
+    });
+    return out;
   };
 });
