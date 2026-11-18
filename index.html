@@ -5,36 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Accessibles</title>
 <meta name="description" content="Accessibles adds an accessibility panel to any website with one script tag. Text, color, reading, voice and navigation tools, plus automatic fixes.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<link rel="sitemap" type="application/xml" href="sitemap.xml">
-
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="icon" href="./assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+<link rel="manifest" href="./site.webmanifest">
+<link rel="canonical" href="https://uparfait.github.io/accessibility/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f4c5c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Accessibles">
 <meta property="og:title" content="Accessibles">
 <meta property="og:description" content="Accessibles adds an accessibility panel to any website with one script tag. Text, color, reading, voice and navigation tools, plus automatic fixes.">
 <meta property="og:url" content="https://uparfait.github.io/accessibility/">
-<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://uparfait.github.io/accessibility/assets/og-image.png">
-<meta property="og:image:secure_url" content="https://uparfait.github.io/accessibility/assets/og-image.png">
-<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Accessibles: accessibility tools for any website from one script tag">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Accessibles">
-<meta name="twitter:image" content="https://uparfait.github.io/accessibility/assets/og-image.png">
-<meta name="twitter:image:alt" content="Accessibles: accessibility tools for any website from one script tag">
 <meta name="twitter:description" content="Accessibles adds an accessibility panel to any website with one script tag. Text, color, reading, voice and navigation tools, plus automatic fixes.">
-<meta name="theme-color" content="#0f4c5c">
-<meta name="author" content="uparfait">
-<meta itemprop="image" content="https://uparfait.github.io/accessibility/assets/og-image.png">
+<meta name="twitter:image" content="https://uparfait.github.io/accessibility/assets/og-image.png">
 <meta name="keywords" content="accessibility widget, accessibility toolbar, WCAG, a11y, screen reader, dyslexia font, text to speech, voice commands, website accessibility">
-<link rel="canonical" href="https://uparfait.github.io/accessibility/">
-<meta name="robots" content="index, follow">
-
+<meta name="author" content="uparfait">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,454 +45,56 @@
   "author": { "@type": "Person", "name": "uparfait", "url": "https://github.com/uparfait" }
 }
 </script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style>
-  :root {
-    --bg: #f5f8f8;
-    --text: #142a30;
-    --muted: #4f646a;
-    --line: #dce6e8;
-    --surface: #eaf1f2;
-    --brand: #0f4c5c;
-    --brand-ink: #ffffff;
-    --brand-tint: #e1edef;
-    --font-b: 'Rubik', system-ui, sans-serif;
-    --font-m: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
-    --radius: 4px;
-    --wrap: 1040px;
-  }
-
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: radial-gradient(1200px 600px at 85% -10%, #e2eef0 0%, rgba(226, 238, 240, 0) 70%), radial-gradient(900px 500px at -10% 30%, #edf3f2 0%, rgba(237, 243, 242, 0) 70%), var(--bg); background-attachment: fixed; color: var(--text); font: 400 16px/1.65 var(--font-b); -webkit-font-smoothing: antialiased; }
-  a { color: inherit; }
-  img, svg { display: block; }
-  ::selection { background: var(--brand); color: var(--brand-ink); }
-  :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
-
-  .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
-  @media (max-width: 600px) { .wrap { padding: 0 16px; } }
-
-  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
-  .brand { display: inline-flex; align-items: center; gap: 10px; font: 600 18px/1 var(--font-b); letter-spacing: -.01em; text-decoration: none; }
-  .brand img { width: 26px; height: 26px; }
-  .nav { display: flex; align-items: center; gap: 28px; }
-  .nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
-  .nav a:hover { color: var(--text); }
-  .gh { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: var(--radius); color: var(--text) !important; }
-  .gh:hover { background: var(--surface); }
-  .gh svg { width: 18px; height: 18px; fill: currentColor; }
-  @media (max-width: 600px) { .nav { gap: 18px; } .nav .link { display: none; } .top .wrap { height: 56px; } .brand { font-size: 17px; } }
-
-  /* Small screens: a menu button at the top right opens the links from the top */
-  .top { position: relative; z-index: 20; }
-  .menu-btn, .menu { display: none; }
-  @media (max-width: 600px) {
-    .nav { display: none; }
-    .menu-btn { display: grid; gap: 5px; justify-items: end; align-content: center; width: 44px; height: 44px; margin-right: -8px; padding: 0 10px; border: 0; background: none; color: var(--text); cursor: pointer; }
-    .menu-btn span { display: block; width: 24px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .25s ease, opacity .2s ease, width .25s ease; }
-    .menu-btn span:nth-child(2) { width: 14px; }
-    .menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; width: 0; }
-    .menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .menu { display: block; position: absolute; left: 0; right: 0; top: 100%; padding: 8px 16px 20px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 16px 32px rgba(20, 42, 48, .12); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s; }
-    .menu.open { opacity: 1; visibility: visible; transform: none; transition: opacity .2s ease, transform .2s ease; }
-    .menu nav a { display: block; padding: 14px 4px; border-bottom: 1px solid var(--line); color: var(--text); text-decoration: none; font-size: 17px; }
-    .menu nav a:hover { color: var(--brand); }
-    .menu .btn { width: 100%; justify-content: center; margin-top: 18px; }
-    .menu .btn svg { width: 18px; height: 18px; fill: currentColor; }
-  }
-  @media (max-width: 600px) and (prefers-reduced-motion: reduce) { .menu, .menu.open, .menu-btn span { transition: none; } }
-
-  section { padding: 64px 0; border-bottom: 1px solid var(--line); }
-  section:last-of-type { border-bottom: 0; padding-bottom: 96px; }
-  @media (max-width: 600px) { section { padding: 44px 0; } section:last-of-type { padding-bottom: 72px; } }
-
-  h1, h2, h3 { font-family: var(--font-b); letter-spacing: -.02em; margin: 0; }
-  h1 { font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15; font-weight: 600; max-width: 20ch; }
-  h2 { font-size: clamp(22px, 2.4vw, 26px); line-height: 1.2; font-weight: 600; }
-  h3 { font-size: 17px; line-height: 1.35; font-weight: 600; letter-spacing: -.005em; }
-  p { margin: 0; }
-  .lead { font-size: 17px; line-height: 1.65; color: var(--muted); max-width: 62ch; margin-top: 18px; }
-  .intro { color: var(--muted); max-width: 60ch; margin-top: 10px; font-size: 15px; }
-
-  .btn { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px; border-radius: var(--radius); border: 1px solid transparent; font: 500 16px/1 var(--font-b); text-decoration: none; cursor: pointer; }
-  .btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
-  .btn-ghost:hover { background: var(--surface); }
-
-  .groups { list-style: none; padding: 0; margin: 48px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
-  .groups li { padding: 18px 24px 18px 0; border-bottom: 1px solid var(--line); }
-  .groups b { display: block; font: 600 15px/1.3 var(--font-b); margin-bottom: 4px; }
-  .groups span { color: var(--muted); font-size: 14px; line-height: 1.5; }
-  @media (max-width: 760px) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 480px) { .groups { grid-template-columns: 1fr; } }
-
-  .steps { list-style: none; counter-reset: step; padding: 0; margin: 32px 0 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
-  .steps > li { counter-increment: step; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--line); }
-  @media (max-width: 760px) { .steps > li { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 14px; padding: 26px 0; } }
-  @media (max-width: 600px) { .steps > li { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 22px 0; } .steps > li::before { padding-top: 0; } }
-  .steps > li::before { content: counter(step, decimal-leading-zero); padding-top: 4px; font: 400 13px/1 var(--font-m); color: var(--muted); }
-  .steps p { color: var(--muted); margin-top: 4px; font-size: 15px; }
-  p code, td code { font: 500 .88em/1.4 var(--font-m); color: var(--text); white-space: nowrap; }
-
-  .editor { position: relative; margin-top: 16px; border-radius: var(--radius); overflow: hidden; background: #011627; }
-  .editor .copy { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 12px; border: 1px solid #1d3b53; border-radius: var(--radius); background: #011627; box-shadow: -12px 0 12px #011627; color: #8badc1; font: 500 12px/1 var(--font-b); cursor: pointer; }
-  .editor .copy:hover { background: #1d3b53; color: #d6deeb; }
-  .editor pre { margin: 0; padding: 18px 80px 18px 14px; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 14px/1.75 var(--font-m); color: #d6deeb; }
-  .editor code { counter-reset: ln; }
-  .editor .ln { position: relative; display: block; padding-left: calc(2ch + 18px); }
-  .editor .ln::before { counter-increment: ln; content: counter(ln); position: absolute; left: 0; width: 2ch; text-align: right; color: #4b6479; }
-  .editor ::selection { background: #1d3b53; color: inherit; }
-  .t-tag { color: #caece6; }
-  .t-pun { color: #7fdbca; }
-  .t-attr { color: #addb67; font-style: italic; }
-  .t-str { color: #ecc48d; }
-  .t-kw { color: #c792ea; }
-  .t-fn { color: #82aaff; }
-  .t-num { color: #f78c6c; }
-
-  .opts { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
-  .opts th, .opts td { text-align: left; padding: 7px 16px 7px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
-  .opts td:first-child { width: 9.5rem; }
-  @media (max-width: 600px) {
-    .editor.with-try pre { padding-bottom: 50px; }
-    .lead { font-size: 16px; }
-    .editor pre { padding: 46px 14px 16px 10px; font-size: 13px; }
-    .editor .copy { top: 8px; right: 8px; }
-    .opts td:first-child { width: auto; }
-    .opts th, .opts td { padding-right: 10px; }
-  }
-  .opts th { font-weight: 500; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
-  .opts code { font: 500 13px/1.4 var(--font-m); color: var(--text); }
-  .table { overflow-x: auto; }
-  .more { margin-top: 20px; font-size: 15px; color: var(--muted); }
-  .more a { color: var(--brand); text-underline-offset: 3px; }
-
-  .examples { margin-top: 48px; counter-reset: ex; }
-  .example { border-top: 1px solid var(--line); }
-  .example:last-child { border-bottom: 1px solid var(--line); }
-  .example summary { display: grid; grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 1.2fr) 16px; align-items: baseline; gap: 20px; padding: 20px 0; cursor: pointer; list-style: none; }
-  .example summary:focus:not(:focus-visible) { outline: none; }
-  .example summary .t { display: contents; }
-  .example summary::-webkit-details-marker { display: none; }
-  .example summary::before { counter-increment: ex; content: counter(ex, decimal-leading-zero); font: 400 13px/1 var(--font-m); color: var(--muted); transition: color .25s ease; }
-  .example summary h3 { font-size: 17px; font-weight: 500; line-height: 1.35; transition: color .25s ease; }
-  .example summary .d { display: block; color: var(--muted); font-size: 15px; line-height: 1.5; }
-  .example summary:hover h3, .example[open] summary h3, .example[open] summary::before { color: var(--brand); }
-  .example .plus { position: relative; width: 14px; height: 14px; align-self: center; justify-self: end; color: var(--muted); transition: color .25s ease, transform .35s cubic-bezier(.2, .7, .2, 1); }
-  .example .plus::before, .example .plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.5px; border-radius: var(--radius); background: currentColor; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
-  .example .plus::after { transform: rotate(90deg); }
-  .example summary:hover .plus { color: var(--text); }
-  .example[open] .plus { color: var(--brand); transform: rotate(180deg); }
-  .example[open] .plus::after { transform: rotate(0deg); }
-  .example .body { overflow: hidden; }
-  .example .inner { padding: 0 36px 28px calc(3rem + 20px); }
-  .example .editor { margin-top: 0; }
-  .editor .try { position: absolute; right: 10px; bottom: 10px; display: inline-flex; align-items: center; height: 28px; padding: 0 14px; border: 1px solid #7fdbca; border-radius: var(--radius); background: #011627; color: #7fdbca; font: 500 12px/1 var(--font-b); text-decoration: none; cursor: pointer; }
-  .editor .try:hover { background: #7fdbca; color: #011627; }
-  .example output { display: block; margin-top: 14px; min-height: 1.6em; font: 400 14px/1.6 var(--font-m); color: var(--brand); }
-  @media (max-width: 760px) { .example summary { grid-template-columns: 2.5rem minmax(0, 1fr) 16px; gap: 14px; padding: 24px 0; } .example summary .t { display: block; } .example summary .d { margin-top: 6px; font-size: 15px; } .example .inner { padding: 0 0 28px; } }
-  @media (prefers-reduced-motion: reduce) { .example summary::before, .example summary h3, .example .plus, .example .plus::before, .example .plus::after { transition: none; } }
-
-  .preview { display: inline-flex; align-items: center; gap: 12px; margin-top: 20px; padding: 8px 8px 8px 16px; border-radius: var(--radius); background: var(--brand-tint); color: var(--brand); font-size: 15px; }
-  .preview[hidden] { display: none; }
-  .preview a { padding: 6px 14px; border-radius: var(--radius); background: var(--bg); text-decoration: none; }
-</style>
+<link rel="stylesheet" href="./guide/guide.css">
 </head>
-<body>
+<body data-root="./">
+<a class="skip" href="#content">Skip to the content</a>
+<header class="top"><div class="top-in"><a class="brand" href="./"><img src="./favicon.svg" alt="">Accessibles</a><nav class="top-nav" aria-label="Main"><a href="./install/">Install</a><a href="./profiles/">Features</a><a href="./api/">API</a><a href="./demo/" target="_blank" rel="noopener">Demo</a><a class="gh" href="https://github.com/uparfait/accessibility" aria-label="Accessibles on GitHub" data-popup><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a></nav><button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="side"><span></span><span></span><span></span></button></div></header>
+<div class="layout">
+<aside class="side" id="side" aria-label="Guide"><h2>Get started</h2><ul><li><a href="./" aria-current="page">Home</a></li><li><a href="./install/">Install</a></li><li><a href="./options/">Options</a></li><li><a href="./api/">JavaScript API</a></li></ul><h2>Features</h2><ul><li><div class="cat-head"><a href="./profiles/">Profiles</a><button type="button" class="cat-toggle" aria-expanded="false" aria-controls="cat-profiles" aria-label="Show the Profiles features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div><ul class="cat-list" id="cat-profiles" hidden><li><a href="./profiles/seizure-safe/">Seizure safe</a></li><li><a href="./profiles/vision-impaired/">Vision impaired</a></li><li><a href="./profiles/adhd-friendly/">ADHD friendly</a></li><li><a href="./profiles/cognitive-disability/">Cognitive disability</a></li><li><a href="./profiles/dyslexia/">Dyslexia</a></li><li><a href="./profiles/color-blind/">Color blind</a></li><li><a href="./profiles/motor-impaired/">Motor impaired</a></li><li><a href="./profiles/blind-users/">Blind users</a></li><li><a href="./profiles/older-adults/">Older adults</a></li></ul></li><li><div class="cat-head"><a href="./text/">Text</a><button type="button" class="cat-toggle" aria-expanded="false" aria-controls="cat-text" aria-label="Show the Text features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div><ul class="cat-list" id="cat-text" hidden><li><a href="./text/content-scaling/">Content scaling</a></li><li><a href="./text/bigger-text/">Bigger text</a></li><li><a href="./text/font/">Font</a></li><li><a href="./text/line-height/">Line height</a></li><li><a href="./text/letter-spacing/">Letter spacing</a></li><li><a href="./text/word-spacing/">Word spacing</a></li><li><a href="./text/bolder-text/">Bolder text</a></li><li><a href="./text/text-align/">Text align</a></li><li><a href="./text/text-direction/">Text direction</a></li><li><a href="./text/highlight-titles/">Highlight titles</a></li><li><a href="./text/highlight-links/">Highlight links</a></li><li><a href="./text/text-magnifier/">Text magnifier</a></li></ul></li><li><div class="cat-head"><a href="./color/">Color</a><button type="button" class="cat-toggle" aria-expanded="false" aria-controls="cat-color" aria-label="Show the Color features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div><ul class="cat-list" id="cat-color" hidden><li><a href="./color/dark-contrast/">Dark contrast</a></li><li><a href="./color/light-contrast/">Light contrast</a></li><li><a href="./color/high-contrast/">High contrast</a></li><li><a href="./color/smart-contrast/">Smart contrast</a></li><li><a href="./color/invert-colors/">Invert colors</a></li><li><a href="./color/monochrome/">Monochrome</a></li><li><a href="./color/low-saturation/">Low saturation</a></li><li><a href="./color/high-saturation/">High saturation</a></li><li><a href="./color/color-blindness/">Color blindness</a></li><li><a href="./color/custom-colors/">Custom colors</a></li><li><a href="./color/brightness/">Brightness</a></li></ul></li><li><div class="cat-head"><a href="./navigate/">Navigate</a><button type="button" class="cat-toggle" aria-expanded="false" aria-controls="cat-navigate" aria-label="Show the Navigate features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div><ul class="cat-list" id="cat-navigate" hidden><li><a href="./navigate/keyboard-navigation/">Keyboard navigation</a></li><li><a href="./navigate/focus-highlight/">Focus highlight</a></li><li><a href="./navigate/highlight-hover/">Highlight hover</a></li><li><a href="./navigate/page-structure/">Page structure</a></li><li><a href="./navigate/big-black-cursor/">Big black cursor</a></li><li><a href="./navigate/big-white-cursor/">Big white cursor</a></li><li><a href="./navigate/on-screen-keyboard/">On-screen keyboard</a></li><li><a href="./navigate/voice-commands/">Voice commands</a></li><li><a href="./navigate/talk-and-type/">Talk &amp; type</a></li><li><a href="./navigate/bigger-targets/">Bigger targets</a></li><li><a href="./navigate/more-time/">More time</a></li></ul></li><li><div class="cat-head"><a href="./reading/">Reading</a><button type="button" class="cat-toggle" aria-expanded="false" aria-controls="cat-reading" aria-label="Show the Reading features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div><ul class="cat-list" id="cat-reading" hidden><li><a href="./reading/read-aloud/">Read aloud</a></li><li><a href="./reading/reading-guide/">Reading guide</a></li><li><a href="./reading/reading-mask/">Reading mask</a></li><li><a href="./reading/stop-animations/">Stop animations</a></li><li><a href="./reading/hide-images/">Hide images</a></li><li><a href="./reading/mute-sounds/">Mute sounds</a></li><li><a href="./reading/tooltips/">Tooltips</a></li><li><a href="./reading/spoken-tips/">Spoken tips</a></li><li><a href="./reading/reader-view/">Reader view</a></li><li><a href="./reading/dictionary/">Dictionary</a></li><li><a href="./reading/page-summary/">Page summary</a></li><li><a href="./reading/sign-language/">Sign language</a></li><li><a href="./reading/translate/">Translate</a></li><li><a href="./reading/reading-voice/">Reading voice</a></li></ul></li><li><div class="cat-head"><a href="./tools/">Tools</a><button type="button" class="cat-toggle" aria-expanded="false" aria-controls="cat-tools" aria-label="Show the Tools features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div><ul class="cat-list" id="cat-tools" hidden><li><a href="./tools/aria-fixes/">ARIA fixes</a></li><li><a href="./tools/image-descriptions/">Image descriptions</a></li><li><a href="./tools/form-fixes/">Form fixes</a></li><li><a href="./tools/larger-features/">Larger features</a></li><li><a href="./tools/feature-position/">Feature position</a></li><li><a href="./tools/remember-settings/">Remember settings</a></li><li><a href="./tools/page-check/">Page check</a></li><li><a href="./tools/report-an-issue/">Report an issue</a></li><li><a href="./tools/accessibility-statement/">Accessibility statement</a></li><li><a href="./tools/reset-all/">Reset all</a></li></ul></li></ul><h2>More</h2><ul><li><a href="./shortcuts/">Keyboard and voice shortcuts</a></li><li><a href="./demo/" target="_blank" rel="noopener">Demo page</a></li></ul><div class="side-extra"><div class="actions"><a class="btn btn-ghost" href="https://github.com/uparfait/accessibility" data-popup><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></div></div></aside>
+<main class="page" id="content">
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#about"><img src="favicon.svg" alt="">Accessibles</a>
-    <nav class="nav" aria-label="Main">
-      <a class="link" href="#about">About</a>
-      <a class="link" href="#usage">How to use</a>
-      <a class="link" href="#examples">Examples</a>
-      <a href="demo.html" target="_blank" rel="noopener">Demo</a>
-      <a class="gh" href="https://github.com/uparfait/accessibility" aria-label="Accessibles on GitHub" data-popup>
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-      </a>
-    </nav>
-    <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
-  </div>
-  <div class="menu" id="menu">
-    <nav aria-label="Menu">
-      <a href="#about">About</a>
-      <a href="#usage">How to use</a>
-      <a href="#examples">Examples</a>
-      <a href="demo.html" target="_blank" rel="noopener">Demo</a>
-    </nav>
-    <a class="btn btn-ghost" href="https://github.com/uparfait/accessibility" data-popup><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
-  </div>
-</header>
+<h1>Accessibility tools for any website</h1>
+<p class="lead">Accessibles adds a small button to your site. Visitors use it to make text bigger, change colors, stop animations, hear the page read aloud or move around by voice. It also adds missing labels and image descriptions to the page, without any changes to your HTML.</p>
+<div class="actions"><a class="btn btn-brand" href="./install/">Add it to your site →</a><a class="btn btn-ghost" href="./demo/" target="_blank" rel="noopener">See the demo page</a></div>
 
-<main>
+<h2>Two lines are enough</h2>
+<p>Paste these lines before the closing <code>&lt;/body&gt;</code> tag of your page. A round button appears in the corner, and the panel opens when you click it or press <code>Alt + A</code>.</p>
+<div class="code"><pre><code data-lang="html">&lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;</code></pre></div>
+<p>Here they are on a small sample page. Click the round button in the preview and try a few features.</p>
+<div class="live"><div class="live-bar"><span>Try it: change the code, the preview follows</span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
+&lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;
 
-<section id="about">
-  <div class="wrap">
-    <h1>Accessibility tools for any website</h1>
-    <p class="lead">Accessibles adds a small button to your site. Visitors use it to make text bigger, change colors, stop animations, hear the page read aloud or move around by voice. It also adds missing labels and image descriptions to the page, without any changes to your HTML.</p>
-    <ul class="groups">
-      <li><b>Profiles</b><span>Nine one-switch setups, for vision, dyslexia, ADHD, seizures and more.</span></li>
-      <li><b>Text</b><span>Size, fonts, spacing, alignment and right-to-left layout.</span></li>
-      <li><b>Color</b><span>Dark, light and smart contrast, color blindness correction, custom colors.</span></li>
-      <li><b>Navigate</b><span>Keyboard shortcuts, big cursors, on-screen keyboard and voice commands.</span></li>
-      <li><b>Reading</b><span>Read aloud, reading mask, reader view, dictionary, summary and translation.</span></li>
-      <li><b>Repairs</b><span>Missing ARIA, alt text and form labels fixed automatically, and a page check.</span></li>
-    </ul>
-  </div>
-</section>
+&lt;!-- Your page --&gt;
+&lt;h1&gt;Green Valley Library&lt;/h1&gt;
+&lt;p&gt;We are open every day from 9 in the morning to 5 in the evening. Come in to borrow books, use the computers or join a reading group.&lt;/p&gt;
+&lt;img src=&quot;https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=640&amp;h=200&amp;fit=crop&quot; alt=&quot;Rows of shelves full of books&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;#&quot;&gt;See this month's events&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label">Preview</div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write" loading="lazy"></iframe></div></div>
 
-<section id="usage">
-  <div class="wrap">
-    <h2>How to use</h2>
-    <p class="intro">There's nothing to install or build. Add the script and the button appears.</p>
-    <ol class="steps">
-      <li><div>
-        <h3>Add two lines to your page</h3>
-        <p>Paste them just before the closing <code>&lt;/body&gt;</code> tag.</p>
-        <div class="editor"><pre><code data-lang="html">&lt;div class="accessibles-widget"&gt;&lt;/div&gt;
-&lt;script
-  src="https://uparfait.github.io/accessibility/v1/widgets/accessibles.js"
-  defer&gt;&lt;/script&gt;</code></pre></div>
-      </div></li>
-      <li><div>
-        <h3>Make it yours</h3>
-        <p>Set options in the script URL or as <code>data-</code> attributes on the div. Write <code>#</code> as <code>%23</code> in URLs.</p>
-        <div class="table">
-          <table class="opts">
-            <thead><tr><th>Option</th><th>What it does</th></tr></thead>
-            <tbody>
-              <tr><td><code>color</code></td><td>Main color of the button and highlights. Any CSS color.</td></tr>
-              <tr><td><code>icon-color</code></td><td>Color of the icon on the button.</td></tr>
-              <tr><td><code>bg</code></td><td>Panel background. Text and borders adjust to stay readable.</td></tr>
-              <tr><td><code>position</code></td><td>Where the button sits, such as <code>bottom-left</code> or <code>right-center</code>.</td></tr>
-              <tr><td><code>site-name</code></td><td>Your site's name, shown as the panel title.</td></tr>
-              <tr><td><code>site-icon-url</code></td><td>Your site's icon, shown in the panel header.</td></tr>
-              <tr><td><code>statement</code></td><td>Link to your accessibility statement.</td></tr>
-              <tr><td><code>report</code></td><td>Email address or URL that receives issue reports.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="more">Every option, setting and hook is listed in the <a href="https://github.com/uparfait/accessibility#readme">README</a>.</p>
-      </div></li>
-      <li><div>
-        <h3>Open it</h3>
-        <p>Visitors click the button or press <code>Alt + A</code>. Their choices are saved for the next visit.</p>
-      </div></li>
-    </ol>
-  </div>
-</section>
+<h2>What visitors get</h2>
+<p>The panel has six tabs. Each one gathers features for one kind of need.</p>
+<div class="cards"><a class="card" href="./profiles/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="6.4" r="1.7" fill="currentColor" stroke="none"/><path d="M6.6 9.7c1.8.6 3.6.9 5.4.9s3.6-.3 5.4-.9"/><path d="M12 10.6v3.6M12 14.2l-2.6 4.5M12 14.2l2.6 4.5"/><path d="M20.6 9.4A9 9 0 1 1 15.2 3.6"/><circle cx="18.4" cy="5.6" r="1.1" fill="currentColor" stroke="none"/></svg></span><span><b>Profiles</b><span>One-click setups for vision, dyslexia, ADHD, seizures and more.</span></span></a><a class="card" href="./text/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 19 8.2 5.5 13.4 19M5 14.8h6.4"/><path d="M18 8.5v7M14.5 12h7"/></svg></span><span><b>Text</b><span>Size, fonts, spacing, alignment and right-to-left pages.</span></span></a><a class="card" href="./color/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg></span><span><b>Color</b><span>Dark, light and smart contrast, color blindness, your own colors.</span></span></a><a class="card" href="./navigate/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.2"/><path d="M6 10h0M9 10h0M12 10h0M15 10h0M18 10h0" stroke-width="2.6"/><path d="M7.5 14.2h9"/></svg></span><span><b>Navigate</b><span>Keyboard, big cursors, on-screen keyboard and voice control.</span></span></a><a class="card" href="./reading/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9.5h3l4.5-4v13l-4.5-4H4z"/><path class="w1" d="M15 9a4 4 0 0 1 0 6"/><path class="w2" d="M17.8 6.4a7.6 7.6 0 0 1 0 11.2"/><path class="w3" d="M20.5 3.9a11.2 11.2 0 0 1 0 16.2"/></svg></span><span><b>Reading</b><span>Read aloud, reading mask, reader view, dictionary and translation.</span></span></a><a class="card" href="./tools/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7.5 3.5 12 8 16.5M16 7.5l4.5 4.5-4.5 4.5M13.6 5l-3.2 14"/></svg></span><span><b>Tools</b><span>Automatic repairs, page check, reports and settings.</span></span></a></div>
 
-<section id="examples">
-  <div class="wrap">
-    <h2>Examples</h2>
-    <p class="intro">Each one runs on this page. Try it, then look at the button in the corner.</p>
-    <p class="preview" hidden>You're previewing an example. <a href="./#examples">Back to default</a></p>
-    <div class="examples">
+<h2>Fixes it makes on its own</h2>
+<p>Many sites have buttons without names, pictures without descriptions and form fields without labels. Screen readers can't explain those to their users. Accessibles finds them and fills in what is missing as the page loads, and keeps doing it for content that appears later. Nothing changes for people who don't use a screen reader. Read more in <a href="./tools/aria-fixes/">ARIA fixes</a>, <a href="./tools/image-descriptions/">Image descriptions</a> and <a href="./tools/form-fixes/">Form fixes</a>.</p>
 
-      <details class="example" name="examples">
-        <summary><span class="t"><h3>Brand color and position</h3><span class="d">Match your site and move the button to another corner.</span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="body"><div class="inner">
-          <div class="editor with-try"><pre><code data-lang="html">&lt;div class="accessibles-widget"
-     data-color="#B3261E"
-     data-position="bottom-left"&gt;&lt;/div&gt;</code></pre><a class="try" href="?color=%23B3261E&amp;position=bottom-left#examples">Try it</a></div>
-        </div></div>
-      </details>
-
-      <details class="example" name="examples">
-        <summary><span class="t"><h3>Light panel with your name</h3><span class="d">A light background and your site's name in the title.</span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="body"><div class="inner">
-          <div class="editor with-try"><pre><code data-lang="html">&lt;div class="accessibles-widget"
-     data-bg="#FBF8F4"
-     data-site-name="Green Valley Library"&gt;&lt;/div&gt;</code></pre><a class="try" href="?bg=%23FBF8F4&amp;site-name=Green%20Valley%20Library#examples">Try it</a></div>
-        </div></div>
-      </details>
-
-      <details class="example" name="examples">
-        <summary><span class="t"><h3>Turn features on from your code</h3><span class="d">Your own buttons can switch profiles and settings.</span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="body"><div class="inner">
-          <div class="editor with-try"><pre><code data-lang="js">Accessibles.profile('dyslexia');
-Accessibles.set('fontSize', 1.3);</code></pre><button type="button" class="try" data-dyslexia>Try it</button></div>
-        </div></div>
-      </details>
-
-      <details class="example" name="examples">
-        <summary><span class="t"><h3>Listen for changes</h3><span class="d">React when a visitor changes a setting in the panel.</span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="body"><div class="inner">
-          <div class="editor"><pre><code data-lang="js">addEventListener('accessibles:change', e =&gt; {
-  console.log(e.detail.key, e.detail.value);
-});</code></pre></div>
-          <output aria-live="polite">Change any setting in the panel…</output>
-        </div></div>
-      </details>
-
-    </div>
-  </div>
-</section>
-
+<h2>Where to go next</h2>
+<div class="cards">
+<a class="card" href="./install/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5c-2.3-2.4-3.4-5.2-3.4-8.5S9.7 5.9 12 3.5z"/></svg></span><span><b>Install</b><span>Add the script, check that it works, or host it yourself.</span></span></a>
+<a class="card" href="./options/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></span><span><b>Options</b><span>Colors, position, your site name, statement and reports.</span></span></a>
+<a class="card" href="./api/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="5" rx="1.3"/><path d="M7 8.5V17a1.5 1.5 0 0 0 1.5 1.5H12M7 12.5h5"/><rect x="12" y="10" width="8.5" height="5" rx="1.3"/><rect x="12" y="16" width="8.5" height="5" rx="1.3"/></svg></span><span><b>JavaScript API</b><span>Turn features on from your own buttons and react to changes.</span></span></a>
+<a class="card" href="./shortcuts/"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.2"/><path d="M6 10h0M9 10h0M12 10h0M15 10h0M18 10h0" stroke-width="2.6"/><path d="M7.5 14.2h9"/></svg></span><span><b>Keyboard and voice shortcuts</b><span>Every key and spoken command in one place.</span></span></a>
+</div>
+<nav class="pager" aria-label="Previous and next"><a class="next" href="./install/"><small>Next</small><b>Install →</b></a></nav>
 </main>
-
-<script>
-  // Code editors: copy button, line numbers and Night Owl colors
-  (function () {
-    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-    function wrap(cls, s) { return '<span class="t-' + cls + '">' + esc(s) + '</span>'; }
-    // Escapes the plain parts of the text and lets fn color each match
-    function paint(text, re, fn) {
-      var out = '', last = 0, m;
-      re.lastIndex = 0;
-      while ((m = re.exec(text))) { out += esc(text.slice(last, m.index)) + fn(m); last = re.lastIndex; }
-      return out + esc(text.slice(last));
-    }
-    function attrs(s) {
-      return paint(s, /([\w-]+)(?:(=)("[^"]*"))?/g, function (m) {
-        return wrap('attr', m[1]) + (m[2] ? wrap('pun', m[2]) + wrap('str', m[3]) : '');
-      });
-    }
-    var LANG = {
-      html: function (text) {
-        return paint(text, /<(\/?)([\w-]+)([^>]*?)(\/?)>/g, function (m) {
-          return wrap('pun', '<' + m[1]) + wrap('tag', m[2]) + attrs(m[3]) + wrap('pun', m[4] + '>');
-        });
-      },
-      js: function (text) {
-        return paint(text, /('[^']*'|"[^"]*")|\b(function|var|const|let|return|if|else|new)\b|\b(\d+(?:\.\d+)?)\b|([A-Za-z_$][\w$]*)(?=\()|(=>|[{}()[\];,.])/g, function (m) {
-          return m[1] ? wrap('str', m[1]) : m[2] ? wrap('kw', m[2]) : m[3] ? wrap('num', m[3]) : m[4] ? wrap('fn', m[4]) : wrap('pun', m[5]);
-        });
-      }
-    };
-    document.querySelectorAll('.editor').forEach(function (box) {
-      var code = box.querySelector('code');
-      var text = code.textContent;
-      var html = (LANG[code.getAttribute('data-lang')] || esc)(text);
-      code.innerHTML = html.split('\n').map(function (line) { return '<span class="ln">' + (line || ' ') + '</span>'; }).join('');
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'copy';
-      btn.textContent = 'Copy';
-      btn.addEventListener('click', function () {
-        navigator.clipboard.writeText(text).then(function () {
-          btn.textContent = 'Copied';
-          setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
-        });
-      });
-      box.appendChild(btn);
-    });
-  })();
-</script>
-
-<script>
-  // Open the GitHub project in a popup window, centered on the screen
-  Array.prototype.forEach.call(document.querySelectorAll('[data-popup]'), function (link) { link.addEventListener('click', function (e) {
-    var w = Math.min(1100, screen.availWidth - 80);
-    var h = Math.min(780, screen.availHeight - 80);
-    var left = (screen.availLeft || 0) + (screen.availWidth - w) / 2;
-    var top = (screen.availTop || 0) + (screen.availHeight - h) / 2;
-    var win = window.open(this.href, 'accessibles-github', 'popup=yes,width=' + w + ',height=' + h + ',left=' + left + ',top=' + top);
-    if (!win) return;
-    e.preventDefault();
-    win.opener = null;
-    win.focus();
-  }); });
-</script>
-
-<script>
-  // Small screens: the menu button opens the links from the top; a link, Escape or a click outside closes it
-  (function () {
-    var button = document.querySelector('.menu-btn'), menu = document.getElementById('menu');
-    function set_open(open) {
-      menu.classList.toggle('open', open);
-      button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
-    }
-    button.addEventListener('click', function () { set_open(!menu.classList.contains('open')); });
-    menu.addEventListener('click', function (e) { if (e.target.closest('a')) set_open(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) { set_open(false); button.focus(); } });
-    document.addEventListener('click', function (e) { if (!e.target.closest('.top')) set_open(false); });
-    window.addEventListener('resize', function () { if (window.innerWidth > 600) set_open(false); });
-  })();
-</script>
-
-<script>
-  // Examples open and close with a smooth height animation; opening one closes the others
-  (function () {
-    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (still || !Element.prototype.animate) return;
-    var items = Array.prototype.slice.call(document.querySelectorAll('.example'));
-
-    function open(item) {
-      var body = item.querySelector('.body');
-      var from = item.open ? body.getBoundingClientRect().height : 0;
-      if (item.anim) item.anim.cancel();
-      item.closing = false;
-      item.open = true;
-      item.anim = body.animate([
-        { height: from + 'px', opacity: from ? 1 : 0, transform: from ? 'none' : 'translateY(-8px)' },
-        { height: body.scrollHeight + 'px', opacity: 1, transform: 'none' }
-      ], { duration: 380, easing: 'cubic-bezier(.2, .7, .2, 1)' });
-      var anim = item.anim;
-      var done = function () { if (item.anim === anim) item.anim = null; };
-      anim.onfinish = done;
-      setTimeout(done, 440);
-    }
-
-    function close(item) {
-      var body = item.querySelector('.body');
-      var from = body.getBoundingClientRect().height;
-      if (item.anim) item.anim.cancel();
-      item.closing = true;
-      item.anim = body.animate([
-        { height: from + 'px', opacity: 1 },
-        { height: '0px', opacity: 0 }
-      ], { duration: 260, easing: 'cubic-bezier(.4, 0, .2, 1)' });
-      var anim = item.anim;
-      var done = function () { if (item.anim !== anim) return; item.open = false; item.closing = false; item.anim = null; };
-      anim.onfinish = done;
-      setTimeout(done, 320);   // also finish in tabs where animations are paused
-    }
-
-    items.forEach(function (item) {
-      // The script handles one-at-a-time itself, so the closing can animate
-      item.removeAttribute('name');
-      item.querySelector('summary').addEventListener('click', function (e) {
-        e.preventDefault();
-        if (item.open && !item.closing) { close(item); return; }
-        items.forEach(function (other) { if (other !== item && other.open && !other.closing) close(other); });
-        open(item);
-      });
-    });
-  })();
-</script>
-
-<script>
-  // Buttons that talk to the widget
-  document.querySelector('[data-dyslexia]').addEventListener('click', function () {
-    if (window.Accessibles) Accessibles.profile('dyslexia');
-  });
-  window.addEventListener('accessibles:change', function (e) {
-    document.querySelector('.example output').textContent = e.detail.key + ' → ' + JSON.stringify(e.detail.value);
-  });
-</script>
-
-<!-- Accessibles -->
-<div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="favicon.svg" data-report="parfaituwayo@gmail.com"></div>
-<script>
-  // Lets the examples above preview other options on this page
-  (function () {
-    var params = new URLSearchParams(location.search);
-    var widget = document.querySelector('.accessibles-widget');
-    var used = false;
-    ['color', 'bg', 'position', 'site-name', 'site-icon-url'].forEach(function (key) {
-      if (params.get(key)) { widget.setAttribute('data-' + key, params.get(key)); used = true; }
-    });
-    document.querySelector('.preview').hidden = !used;
-  })();
-</script>
-<script src="v1/widgets/accessibles.js?version=19&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+</div>
+<script src="./guide/guide.js" defer></script>
+<script src="./v1/widgets/accessibles.js?version=20&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
