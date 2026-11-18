@@ -14,7 +14,7 @@ accessibles_core.define('catalogue/catalogue-2.js', [], function (core) {
     { id: 'textDir', tab: 'text', type: 'cycle', key: 'textDir', icon: 'direction', label: 'Text direction', options: ['', 'ltr', 'rtl'], format: function (value) { return { '': 'Default', ltr: 'Left to right', rtl: 'Right to left' }[value]; }, keywords: 'rtl ltr right left arabic hebrew' },
     { id: 'highlightTitles', tab: 'text', type: 'toggle', key: 'highlightTitles', icon: 'titles', label: 'Highlight titles', keywords: 'headings' },
     { id: 'highlightLinks', tab: 'text', type: 'toggle', key: 'highlightLinks', icon: 'links', label: 'Highlight links', keywords: 'underline' },
-    { id: 'magnifier', tab: 'text', type: 'toggle', key: 'magnifier', icon: 'magnifier', label: 'Text magnifier', keywords: 'zoom lens hover' },
+    { id: 'magnifier', tab: 'text', type: 'cycle', key: 'magnifier', icon: 'magnifier', label: 'Magnifier', options: [0, 1.5, 2, 3], format: function (value) { return value ? value + '×' : 'Off'; }, keywords: 'zoom lens hover glass bigger text magnifier' },
     // Color
     { id: 'darkContrast', tab: 'color', type: 'radio', key: 'contrast', value: 'dark', icon: 'dark', label: 'Dark contrast', keywords: 'night black' },
     { id: 'lightContrast', tab: 'color', type: 'radio', key: 'contrast', value: 'light', icon: 'light', label: 'Light contrast', keywords: 'white bright' },
