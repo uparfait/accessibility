@@ -9,7 +9,7 @@ accessibles_core.define('dictionary/dictionary-3.js', [], function (core) {
       (core.speech.ok ? '<button type="button" class="ib" data-act="dict-say" data-word="' + core.escape_html(result.word) + '" aria-label="Pronounce">' + core.icon_svg('speak') + '</button>' : '') +
       '<button type="button" class="ib" data-act="dict-close" aria-label="Close definition">' + core.icon_svg('close') + '</button></div>';
     if (result.phonetic) html += '<div class="ph">' + core.escape_html(result.phonetic) + '</div>';
-    if (result.loading) html += '<div class="dd">Looking up…</div>';
+    if (result.loading) html += '<div class="dd">' + core.icon_svg('spinner', 'spin') + 'Looking up…</div>';
     else if (result.none || !result.defs.length) html += '<div class="dd">No definition found.</div>';
     else result.defs.forEach(function (detail) { html += (detail.pos ? '<div class="dp">' + core.escape_html(detail.pos) + '</div>' : '') + '<div class="dd">' + core.escape_html(detail.text) + '</div>' + (detail.example ? '<div class="dx">' + core.escape_html(detail.example) + '</div>' : ''); });
     box.innerHTML = html;
