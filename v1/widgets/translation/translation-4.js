@@ -10,9 +10,9 @@ accessibles_core.define('translation/translation-4.js', [], function (core) {
       if (self.skip(node.parentElement)) continue;
       var record = self.nodes.get(node);
       if (!record || node.nodeValue !== record.type) { if (!is_on) { if (record) self.nodes.delete(node); continue; } record = { original: node.nodeValue }; }
-      var raw = record.original, core = raw.trim();
-      if (!core || !core.has_letters(core)) continue;
-      var value = is_on ? raw.replace(core, self.translated(core)) : raw;
+      var raw = record.original, trimmed = raw.trim();
+      if (!trimmed || !core.has_letters(trimmed)) continue;
+      var value = is_on ? raw.replace(trimmed, self.translated(trimmed)) : raw;
       if (node.nodeValue !== value) node.nodeValue = value;
       record.type = value;
       self.nodes.set(node, record);
