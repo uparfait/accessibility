@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../guide/guide.css?version=26">
+<link rel="stylesheet" href="../guide/guide.css?version=27">
 </head>
 <body data-root="../">
 <a class="skip" href="#content">Skip to the content</a>
@@ -145,11 +145,20 @@ addEventListener('accessibles:change', function (event) {
   };
 &lt;/script&gt;</code></pre></div>
 <p>You can also give any element its own sign language video with <code>data-acc-sign="video.mp4"</code>.</p>
+<h3>What each one gets and gives back</h3>
+<div class="table"><table><thead><tr><th>Name</th><th>Your function gets</th><th>It gives back</th><th>Full example</th></tr></thead><tbody>
+<tr><td><code>glossary</code></td><td>Nothing: it is a list of words and meanings</td><td>Shown first when a visitor looks up one of the words</td><td><a href="${root}reading/dictionary/">Dictionary</a></td></tr>
+<tr><td><code>altText</code></td><td>The picture: an <code>&lt;img&gt;</code> element</td><td>The description as text (up to 300 characters)</td><td><a href="${root}tools/image-descriptions/">Image descriptions</a></td></tr>
+<tr><td><code>summarize</code></td><td>The main text of the page (up to 20,000 characters)</td><td>A list of short points, or one text with a point on each line, within 20 seconds</td><td><a href="${root}reading/page-summary/">Page summary</a></td></tr>
+<tr><td><code>signProvider</code></td><td>The selected text, and <code>'asl'</code> or <code>'libras'</code></td><td>The address of a video</td><td><a href="${root}reading/sign-language/">Sign language</a></td></tr>
+<tr><td><code>signVideos</code></td><td>Nothing: CSS selectors and video addresses</td><td>Each matching part of the page gets that video</td><td><a href="${root}reading/sign-language/">Sign language</a></td></tr>
+</tbody></table></div>
+<p>Each example page also shows what your server sends back. If your function gives back nothing, takes too long or fails, the widget uses its own way instead, so visitors always get something.</p>
 <nav class="pager" aria-label="Previous and next"><a class="prev" href="../options/" aria-label="Previous: Options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Options</span></a><a class="next" href="../profiles/" aria-label="Next: Profiles"><span>Profiles</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></nav>
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
-<script src="../guide/guide.js?version=26" defer></script>
-<script src="../v1/widgets/accessibles.js?version=26&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../guide/guide.js?version=27" defer></script>
+<script src="../v1/widgets/accessibles.js?version=27&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
