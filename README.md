@@ -4,8 +4,8 @@ Accessibles is an accessibility toolbar for websites. You add one script, and ev
 
 It also repairs common problems in the page itself: images without descriptions, form fields without labels and icon buttons without names. You don't have to change your HTML for any of this.
 
-- Website and docs: https://uparfait.github.io/accessibility/
-- Demo on an older-style page: https://uparfait.github.io/accessibility/demo.html
+- Website and guide: https://uparfait.github.io/accessibility/
+- Demo on an older-style page: https://uparfait.github.io/accessibility/demo/
 
 ## Quick start
 
@@ -611,10 +611,13 @@ A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site 
 | File | Purpose |
 |---|---|
 | `v1/widgets/` | The widget. `accessibles.js` is the only file a site adds; the folders next to it hold the rest (see Files above). |
-| `index.html`, `favicon.svg`, `assets/`, `site.webmanifest`, `sitemap.xml` | The project website, its icons and share image |
-| `demo.html`, `demo.css` | A demo page with old-style markup and placeholder text, to show the widget needs no changes to the page |
+| `index.html`, `install/`, `options/`, `api/`, `shortcuts/` | The guide: home, installing, options, the JavaScript API and every shortcut |
+| `profiles/`, `text/`, `color/`, `navigate/`, `reading/`, `tools/` | One page per category, and one page per feature inside it, each with a live editor |
+| `guide/guide.css`, `guide/guide.js` | The look of the guide pages, the sidebar, the phone menu and the live editors |
+| `favicon.svg`, `assets/`, `site.webmanifest`, `sitemap.xml` | Icons, share image and the list of pages for search engines |
+| `demo/` | A demo page with old-style markup and placeholder text, to show the widget needs no changes to the page |
 
-To work on it locally, serve the folder with any static server and open `demo.html`:
+To work on it locally, serve the folder with any static server and open `demo/`:
 
 ```bash
 npx serve .
