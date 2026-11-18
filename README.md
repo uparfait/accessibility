@@ -198,6 +198,7 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 ### Color
 
 - **Dark**, **light** and **high contrast**
+- **Dark mode** turns the page dark but keeps its own colors: every color is turned around, so light becomes dark and dark becomes light, gradients included. Pictures and videos stay as they are.
 - **Smart contrast** fixes only the text that is too close to its background color, and leaves the rest of the design alone.
 - **Invert colors**, **monochrome**, **low** and **high saturation**
 - **Color blindness** correction for protanopia, deuteranopia and tritanopia
@@ -331,7 +332,7 @@ The settings you can pass to `set()`:
 | `cursor` | `''`, `'black'`, `'white'` |
 | `ttsRate`, `ttsPitch` | `0.5` to `2` and `0.5` to `1.5` |
 | `translateTo` | A language code such as `'fr'`, or `''` |
-| On/off settings | `highlightTitles`, `highlightLinks`, `magnifier`, `smartContrast`, `invert`, `keyboardNav`, `focusRing`, `hoverHighlight`, `vkeyboard`, `bigTargets`, `extendedTime`, `tts`, `readingGuide`, `readingMask`, `stopAnimations`, `hideImages`, `mute`, `tooltips`, `dictionary`, `spokenTips`, `ariaFix`, `altText`, `formFix`, `oversized`, `remember` |
+| On/off settings | `highlightTitles`, `highlightLinks`, `magnifier`, `smartContrast`, `darkMode`, `invert`, `keyboardNav`, `focusRing`, `hoverHighlight`, `vkeyboard`, `bigTargets`, `extendedTime`, `tts`, `readingGuide`, `readingMask`, `stopAnimations`, `hideImages`, `mute`, `tooltips`, `dictionary`, `spokenTips`, `ariaFix`, `altText`, `formFix`, `oversized`, `remember` |
 
 ## How it works
 
