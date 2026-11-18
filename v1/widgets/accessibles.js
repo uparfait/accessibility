@@ -26,35 +26,35 @@
   core.retry_file = function (path) {
     var file = core.files[path]; file.attempts++;
     file.delay = file.attempts === 1 ? 2000 : file.attempts % 2 ? file.delay + 2000 : file.delay * 2;
-    clear_timer.call(window, file.timer);
-    file.timer = set_timer.call(window, function () { core.fetch_file(path); }, Math.min(file.delay, 600000));
+    clear_timer.call(window, file.timer); file.timer = set_timer.call(window, function () { core.fetch_file(path); }, Math.min(file.delay, 600000));
     if (core.file_failed) core.file_failed(path);
   };
   // Every file calls this with its path, the files after it in its folder (main file only) and its code
   core.define = function (path, sub_files, body) {
     var folder_name = path.split('/')[0], folder = core.folder(folder_name);
     (core.files[path] = core.files[path] || { attempts: 0, delay: 0 }).body = body;
-    if (path === folder_name + '/' + folder_name + '.js') {
-      folder.paths = [path].concat(sub_files.map(function (name) { return folder_name + '/' + name; }));
-      folder.paths.forEach(core.fetch_file);
-    }
-    if (core.core_folders.every(core.run_folder)) core.feature_folders.forEach(core.run_folder);
+    if (path === folder_name + '/' + folder_name + '.js') folder.paths = [path].concat(sub_files.map(function (name) { return folder_name + '/' + name; }));
+    if (folder.paths) folder.paths.forEach(core.fetch_file);
+    core.run_soon();
   };
   core.folder = function (name) { return core.folders[name] = core.folders[name] || { name: name, paths: null, state: 'waiting' }; };
-  // Runs a folder's files in order once all have arrived (true when ready); a folder that breaks is fetched again
+  core.arrived = function (name) { var folder = core.folder(name); return folder.state !== 'ready' && !!folder.paths && folder.paths.every(function (path) { return core.files[path].body; }); };
+  // Runs one folder whose files have all arrived (the widget's own folders in order, then any feature), then lets the page breathe
+  core.run_soon = function () {
+    if (core.run_timer) return;
+    core.run_timer = set_timer.call(window, function () {
+      core.run_timer = 0; var next_core = core.core_folders.filter(function (name) { return core.folder(name).state !== 'ready'; })[0];
+      var next = (next_core ? [next_core] : core.feature_folders).filter(core.arrived)[0];
+      if (next) { core.run_folder(next); core.run_soon(); }
+    }, 0);
+  };
+  // Runs a folder's files in order; a folder that breaks is fetched again
   core.run_folder = function (name) {
     var folder = core.folder(name);
-    if (folder.state === 'ready') return true;
-    if (!folder.paths || !folder.paths.every(function (path) { return core.files[path].body; })) return false;
-    try { folder.paths.forEach(function (path) { core.files[path].body(core); }); } catch (error) {
-      folder.paths.forEach(function (path) { core.files[path].body = null; core.retry_file(path); });
-      return false;
-    }
+    try { folder.paths.forEach(function (path) { core.files[path].body(core); }); } catch (error) { folder.paths.forEach(function (path) { core.files[path].body = null; core.retry_file(path); }); return; }
     folder.state = 'ready'; if (core.folder_ready) core.folder_ready(name);
-    return true;
   };
   // The widget starts fetching once the page itself has loaded, so it never holds the page up or keeps it loading
   var begin = function () { if (!core.begun) { core.begun = true; core.fetch_file('loader/loader.js'); } };
-  if (document.readyState === 'complete') begin();
-  else { window.addEventListener('load', begin); document.addEventListener('DOMContentLoaded', function () { set_timer.call(window, begin, 10000); }); }
+  if (document.readyState === 'complete') begin(); else { window.addEventListener('load', begin); document.addEventListener('DOMContentLoaded', function () { set_timer.call(window, begin, 10000); }); }
 })(window, document);
