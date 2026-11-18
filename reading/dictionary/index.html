@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../guide/guide.css?version=26">
+<link rel="stylesheet" href="../../guide/guide.css?version=27">
 </head>
 <body data-root="../../">
 <a class="skip" href="#content">Skip to the content</a>
@@ -38,7 +38,40 @@
 <main class="page" id="content">
 <div class="title"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 2-2h12v15H7a2 2 0 0 0-2 2z"/><path d="M5 19a2 2 0 0 0 2 2h12v-3"/><path d="M9.5 13.2 12 6.8l2.5 6.4M10.3 11.2h3.4"/></svg></span><h1>Dictionary</h1></div><p class="lead">Shows what a word means.</p><figure class="ill" aria-hidden="true"><svg viewBox="0 0 240 88" focusable="false"><g transform="translate(70 8)"><rect width="100" height="72" rx="9" class="pg"/><rect x="12" y="16" width="76" height="3" rx="1.5" class="tx"/><rect x="12" y="26" width="70" height="3" rx="1.5" class="tx"/><rect x="12" y="36" width="60" height="3" rx="1.5" class="tx"/><rect x="30" y="25" width="22" height="6" rx="2" class="acsel"/><rect x="18" y="40" width="70" height="24" rx="6" class="lz"/><rect x="24" y="46" width="30" height="4" rx="2" class="dkf"/><rect x="24" y="54" width="54" height="3" rx="1.5" class="tx"/></g></svg></figure><h2>How to use</h2><ol><li>Turn it on</li><li>Select a word on the page</li><li>Read the meaning in the box next to it</li></ol><h2>Use it from your own code</h2><p>The setting is called <code>dictionary</code>. Use <code>true</code> to turn it on and <code>false</code> to turn it off.</p><div class="code"><pre><code data-lang="js">Accessibles.set('dictionary', true);    // on
 Accessibles.set('dictionary', false);   // off
-Accessibles.get('dictionary');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Dictionary on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
+Accessibles.get('dictionary');          // is it on?</code></pre></div><h2>Use your own words and service</h2>
+<h3>Your own glossary</h3>
+<p>Words from your glossary are shown first. Capital letters don't matter. Words written with <code>&lt;abbr title="…"&gt;</code> on your page are used too.</p>
+<div class="code"><pre><code data-lang="html">&lt;script&gt;
+  window.AccessiblesConfig = {
+    glossary: {
+      ISBN: 'International Standard Book Number',
+      'Interlibrary loan': 'Borrowing a book that another library owns'
+    }
+  };
+&lt;/script&gt;</code></pre></div>
+<h3>Your own dictionary service</h3>
+<p>Set the <code>dictionary</code> option to your service's address, with <code>{word}</code> and <code>{lang}</code> where the word and the page language go. All the ways to set options are on the <a href="../../options/">Options</a> page.</p>
+<div class="code"><pre><code data-lang="html">&lt;div class=&quot;accessibles-widget&quot; data-dictionary=&quot;https://example.org/api/define/{lang}/{word}&quot;&gt;&lt;/div&gt;</code></pre></div>
+<h3>What your server sends back</h3>
+<p>JSON in the same shape as the free dictionary the widget uses by default. The widget shows up to four meanings, two for each part of speech:</p>
+<div class="code"><pre><code data-lang="js">[
+  {
+    &quot;word&quot;: &quot;library&quot;,
+    &quot;phonetic&quot;: &quot;/ˈlaɪ.brər.i/&quot;,
+    &quot;meanings&quot;: [
+      {
+        &quot;partOfSpeech&quot;: &quot;noun&quot;,
+        &quot;definitions&quot;: [
+          {
+            &quot;definition&quot;: &quot;A place where books are kept for people to read or borrow.&quot;,
+            &quot;example&quot;: &quot;She went to the library to return her books.&quot;
+          }
+        ]
+      }
+    ]
+  }
+]</code></pre></div>
+<p>If your service answers with an error, or with no meanings, the widget looks the word up on Wikipedia instead.</p><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Dictionary on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
 &lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
 &lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;
 
@@ -57,7 +90,7 @@ Accessibles.get('dictionary');          // is it on?</code></pre></div><h2>Try i
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
-<script src="../../guide/guide.js?version=26" defer></script>
-<script src="../../v1/widgets/accessibles.js?version=26&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../../guide/guide.js?version=27" defer></script>
+<script src="../../v1/widgets/accessibles.js?version=27&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
