@@ -14,6 +14,7 @@ accessibles_core.define('panel/panel-15.js', [], function (core) {
     this.hide_card(true);
     this.refresh();
     this.place_panel();
+    if (this.remember_open) this.remember_open();
   };
   // Opens or closes the panel
   core.ui.toggle = function (by_keyboard) {
@@ -30,6 +31,7 @@ accessibles_core.define('panel/panel-15.js', [], function (core) {
     core.find_one('.panel').hidden = true;
     this.open = false;
     this.panel_pos = null;
+    if (this.forget_open) this.forget_open();
     core.find_one('.launch').setAttribute('aria-expanded', 'false');
     core.find_one('.launch').classList.remove('under');
     try { core.find_one('.launch').focus({ preventScroll: true }); } catch (error) { core.find_one('.launch').focus(); }
