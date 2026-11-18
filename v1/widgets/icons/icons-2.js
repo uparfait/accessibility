@@ -48,7 +48,7 @@ accessibles_core.define('icons/icons-2.js', [], function (core) {
   core.icons.tooltip = '<path d="M4.5 4h15A1.5 1.5 0 0 1 21 5.5v9a1.5 1.5 0 0 1-1.5 1.5H13l-4 4v-4H4.5A1.5 1.5 0 0 1 3 14.5v-9A1.5 1.5 0 0 1 4.5 4z"/><path d="M8 8.5h8M8 12h5"/>';
   core.icons.sliders = '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>';
   core.icons.direction = '<path d="M4 8h14M14.5 4.5 18 8l-3.5 3.5M20 16H6M9.5 12.5 6 16l3.5 3.5"/>';
-  core.icons.spinner = '<circle cx="12" cy="12" r="9" opacity=".22"/><path d="M12 3a9 9 0 0 1 9 9"/>';
+  core.icons.spinner = '<path d="M12 2.5v4" transform="rotate(0 12 12)" opacity="1"/><path d="M12 2.5v4" transform="rotate(45 12 12)" opacity="0.23"/><path d="M12 2.5v4" transform="rotate(90 12 12)" opacity="0.34"/><path d="M12 2.5v4" transform="rotate(135 12 12)" opacity="0.45"/><path d="M12 2.5v4" transform="rotate(180 12 12)" opacity="0.56"/><path d="M12 2.5v4" transform="rotate(225 12 12)" opacity="0.67"/><path d="M12 2.5v4" transform="rotate(270 12 12)" opacity="0.78"/><path d="M12 2.5v4" transform="rotate(315 12 12)" opacity="0.89"/>';
   core.icons.loading = '<circle cx="12" cy="12" r="8.5" stroke-dasharray="2.4 2.9"/><path d="M12 7.5V12l3 2"/>';
   core.icons.web = '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5c-2.3-2.4-3.4-5.2-3.4-8.5S9.7 5.9 12 3.5z"/>';
   core.icons.tips = '<path d="M4.5 5h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H11l-4.5 3.5V16h-2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M12 8.4v.1M12 10.8v2.6"/>';
