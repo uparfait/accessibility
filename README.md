@@ -22,7 +22,7 @@ A few things to know:
 
 - The `div` is optional. If the script can't find one, it creates it.
 - `defer` is optional. The script waits for the page to load either way, so it also works when a tag manager injects it.
-- To host it yourself, download `v1/widgets/accessibles.js` and change the `src`. It's a single file with no dependencies.
+- To host it yourself, copy the whole `v1/widgets` folder and change the `src`. There are no dependencies.
 
 ## Configuration
 
@@ -335,36 +335,205 @@ The settings you can pass to `set()`:
 
 ## How it works
 
-### One file
+### Files
 
-`v1/widgets/accessibles.js` wraps everything in a single function. The only globals it creates are `window.Accessibles` and a flag that stops it from loading twice. The code is split into numbered sections:
+Everything lives in `v1/widgets/`. A site adds only `accessibles.js`, which loads the folders next to it. The widget's own parts have their folders, and every feature has a folder of its own. The only globals are `window.Accessibles`, `window.accessibles_core` (the parts the files share) and a flag that stops the widget from loading twice.
 
-| # | Section | What it does |
-|---|---|---|
-| 1 | Configuration | Finds its own `<script>` tag and reads the options |
-| 2 | Helpers | DOM shortcuts and visibility checks |
-| 3 | Colors | Contrast math and the panel palette |
-| 4 | Icons | The icon set, as SVG paths |
-| 5 | Features | Profiles, features, help texts, default settings |
-| 6 | Storage | Saving settings |
-| 7 | Page styles | Turning settings into one stylesheet for the page |
-| 8 | Text scaling | Real font-size scaling |
-| 9 | Recorder | Undo log for every change made to the page |
-| 10 | Repairs | ARIA, image descriptions and forms |
-| 11 | Keyboard | Focus fixes, skip link, shortcuts |
-| 12 | Read aloud | The speech engine |
-| 13 | Pointer aids | Reading guide, mask, magnifier |
-| 14 | Motion and media | Stop animations, mute, more time |
-| 15 | Voice | Voice commands and Talk & Type |
-| 16 | Typing | Inserting text into any field |
-| 17 | Reading tools | Reader view, summary, dictionary |
-| 18 | Translation | Page and panel translation |
-| 19 | Sign language | ASL videos and VLibras |
-| 20 | Page check | Audit and usage counts |
-| 21 | State | `setState`, profiles, reset, `applyAll` |
-| 22 | Interface | Panel styles and rendering |
-| 23 | Observer | Fixing content that is added later |
-| 24 | Start | Mounting the widget and the API |
+The widget's own parts:
+
+| File | What it does |
+|---|---|
+| `accessibles.js` | The file a site adds. It loads the folders below, which sit next to it |
+| `loader/loader.js` | The order of the widget's folders and the folders each feature needs |
+| `loader/loader-2.js` | What features add to the widget (styles, filters, actions), and whether a feature has arrived |
+| `loader/loader-3.js` | Loads every folder and tells the widget when it can start |
+| `helpers/helpers.js` | Small shared tools: timers, finding elements, text and word helpers. Holds `run_later`, `cancel_later`, `find_one`, `find_all`, `escape_html` and more |
+| `helpers/helpers-2.js` | Small shared tools, continued: `is_editable`, `humanize`, `make_regex`, `words_of`, `has_letters` and more |
+| `helpers/helpers-3.js` | Small shared tools, continued: `native_set_interval`, `latin_like_letters`, `words_pattern`, `letters_pattern`, `edge_punctuation_pattern` and more |
+| `config/config.js` | Reads the options from the script URL, the page and window.AccessiblesConfig. Holds `decode_value`, `normalize_key`, `parse_query`, `is_truthy`, `to_number` and more |
+| `config/config-2.js` | Reads the options from the script URL, the page and window.AccessiblesConfig, continued: `read_config`, `script_src`, `script_base`, `host` |
+| `colors/colors.js` | Color math and the palette made from your brand color. Holds `parse_color`, `luminance`, `contrast_ratio`, `mix_colors`, `to_hex` and more |
+| `colors/colors-2.js` | Color math and the palette made from your brand color, continued: `build_palette`, `effective_background`, `color_canvas` |
+| `icons/icons.js` | The SVG icons used in the panel. Holds `clear_button_html`, `icon_svg`, `dot_stroke`, `icons` |
+| `icons/icons-2.js` | The SVG icons used in the panel, continued |
+| `icons/icons-3.js` | The SVG icons used in the panel, continued |
+| `catalogue/catalogue.js` | The list of profiles, features and panel tabs. Holds `percent`, `profiles` |
+| `catalogue/catalogue-2.js` | The list of profiles, features and panel tabs, continued: `features` |
+| `catalogue/catalogue-3.js` | The list of profiles, features and panel tabs, continued: `features_by_id`, `tabs` |
+| `help-texts/help-texts.js` | Help texts for every feature and the voice command list. Holds `command_lines`, `command_speech`, `descriptions` |
+| `help-texts/help-texts-2.js` | Help texts for every feature and the voice command list, continued: `heading_help`, `view_help`, `commands` |
+| `help-texts/help-texts-3.js` | Help texts for every feature and the voice command list, continued |
+| `help-texts/help-texts-4.js` | Help texts for every feature and the voice command list, continued |
+| `help-texts/help-texts-5.js` | Help texts for every feature and the voice command list, continued: `check_help` |
+| `illustrations/illustrations.js` | Small pictures and steps shown in the help window. Holds `guide_lines`, `guide_html`, `guide_words` |
+| `illustrations/illustrations-2.js` | Small pictures and steps shown in the help window, continued: `illustrations` |
+| `settings/settings.js` | Default settings, saving them and loading them again. Holds `save_settings`, `track_usage`, `defaults`, `visual_keys`, `storage_key` |
+| `settings/settings-2.js` | Default settings, saving them and loading them again, continued: `store`, `state`, `drag_position`, `usage`, `voice_was_on` |
+| `page-styles/page-styles.js` | Builds the one stylesheet the page gets from every loaded feature. Holds `set_page_css`, `svg_cursor`, `filter_value` |
+| `page-styles/page-styles-2.js` | Builds the one stylesheet the page gets from every loaded feature, continued: `build_page_css`, `palette`, `use_top_layer`, `can_adopt_sheets`, `page_sheet` and more |
+| `page-fixes/page-fixes.js` | Shared tools for fixing page markup and naming elements. Holds `change_recorder`, `has_own_text`, `collect_text_elements`, `mark_fixed`, `accessible_name` |
+| `page-fixes/page-fixes-2.js` | Shared tools for fixing page markup and naming elements, continued: `guess_name`, `accessible_name_attribute`, `find_main` |
+| `page-fixes/page-fixes-3.js` | Shared tools for fixing page markup and naming elements, continued: `move_to`, `icon_words` |
+| `page-text/page-text.js` | Finds the main text of the page and makes a clean copy of it. Holds `clean_copy` |
+| `page-text/page-text-2.js` | Finds the main text of the page and makes a clean copy of it, continued: `main_text`, `reader_keep_tags`, `reader_drop_tags`, `clutter_pattern` |
+| `speech/speech.js` | Speaks text aloud for read aloud, voice commands and tips. Holds `british_male_voice`, `male_voice_names`, `female_voice_names`, `voices`, `read_lang` and more |
+| `speech/speech-2.js` | Speaks text aloud for read aloud, voice commands and tips, continued: `sync`, `chunks`, `say`, `guide`, `play` |
+| `speech/speech-3.js` | Speaks text aloud for read aloud, voice commands and tips, continued: `skip`, `speed`, `read_this`, `read_headings` |
+| `speech/speech-4.js` | Speaks text aloud for read aloud, voice commands and tips, continued: `next`, `utter` |
+| `speech/speech-5.js` | Speaks text aloud for read aloud, voice commands and tips, continued: `mark`, `pause`, `stop`, `read_page`, `on_click` and more |
+| `speech/speech-6.js` | Speaks text aloud for read aloud, voice commands and tips, continued: `on_click`, `on_focus`, `on_select`, `speech_recognition` |
+| `pointer/pointer.js` | Follows the mouse or finger for the reading guide, mask and magnifier. Holds `pointer` |
+| `typing/typing.js` | Types into page fields for the on-screen keyboard and voice typing. Holds `value_setter`, `current_value`, `set_value`, `insert_text`, `backspace` and more |
+| `typing/typing-2.js` | Types into page fields for the on-screen keyboard and voice typing, continued: `clear_side`, `delete_word`, `move_caret`, `press_enter`, `focus_next_field` and more |
+| `translation/translation.js` | Translates the panel into the visitor's language. Holds `language_options`, `language_name`, `google_translate_text`, `translate_ui`, `languages` and more |
+| `translation/translation-2.js` | Translates the panel into the visitor's language, continued: `pending`, `busy`, `nodes`, `attrs`, `failed` and more |
+| `translation/translation-3.js` | Translates the panel into the visitor's language, continued: `flush`, `skip` |
+| `translation/translation-4.js` | Translates the panel into the visitor's language, continued: `apply` |
+| `changes/changes.js` | Changes a setting and brings the page in line with all settings. Holds `set_state`, `feature_for`, `emit_change`, `schedule_apply`, `step_cycle` |
+| `changes/changes-2.js` | Changes a setting and brings the page in line with all settings, continued: `toggle_profile`, `reset_all`, `apply_all` |
+| `changes/changes-3.js` | Changes a setting and brings the page in line with all settings, continued: `apply_queued`, `last_page_css` |
+| `panel-styles/panel-styles.js` | The stylesheet of the widget itself. Holds `widget_css`, `css_variables` |
+| `panel-styles/panel-styles-2.js` | The stylesheet of the widget itself, continued: `widget_css_rules` |
+| `panel-styles/panel-styles-3.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-4.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-5.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-6.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-7.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-8.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-9.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-10.js` | The stylesheet of the widget itself, continued |
+| `panel-styles/panel-styles-11.js` | The stylesheet of the widget itself, continued |
+| `panel/panel.js` | The button, the panel, its tabs, tiles, views, help and messages. Holds `toast`, `announce`, `tooltip_bubble` |
+| `panel/panel-2.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `build`, `panel_html` |
+| `panel/panel-3.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `overlays_html`, `show_site_icon`, `scale` |
+| `panel/panel-4.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `launcher_size`, `place_launcher` |
+| `panel/panel-5.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `place_panel` |
+| `panel/panel-6.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `card_icon` |
+| `panel/panel-7.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `show_card`, `hide_card`, `bind`, `bind_launcher_card` |
+| `panel/panel-8.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `bind_launcher_drag`, `bind_launcher_keys` |
+| `panel/panel-9.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `bind_panel_drag`, `bind_panel_events`, `bind_tooltips` |
+| `panel/panel-10.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `bind_help_scroll`, `bind_sliders`, `bind_focus` |
+| `panel/panel-11.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `bind_page_keys`, `bind_resize` |
+| `panel/panel-12.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `on_key`, `on_click` |
+| `panel/panel-13.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `run_action`, `wait_for_feature`, `click_feature`, `click_view`, `on_input` |
+| `panel/panel-14.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `speak_state`, `feature`, `commands`, `say_cmds` |
+| `panel/panel-15.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `show`, `toggle`, `close`, `render_tab`, `profile_html` |
+| `panel/panel-16.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `tab_html`, `tile_html`, `section_heading_html`, `color_row` |
+| `panel/panel-17.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `slider_html`, `format_slider`, `paint_slider`, `set_slider`, `slider_from_pointer` and more |
+| `panel/panel-18.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `selects` |
+| `panel/panel-19.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `select_html`, `options_html`, `after_list`, `open_select`, `close_select` |
+| `panel/panel-20.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `pick_option`, `mark_list`, `palette_colors`, `open_color`, `close_color` |
+| `panel/panel-21.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `pick_color`, `apply_hex`, `sync_clears`, `after_render`, `search` |
+| `panel/panel-22.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `refresh` |
+| `panel/panel-23.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `open_view`, `sync_head`, `tooltip_wanted`, `close_view`, `views` |
+| `panel/panel-24.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `feature_label`, `copy` |
+| `panel/panel-25.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `wrap_buttons`, `translate_wait`, `translate_note`, `busy_list`, `busy_at` and more |
+| `panel/panel-26.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `done_busy`, `help_item`, `feature_on`, `help_words` |
+| `panel/panel-27.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `help_shell`, `open_shell`, `help`, `help_cache`, `help_source` |
+| `panel/panel-28.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `help_translate`, `help_action`, `speech_bar` |
+| `panel/panel-29.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `speech_state` |
+| `panel/panel-30.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `action_features` |
+| `panel/panel-31.js` | The button, the panel, its tabs, tiles, views, help and messages, continued: `view_features`, `toast_timer` |
+| `page-watch/page-watch.js` | Watches the page for new content and keeps the widget on top. Holds `top_box`, `raise_widget`, `rehome`, `is_modal`, `settle_home` |
+| `page-watch/page-watch-2.js` | Watches the page for new content and keeps the widget on top, continued: `watch_top_layer`, `observe_page`, `pending_roots`, `process_roots` |
+| `page-watch/page-watch-3.js` | Watches the page for new content and keeps the widget on top, continued: `raising`, `top_box_element`, `host_home` |
+| `start/start.js` | Starts the widget once the page is ready. Holds `start`, `add_widget_styles`, `resume_voice` |
+| `start/start-2.js` | Starts the widget once the page is ready, continued: `expose_api`, `started` |
+
+The features:
+
+| File | What it does |
+|---|---|
+| `content-scaling/content-scaling.js` | Content scaling: zooms the whole page |
+| `bigger-text/bigger-text.js` | Bigger text: makes the page text larger. Holds `bigger_text`, `sync`, `apply_async`, `run`, `apply` and more |
+| `bigger-text/bigger-text-2.js` | Bigger text, continued: `apply_list`, `restore` |
+| `fonts/fonts.js` | Font: swaps the page font for an easy-to-read or dyslexia-friendly one. Holds `font_info`, `font_name`, `google_font_url`, `load_font`, `load_font_previews` and more |
+| `fonts/fonts-2.js` | Font, continued: `fonts_loaded`, `font_ready`, `previews_loaded`, `font_options` |
+| `line-height/line-height.js` | Line height: more space between lines |
+| `letter-spacing/letter-spacing.js` | Letter spacing: more space between letters |
+| `word-spacing/word-spacing.js` | Word spacing: more space between words |
+| `bolder-text/bolder-text.js` | Bolder text: makes the page text heavier |
+| `text-align/text-align.js` | Text align: aligns the page text left, center, right or justified |
+| `text-direction/text-direction.js` | Text direction: left to right or right to left. Holds `page_direction` |
+| `text-direction/text-direction-2.js` | Text direction, continued: `text_direction` |
+| `highlight-titles/highlight-titles.js` | Highlight titles: outlines every heading |
+| `highlight-links/highlight-links.js` | Highlight links: underlines and outlines every link |
+| `magnifier/magnifier.js` | Text magnifier: shows the text under the pointer in large letters |
+| `dark-contrast/dark-contrast.js` | Dark contrast: light text on a dark page |
+| `light-contrast/light-contrast.js` | Light contrast: dark text on a light page |
+| `high-contrast/high-contrast.js` | High contrast: stronger contrast for the whole page |
+| `smart-contrast/smart-contrast.js` | Smart contrast: fixes only the text that is hard to read. Holds `smart_contrast` |
+| `invert-colors/invert-colors.js` | Invert colors: reverses the page colors |
+| `monochrome/monochrome.js` | Monochrome: shows the page in grays |
+| `low-saturation/low-saturation.js` | Low saturation: softer, muted colors |
+| `high-saturation/high-saturation.js` | High saturation: stronger, vivid colors |
+| `color-blindness/color-blindness.js` | Color blindness: color filters for protanopia, deuteranopia and tritanopia. Holds `build_color_blind_svg`, `color_blind_svg` |
+| `custom-colors/custom-colors.js` | Custom colors: your own background, text and title colors |
+| `brightness/brightness.js` | Brightness: makes the page lighter or darker |
+| `keyboard-navigation/keyboard-navigation.js` | Keyboard navigation: skip links, focusable controls and shortcuts. Holds `keyboard_navigation` |
+| `focus-highlight/focus-highlight.js` | Focus highlight: a strong outline on the focused element |
+| `hover-highlight/hover-highlight.js` | Highlight hover: a frame around what is under the pointer. Holds `hover_highlight` |
+| `page-structure/page-structure.js` | Page structure: headings, landmarks and links to jump to. Holds `go_struct` |
+| `big-black-cursor/big-black-cursor.js` | Big black cursor: a large black mouse pointer |
+| `big-white-cursor/big-white-cursor.js` | Big white cursor: a large white mouse pointer |
+| `on-screen-keyboard/on-screen-keyboard.js` | On-screen keyboard: type with clicks or taps. Holds `on_screen_keyboard`, `rows`, `render`, `press` |
+| `on-screen-keyboard/on-screen-keyboard-2.js` | On-screen keyboard, continued: `bind`, `bind_resize`, `sync`, `vkb_target` |
+| `voice/voice.js` | Voice: listens to the microphone and answers questions for voice commands and talk & type. Holds `normalize_words`, `edit_ratio`, `word_match`, `sure_score`, `maybe_score` and more |
+| `voice/voice-2.js` | Voice, continued: `sync`, `start` |
+| `voice/voice-3.js` | Voice, continued: `listen`, `halt` |
+| `voice/voice-4.js` | Voice, continued: `stop`, `hearing_self`, `heard_speech`, `local`, `prepare` and more |
+| `voice/voice-5.js` | Voice, continued: `best`, `heard`, `act`, `confirm`, `answer` |
+| `voice/voice-6.js` | Voice, continued: `reply`, `next_words`, `previous_words`, `stop_words_list`, `all_words` and more |
+| `voice/voice-7.js` | Voice, continued: `end_pick`, `pick_answer`, `stop_all` |
+| `voice/voice-8.js` | Voice, continued: `pill`, `ask` |
+| `voice-commands/voice-commands.js` | Voice commands: control the page by speaking. Holds `search_page`, `find_on_page` |
+| `voice-commands/voice-commands-2.js` | Voice commands, continued: `nav_cmds`, `slots`, `top_level_domains` |
+| `voice-commands/voice-commands-3.js` | Voice commands, continued: `site_from` |
+| `voice-commands/voice-commands-4.js` | Voice commands, continued: `guess_nav` |
+| `voice-commands/voice-commands-5.js` | Voice commands, continued: `guess_click` |
+| `voice-commands/voice-commands-6.js` | Voice commands, continued: `guess_toggle`, `enter`, `clear_field`, `clickables` |
+| `voice-commands/voice-commands-7.js` | Voice commands, continued: `show_numbers`, `hide_numbers`, `last_find` |
+| `talk-and-type/talk-and-type.js` | Talk & type: type into fields by speaking. Holds `dict_cmds`, `type` |
+| `talk-and-type/talk-and-type-2.js` | Talk & type, continued: `delete_ask`, `pick_field`, `write` |
+| `talk-and-type/talk-and-type-3.js` | Talk & type, continued: `punctuate`, `undo`, `field`, `send`, `spoken_punctuation` |
+| `bigger-targets/bigger-targets.js` | Bigger targets: larger buttons, links and checkboxes |
+| `more-time/more-time.js` | More time: stretches page timers. Holds `more_time` |
+| `read-aloud/read-aloud.js` | Read aloud: reads the page, a selection or what you click |
+| `reading-guide/reading-guide.js` | Reading guide: a line that follows the pointer |
+| `reading-mask/reading-mask.js` | Reading mask: darkens all but a band around the pointer |
+| `stop-animations/stop-animations.js` | Stop animations: pauses motion, videos and GIFs |
+| `stop-animations/stop-animations-2.js` | Stop animations, continued: `stop_animations` |
+| `hide-images/hide-images.js` | Hide images: hides pictures and shows their descriptions. Holds `hide_images` |
+| `mute-sounds/mute-sounds.js` | Mute sounds: silences audio and video. Holds `mute_sounds` |
+| `tooltips/tooltips.js` | Tooltips: shows titles and image descriptions on hover. Holds `tooltips` |
+| `spoken-tips/spoken-tips.js` | Spoken tips: short spoken help when a feature turns on. Holds `say_tip` |
+| `reader-view/reader-view.js` | Reader view: the page text in a clean, simple layout. Holds `reader`, `reader_theme`, `reader_size`, `reader_font` |
+| `dictionary/dictionary.js` | Dictionary: double-click a word to see its meaning. Holds `dictionary`, `cache`, `sync`, `word`, `on_double_click` and more |
+| `dictionary/dictionary-2.js` | Dictionary, continued: `glossary`, `lookup`, `on_double_click`, `on_up`, `on_key_up` |
+| `dictionary/dictionary-3.js` | Dictionary, continued: `dict` |
+| `page-summary/page-summary.js` | Page summary: the key points of the page. Holds `extractive_summary` |
+| `page-summary/page-summary-2.js` | Page summary, continued: `summarize`, `stop_words`, `stop_word_set` |
+| `sign-language/sign-language.js` | Sign language: ASL videos and the Libras avatar. Holds `sign_language`, `statuses`, `report`, `sync`, `asl` and more |
+| `sign-language/sign-language-2.js` | Sign language, continued: `on_click`, `provide`, `native_libras` |
+| `sign-language/sign-language-3.js` | Sign language, continued: `load_libras` |
+| `sign-language/sign-language-4.js` | Sign language, continued: `remove_libras`, `on_click`, `sign_row`, `sign_status`, `sign_player` |
+| `sign-language/sign-language-5.js` | Sign language, continued |
+| `translate/translate.js` | Translate: translates the page into another language. Holds `page_translation`, `page_lang`, `is_translated`, `run` |
+| `translate/translate-2.js` | Translate, continued: `measure`, `wait_done` |
+| `translate/translate-3.js` | Translate, continued: `load`, `google` |
+| `translate/translate-4.js` | Translate, continued: `ensure_box`, `restore` |
+| `aria-fixes/aria-fixes.js` | ARIA fixes: adds missing roles, names and landmarks. Holds `aria_fixes`, `sync`, `fix`, `fix_landmarks`, `fix_controls` |
+| `aria-fixes/aria-fixes-2.js` | ARIA fixes, continued: `fix_frames_and_tables`, `fix_links_and_messages` |
+| `image-descriptions/image-descriptions.js` | Image descriptions: adds missing image descriptions. Holds `image_descriptions` |
+| `form-fixes/form-fixes.js` | Form fixes: labels fields and announces errors. Holds `form_fixes`, `sync`, `nearby_text` |
+| `form-fixes/form-fixes-2.js` | Form fixes, continued: `fix` |
+| `feature-position/feature-position.js` | Feature position: moves the button to another corner |
+| `page-check/page-check.js` | Page check: an accessibility check of the page with a score. Holds `audit_steps`, `run_audit`, `run_audit_async` |
+| `page-check/page-check-2.js` | Page check, continued: `audit_checks` |
+| `page-check/page-check-3.js` | Page check, continued: `mark_check` |
+| `report-issue/report-issue.js` | Report an issue: sends a problem report by email or to your server. Holds `report_text`, `report_state` |
+| `report-issue/report-issue-2.js` | Report an issue, continued: `send_report` |
+| `accessibility-statement/accessibility-statement.js` | Accessibility statement: the statement window or your own page. Holds `statement` |
 
 ### Staying out of the page's way
 
@@ -378,15 +547,15 @@ The panel has to recolor, zoom and invert the whole page while staying readable 
 
 ### Settings
 
-All settings live in one object. Every change goes through `setState(key, value)`, which saves the value, fires `accessibles:change` and schedules `applyAll()`. That function rebuilds the page stylesheet and calls `sync()` on each module. Each module compares the settings with what it last applied and turns itself on, off or updates. Modules that do slow work return a promise, and the pressed control shows a spinner until they finish.
+All settings live in one object. Every change goes through `set_state(key, value)`, which saves the value, fires `accessibles:change` and schedules `apply_all()`. That function rebuilds the page stylesheet and calls `sync()` on each feature. Each feature compares the settings with what it last applied and turns itself on, off or updates. Features that do slow work return a promise, and the pressed control shows a spinner until they finish.
 
 ```js
-// The pattern every module follows
-var Mute = {
+// The pattern every feature follows
+core.mute_sounds = {
   on: false,
   sync: function () {
-    if (S.mute && !this.on) this.enable();
-    else if (!S.mute && this.on) this.disable();
+    if (core.state.mute && !this.on) this.enable();
+    else if (!core.state.mute && this.on) this.disable();
   }
 };
 ```
@@ -398,8 +567,8 @@ Settings are saved in `localStorage` under `accessibles.v1`, with a cookie as a 
 The automatic repairs never set an attribute directly. They go through a recorder that saves the old value first:
 
 ```js
-rec.set(img, 'alt', 'Team photo 2019');   // remembers that img had no alt
-rec.revert();                             // puts every attribute back
+recorder.set(image, 'alt', 'Team photo 2019');   // remembers that the image had no alt
+recorder.revert();                                // puts every attribute back
 ```
 
 Turning a repair off returns the page to exactly how it was. Repaired elements are tagged with `data-acc-fixed`, so the page check can report them as "fixed automatically".
@@ -414,7 +583,7 @@ The panel's colors all come from two inputs, `color` and `bg`. Text, borders and
 
 ### New content
 
-A `MutationObserver` watches the page. New elements are collected, and after a short pause every active module fixes just those parts. Single-page apps and infinite scrolling work without extra setup.
+A `MutationObserver` watches the page. New elements are collected, and after a short pause every active feature fixes just those parts. Single-page apps and infinite scrolling work without extra setup.
 
 ## External services
 
@@ -441,7 +610,7 @@ A toolbar helps visitors adapt a page, but it doesn't make an inaccessible site 
 
 | File | Purpose |
 |---|---|
-| `v1/widgets/accessibles.js` | The whole widget. This is the only file a site needs. |
+| `v1/widgets/` | The widget. `accessibles.js` is the only file a site adds; the folders next to it hold the rest (see Files above). |
 | `index.html`, `favicon.svg`, `assets/`, `site.webmanifest`, `sitemap.xml` | The project website, its icons and share image |
 | `demo.html`, `demo.css` | A demo page with old-style markup and placeholder text, to show the widget needs no changes to the page |
 
