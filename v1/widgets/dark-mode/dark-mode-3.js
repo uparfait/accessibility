@@ -16,7 +16,8 @@ accessibles_core.define('dark-mode/dark-mode-3.js', [], function (core) {
       if (rules) parts.push(self.dark_rules(rules));
     });
     var base = 'html{background-color:#000!important;color:rgb(232,234,236)!important;color-scheme:dark}' +
-      'input,textarea,select,button{background-color:rgb(20,22,24);color:rgb(232,234,236);border-color:rgb(70,74,78)}';
+      'input,textarea,select,button{background-color:rgb(20,22,24);color:rgb(232,234,236);border-color:rgb(70,74,78)}' +
+      '::selection{background-color:rgb(38,79,120)!important;color:rgb(244,246,248)!important}';
     if (!this.sheet) { this.sheet = document.createElement('style'); this.sheet.setAttribute('data-accessibles-dark', ''); }
     this.sheet.textContent = base + parts.join('');
     (document.head || document.documentElement).appendChild(this.sheet);
@@ -36,13 +37,15 @@ accessibles_core.define('dark-mode/dark-mode-3.js', [], function (core) {
       for (var name in self.roles) {
         var value = rule.style.getPropertyValue(name);
         if (!value || (name === 'background-image' && !/gradient/.test(value))) continue;
-        var dark = self.map_value(self.roles[name], value);
+        var role = self.roles[name] === 'back' && /::selection/.test(rule.selectorText) ? 'select' : self.roles[name];
+        var dark = self.map_value(role, value);
         if (dark) changes += name + ':' + dark + '!important;';
       }
       ['fill', 'stroke'].forEach(function (name) {
         var value = rule.style.getPropertyValue(name), color = value && self.read_color(self.resolve_variables(value));
         if (color && self.to_hsl(color)[1] < 0.15) changes += name + ':' + self.map_color('text', color) + '!important;';
       });
+      changes += self.dark_shorthands(rule.style, /::selection/.test(rule.selectorText));
       if (changes) out += rule.selectorText + '{' + changes + '}';
     });
     return out;
