@@ -11,7 +11,7 @@ accessibles_core.define('magnifier/magnifier-5.js', [], function (core) {
     core.cancel_later(this.copy_timer);
     this.host.remove();
     this.host = this.shadow = this.glass = this.view = null;
-    this.live = []; this.fixed = []; this.scrolled = []; this.x = this.y = -1; this.shown = false;
+    this.live = []; this.fixed = []; this.scrolled = []; this.frame_sources = []; this.frames = []; this.x = this.y = -1; this.shown = false;
   };
   // The page changed: the copy inside the glass is made again, at most every three seconds
   core.magnifier.copy_soon = function () {
