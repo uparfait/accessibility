@@ -198,7 +198,7 @@ A profile turns on a group of settings at once. Turning it off puts back exactly
 ### Color
 
 - **Dark**, **light** and **high contrast**
-- **Dark mode** turns the page dark but keeps its own colors: every color is turned around, so light becomes dark and dark becomes light, gradients included. Pictures and videos stay as they are.
+- **Dark mode** turns the page dark but keeps its own colors: every background becomes dark and every text light, each in its own hue, gradients and hover colors included. Pictures and videos stay as they are.
 - **Smart contrast** fixes only the text that is too close to its background color, and leaves the rest of the design alone.
 - **Invert colors**, **monochrome**, **low** and **high saturation**
 - **Color blindness** correction for protanopia, deuteranopia and tritanopia
