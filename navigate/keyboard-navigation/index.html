@@ -38,24 +38,26 @@
 <main class="page" id="content">
 <div class="title"><span class="ficon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.2"/><path d="M6 10h0M9 10h0M12 10h0M15 10h0M18 10h0" stroke-width="2.6"/><path d="M7.5 14.2h9"/></svg></span><h1>Keyboard navigation</h1></div><p class="lead">Lets you use the whole page with the keyboard.</p><figure class="ill" aria-hidden="true"><svg viewBox="0 0 240 88" focusable="false"><g transform="translate(4 14)"><rect x="0" y="10" width="52" height="40" rx="10" class="kc"/><text x="26" y="35" text-anchor="middle" class="kt">Tab</text><rect x="60" y="10" width="62" height="40" rx="10" class="kc"/><text x="91" y="35" text-anchor="middle" class="kt">Enter</text><rect x="130" y="10" width="44" height="40" rx="10" class="kc"/><text x="152" y="35" text-anchor="middle" class="kt">Alt</text><rect x="180" y="10" width="40" height="40" rx="10" class="kc"/><text x="200" y="35" text-anchor="middle" class="kt">H</text><text x="174" y="35" text-anchor="middle" class="kt">+</text></g></svg></figure><h2>Keys</h2><ul><li>Tab: move to the next item</li><li>Shift + Tab: move back</li><li>Enter: press the selected item</li><li>Alt + H: next heading</li><li>Alt + L: next link</li><li>Alt + F: next form field</li><li>Alt + B: next button</li><li>Add Shift to any Alt shortcut to go back</li></ul><h2>Also</h2><ul><li>Adds a &quot;Skip to main content&quot; link at the top of the page</li></ul><h2>Use it from your own code</h2><p>The setting is called <code>keyboardNav</code>. Use <code>true</code> to turn it on and <code>false</code> to turn it off.</p><div class="code"><pre><code data-lang="js">Accessibles.set('keyboardNav', true);    // on
 Accessibles.set('keyboardNav', false);   // off
-Accessibles.get('keyboardNav');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Press the button in the preview to switch Keyboard navigation on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
+Accessibles.get('keyboardNav');          // is it on?</code></pre></div><h2>Try it yourself</h2><p>Use the switch above the sample page to turn Keyboard navigation on and off.</p><div class="live"><div class="live-bar"><span>Try it<span class="more">: change the code, the preview follows</span></span><span class="tools"><button type="button" class="reset">Reset</button><button type="button" class="copy-code">Copy</button><button type="button" class="run">Run</button></span></div><div class="live-code"><pre aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code you can change">&lt;!-- Accessibles --&gt;
 &lt;div class=&quot;accessibles-widget&quot;&gt;&lt;/div&gt;
 &lt;script src=&quot;https://uparfait.github.io/accessibility/v1/widgets/accessibles.js&quot; defer&gt;&lt;/script&gt;
 
-&lt;!-- Your own buttons --&gt;
-&lt;button onclick=&quot;Accessibles.set('keyboardNav', !Accessibles.get('keyboardNav'))&quot;&gt;Keyboard navigation on or off&lt;/button&gt;
+&lt;!-- Your own controls --&gt;
+&lt;div class=&quot;controls&quot;&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; onchange=&quot;Accessibles.set('keyboardNav', this.checked)&quot;&gt; Keyboard navigation&lt;/label&gt;
+&lt;/div&gt;
 
 &lt;!-- Your page --&gt;
 &lt;h1&gt;Green Valley Library&lt;/h1&gt;
 &lt;p&gt;We are open every day from 9 in the morning to 5 in the evening. Come in to borrow books, use the computers or join a reading group.&lt;/p&gt;
 &lt;img src=&quot;https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=640&amp;h=200&amp;fit=crop&quot; alt=&quot;Rows of shelves full of books&quot;&gt;
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;See this month's events&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label"><span>Preview</span><button type="button" class="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write" loading="lazy"></iframe></div></div>
+&lt;p&gt;&lt;input type=&quot;search&quot; placeholder=&quot;Search the catalog&quot;&gt;&lt;/p&gt;</textarea></div><div class="live-out"><div class="label"><span>Preview</span><button type="button" class="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div><iframe title="Preview" sandbox="allow-scripts allow-popups allow-modals allow-forms" allow="microphone; clipboard-write"></iframe></div></div>
 <nav class="pager" aria-label="Previous and next"><a class="prev" href="../../navigate/" aria-label="Previous: Navigate"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Navigate</span></a><a class="next" href="../../navigate/focus-highlight/" aria-label="Next: Focus highlight"><span>Focus highlight</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></nav>
 </main>
 </div>
 <div class="accessibles-widget" data-site-name="Accessibles" data-site-icon-url="../../favicon.svg" data-report="parfaituwayo@gmail.com"></div>
 <script src="../../guide/guide.js" defer></script>
-<script src="../../v1/widgets/accessibles.js?version=21&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
+<script src="../../v1/widgets/accessibles.js?version=22&color=#0F4C5C&bg=#00133A&icon-color=#FFFFFF&position=ritgh-bottom" defer></script>
 </body>
 </html>
