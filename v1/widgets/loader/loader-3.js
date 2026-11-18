@@ -13,7 +13,11 @@ accessibles_core.define('loader/loader-3.js', [], function (core) {
       if (item.then) item.then();
       return false;
     });
-    if (core.started && core.feature_folders.indexOf(folder_name) > -1) core.schedule_apply();
+    // Features that arrive after the start are brought in together, in a quiet moment
+    if (core.started && core.feature_folders.indexOf(folder_name) > -1 && !core.apply_pending) {
+      core.apply_pending = true;
+      core.when_idle(function () { core.apply_pending = false; core.schedule_apply(); });
+    }
     core.check_settled();
   };
   // A file did not arrive: its folder has had its first try
@@ -35,8 +39,12 @@ accessibles_core.define('loader/loader-3.js', [], function (core) {
     if (core.settled) then();
     else core.settle_queue.push(then);
   };
-  // Every folder's main file is requested at once; each folder runs as soon as it can
-  core.core_folders.concat(core.feature_folders).forEach(function (folder_name) {
-    core.fetch_file(folder_name + '/' + folder_name + '.js');
-  });
+  // The widget's own folders are requested at once; features follow a few at a time in quiet moments
+  core.core_folders.forEach(function (folder_name) { core.fetch_file(folder_name + '/' + folder_name + '.js'); });
+  var features_left = core.feature_folders.slice();
+  var fetch_some = function () {
+    features_left.splice(0, 8).forEach(function (folder_name) { core.fetch_file(folder_name + '/' + folder_name + '.js'); });
+    if (features_left.length) core.when_idle(fetch_some);
+  };
+  fetch_some();
 });
