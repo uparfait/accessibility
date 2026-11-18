@@ -70,10 +70,8 @@
     var first_code = area.value, timer = 0;
     var paint_code = function () {
       shown.innerHTML = color_html(area.value) + '\n';
-      var pre = live.querySelector('pre'), box = live.querySelector('.live-code');
       area.style.height = 'auto';
-      area.style.height = pre.scrollHeight + 'px';
-      area.style.width = Math.max(box.clientWidth, pre.scrollWidth) + 'px';
+      area.style.height = live.querySelector('pre').scrollHeight + 'px';
     };
     var run = function () { frame.srcdoc = preview_page(area.value); };
     area.addEventListener('input', function () { paint_code(); clearTimeout(timer); timer = setTimeout(run, 700); });
@@ -87,8 +85,27 @@
     live.querySelector('.run').addEventListener('click', run);
     live.querySelector('.copy-code').addEventListener('click', function () { copy_text(area.value, this); });
     live.querySelector('.reset').addEventListener('click', function () { area.value = first_code; paint_code(); run(); });
+    // The preview can fill the whole screen, and comes back with the same button or Escape
+    var out = live.querySelector('.live-out'), full = live.querySelector('.full');
+    var set_full_label = function (on) { full.querySelector('span').textContent = on ? 'Exit full screen' : 'Full screen'; };
+    full.addEventListener('click', function () {
+      if (document.fullscreenElement === out) { document.exitFullscreen(); return; }
+      if (out.classList.contains('is-full')) { out.classList.remove('is-full'); set_full_label(false); return; }
+      if (out.requestFullscreen) out.requestFullscreen().catch(function () { out.classList.add('is-full'); set_full_label(true); });
+      else { out.classList.add('is-full'); set_full_label(true); }
+    });
+    document.addEventListener('fullscreenchange', function () { set_full_label(document.fullscreenElement === out); });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && out.classList.contains('is-full')) { out.classList.remove('is-full'); set_full_label(false); } });
+    window.addEventListener('resize', paint_code);
     paint_code();
-    run();
+    // The preview starts when it comes into view, so pages open quickly
+    if (!window.IntersectionObserver) { run(); return; }
+    var seen = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+      seen.disconnect();
+      run();
+    }, { rootMargin: '200px' });
+    seen.observe(frame);
   });
 
   // ---- Sidebar: one category open at a time ----
@@ -118,6 +135,28 @@
   document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && document.body.classList.contains('side-open')) { set_menu(false); menu_button.focus(); } });
   document.addEventListener('click', function (event) { if (!event.target.closest('.side, .menu-btn')) set_menu(false); });
   window.addEventListener('resize', function () { if (window.innerWidth > 900) set_menu(false); });
+
+  // ---- Back to top: shows after scrolling down, and moves up when the widget's button is in its place ----
+  var to_top = document.createElement('a');
+  to_top.className = 'to-top'; to_top.href = '#'; to_top.hidden = true; to_top.setAttribute('aria-label', 'Back to top');
+  to_top.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+  document.body.appendChild(to_top);
+  to_top.addEventListener('click', function (event) { event.preventDefault(); window.scrollTo({ top: 0 }); document.querySelector('.brand').focus({ preventScroll: true }); });
+  function place_to_top() {
+    to_top.hidden = window.pageYOffset < 500;
+    if (to_top.hidden) return;
+    var host = document.querySelector('.accessibles-widget'), button = host && host.shadowRoot && host.shadowRoot.querySelector('.launch');
+    var theirs = button ? button.getBoundingClientRect() : null, gap = 12, bottom = 24;
+    // Where the button sits by itself: 24px from the bottom right corner
+    var width = document.documentElement.clientWidth, height = window.innerHeight;
+    var mine = { left: width - 24 - 44, right: width - 24, top: height - 24 - 44, bottom: height - 24 };
+    var apart = !theirs || !theirs.width || mine.right + gap < theirs.left || mine.left - gap > theirs.right || mine.bottom + gap < theirs.top || mine.top - gap > theirs.bottom;
+    if (!apart) bottom = Math.round(height - theirs.top + gap);
+    to_top.style.bottom = bottom + 'px';
+  }
+  window.addEventListener('scroll', place_to_top, { passive: true });
+  window.addEventListener('resize', place_to_top);
+  setInterval(place_to_top, 1000);   // the widget's button can be dragged to a new place
 
   // ---- GitHub opens in a popup window, centered on the screen ----
   document.querySelectorAll('[data-popup]').forEach(function (link) {
