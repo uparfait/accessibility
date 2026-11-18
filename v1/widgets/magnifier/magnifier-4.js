@@ -13,7 +13,7 @@ accessibles_core.define('magnifier/magnifier-4.js', [], function (core) {
     this.glass.style.cursor = this.dragged() ? 'grab' : 'none';
     this.update_live();
     var page_x = x + window.pageXOffset, page_y = y + window.pageYOffset;
-    this.view.style.transform = 'translate(' + (inner / 2 - page_x * zoom) + 'px,' + (inner / 2 - page_y * zoom) + 'px) scale(' + zoom + ')';
+    this.view.style.transform = this.frames_layer.style.transform = 'translate(' + (inner / 2 - page_x * zoom) + 'px,' + (inner / 2 - page_y * zoom) + 'px) scale(' + zoom + ')';
   };
   // Hides the glass until the pointer is back on the page
   core.magnifier.hide = function () { if (this.host) { this.host.style.setProperty('display', 'none', 'important'); this.shown = false; } };
@@ -23,14 +23,14 @@ accessibles_core.define('magnifier/magnifier-4.js', [], function (core) {
   core.magnifier.update_live = function () {
     var scroll_x = window.pageXOffset, scroll_y = window.pageYOffset;
     this.live.forEach(function (pair) { try { pair[0].getContext('2d').drawImage(pair[1], 0, 0, pair[0].width, pair[0].height); } catch (error) { /* not ready yet */ } });
-    this.fixed.forEach(function (pair) {
-      var rect = pair[1].getBoundingClientRect();
-      pair[0].style.setProperty('position', 'absolute', 'important');
-      pair[0].style.setProperty('left', rect.left + scroll_x + 'px', 'important');
-      pair[0].style.setProperty('top', rect.top + scroll_y + 'px', 'important');
-      pair[0].style.setProperty('right', 'auto', 'important'); pair[0].style.setProperty('bottom', 'auto', 'important');
-      pair[0].style.setProperty('width', rect.width + 'px', 'important');
-    });
+    // Inside the glass a fixed box is placed against the glass itself, so no other box can move it
+    var pin = function (style, rect) {
+      var values = { position: 'fixed', left: rect.left + scroll_x + 'px', top: rect.top + scroll_y + 'px', right: 'auto', bottom: 'auto', width: rect.width + 'px', height: rect.height + 'px', margin: '0', transform: 'none' };
+      for (var name in values) style.setProperty(name, values[name], 'important');
+      style.setProperty('visibility', rect.width || rect.height ? 'visible' : 'hidden', 'important');
+    };
+    this.fixed.forEach(function (pair) { pin(pair[0].style, pair[1].getBoundingClientRect()); });
+    this.frames.forEach(function (pair) { var rect = pair[1].getBoundingClientRect(); pin(pair[0].style, rect); pair[0].style.setProperty('position', 'absolute', 'important'); });
     this.scrolled.forEach(function (pair) { pair[0].scrollTop = pair[1].scrollTop; pair[0].scrollLeft = pair[1].scrollLeft; });
   };
   // On touch screens a finger drags the glass anywhere; the page keeps scrolling around it
